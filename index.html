@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ира Буян — Ай-стротек</title>
+    <meta name="description" content="Усиливаю экспертов через AI. Рехаб — рассылка для тех, кто хочет выжить в мире нейросетей.">
+
+    <!-- OG Tags -->
+    <meta property="og:title" content="Ира Буян — Ай-стротек">
+    <meta property="og:description" content="Рехаб: голос поддержки в безумном мире AI. Лайфхаки, промпты, инструменты — каждую неделю.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --off-white: #FAFAF8;
+            --warm-gray: #F5F3F0;
+            --light-gray: #E8E5E0;
+            --mid-gray: #B0ACA6;
+            --text: #1A1A1A;
+            --text-secondary: #5C5856;
+            --text-dim: #8A8580;
+            --accent: #C4654E;
+            --accent-soft: #E8917A;
+            --accent-bg: #FFF5F2;
+            --sage: #5A7A60;
+            --sage-bg: #F0F5F1;
+            --deep: #2C2926;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ===================== NAVIGATION ===================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: box-shadow 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 1px 20px rgba(0,0,0,0.06);
+        }
+
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* ===================== HERO ===================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Video background placeholder — replace with actual video */
+        .hero-video-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .hero-video-bg::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.85);
+            z-index: 1;
+        }
+
+        /* Placeholder gradient animation while no video */
+        .hero-video-bg .placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                var(--warm-gray) 0%,
+                var(--accent-bg) 25%,
+                var(--sage-bg) 50%,
+                var(--warm-gray) 75%,
+                var(--accent-bg) 100%
+            );
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 640px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.2vw, 20px);
+            font-weight: 400;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 48px;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===================== EMAIL FORM ===================== */
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 480px;
+            margin: 0 auto 16px;
+        }
+
+        .email-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .email-form input::placeholder {
+            color: var(--mid-gray);
+        }
+
+        .email-form input:focus {
+            border-color: var(--accent);
+        }
+
+        .email-form button {
+            padding: 16px 28px;
+            background: var(--text);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .email-form button:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .email-note {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        /* ===================== SECTION BASE ===================== */
+        section {
+            padding: 100px 24px;
+        }
+
+        .section-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .section-desc {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 48px;
+        }
+
+        /* ===================== REHAB (Newsletter) ===================== */
+        #rehab {
+            background: var(--off-white);
+        }
+
+        .rehab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .rehab-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rehab-features li {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .rehab-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            background: var(--accent-bg);
+        }
+
+        .rehab-feature-text h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .rehab-feature-text p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .rehab-cta-box {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .rehab-cta-box h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .rehab-cta-box p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .rehab-cta-box .email-form {
+            margin-bottom: 12px;
+        }
+
+        /* ===================== PRODUCTS ===================== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            padding: 36px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            border-color: var(--mid-gray);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        .product-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .product-tag.live {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .product-tag.soon {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .product-tag.free {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .product-card h3 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+
+        .product-card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .product-price span {
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+
+        /* ===================== ABOUT ===================== */
+        #about {
+            background: var(--off-white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .about-photo {
+            width: 100%;
+            aspect-ratio: 3/4;
+            border-radius: 20px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--mid-gray);
+            font-size: 14px;
+        }
+
+        .about-text h3 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .about-text p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .about-stat strong {
+            display: block;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .about-stat span {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .social-link:hover {
+            border-color: var(--mid-gray);
+            background: var(--warm-gray);
+        }
+
+        /* ===================== FOOTER ===================== */
+        footer {
+            padding: 48px 24px;
+            text-align: center;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        footer p {
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+
+            .hero { padding: 100px 20px 60px; min-height: auto; padding-top: 140px; }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-form button {
+                width: 100%;
+            }
+
+            .rehab-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-photo {
+                max-width: 200px;
+                aspect-ratio: 1;
+            }
+
+            .about-stats {
+                gap: 24px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== NAVIGATION ==================== -->
+<nav id="nav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">Ира Буян</a>
+        <ul class="nav-links">
+            <li><a href="#rehab">Рехаб</a></li>
+            <li><a href="#products">Продукты</a></li>
+            <li><a href="#about">Обо мне</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+    <div class="hero-video-bg">
+        <!-- TODO: replace .placeholder with <video> when video is ready -->
+        <!-- <video autoplay muted loop playsinline>
+            <source src="hero-video.mp4" type="video/mp4">
+        </video> -->
+        <div class="placeholder"></div>
+    </div>
+
+    <div class="hero-content">
+        <div class="hero-tag">Ай-стротек</div>
+        <h1 class="hero-title">Усиливаю экспертов<br>через&nbsp;AI</h1>
+        <p class="hero-subtitle">Рехаб — рассылка для тех, кто хочет использовать нейросети без боли. Лайфхаки, промпты, инструменты. Раз в неделю.</p>
+
+        <form class="email-form" onsubmit="return handleSubscribe(event)">
+            <input type="email" placeholder="Ваш email" required>
+            <button type="submit">Подписаться</button>
+        </form>
+        <p class="email-note">Бесплатно. Отписка в один клик. Без спама, честно.</p>
+    </div>
+</section>
+
+<!-- ==================== REHAB ==================== -->
+<section id="rehab">
+    <div class="section-inner">
+        <div class="rehab-grid">
+            <div>
+                <div class="section-label">Рассылка</div>
+                <h2 class="section-title">Рехаб</h2>
+                <p class="section-desc">Голос поддержки в безумном мире AI. Серьёзно учиться — идите в хабы. А здесь — просто фишки, которые можно применить прямо сейчас.</p>
+
+                <ul class="rehab-features">
+                    <li>
+                        <div class="rehab-icon">&#x1F4A1;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Лайфхаки</h4>
+                            <p>То, что вы не знали, но уже завтра будете использовать</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rehab-icon">&#x1F916;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Промпты и скиллы</h4>
+                            <p>Готовые решения — скопировал, вставил, работает</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rehab-icon">&#x1F527;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Инструменты</h4>
+                            <p>Новые нейросети и сервисы, которые стоит попробовать</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rehab-icon">&#x1F4F0;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Новости AI</h4>
+                            <p>Только важное. Без хайпа и паники</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="rehab-cta-box">
+                <h3>Попробуйте Рехаб</h3>
+                <p>Один email в неделю. Коктейль из всего, что поможет вам жить с AI проще.</p>
+                <form class="email-form" onsubmit="return handleSubscribe(event)">
+                    <input type="email" placeholder="Ваш email" required>
+                    <button type="submit">Подписаться</button>
+                </form>
+                <p class="email-note">Уже 0 подписчиков. Присоединяйтесь.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PRODUCTS ==================== -->
+<section id="products">
+    <div class="section-inner">
+        <div class="section-label">Продукты</div>
+        <h2 class="section-title">Хабы и инструменты</h2>
+        <p class="section-desc">Серьёзная работа с AI. Каждый хаб — конкретный навык, конкретный результат.</p>
+
+        <div class="products-grid">
+            <!-- Card 1: Carousels -->
+            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card">
+                <div class="product-tag live">Доступен</div>
+                <h3>Карусели с AI</h3>
+                <p>15+ промптов, 3 видео, 3 дня — и вы делаете карусели для Instagram, которые цепляют. Без дизайнера.</p>
+                <div class="product-price">3,900 &#8381;</div>
+            </a>
+
+            <!-- Card 2: Space Hub -->
+            <a href="#" class="product-card">
+                <div class="product-tag live">Идёт набор</div>
+                <h3>Space Hub: Боты</h3>
+                <p>4-недельная программа. Создаёте AI-ботов, которые работают за вас. С обратной связью.</p>
+                <div class="product-price">от 9,900 &#8381;</div>
+            </a>
+
+            <!-- Card 3: Hub 2.0 -->
+            <a href="#" class="product-card">
+                <div class="product-tag soon">Скоро</div>
+                <h3>Карусели 2.0</h3>
+                <p>Обновлённые промпты. Личная обратная связь. Подробности — в конце февраля.</p>
+                <div class="product-price">Ранняя цена <span>для выпускников Hub 1</span></div>
+            </a>
+
+            <!-- Card 4: Lead Magnet -->
+            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card">
+                <div class="product-tag free">Бесплатно</div>
+                <h3>Гайд: Ленивый контент</h3>
+                <p>Бесплатный вход в мир AI-контента. Посмотрите, как это работает, прежде чем покупать.</p>
+                <div class="product-price">0 &#8381; <span>лид-магнит</span></div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
+<section id="about">
+    <div class="section-inner">
+        <div class="about-grid">
+            <div class="about-photo">
+                <!-- TODO: replace with actual photo -->
+                Фото
+            </div>
+            <div class="about-text">
+                <div class="section-label">Обо мне</div>
+                <h3>Ира Буян</h3>
+                <p>Ай-стротек. Помогаю экспертам строить личный бренд и автономные системы дохода через AI.</p>
+                <p>Я не программист и не разработчик. Я — человек, который нашёл способ делать с помощью нейросетей то, на что раньше уходили недели. И теперь учу этому других.</p>
+
+                <div class="about-stats">
+                    <div class="about-stat">
+                        <strong>16K+</strong>
+                        <span>Instagram</span>
+                    </div>
+                    <div class="about-stat">
+                        <strong>3,200+</strong>
+                        <span>Telegram</span>
+                    </div>
+                    <div class="about-stat">
+                        <strong>100+</strong>
+                        <span>Выпускников хабов</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://instagram.com/ira.and.ai" class="social-link" target="_blank">
+                        IG @ira.and.ai
+                    </a>
+                    <a href="https://t.me/buyan_online" class="social-link" target="_blank">
+                        TG @buyan_online
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+    <p>&copy; 2026 Ира Буян. <a href="https://instagram.com/ira.and.ai" target="_blank">Instagram</a> &middot; <a href="https://t.me/buyan_online" target="_blank">Telegram</a></p>
+</footer>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Email form handler (placeholder — replace with Unisender form action)
+function handleSubscribe(e) {
+    e.preventDefault();
+    const input = e.target.querySelector('input');
+    const email = input.value;
+
+    // TODO: Replace with actual Unisender form submission
+    // For now, show confirmation
+    input.value = '';
+    input.placeholder = 'Готово! Проверьте почту';
+    input.style.borderColor = '#5A7A60';
+
+    setTimeout(() => {
+        input.placeholder = 'Ваш email';
+        input.style.borderColor = '';
+    }, 3000);
+
+    return false;
+}
+</script>
+
+</body>
+</html>
