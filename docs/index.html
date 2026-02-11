@@ -165,12 +165,12 @@
 
         .hero-tag {
             display: inline-block;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            text-transform: none;
             color: var(--accent);
-            margin-bottom: 24px;
+            margin-bottom: 12px;
         }
 
         .hero-title {
@@ -184,12 +184,12 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(16px, 2.2vw, 20px);
+            font-size: clamp(15px, 2vw, 18px);
             font-weight: 400;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 48px;
-            max-width: 520px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -833,7 +833,7 @@
     <div class="hero-content">
         <div class="hero-tag">AI ре<strong>ХАБ</strong></div>
         <h1 class="hero-title">Усиливаю сильных</h1>
-        <p class="hero-subtitle">Рассылка для тех, кому некогда разбираться в нейросетях. Наблюдения, фишки, промпты и скиллы, понятные инструменты. В своем темпе, без перегруза.</p>
+        <p class="hero-subtitle">Рассылка для тех, кому некогда разбираться в нейросетях.<br>Наблюдения, фишки, промпты и скиллы, понятные инструменты.<br>В своем темпе, без перегруза.</p>
 
         <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
             <input type="email" name="email" placeholder="Ваш email" required>
