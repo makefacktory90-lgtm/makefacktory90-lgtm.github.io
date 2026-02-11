@@ -690,8 +690,12 @@
         <h1 class="hero-title">Усиливаю<br>сильных</h1>
         <p class="hero-subtitle">ре<strong>ХАБ</strong> — рассылка для тех, кому некогда разбираться в нейросетях. Отдышаться от страхов, взять фишку, применить. Просто.</p>
 
-        <form class="email-form" onsubmit="return handleSubscribe(event)">
-            <input type="email" placeholder="Ваш email" required>
+        <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
+            <input type="email" name="email" placeholder="Ваш email" required>
+            <input type="hidden" name="charset" value="UTF-8">
+            <input type="hidden" name="default_list_id" value="1">
+            <input type="hidden" name="overwrite" value="2">
+            <input type="hidden" name="is_v5" value="1">
             <button type="submit">Подписаться</button>
         </form>
         <p class="email-note">Бесплатно. Отписка в один клик. Без спама, честно.</p>
@@ -742,11 +746,15 @@
             <div class="rehab-cta-box">
                 <h3>Попробуйте ре<span style="color:var(--accent)">ХАБ</span></h3>
                 <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. Восстановление от AI-тревожности.</p>
-                <form class="email-form" onsubmit="return handleSubscribe(event)">
-                    <input type="email" placeholder="Ваш email" required>
+                <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
+                    <input type="email" name="email" placeholder="Ваш email" required>
+                    <input type="hidden" name="charset" value="UTF-8">
+                    <input type="hidden" name="default_list_id" value="1">
+                    <input type="hidden" name="overwrite" value="2">
+                    <input type="hidden" name="is_v5" value="1">
                     <button type="submit">Подписаться</button>
                 </form>
-                <p class="email-note">Уже 0 подписчиков. Присоединяйтесь.</p>
+                <p class="email-note">Присоединяйтесь к реХАБу.</p>
             </div>
         </div>
     </div>
@@ -855,19 +863,35 @@ window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
-// Email form handler (placeholder — replace with Unisender form action)
-function handleSubscribe(e) {
-    e.preventDefault();
-    const input = e.target.querySelector('input');
-    const email = input.value;
-    input.value = '';
-    input.placeholder = 'Готово! Проверьте почту';
-    input.style.borderColor = '#5A7A60';
+// Hidden iframe for Unisender form submission (no redirect)
+const iframe = document.createElement('iframe');
+iframe.name = 'us_frame';
+iframe.style.display = 'none';
+document.body.appendChild(iframe);
+
+// Email form handler — submits to Unisender, shows confirmation
+function handleSubscribe(form) {
+    const input = form.querySelector('input[name="email"]');
+    const btn = form.querySelector('button');
+    const origText = btn.textContent;
+
+    // Let the form submit to iframe
     setTimeout(() => {
-        input.placeholder = 'Ваш email';
-        input.style.borderColor = '';
-    }, 3000);
-    return false;
+        input.value = '';
+        input.placeholder = 'Вы в реХАБе!';
+        input.style.borderColor = '#5A7A60';
+        btn.textContent = 'Готово!';
+        btn.style.background = '#5A7A60';
+
+        setTimeout(() => {
+            input.placeholder = 'Ваш email';
+            input.style.borderColor = '';
+            btn.textContent = origText;
+            btn.style.background = '';
+        }, 4000);
+    }, 500);
+
+    return true; // allow form to submit
 }
 
 // ==================== CURSOR GLOW ====================
