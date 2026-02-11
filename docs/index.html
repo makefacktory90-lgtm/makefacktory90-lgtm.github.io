@@ -579,6 +579,74 @@
             transition: all 0.3s;
         }
 
+        /* ===================== FALLING BLOCKS ===================== */
+        .fallable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .fallable::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B0ACA6' stroke-width='2'%3E%3Cpath d='M12 2v14m0 0l-4-4m4 4l4-4M4 20h16'/%3E%3C/svg%3E") center/contain no-repeat;
+            pointer-events: none;
+        }
+
+        .fallable:hover::after {
+            opacity: 0.5;
+        }
+
+        .falling {
+            animation: blockFall 1.2s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+            pointer-events: none;
+        }
+
+        @keyframes blockFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            20% {
+                transform: translateY(10px) rotate(-2deg);
+                opacity: 1;
+            }
+            60% {
+                transform: translateY(300px) rotate(8deg);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(800px) rotate(15deg);
+                opacity: 0;
+            }
+        }
+
+        .immune {
+            position: relative;
+        }
+
+        .immune::before {
+            content: 'не упадёт';
+            position: absolute;
+            top: -24px;
+            right: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--sage);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .immune:hover::before {
+            opacity: 1;
+        }
+
         /* ===================== VOXEL CHARACTER ===================== */
         #voxelWalker {
             position: fixed;
@@ -744,7 +812,7 @@
                 </ul>
             </div>
 
-            <div class="rehab-cta-box">
+            <div class="rehab-cta-box immune">
                 <h3>Попробуйте AI ре<span style="color:var(--accent)">ХАБ</span></h3>
                 <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. В своём темпе.</p>
                 <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
@@ -770,7 +838,7 @@
 
         <div class="products-grid">
             <!-- Card 1: Carousels -->
-            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card">
+            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card fallable">
                 <div class="product-tag live">Доступен</div>
                 <h3>Карусели с AI</h3>
                 <p>15+ промптов, 3 видео, 3 дня — и вы делаете карусели для Instagram, которые цепляют. Без дизайнера.</p>
@@ -778,7 +846,7 @@
             </a>
 
             <!-- Card 2: Space Hub -->
-            <a href="https://t.me/spacehubaibot" class="product-card" target="_blank">
+            <a href="https://t.me/spacehubaibot" class="product-card fallable" target="_blank">
                 <div class="product-tag live">Идёт набор</div>
                 <h3>Space Hub: Боты</h3>
                 <p>4-недельная программа. Создаёте AI-ботов, которые работают за вас. С обратной связью.</p>
@@ -786,7 +854,7 @@
             </a>
 
             <!-- Card 3: Hub 2.0 -->
-            <a href="#" class="product-card">
+            <a href="#" class="product-card fallable">
                 <div class="product-tag soon">Скоро</div>
                 <h3>Карусели 2.0</h3>
                 <p>Обновлённые промпты. Личная обратная связь. Подробности — в конце февраля.</p>
@@ -794,7 +862,7 @@
             </a>
 
             <!-- Card 4: Coming Soon Free -->
-            <div class="product-card" style="cursor:default;">
+            <div class="product-card fallable" style="cursor:pointer;">
                 <div class="product-tag soon">Скоро</div>
                 <h3>Бесплатно</h3>
                 <p>Кое-что готовится. Скоро расскажу.</p>
@@ -808,10 +876,10 @@
 <section id="about">
     <div class="section-inner">
         <div class="about-grid">
-            <div class="about-photo">
+            <div class="about-photo fallable">
                 <img src="ira-photo.png" alt="Ира Буян — ira&ai" style="width:100%;height:100%;object-fit:cover;border-radius:20px;">
             </div>
-            <div class="about-text">
+            <div class="about-text fallable">
                 <div class="section-label">Обо мне</div>
                 <h3>Ира Буян</h3>
                 <p>ИИ-стратег. Я не программист и не гик в худи. Я — эксперт, который однажды понял, что нейросети умеют делать за вечер то, на что раньше уходила неделя. И теперь помогаю другим экспертам перестать бояться и начать пользоваться.</p>
@@ -893,6 +961,34 @@ function handleSubscribe(form) {
 
     return true; // allow form to submit
 }
+
+// ==================== FALLING BLOCKS ====================
+document.querySelectorAll('.fallable').forEach(el => {
+    el.addEventListener('click', function(e) {
+        // Don't fall if it's a link — let it fall first, then navigate
+        if (el.tagName === 'A') e.preventDefault();
+
+        if (el.classList.contains('falling')) return;
+
+        // Random rotation direction
+        const dir = Math.random() > 0.5 ? 1 : -1;
+        el.style.setProperty('--fall-rot', (10 + Math.random() * 10) * dir + 'deg');
+
+        el.classList.add('falling');
+
+        // If it was a link, navigate after animation
+        if (el.tagName === 'A' && el.href && el.href !== '#') {
+            setTimeout(() => {
+                window.open(el.href, el.target || '_self');
+            }, 600);
+        }
+
+        // Respawn after falling
+        setTimeout(() => {
+            el.classList.remove('falling');
+        }, 4000);
+    });
+});
 
 // ==================== CURSOR GLOW ====================
 const glow = document.getElementById('cursorGlow');
