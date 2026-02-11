@@ -647,6 +647,82 @@
             opacity: 1;
         }
 
+        /* ===================== AI CHAT BUBBLE ===================== */
+        .chat-bubble {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(196, 101, 78, 0.4);
+            transition: all 0.3s;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 28px rgba(196, 101, 78, 0.5);
+        }
+
+        .chat-bubble.open {
+            transform: rotate(45deg);
+        }
+
+        .chat-overlay {
+            position: fixed;
+            bottom: 92px;
+            right: 24px;
+            width: 380px;
+            height: 520px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+            z-index: 199;
+            display: none;
+            border: 1px solid var(--light-gray);
+        }
+
+        .chat-overlay.open {
+            display: block;
+            animation: chatSlideUp 0.3s ease-out;
+        }
+
+        @keyframes chatSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-overlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .chat-overlay {
+                bottom: 0;
+                right: 0;
+                left: 0;
+                width: 100%;
+                height: 70vh;
+                border-radius: 16px 16px 0 0;
+            }
+
+            .chat-bubble {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+
         /* ===================== VOXEL CHARACTER ===================== */
         #voxelWalker {
             position: fixed;
@@ -918,6 +994,12 @@
     <p>&copy; 2026 Ира Буян. <a href="https://instagram.com/ira.and.ai" target="_blank">Instagram</a> &middot; <a href="https://t.me/ira_and_ai" target="_blank">Telegram</a></p>
 </footer>
 
+<!-- AI Chat Bubble -->
+<button class="chat-bubble" id="chatBubble" onclick="toggleChat()" aria-label="Чат с AI-ассистентом">&#x1F4AC;</button>
+<div class="chat-overlay" id="chatOverlay">
+    <iframe src="https://embed.aifromspace.com?assistantId=6948b5aa75dfbe613e4ab9dd&exportChatTheme=" allow="microphone"></iframe>
+</div>
+
 <!-- Cursor glow follower -->
 <div class="cursor-glow" id="cursorGlow"></div>
 
@@ -960,6 +1042,16 @@ function handleSubscribe(form) {
     }, 500);
 
     return true; // allow form to submit
+}
+
+// ==================== AI CHAT ====================
+function toggleChat() {
+    const overlay = document.getElementById('chatOverlay');
+    const bubble = document.getElementById('chatBubble');
+    const isOpen = overlay.classList.contains('open');
+    overlay.classList.toggle('open');
+    bubble.classList.toggle('open');
+    bubble.innerHTML = isOpen ? '&#x1F4AC;' : '&#x2715;';
 }
 
 // ==================== FALLING BLOCKS ====================
