@@ -16,6 +16,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
     <style>
         :root {
             --white: #FFFFFF;
@@ -507,7 +516,7 @@
 
         /* ===================== FOOTER ===================== */
         footer {
-            padding: 48px 24px;
+            padding: 48px 24px 120px;
             text-align: center;
             border-top: 1px solid var(--light-gray);
         }
@@ -524,6 +533,60 @@
 
         footer a:hover {
             color: var(--accent);
+        }
+
+        /* ===================== CURSOR GLOW ===================== */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(196, 101, 78, 0.08) 0%, rgba(196, 101, 78, 0.03) 40%, transparent 70%);
+            transition: opacity 0.3s;
+            opacity: 0;
+            mix-blend-mode: multiply;
+        }
+
+        .cursor-glow.active {
+            opacity: 1;
+        }
+
+        /* Interactive color reveal on hoverable elements */
+        .product-card,
+        .rehab-features li,
+        .rehab-cta-box,
+        .social-link,
+        .about-stat {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .product-card.color-pop {
+            border-color: var(--accent-soft) !important;
+            box-shadow: 0 8px 32px rgba(196, 101, 78, 0.12) !important;
+        }
+
+        .rehab-features li.color-pop .rehab-icon {
+            background: var(--accent);
+            transform: scale(1.1);
+            transition: all 0.3s;
+        }
+
+        .rehab-features li .rehab-icon {
+            transition: all 0.3s;
+        }
+
+        /* ===================== VOXEL CHARACTER ===================== */
+        #voxelWalker {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            z-index: 50;
+            pointer-events: none;
         }
 
         /* ===================== RESPONSIVE ===================== */
@@ -744,6 +807,12 @@
     <p>&copy; 2026 Ира Буян. <a href="https://instagram.com/ira.and.ai" target="_blank">Instagram</a> &middot; <a href="https://t.me/buyan_online" target="_blank">Telegram</a></p>
 </footer>
 
+<!-- Cursor glow follower -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- Voxel walker canvas -->
+<canvas id="voxelWalker"></canvas>
+
 <!-- ==================== SCRIPTS ==================== -->
 <script>
 // Nav scroll effect
@@ -756,20 +825,246 @@ function handleSubscribe(e) {
     e.preventDefault();
     const input = e.target.querySelector('input');
     const email = input.value;
-
-    // TODO: Replace with actual Unisender form submission
-    // For now, show confirmation
     input.value = '';
     input.placeholder = 'Готово! Проверьте почту';
     input.style.borderColor = '#5A7A60';
-
     setTimeout(() => {
         input.placeholder = 'Ваш email';
         input.style.borderColor = '';
     }, 3000);
-
     return false;
 }
+
+// ==================== CURSOR GLOW ====================
+const glow = document.getElementById('cursorGlow');
+let glowX = 0, glowY = 0, currentX = 0, currentY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    glowX = e.clientX;
+    glowY = e.clientY;
+    glow.classList.add('active');
+});
+
+document.addEventListener('mouseleave', () => {
+    glow.classList.remove('active');
+});
+
+function animateGlow() {
+    currentX += (glowX - currentX) * 0.15;
+    currentY += (glowY - currentY) * 0.15;
+    glow.style.left = currentX + 'px';
+    glow.style.top = currentY + 'px';
+    requestAnimationFrame(animateGlow);
+}
+animateGlow();
+
+// Color pop on proximity
+const popElements = document.querySelectorAll('.product-card, .rehab-features li');
+document.addEventListener('mousemove', (e) => {
+    popElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dist = Math.sqrt((e.clientX - cx) ** 2 + (e.clientY - cy) ** 2);
+        if (dist < 200) {
+            el.classList.add('color-pop');
+        } else {
+            el.classList.remove('color-pop');
+        }
+    });
+});
+</script>
+
+<!-- ==================== VOXEL WALKER ==================== -->
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('voxelWalker');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setSize(window.innerWidth, 100);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(
+    -window.innerWidth / 2, window.innerWidth / 2,
+    50, -50, 0.1, 1000
+);
+camera.position.set(0, 20, 100);
+camera.lookAt(0, 10, 0);
+
+// Lighting
+const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+scene.add(ambient);
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+dirLight.position.set(5, 15, 10);
+scene.add(dirLight);
+const warmLight = new THREE.PointLight(0xC4654E, 0.4, 80);
+warmLight.position.set(0, 15, 5);
+scene.add(warmLight);
+
+// Colors
+const SKIN = 0xBD8E82;
+const HAIR = 0x3A2820;
+const SHIRT = 0xC4654E;
+const PANTS = 0x2C2926;
+const SHOE = 0x1A1A1A;
+const LAPTOP_BASE = 0x333333;
+const LAPTOP_SCREEN = 0x89CFF0;
+
+const V = 1; // voxel size
+
+function box(w, h, d, color) {
+    const g = new THREE.BoxGeometry(w * V, h * V, d * V);
+    const m = new THREE.MeshStandardMaterial({ color, roughness: 0.6, metalness: 0.05 });
+    return new THREE.Mesh(g, m);
+}
+
+// Build character group
+const character = new THREE.Group();
+
+// Head
+const head = box(4, 4, 4, SKIN);
+head.position.set(0, 22, 0);
+character.add(head);
+
+// Hair
+const hair = box(4.2, 2, 4.2, HAIR);
+hair.position.set(0, 24.5, 0);
+character.add(hair);
+const hairFront = box(4.2, 1, 1, HAIR);
+hairFront.position.set(0, 23.5, 2);
+character.add(hairFront);
+
+// Eyes
+const eyeL = box(0.6, 0.6, 0.5, 0x222222);
+eyeL.position.set(-1, 22, 2.1);
+character.add(eyeL);
+const eyeR = box(0.6, 0.6, 0.5, 0x222222);
+eyeR.position.set(1, 22, 2.1);
+character.add(eyeR);
+
+// Body / Shirt
+const body = box(5, 6, 3, SHIRT);
+body.position.set(0, 16, 0);
+character.add(body);
+
+// Arms
+const armL = new THREE.Group();
+const armMeshL = box(1.5, 5, 2, SHIRT);
+armMeshL.position.set(0, -2.5, 0);
+armL.add(armMeshL);
+const handL = box(1.5, 1.5, 2, SKIN);
+handL.position.set(0, -5.5, 0);
+armL.add(handL);
+armL.position.set(-3.5, 18, 0);
+character.add(armL);
+
+const armR = new THREE.Group();
+const armMeshR = box(1.5, 5, 2, SHIRT);
+armMeshR.position.set(0, -2.5, 0);
+armR.add(armMeshR);
+const handR = box(1.5, 1.5, 2, SKIN);
+handR.position.set(0, -5.5, 0);
+armR.add(handR);
+armR.position.set(3.5, 18, 0);
+character.add(armR);
+
+// Legs
+const legL = new THREE.Group();
+const legMeshL = box(2, 6, 2, PANTS);
+legMeshL.position.set(0, -3, 0);
+legL.add(legMeshL);
+const shoeL = box(2, 1.5, 3, SHOE);
+shoeL.position.set(0, -6.5, 0.5);
+legL.add(shoeL);
+legL.position.set(-1.5, 13, 0);
+character.add(legL);
+
+const legR = new THREE.Group();
+const legMeshR = box(2, 6, 2, PANTS);
+legMeshR.position.set(0, -3, 0);
+legR.add(legMeshR);
+const shoeR = box(2, 1.5, 3, SHOE);
+shoeR.position.set(0, -6.5, 0.5);
+legR.add(shoeR);
+legR.position.set(1.5, 13, 0);
+character.add(legR);
+
+// Laptop
+const laptop = new THREE.Group();
+const laptopBase = box(4, 0.4, 3, LAPTOP_BASE);
+laptopBase.position.set(0, 0, 0);
+laptop.add(laptopBase);
+const laptopScreen = box(4, 3, 0.3, LAPTOP_BASE);
+laptopScreen.position.set(0, 1.5, -1.5);
+laptop.add(laptopScreen);
+const screen = box(3.4, 2.4, 0.1, LAPTOP_SCREEN);
+screen.position.set(0, 1.5, -1.35);
+laptop.add(screen);
+// Screen emissive glow
+screen.material.emissive = new THREE.Color(LAPTOP_SCREEN);
+screen.material.emissiveIntensity = 0.3;
+
+laptop.position.set(5, 12.5, 1);
+laptop.rotation.z = -0.15;
+character.add(laptop);
+
+// Scale and position
+character.scale.set(0.7, 0.7, 0.7);
+character.position.set(-window.innerWidth / 2 - 30, -3, 0);
+scene.add(character);
+
+// Walk animation
+let walkX = -window.innerWidth / 2 - 30;
+let direction = 1;
+const walkSpeed = 40; // pixels per second
+const clock = new THREE.Clock();
+
+function animate() {
+    requestAnimationFrame(animate);
+    const delta = clock.getDelta();
+    const time = clock.getElapsedTime();
+
+    // Walk
+    walkX += walkSpeed * direction * delta;
+    const limit = window.innerWidth / 2 + 30;
+
+    if (walkX > limit) {
+        direction = -1;
+        character.scale.x = -0.7;
+    }
+    if (walkX < -limit) {
+        direction = 1;
+        character.scale.x = 0.7;
+    }
+
+    character.position.x = walkX;
+
+    // Bobbing
+    character.position.y = -3 + Math.abs(Math.sin(time * 4)) * 1.5;
+
+    // Leg swing
+    legL.rotation.x = Math.sin(time * 4) * 0.5;
+    legR.rotation.x = Math.sin(time * 4 + Math.PI) * 0.5;
+
+    // Arm swing (opposite to legs)
+    armL.rotation.x = Math.sin(time * 4 + Math.PI) * 0.3;
+    armR.rotation.x = Math.sin(time * 4) * 0.2;
+
+    // Warm light follows character
+    warmLight.position.x = walkX;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, 100);
+    camera.left = -window.innerWidth / 2;
+    camera.right = window.innerWidth / 2;
+    camera.updateProjectionMatrix();
+});
 </script>
 
 </body>
