@@ -687,7 +687,7 @@
 
     <div class="hero-content">
         <div class="hero-tag">AI-стратег &middot; криэйтор</div>
-        <h1 class="hero-title">Мост между<br>умными и&nbsp;нами</h1>
+        <h1 class="hero-title">Усиливаю<br>сильных</h1>
         <p class="hero-subtitle">ре<strong>ХАБ</strong> — рассылка для тех, кому некогда разбираться в нейросетях. Отдышаться от страхов, взять фишку, применить. Просто.</p>
 
         <form class="email-form" onsubmit="return handleSubscribe(event)">
@@ -1193,14 +1193,20 @@ function animate() {
 
     if (walkX > limit) {
         direction = -1;
-        character.scale.x = -0.7;
     }
     if (walkX < -limit) {
         direction = 1;
-        character.scale.x = 0.7;
     }
 
     character.position.x = walkX;
+
+    // Grow over time — the longer you stay, the bigger it gets
+    const baseScale = 0.7;
+    const growRate = 0.003; // grows slowly
+    const maxScale = 2.0;
+    const currentScale = Math.min(baseScale + time * growRate, maxScale);
+    const flipX = direction === 1 ? 1 : -1;
+    character.scale.set(flipX * currentScale, currentScale, currentScale);
 
     // Bobbing
     character.position.y = -3 + Math.abs(Math.sin(time * 4)) * 1.5;
@@ -1215,6 +1221,16 @@ function animate() {
 
     // Warm light follows character
     warmLight.position.x = walkX;
+
+    // Grow canvas height as character grows
+    const canvasH = Math.max(100, currentScale * 120);
+    if (Math.abs(canvas.height - canvasH) > 5) {
+        renderer.setSize(window.innerWidth, canvasH);
+        canvas.style.height = canvasH + 'px';
+        camera.top = canvasH / 2;
+        camera.bottom = -canvasH / 2;
+        camera.updateProjectionMatrix();
+    }
 
     // Spawn trail words behind the character
     if (time - lastWordTime > wordInterval) {
