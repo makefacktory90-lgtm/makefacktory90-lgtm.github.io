@@ -174,12 +174,13 @@
         }
 
         .hero-title {
-            font-size: clamp(36px, 6vw, 56px);
+            font-size: clamp(32px, 5vw, 56px);
             font-weight: 900;
             line-height: 1.1;
             letter-spacing: -0.03em;
             color: var(--text);
             margin-bottom: 20px;
+            white-space: nowrap;
         }
 
         .hero-subtitle {
@@ -668,7 +669,7 @@
     <div class="nav-inner">
         <a href="#" class="nav-logo">Ира Буян <span style="color:var(--mid-gray);font-weight:400;font-size:14px">(ira&amp;ai)</span></a>
         <ul class="nav-links">
-            <li><a href="#rehab">ре<strong>ХАБ</strong></a></li>
+            <li><a href="#rehab">AI ре<strong>ХАБ</strong></a></li>
             <li><a href="#products">Продукты</a></li>
             <li><a href="#about">Обо мне</a></li>
         </ul>
@@ -688,7 +689,7 @@
     <div class="hero-content">
         <div class="hero-tag">ИИ-стратег</div>
         <h1 class="hero-title">Усиливаю сильных</h1>
-        <p class="hero-subtitle">ре<strong>ХАБ</strong> — рассылка для тех, кому некогда разбираться в нейросетях. Отдышаться от страхов, взять фишку, применить. Просто.</p>
+        <p class="hero-subtitle">AI ре<strong>ХАБ</strong> — рассылка для тех, кому некогда разбираться в нейросетях. Отдышаться от страхов, взять фишку, применить. Просто.</p>
 
         <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
             <input type="email" name="email" placeholder="Ваш email" required>
@@ -708,8 +709,8 @@
         <div class="rehab-grid">
             <div>
                 <div class="section-label">Рассылка</div>
-                <h2 class="section-title">ре<span style="color:var(--accent)">ХАБ</span></h2>
-                <p class="section-desc">В ХАБах — работаем. В ре<strong>ХАБ</strong>е — восстанавливаемся. Голос поддержки в мире, где AI пугает. Фишки, которые можно применить прямо сейчас.</p>
+                <h2 class="section-title">AI ре<span style="color:var(--accent)">ХАБ</span></h2>
+                <p class="section-desc">В ХАБах — работаем. В AI ре<strong>ХАБ</strong>е — восстанавливаемся. Голос поддержки в мире, где AI пугает. Фишки, которые можно применить прямо сейчас.</p>
 
                 <ul class="rehab-features">
                     <li>
@@ -744,7 +745,7 @@
             </div>
 
             <div class="rehab-cta-box">
-                <h3>Попробуйте ре<span style="color:var(--accent)">ХАБ</span></h3>
+                <h3>Попробуйте AI ре<span style="color:var(--accent)">ХАБ</span></h3>
                 <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. Восстановление от AI-тревожности.</p>
                 <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
                     <input type="email" name="email" placeholder="Ваш email" required>
@@ -754,7 +755,7 @@
                     <input type="hidden" name="is_v5" value="1">
                     <button type="submit">Подписаться</button>
                 </form>
-                <p class="email-note">Присоединяйтесь к реХАБу.</p>
+                <p class="email-note">Присоединяйтесь к AI реХАБу.</p>
             </div>
         </div>
     </div>
@@ -877,7 +878,7 @@ function handleSubscribe(form) {
     // Let the form submit to iframe
     setTimeout(() => {
         input.value = '';
-        input.placeholder = 'Вы в реХАБе!';
+        input.placeholder = 'Вы в AI реХАБе!';
         input.style.borderColor = '#5A7A60';
         btn.textContent = 'Готово!';
         btn.style.background = '#5A7A60';
