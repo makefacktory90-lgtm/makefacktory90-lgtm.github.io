@@ -195,9 +195,56 @@
         /* ===================== EMAIL FORM ===================== */
         .email-form {
             display: flex;
+            flex-wrap: wrap;
             gap: 12px;
             max-width: 480px;
             margin: 0 auto 16px;
+        }
+
+        .consent-row {
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        .consent-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-dim);
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .consent-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-top: 1px;
+            flex-shrink: 0;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .consent-label a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-decoration-color: rgba(196, 101, 78, 0.3);
+        }
+
+        .consent-label a:hover {
+            text-decoration-color: var(--accent);
+        }
+
+        .email-form button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .email-form button:disabled:hover {
+            background: var(--accent);
+            transform: none;
         }
 
         .email-form input {
@@ -853,9 +900,15 @@
             <input type="hidden" name="default_list_id" value="1">
             <input type="hidden" name="overwrite" value="2">
             <input type="hidden" name="is_v5" value="1">
-            <button type="submit">Подписаться</button>
+            <button type="submit" disabled>Подписаться</button>
+            <div class="consent-row">
+                <label class="consent-label">
+                    <input type="checkbox" onchange="toggleSubmit(this)">
+                    <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
+                </label>
+            </div>
         </form>
-        <p class="email-note">Бесплатно. Отписка в один клик. Без спама, честно.</p>
+        <p class="email-note">Бесплатно. Отписка в один клик. Без спама.</p>
     </div>
 </section>
 
@@ -909,7 +962,13 @@
                     <input type="hidden" name="default_list_id" value="1">
                     <input type="hidden" name="overwrite" value="2">
                     <input type="hidden" name="is_v5" value="1">
-                    <button type="submit">Подписаться</button>
+                    <button type="submit" disabled>Подписаться</button>
+                    <div class="consent-row">
+                        <label class="consent-label">
+                            <input type="checkbox" onchange="toggleSubmit(this)">
+                            <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
+                        </label>
+                    </div>
                 </form>
                 <p class="email-note">Присоединяйтесь к AI реХАБу.</p>
             </div>
@@ -1003,7 +1062,8 @@
 
 <!-- ==================== FOOTER ==================== -->
 <footer>
-    <p>&copy; 2026 Ира Буян. <a href="https://instagram.com/ira.and.ai" target="_blank">Instagram</a> &middot; <a href="https://t.me/ira_and_ai" target="_blank">Telegram</a></p>
+    <p>&copy; 2026 Ира Буян. <a href="https://instagram.com/ira.and.ai" target="_blank">Instagram</a> &middot; <a href="https://t.me/ira_and_ai" target="_blank">Telegram</a> &middot; <a href="privacy.html">Политика конфиденциальности</a></p>
+    <p style="font-size:12px;color:var(--text-dim);margin-top:8px;">ИП Буян Ирина Валерьевна &middot; ОГРНИП 320774600301870 &middot; ИНН 772320882743</p>
 </footer>
 
 <!-- AI Chat Bubble -->
@@ -1024,6 +1084,13 @@
 window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
 });
+
+// Consent checkbox — enable/disable submit button
+function toggleSubmit(checkbox) {
+    const form = checkbox.closest('form');
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = !checkbox.checked;
+}
 
 // Hidden iframe for Unisender form submission (no redirect)
 const iframe = document.createElement('iframe');
