@@ -894,12 +894,8 @@
         <h1 class="hero-title">Усиливаю сильных</h1>
         <p class="hero-subtitle">Рассылка для тех, кому некогда разбираться в нейросетях.<br>Наблюдения, фишки, промпты и скиллы, понятные инструменты.<br>В своем темпе, без перегруза.</p>
 
-        <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
+        <form class="email-form" onsubmit="return handleSubscribe(this)">
             <input type="email" name="email" placeholder="Ваш email" required>
-            <input type="hidden" name="charset" value="UTF-8">
-            <input type="hidden" name="default_list_id" value="1">
-            <input type="hidden" name="overwrite" value="2">
-            <input type="hidden" name="is_v5" value="1">
             <button type="submit" disabled>Подписаться</button>
             <div class="consent-row">
                 <label class="consent-label">
@@ -956,12 +952,8 @@
             <div class="rehab-cta-box immune">
                 <h3>Попробуйте AI ре<span style="color:var(--accent)">ХАБ</span></h3>
                 <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. В своём темпе.</p>
-                <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" target="us_frame" onsubmit="return handleSubscribe(this)">
+                <form class="email-form" onsubmit="return handleSubscribe(this)">
                     <input type="email" name="email" placeholder="Ваш email" required>
-                    <input type="hidden" name="charset" value="UTF-8">
-                    <input type="hidden" name="default_list_id" value="1">
-                    <input type="hidden" name="overwrite" value="2">
-                    <input type="hidden" name="is_v5" value="1">
                     <button type="submit" disabled>Подписаться</button>
                     <div class="consent-row">
                         <label class="consent-label">
@@ -1101,35 +1093,52 @@ function toggleSubmit(checkbox) {
     btn.disabled = !checkbox.checked;
 }
 
-// Hidden iframe for Unisender form submission (no redirect)
-const iframe = document.createElement('iframe');
-iframe.name = 'us_frame';
-iframe.style.display = 'none';
-document.body.appendChild(iframe);
-
-// Email form handler — submits to Unisender, shows confirmation
+// Email form handler — calls Unisender API directly
 function handleSubscribe(form) {
     const input = form.querySelector('input[name="email"]');
+    const email = input.value.trim();
+    if (!email) return false;
+
     const btn = form.querySelector('button');
     const origText = btn.textContent;
+    btn.textContent = '...';
+    btn.disabled = true;
 
-    // Let the form submit to iframe
-    setTimeout(() => {
-        input.value = '';
-        input.placeholder = 'Вы в AI реХАБе!';
-        input.style.borderColor = '#5A7A60';
-        btn.textContent = 'Готово!';
-        btn.style.background = '#5A7A60';
+    const url = 'https://api.unisender.com/ru/api/subscribe?format=json'
+        + '&api_key=6969h5yp3ohwypfirjiw8hcunh1j8ykguo9657fo'
+        + '&list_ids=1'
+        + '&fields[email]=' + encodeURIComponent(email)
+        + '&double_optin=3'
+        + '&overwrite=2';
 
-        setTimeout(() => {
-            input.placeholder = 'Ваш email';
-            input.style.borderColor = '';
-            btn.textContent = origText;
-            btn.style.background = '';
-        }, 4000);
-    }, 500);
+    fetch(url, { mode: 'no-cors' })
+        .then(() => {
+            input.value = '';
+            input.placeholder = 'Вы в AI реХАБе!';
+            input.style.borderColor = '#5A7A60';
+            btn.textContent = 'Готово!';
+            btn.style.background = '#5A7A60';
 
-    return true; // allow form to submit
+            setTimeout(() => {
+                input.placeholder = 'Ваш email';
+                input.style.borderColor = '';
+                btn.textContent = origText;
+                btn.style.background = '';
+                const cb = form.querySelector('input[type="checkbox"]');
+                btn.disabled = cb ? !cb.checked : false;
+            }, 4000);
+        })
+        .catch(() => {
+            btn.textContent = 'Ошибка';
+            setTimeout(() => {
+                btn.textContent = origText;
+                btn.style.background = '';
+                const cb = form.querySelector('input[type="checkbox"]');
+                btn.disabled = cb ? !cb.checked : false;
+            }, 3000);
+        });
+
+    return false;
 }
 
 // ==================== AI CHAT ====================
