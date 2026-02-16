@@ -150,6 +150,49 @@ body { background: #F5F3EF; color: #333; font-family: 'DM Sans', sans-serif; }
 [contenteditable]:hover { box-shadow: inset 0 0 0 2px rgba(139,154,107,0.15); }
 [contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(139,154,107,0.35); }
 
+/* === SLIDE CONTROLS === */
+.slide-toolbar {
+    position: absolute; top: -28px; right: 0; z-index: 10;
+    display: flex; gap: 6px; align-items: center;
+}
+.slide-toolbar button {
+    width: 24px; height: 24px; border-radius: 6px; border: 1px solid #ddd;
+    background: #fff; color: #aaa; font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+}
+.slide-toolbar button:hover { background: #f5e5e5; color: #c44; border-color: #daa; }
+
+.add-slide-btn {
+    width: 200px; height: 80px; border: 2px dashed #ddd; border-radius: 16px;
+    background: transparent; color: #bbb; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin: 8px auto;
+}
+.add-slide-btn:hover { border-color: var(--ui-accent, #8B9A6B); color: var(--ui-accent, #8B9A6B); }
+
+.slide-picker {
+    display: none; background: #fff; border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 16px;
+    margin: 8px auto; width: 440px; z-index: 10;
+}
+.slide-picker.open { display: block; }
+.slide-picker-title {
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+    color: #aaa; text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 12px; text-align: center;
+}
+.slide-picker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.slide-picker-item {
+    padding: 16px 8px; border: 1.5px solid #e8e4de; border-radius: 10px;
+    background: #FAF8F5; cursor: pointer; text-align: center;
+    transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+}
+.slide-picker-item:hover { border-color: var(--ui-accent, #8B9A6B); background: #fff; }
+.slide-picker-item .picker-icon { font-size: 24px; margin-bottom: 6px; }
+.slide-picker-item .picker-label { font-size: 11px; color: #888; font-weight: 600; }
+
 /* === MOVE MODE === */
 .move-mode [contenteditable] { cursor: grab; user-select: none; -webkit-user-select: none; }
 .move-mode [contenteditable]:active { cursor: grabbing; }
@@ -447,66 +490,7 @@ body { background: #F5F3EF; color: #333; font-family: 'DM Sans', sans-serif; }
 <!-- SLIDES -->
 <div class="slides-wrap frame-on" id="slides-wrap">
 
-<div class="phone-wrap"><div class="slide slide-cover">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 01 / COVER</div>
-    <div class="tag" contenteditable="true">ТРЕНД НЕДЕЛИ</div>
-    <h1 contenteditable="true">Заголовок<br><span class="accent">карусели</span></h1>
-    <div class="sub" contenteditable="true">Одно предложение, которое цепляет и объясняет, зачем листать дальше</div>
-    <div class="author" contenteditable="true">@yourname</div>
-    <div class="bar"></div>
-    <div class="slide-number">1/6</div>
-</div></div>
-
-<div class="phone-wrap"><div class="slide slide-content">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 02 / CONTENT</div>
-    <div class="section-tag" contenteditable="true">01 / контекст</div>
-    <h2 contenteditable="true">О чём речь</h2>
-    <p contenteditable="true">Основной текст слайда. Два-три предложения. Главная мысль, которая заставляет листать дальше.</p>
-    <p class="dim" contenteditable="true">Дополнительный контекст мелким шрифтом.</p>
-    <div class="slide-number">2/6</div>
-</div></div>
-
-<div class="phone-wrap"><div class="slide slide-quote">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 03 / QUOTE</div>
-    <blockquote contenteditable="true">Сильная цитата из источника. Фраза, после которой хочется сохранить.</blockquote>
-    <div class="quote-author" contenteditable="true">Имя автора</div>
-    <div class="slide-number">3/6</div>
-</div></div>
-
-<div class="phone-wrap"><div class="slide slide-content">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 04 / CONTENT</div>
-    <div class="section-tag" contenteditable="true">02 / почему важно</div>
-    <h2 contenteditable="true">Ключевой факт</h2>
-    <p contenteditable="true">Факт или цифра, которая <span class="highlight">впечатляет</span>. Одно число или одна мысль.</p>
-    <p contenteditable="true">И что это значит для вашей аудитории простым языком.</p>
-    <div class="slide-number">4/6</div>
-</div></div>
-
-<div class="phone-wrap"><div class="slide slide-list">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 05 / LIST</div>
-    <div class="section-tag" contenteditable="true">03 / что делать</div>
-    <h2 contenteditable="true">Конкретные шаги</h2>
-    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Первый шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Второй шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Третий шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Четвёртый шаг.</strong> Что именно сделать.</span></div>
-    <div class="slide-number">5/6</div>
-</div></div>
-
-<div class="phone-wrap"><div class="slide slide-cta">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 06 / CTA</div>
-    <div class="cta-keyword" contenteditable="true">Напиши<br><span class="accent">карусель</span></div>
-    <div class="cta-desc" contenteditable="true">Пришлю промт, который из любого контента делает карусель за 10 минут</div>
-    <div class="cta-how" contenteditable="true">В КОММЕНТЫ ИЛИ В ДИРЕКТ</div>
-    <div class="cta-handle" contenteditable="true">@yourname</div>
-    <div class="slide-number">6/6</div>
-</div></div>
+<div id="slides-container"></div>
 
 </div>
 
@@ -736,7 +720,135 @@ function fullscreen() {
     window.scrollTo(0,0);
 }
 
+// === SLIDE BUILDER ===
+const slideTemplates = {
+    cover: {
+        label: 'COVER', cls: 'slide-cover',
+        html: `<div class="tag" contenteditable="true">ТРЕНД НЕДЕЛИ</div>
+<h1 contenteditable="true">Заголовок<br><span class="accent">карусели</span></h1>
+<div class="sub" contenteditable="true">Одно предложение, которое цепляет</div>
+<div class="author" contenteditable="true">@yourname</div>
+<div class="bar"></div>`
+    },
+    content: {
+        label: 'CONTENT', cls: 'slide-content',
+        html: `<div class="section-tag" contenteditable="true">01 / тема</div>
+<h2 contenteditable="true">Заголовок</h2>
+<p contenteditable="true">Основной текст слайда. Два-три предложения. Главная мысль.</p>
+<p class="dim" contenteditable="true">Дополнительный контекст.</p>`
+    },
+    quote: {
+        label: 'QUOTE', cls: 'slide-quote',
+        html: `<blockquote contenteditable="true">Сильная цитата. Фраза, после которой хочется сохранить.</blockquote>
+<div class="quote-author" contenteditable="true">Имя автора</div>`
+    },
+    list: {
+        label: 'LIST', cls: 'slide-list',
+        html: `<div class="section-tag" contenteditable="true">03 / шаги</div>
+<h2 contenteditable="true">Конкретные шаги</h2>
+<div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Первый шаг.</strong> Что сделать.</span></div>
+<div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Второй шаг.</strong> Что сделать.</span></div>
+<div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Третий шаг.</strong> Что сделать.</span></div>
+<div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Четвёртый шаг.</strong> Что сделать.</span></div>`
+    },
+    cta: {
+        label: 'CTA', cls: 'slide-cta',
+        html: `<div class="cta-keyword" contenteditable="true">Напиши<br><span class="accent">карусель</span></div>
+<div class="cta-desc" contenteditable="true">Пришлю промт, который из любого контента делает карусель за 10 минут</div>
+<div class="cta-how" contenteditable="true">В КОММЕНТЫ ИЛИ В ДИРЕКТ</div>
+<div class="cta-handle" contenteditable="true">@yourname</div>`
+    }
+};
+
+let slides = ['cover', 'content', 'quote', 'content', 'list', 'cta'];
+
+function renderSlides() {
+    const container = document.getElementById('slides-container');
+    container.innerHTML = '';
+    const total = slides.length;
+    slides.forEach((type, i) => {
+        const tmpl = slideTemplates[type];
+        const wrap = document.createElement('div');
+        wrap.className = 'phone-wrap';
+        wrap.innerHTML = `<div class="slide ${tmpl.cls}">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE ${String(i+1).padStart(2,'0')} / ${tmpl.label}</div>
+    <div class="slide-toolbar"><button onclick="removeSlide(${i})" title="Delete slide">&times;</button></div>
+    ${tmpl.html}
+    <div class="slide-number">${i+1}/${total}</div>
+</div>`;
+        container.appendChild(wrap);
+
+        // Add "+" button after each slide
+        const addBtn = document.createElement('button');
+        addBtn.className = 'add-slide-btn';
+        addBtn.innerHTML = '+ Add slide';
+        addBtn.onclick = () => showPicker(i);
+        container.appendChild(addBtn);
+    });
+
+    // Apply current scale
+    const v = document.getElementById('scale-slider').value / 100;
+    document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = `calc(-1350px * (1 - ${v}))`);
+
+    // Reapply move mode state
+    if (moveMode) {
+        document.querySelectorAll('[contenteditable]').forEach(el => el.contentEditable = 'false');
+    }
+}
+
+function showPicker(afterIndex) {
+    // Remove any existing picker
+    document.querySelectorAll('.slide-picker').forEach(p => p.remove());
+
+    const picker = document.createElement('div');
+    picker.className = 'slide-picker open';
+    picker.innerHTML = `
+        <div class="slide-picker-title">Выберите тип слайда</div>
+        <div class="slide-picker-grid">
+            <div class="slide-picker-item" onclick="addSlide(${afterIndex},'content')">
+                <div class="picker-icon">Aa</div><div class="picker-label">Content</div>
+            </div>
+            <div class="slide-picker-item" onclick="addSlide(${afterIndex},'quote')">
+                <div class="picker-icon">&ldquo;&rdquo;</div><div class="picker-label">Quote</div>
+            </div>
+            <div class="slide-picker-item" onclick="addSlide(${afterIndex},'list')">
+                <div class="picker-icon">#</div><div class="picker-label">List</div>
+            </div>
+            <div class="slide-picker-item" onclick="addSlide(${afterIndex},'cta')">
+                <div class="picker-icon">&rarr;</div><div class="picker-label">CTA</div>
+            </div>
+        </div>`;
+
+    // Insert picker after the "+" button at afterIndex
+    const addBtns = document.querySelectorAll('.add-slide-btn');
+    if (addBtns[afterIndex]) addBtns[afterIndex].after(picker);
+
+    // Close on outside click
+    setTimeout(() => {
+        document.addEventListener('click', function closePicker(e) {
+            if (!picker.contains(e.target)) {
+                picker.remove();
+                document.removeEventListener('click', closePicker);
+            }
+        });
+    }, 10);
+}
+
+function addSlide(afterIndex, type) {
+    slides.splice(afterIndex + 1, 0, type);
+    renderSlides();
+}
+
+function removeSlide(index) {
+    if (slides.length <= 1) return;
+    slides.splice(index, 1);
+    renderSlides();
+}
+
+// Init
 setStyle('sage');
+renderSlides();
 </script>
 </body>
 </html>
