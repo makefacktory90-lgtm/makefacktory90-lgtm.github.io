@@ -150,6 +150,13 @@ body { background: #F5F3EF; color: #333; font-family: 'DM Sans', sans-serif; }
 [contenteditable]:hover { box-shadow: inset 0 0 0 2px rgba(139,154,107,0.15); }
 [contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(139,154,107,0.35); }
 
+/* === MOVE MODE === */
+.move-mode [contenteditable] { cursor: grab; user-select: none; -webkit-user-select: none; }
+.move-mode [contenteditable]:active { cursor: grabbing; }
+.move-mode [contenteditable]:hover { box-shadow: 0 0 0 2px var(--ui-accent, #8B9A6B); }
+.move-mode [contenteditable]:focus { box-shadow: 0 0 0 2px var(--ui-accent, #8B9A6B); }
+.move-mode [contenteditable] { position: relative; }
+
 /* ================================ */
 /* STYLE: SAGE                      */
 /* ================================ */
@@ -358,6 +365,11 @@ body { background: #F5F3EF; color: #333; font-family: 'DM Sans', sans-serif; }
     </div>
     <div class="spacer"></div>
     <div class="topbar-section">
+        <span class="topbar-label">Mode</span>
+        <button onclick="toggleMove()" id="btn-move">Move</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="topbar-section">
         <button onclick="toggleSettings()" id="btn-settings">Settings</button>
     </div>
 </div>
@@ -387,6 +399,15 @@ body { background: #F5F3EF; color: #333; font-family: 'DM Sans', sans-serif; }
         <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
         <option value="'Outfit', sans-serif">Outfit</option>
     </select>
+
+    <h3>Font size</h3>
+    <label>Heading <span id="sz-h-val">100</span>%</label>
+    <input type="range" id="sz-heading" min="50" max="150" value="100" oninput="applySize()">
+    <label>Body <span id="sz-b-val">100</span>%</label>
+    <input type="range" id="sz-body" min="50" max="150" value="100" oninput="applySize()">
+    <label>Quote <span id="sz-q-val">100</span>%</label>
+    <input type="range" id="sz-quote" min="50" max="150" value="100" oninput="applySize()">
+    <button class="s-btn s-btn-light" onclick="resetSize()">Reset size</button>
 
     <h3>Colors</h3>
     <div class="color-row">
@@ -554,6 +575,97 @@ function applyFont() {
     document.querySelectorAll('.slide h1,.slide h2,.slide .cta-keyword').forEach(el => el.style.fontFamily = h || '');
     document.querySelectorAll('.slide p,.slide .list-text,.slide .cta-desc,.slide .sub,.slide blockquote').forEach(el => el.style.fontFamily = b || '');
 }
+
+// === FONT SIZE ===
+const sizeDefaults = { heading: {}, body: {}, quote: {} };
+let sizeInit = false;
+function initSizeDefaults() {
+    if (sizeInit) return; sizeInit = true;
+    document.querySelectorAll('.slide h1,.slide h2,.slide .cta-keyword').forEach(el => {
+        sizeDefaults.heading[el.tagName+el.className] = parseFloat(getComputedStyle(el).fontSize);
+    });
+    document.querySelectorAll('.slide p,.slide .list-text,.slide .cta-desc,.slide .sub,.slide .dim').forEach(el => {
+        sizeDefaults.body[el.tagName+el.className] = parseFloat(getComputedStyle(el).fontSize);
+    });
+    document.querySelectorAll('.slide blockquote').forEach(el => {
+        sizeDefaults.quote[el.tagName+el.className] = parseFloat(getComputedStyle(el).fontSize);
+    });
+}
+function applySize() {
+    initSizeDefaults();
+    const hPct = document.getElementById('sz-heading').value / 100;
+    const bPct = document.getElementById('sz-body').value / 100;
+    const qPct = document.getElementById('sz-quote').value / 100;
+    document.getElementById('sz-h-val').textContent = Math.round(hPct * 100);
+    document.getElementById('sz-b-val').textContent = Math.round(bPct * 100);
+    document.getElementById('sz-q-val').textContent = Math.round(qPct * 100);
+    document.querySelectorAll('.slide h1,.slide h2,.slide .cta-keyword').forEach(el => {
+        const base = sizeDefaults.heading[el.tagName+el.className] || parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize = (base * hPct) + 'px';
+    });
+    document.querySelectorAll('.slide p,.slide .list-text,.slide .cta-desc,.slide .sub,.slide .dim').forEach(el => {
+        const base = sizeDefaults.body[el.tagName+el.className] || parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize = (base * bPct) + 'px';
+    });
+    document.querySelectorAll('.slide blockquote').forEach(el => {
+        const base = sizeDefaults.quote[el.tagName+el.className] || parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize = (base * qPct) + 'px';
+    });
+}
+function resetSize() {
+    document.getElementById('sz-heading').value = 100;
+    document.getElementById('sz-body').value = 100;
+    document.getElementById('sz-quote').value = 100;
+    document.getElementById('sz-h-val').textContent = '100';
+    document.getElementById('sz-b-val').textContent = '100';
+    document.getElementById('sz-q-val').textContent = '100';
+    document.querySelectorAll('.slide h1,.slide h2,.slide .cta-keyword,.slide p,.slide .list-text,.slide .cta-desc,.slide .sub,.slide .dim,.slide blockquote').forEach(el => el.style.fontSize = '');
+    sizeInit = false;
+}
+
+// === MOVE MODE ===
+let moveMode = false;
+function toggleMove() {
+    moveMode = !moveMode;
+    document.getElementById('slides-wrap').classList.toggle('move-mode', moveMode);
+    document.getElementById('btn-move').classList.toggle('active', moveMode);
+    document.querySelectorAll('[contenteditable]').forEach(el => {
+        el.contentEditable = moveMode ? 'false' : 'true';
+    });
+}
+
+// Drag logic
+let dragEl = null, dragStartX, dragStartY, dragOffsetX, dragOffsetY;
+
+document.addEventListener('pointerdown', e => {
+    if (!moveMode) return;
+    const el = e.target.closest('[contenteditable]');
+    if (!el) return;
+    e.preventDefault();
+    dragEl = el;
+    const rect = el.getBoundingClientRect();
+    const scale = parseFloat(getComputedStyle(document.querySelector('.slides-wrap')).getPropertyValue('--scale')) || 0.42;
+    dragStartX = parseFloat(el.dataset.dx || 0);
+    dragStartY = parseFloat(el.dataset.dy || 0);
+    dragOffsetX = e.clientX;
+    dragOffsetY = e.clientY;
+    el.style.zIndex = '10';
+});
+
+document.addEventListener('pointermove', e => {
+    if (!dragEl) return;
+    e.preventDefault();
+    const scale = parseFloat(getComputedStyle(document.querySelector('.slides-wrap')).getPropertyValue('--scale')) || 0.42;
+    const dx = dragStartX + (e.clientX - dragOffsetX) / scale;
+    const dy = dragStartY + (e.clientY - dragOffsetY) / scale;
+    dragEl.style.transform = `translate(${dx}px, ${dy}px)`;
+    dragEl.dataset.dx = dx;
+    dragEl.dataset.dy = dy;
+});
+
+document.addEventListener('pointerup', () => {
+    if (dragEl) { dragEl.style.zIndex = ''; dragEl = null; }
+});
 
 function applyColors() {
     const a = document.getElementById('color-accent').value;
