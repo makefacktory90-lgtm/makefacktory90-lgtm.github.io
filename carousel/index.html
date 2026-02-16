@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carousel Constructor — Ira & AI</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === PASSWORD GATE === */
+.gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0a0a0a;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+.gate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.gate-box { text-align: center; max-width: 400px; padding: 40px; }
+.gate-logo { font-family: 'Roboto Mono', monospace; font-size: 12px; letter-spacing: 0.3em; color: #555; margin-bottom: 48px; text-transform: uppercase; }
+.gate-title { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 12px; }
+.gate-sub { font-family: 'Inter', sans-serif; font-size: 16px; color: #666; margin-bottom: 40px; line-height: 1.5; }
+.gate-input {
+    width: 100%; padding: 16px 20px; background: #1a1a1a; border: 2px solid #333;
+    color: #fff; font-family: 'Roboto Mono', monospace; font-size: 16px;
+    border-radius: 12px; text-align: center; letter-spacing: 0.1em; outline: none;
+    transition: border-color 0.2s;
+}
+.gate-input:focus { border-color: #E63946; }
+.gate-input.error { border-color: #E63946; animation: shake 0.4s; }
+@keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+.gate-btn {
+    width: 100%; padding: 16px; margin-top: 16px; background: #E63946; border: none;
+    color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700;
+    border-radius: 12px; cursor: pointer; transition: background 0.2s;
+}
+.gate-btn:hover { background: #c62d38; }
+.gate-hint { font-family: 'Roboto Mono', monospace; font-size: 11px; color: #333; margin-top: 32px; }
+
+/* === MAIN APP === */
+body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
+.app { display: none; }
+.app.visible { display: block; }
+
+/* === TOP BAR === */
+.topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: #111; border-bottom: 1px solid #333;
+    padding: 10px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+}
+.topbar-section { display: flex; gap: 6px; align-items: center; }
+.topbar-label {
+    font-family: 'Roboto Mono', monospace; font-size: 10px;
+    color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 2px;
+}
+.topbar button {
+    padding: 6px 12px; border: 1.5px solid #444; background: transparent;
+    color: #999; font-family: 'Roboto Mono', monospace; font-size: 10px;
+    letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase;
+    transition: all 0.2s; border-radius: 4px; white-space: nowrap;
+}
+.topbar button:hover { border-color: #888; color: #fff; }
+.topbar button.active { border-color: #E63946; color: #fff; background: #E63946; }
+.topbar .spacer { width: 1px; height: 24px; background: #333; margin: 0 4px; }
+.topbar .brand {
+    margin-left: auto; font-size: 10px; color: #444;
+    font-family: 'Roboto Mono', monospace; letter-spacing: 0.05em;
+}
+
+/* === SETTINGS PANEL === */
+.settings-panel {
+    position: fixed; top: 50px; right: 0; z-index: 150;
+    width: 300px; background: #1a1a1a; border-left: 1px solid #333;
+    border-bottom: 1px solid #333; border-radius: 0 0 0 12px;
+    padding: 16px; display: none; max-height: calc(100vh - 50px); overflow-y: auto;
+}
+.settings-panel.open { display: block; }
+.settings-panel h3 {
+    font-family: 'Roboto Mono', monospace; font-size: 10px;
+    color: #E63946; text-transform: uppercase; letter-spacing: 0.15em;
+    margin-bottom: 10px; margin-top: 18px;
+}
+.settings-panel h3:first-child { margin-top: 0; }
+.settings-panel label {
+    font-family: 'Roboto Mono', monospace; font-size: 10px; color: #888;
+    display: block; margin-bottom: 4px;
+}
+.settings-panel select, .settings-panel input[type="text"] {
+    width: 100%; padding: 8px; background: #111; border: 1px solid #333;
+    color: #fff; font-family: 'Roboto Mono', monospace; font-size: 11px;
+    border-radius: 4px; margin-bottom: 10px;
+}
+.settings-panel input[type="color"] { width: 100%; height: 32px; padding: 2px; cursor: pointer; background: #111; border: 1px solid #333; border-radius: 4px; margin-bottom: 10px; }
+.settings-panel input[type="range"] { width: 100%; margin-bottom: 10px; }
+.color-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.color-row > div { flex: 1; }
+.settings-panel .hint { font-family: 'Roboto Mono', monospace; font-size: 9px; color: #555; margin-top: -6px; margin-bottom: 10px; }
+.settings-panel .s-btn {
+    width: 100%; padding: 8px; border: none; border-radius: 4px;
+    cursor: pointer; font-family: 'Roboto Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
+}
+.s-btn-red { background: #E63946; color: #fff; }
+.s-btn-dark { background: #333; color: #fff; }
+
+/* === BG DROP ZONE === */
+.drop-zone {
+    border: 2px dashed #333; border-radius: 8px; padding: 14px;
+    text-align: center; cursor: pointer; margin-bottom: 10px; transition: all 0.2s;
+}
+.drop-zone:hover, .drop-zone.dragover { border-color: #E63946; background: rgba(230,57,70,0.05); }
+.drop-zone p { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #666; }
+.drop-zone input { display: none; }
+
+/* === SLIDES === */
+.slides-wrap {
+    padding: 64px 0 100px; display: flex; flex-direction: column;
+    align-items: center; gap: 32px;
+}
+.slides-wrap { --scale: 0.42; }
+.phone-wrap {
+    transform: scale(var(--scale)); transform-origin: top center;
+    margin-bottom: calc(-1350px * (1 - var(--scale)));
+}
+.frame-on .phone-wrap {
+    background: #222; border-radius: 48px; padding: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 2px #444;
+    position: relative;
+}
+.frame-on .phone-wrap::before {
+    content: ''; position: absolute; top: 8px;
+    left: 50%; transform: translateX(-50%);
+    width: 120px; height: 28px; background: #111;
+    border-radius: 0 0 16px 16px; z-index: 5;
+}
+.frame-on .phone-wrap .slide { border-radius: 32px; }
+
+.slide {
+    width: 1080px; height: 1350px; position: relative; overflow: hidden;
+    flex-shrink: 0;
+}
+.slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+.slide-overlay { position: absolute; inset: 0; z-index: 1; }
+.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number) { position: relative; z-index: 2; }
+.slide-label {
+    position: absolute; top: -28px; left: 4px;
+    font-family: 'Roboto Mono', monospace; font-size: 11px; color: #999; z-index: 5;
+}
+.slide-number {
+    position: absolute; bottom: 40px; right: 50px;
+    font-family: 'Roboto Mono', monospace; font-size: 14px;
+    opacity: 0.3; z-index: 3;
+}
+
+/* Editable text styling */
+[contenteditable] { outline: none; cursor: text; border-radius: 4px; transition: box-shadow 0.2s; }
+[contenteditable]:hover { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.2); }
+[contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.5); }
+
+/* ================================ */
+/* STYLE: NIKE PRO                  */
+/* ================================ */
+.style-nike .slide { background: #000; color: #fff; }
+.style-nike .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 80px; }
+.style-nike .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 18px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 32px; text-transform: uppercase; }
+.style-nike .slide-cover h1 { font-size: 96px; font-weight: 900; line-height: 0.95; text-transform: uppercase; letter-spacing: -0.03em; }
+.style-nike .slide-cover h1 .accent { color: var(--accent, #E63946); }
+.style-nike .slide-cover .sub { font-size: 24px; color: #888; margin-top: 40px; line-height: 1.4; }
+.style-nike .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #555; margin-top: 60px; letter-spacing: 0.15em; }
+
+.style-nike .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 14px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-nike .slide-content h2 { font-size: 64px; font-weight: 900; text-transform: uppercase; line-height: 1.05; margin-bottom: 40px; letter-spacing: -0.02em; }
+.style-nike .slide-content p { font-size: 28px; line-height: 1.6; color: #ccc; margin-bottom: 24px; }
+.style-nike .slide-content .highlight { background: var(--accent, #E63946); color: #fff; padding: 4px 12px; font-weight: 700; }
+.style-nike .slide-content .dim { color: #666; font-size: 22px; }
+
+.style-nike .slide-quote { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-quote blockquote { font-size: 48px; font-weight: 700; line-height: 1.3; border-left: 6px solid var(--accent, #E63946); padding-left: 40px; }
+.style-nike .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 18px; color: #666; margin-top: 40px; padding-left: 46px; }
+
+.style-nike .slide-list { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 14px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-nike .slide-list h2 { font-size: 56px; font-weight: 900; text-transform: uppercase; margin-bottom: 48px; line-height: 1.05; }
+.style-nike .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 32px; align-items: baseline; }
+.style-nike .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 48px; font-weight: 700; color: var(--accent, #E63946); flex-shrink: 0; width: 80px; }
+.style-nike .slide-list .list-text { font-size: 28px; line-height: 1.4; color: #ccc; }
+.style-nike .slide-list .list-text strong { color: #fff; }
+
+.style-nike .slide-cta { padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-nike .slide-cta .cta-keyword { font-size: 120px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1; margin-bottom: 40px; }
+.style-nike .slide-cta .cta-keyword .accent { color: var(--accent, #E63946); }
+.style-nike .slide-cta .cta-desc { font-size: 32px; color: #999; line-height: 1.5; max-width: 800px; }
+.style-nike .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
+.style-nike .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #444; margin-top: 60px; letter-spacing: 0.15em; }
+
+/* ================================ */
+/* STYLE: DIRTY ROBOT               */
+/* ================================ */
+.style-dirty .slide { background: #0d0d0d; color: #e0e0e0; }
+.style-dirty .slide::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.02) 3px, rgba(255,255,255,0.02) 6px); pointer-events: none; z-index: 4; }
+.style-dirty .slide-cover { display: flex; flex-direction: column; justify-content: flex-end; padding: 80px; }
+.style-dirty .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 16px; letter-spacing: 0.4em; color: var(--accent, #00ff88); margin-bottom: 24px; text-transform: uppercase; }
+.style-dirty .slide-cover h1 { font-family: 'Bebas Neue', sans-serif; font-size: 120px; line-height: 0.9; letter-spacing: 0.05em; text-transform: uppercase; }
+.style-dirty .slide-cover h1 .accent { color: var(--accent, #00ff88); }
+.style-dirty .slide-cover .sub { font-family: 'Roboto Mono', monospace; font-size: 20px; color: #666; margin-top: 32px; line-height: 1.6; }
+.style-dirty .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 13px; color: #333; margin-top: 80px; letter-spacing: 0.2em; border-top: 1px solid #222; padding-top: 16px; }
+
+.style-dirty .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-dirty .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.4em; color: var(--accent, #00ff88); margin-bottom: 20px; }
+.style-dirty .slide-content h2 { font-family: 'Bebas Neue', sans-serif; font-size: 72px; letter-spacing: 0.05em; margin-bottom: 40px; line-height: 1; }
+.style-dirty .slide-content p { font-family: 'Roboto Mono', monospace; font-size: 22px; line-height: 1.8; color: #999; margin-bottom: 20px; }
+.style-dirty .slide-content .highlight { background: var(--accent, #00ff88); color: #000; padding: 2px 8px; font-weight: 700; }
+
+.style-dirty .slide-quote { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-dirty .slide-quote blockquote { font-family: 'Roboto Mono', monospace; font-size: 36px; font-weight: 400; line-height: 1.6; border-left: 4px solid var(--accent, #00ff88); padding-left: 32px; color: #ccc; }
+.style-dirty .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #444; margin-top: 32px; padding-left: 36px; }
+
+.style-dirty .slide-list { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-dirty .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.4em; color: var(--accent, #00ff88); margin-bottom: 20px; }
+.style-dirty .slide-list h2 { font-family: 'Bebas Neue', sans-serif; font-size: 64px; letter-spacing: 0.05em; margin-bottom: 48px; }
+.style-dirty .slide-list .list-item { display: flex; gap: 20px; margin-bottom: 28px; align-items: baseline; }
+.style-dirty .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 36px; font-weight: 700; color: var(--accent, #00ff88); flex-shrink: 0; width: 60px; }
+.style-dirty .slide-list .list-text { font-family: 'Roboto Mono', monospace; font-size: 22px; line-height: 1.5; color: #999; }
+.style-dirty .slide-list .list-text strong { color: #e0e0e0; }
+
+.style-dirty .slide-cta { padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-dirty .slide-cta .cta-keyword { font-family: 'Bebas Neue', sans-serif; font-size: 140px; letter-spacing: 0.1em; line-height: 1; margin-bottom: 32px; }
+.style-dirty .slide-cta .cta-keyword .accent { color: var(--accent, #00ff88); }
+.style-dirty .slide-cta .cta-desc { font-family: 'Roboto Mono', monospace; font-size: 24px; color: #666; line-height: 1.6; max-width: 800px; }
+.style-dirty .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 16px; color: var(--accent, #00ff88); margin-top: 40px; letter-spacing: 0.15em; }
+.style-dirty .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #333; margin-top: 60px; letter-spacing: 0.2em; }
+
+/* ================================ */
+/* STYLE: NETFLIX                    */
+/* ================================ */
+.style-netflix .slide { background: #141414; color: #fff; }
+.style-netflix .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 80px; }
+.style-netflix .slide-cover .tag { font-size: 20px; letter-spacing: 0.3em; color: var(--accent, #E50914); margin-bottom: 24px; text-transform: uppercase; font-weight: 700; }
+.style-netflix .slide-cover h1 { font-size: 88px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+.style-netflix .slide-cover h1 .accent { color: var(--accent, #E50914); }
+.style-netflix .slide-cover .sub { font-size: 26px; color: #808080; margin-top: 40px; line-height: 1.5; }
+.style-netflix .slide-cover .author { font-size: 16px; color: #404040; margin-top: 60px; letter-spacing: 0.1em; }
+.style-netflix .slide-cover .bar { width: 60px; height: 4px; background: var(--accent, #E50914); margin-top: 48px; }
+
+.style-netflix .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-netflix .slide-content .section-tag { font-size: 16px; letter-spacing: 0.2em; color: var(--accent, #E50914); margin-bottom: 20px; text-transform: uppercase; font-weight: 700; }
+.style-netflix .slide-content h2 { font-size: 60px; font-weight: 900; line-height: 1.1; margin-bottom: 40px; }
+.style-netflix .slide-content p { font-size: 28px; line-height: 1.6; color: #b3b3b3; margin-bottom: 24px; }
+.style-netflix .slide-content .highlight { background: var(--accent, #E50914); color: #fff; padding: 4px 12px; font-weight: 700; }
+
+.style-netflix .slide-quote { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-netflix .slide-quote::before { content: '\201C'; font-size: 200px; color: var(--accent, #E50914); opacity: 0.3; position: absolute; top: 20px; left: 60px; font-family: Georgia, serif; z-index: 2; }
+.style-netflix .slide-quote blockquote { font-size: 44px; font-weight: 600; line-height: 1.4; padding: 0 20px; }
+.style-netflix .slide-quote .quote-author { font-size: 18px; color: #666; margin-top: 40px; padding-left: 20px; }
+
+.style-netflix .slide-list { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-netflix .slide-list .section-tag { font-size: 16px; letter-spacing: 0.2em; color: var(--accent, #E50914); margin-bottom: 20px; text-transform: uppercase; font-weight: 700; }
+.style-netflix .slide-list h2 { font-size: 56px; font-weight: 900; margin-bottom: 48px; line-height: 1.1; }
+.style-netflix .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 32px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #2a2a2a; }
+.style-netflix .slide-list .list-num { font-size: 40px; font-weight: 900; color: var(--accent, #E50914); flex-shrink: 0; width: 70px; }
+.style-netflix .slide-list .list-text { font-size: 26px; line-height: 1.4; color: #b3b3b3; }
+.style-netflix .slide-list .list-text strong { color: #fff; }
+
+.style-netflix .slide-cta { padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-netflix .slide-cta .cta-keyword { font-size: 110px; font-weight: 900; line-height: 1; margin-bottom: 40px; }
+.style-netflix .slide-cta .cta-keyword .accent { color: var(--accent, #E50914); }
+.style-netflix .slide-cta .cta-desc { font-size: 30px; color: #808080; line-height: 1.5; max-width: 800px; }
+.style-netflix .slide-cta .cta-how { font-size: 20px; color: var(--accent, #E50914); margin-top: 40px; font-weight: 700; letter-spacing: 0.1em; }
+.style-netflix .slide-cta .cta-handle { font-size: 16px; color: #404040; margin-top: 60px; letter-spacing: 0.15em; }
+
+/* ================================ */
+/* STYLE: CLEAN LIGHT               */
+/* ================================ */
+.style-light .slide { background: #FAFAFA; color: #1a1a1a; }
+.style-light .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 100px; }
+.style-light .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 15px; letter-spacing: 0.3em; color: #999; margin-bottom: 32px; text-transform: uppercase; }
+.style-light .slide-cover h1 { font-size: 86px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.style-light .slide-cover h1 .accent { color: var(--accent, #E63946); }
+.style-light .slide-cover .sub { font-size: 26px; color: #888; margin-top: 40px; line-height: 1.5; }
+.style-light .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #bbb; margin-top: 60px; letter-spacing: 0.15em; }
+.style-light .slide-cover .bar { width: 80px; height: 3px; background: var(--accent, #E63946); margin-top: 40px; }
+
+.style-light .slide-content { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-content h2 { font-size: 58px; font-weight: 900; line-height: 1.1; margin-bottom: 40px; }
+.style-light .slide-content p { font-size: 28px; line-height: 1.7; color: #666; margin-bottom: 24px; }
+.style-light .slide-content .highlight { background: var(--accent, #E63946); color: #fff; padding: 4px 12px; font-weight: 700; border-radius: 4px; }
+.style-light .slide-content .dim { color: #aaa; font-size: 22px; }
+
+.style-light .slide-quote { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-quote blockquote { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: 700; line-height: 1.4; border-left: 5px solid var(--accent, #E63946); padding-left: 40px; font-style: italic; }
+.style-light .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #aaa; margin-top: 40px; padding-left: 45px; }
+
+.style-light .slide-list { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-list h2 { font-size: 52px; font-weight: 900; margin-bottom: 48px; line-height: 1.1; }
+.style-light .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 28px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #e8e8e8; }
+.style-light .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 42px; font-weight: 700; color: var(--accent, #E63946); flex-shrink: 0; width: 70px; }
+.style-light .slide-list .list-text { font-size: 26px; line-height: 1.5; color: #666; }
+.style-light .slide-list .list-text strong { color: #1a1a1a; }
+
+.style-light .slide-cta { padding: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-light .slide-cta .cta-keyword { font-size: 100px; font-weight: 900; line-height: 1; margin-bottom: 40px; color: #1a1a1a; }
+.style-light .slide-cta .cta-keyword .accent { color: var(--accent, #E63946); }
+.style-light .slide-cta .cta-desc { font-size: 30px; color: #888; line-height: 1.5; max-width: 800px; }
+.style-light .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
+.style-light .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #ccc; margin-top: 60px; letter-spacing: 0.15em; }
+
+/* === BOTTOM BAR === */
+.bottombar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%);
+    padding: 32px 24px 20px; display: flex; justify-content: center; gap: 12px;
+}
+.bottombar button {
+    padding: 12px 24px; border: none; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+}
+.btn-primary { background: #E63946; color: #fff; }
+.btn-primary:hover { background: #c62d38; }
+.btn-secondary { background: #333; color: #fff; }
+.btn-secondary:hover { background: #444; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .slides-wrap { --scale: 0.3; }
+    .phone-wrap { margin-bottom: calc(-1350px * (1 - 0.3)); }
+    .topbar { padding: 8px 12px; gap: 4px; }
+    .topbar button { padding: 5px 8px; font-size: 9px; }
+    .settings-panel { width: 260px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+    <div class="gate-box">
+        <div class="gate-logo">Ira & AI</div>
+        <div class="gate-title">Carousel Constructor</div>
+        <div class="gate-sub">Конструктор каруселей для Instagram.<br>Введите пароль для входа.</div>
+        <input type="password" class="gate-input" id="gate-input" placeholder="Пароль" autofocus>
+        <button class="gate-btn" onclick="checkPass()">Войти</button>
+        <div class="gate-hint">Пароль из курса или от @ira.and.ai</div>
+    </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+
+<div class="topbar">
+    <div class="topbar-section">
+        <span class="topbar-label">Style</span>
+        <button onclick="setStyle('nike')" class="active" id="btn-nike">NIKE PRO</button>
+        <button onclick="setStyle('dirty')" id="btn-dirty">DIRTY ROBOT</button>
+        <button onclick="setStyle('netflix')" id="btn-netflix">NETFLIX</button>
+        <button onclick="setStyle('light')" id="btn-light">CLEAN LIGHT</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="topbar-section">
+        <span class="topbar-label">Frame</span>
+        <button onclick="toggleWrap()" id="btn-wrap" class="active">PHONE</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="topbar-section">
+        <button onclick="toggleSettings()" id="btn-settings">SETTINGS</button>
+    </div>
+    <span class="brand">@ira.and.ai</span>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settings-panel">
+    <h3>Шрифты</h3>
+    <label>Заголовки</label>
+    <select id="font-heading" onchange="applyFont()">
+        <option value="">По умолчанию стиля</option>
+        <option value="'Inter', sans-serif">Inter</option>
+        <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+        <option value="'Playfair Display', serif">Playfair Display</option>
+        <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+        <option value="'DM Sans', sans-serif">DM Sans</option>
+        <option value="'Outfit', sans-serif">Outfit</option>
+        <option value="'Roboto Mono', monospace">Roboto Mono</option>
+    </select>
+    <label>Текст</label>
+    <select id="font-body" onchange="applyFont()">
+        <option value="">По умолчанию стиля</option>
+        <option value="'Inter', sans-serif">Inter</option>
+        <option value="'DM Sans', sans-serif">DM Sans</option>
+        <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+        <option value="'Outfit', sans-serif">Outfit</option>
+        <option value="'Roboto Mono', monospace">Roboto Mono</option>
+        <option value="'Playfair Display', serif">Playfair Display</option>
+    </select>
+
+    <h3>Цвета</h3>
+    <div class="color-row">
+        <div><label>Акцент</label><input type="color" id="color-accent" value="#E63946" onchange="applyColors()"></div>
+        <div><label>Фон</label><input type="color" id="color-bg" value="#000000" onchange="applyColors()"></div>
+        <div><label>Текст</label><input type="color" id="color-text" value="#ffffff" onchange="applyColors()"></div>
+    </div>
+    <button class="s-btn s-btn-red" onclick="resetColors()">СБРОС ЦВЕТОВ</button>
+
+    <h3>Картинка на фон</h3>
+    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('bg-file').click()">
+        <input type="file" id="bg-file" accept="image/*" onchange="handleBgFile(this.files[0])">
+        <p>Перетащите картинку сюда</p>
+    </div>
+    <label>Или вставьте URL</label>
+    <input type="text" id="bg-url" placeholder="https://..." onchange="applyBgUrl()">
+    <label>Затемнение</label>
+    <input type="range" id="bg-opacity" min="0" max="100" value="70" oninput="applyBgOverlay()">
+    <div class="hint">Больше = текст читабельнее</div>
+    <label>Куда</label>
+    <select id="bg-target" onchange="applyBgTarget()">
+        <option value="all">Все слайды</option>
+        <option value="0">Слайд 1: Обложка</option>
+        <option value="1">Слайд 2: Контент</option>
+        <option value="2">Слайд 3: Цитата</option>
+        <option value="3">Слайд 4: Контент</option>
+        <option value="4">Слайд 5: Список</option>
+        <option value="5">Слайд 6: CTA</option>
+    </select>
+    <button class="s-btn s-btn-dark" onclick="clearBg()">УБРАТЬ КАРТИНКУ</button>
+
+    <h3>Масштаб</h3>
+    <input type="range" id="scale-slider" min="20" max="100" value="42" oninput="applyScale()">
+    <div class="hint">100% = полный размер для скриншота</div>
+</div>
+
+<!-- SLIDES -->
+<div class="slides-wrap frame-on" id="slides-wrap">
+
+<!-- SLIDE 1: COVER -->
+<div class="phone-wrap"><div class="slide slide-cover">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 01 / COVER</div>
+    <div class="tag" contenteditable="true">ТРЕНД НЕДЕЛИ</div>
+    <h1 contenteditable="true">ЗАГОЛОВОК<br><span class="accent">КАРУСЕЛИ</span></h1>
+    <div class="sub" contenteditable="true">Одно предложение, которое цепляет и объясняет, зачем листать дальше</div>
+    <div class="author" contenteditable="true">@IRA.AND.AI</div>
+    <div class="bar"></div>
+    <div class="slide-number">1/6</div>
+</div></div>
+
+<!-- SLIDE 2: CONTENT -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 02 / CONTENT</div>
+    <div class="section-tag" contenteditable="true">// 01 КОНТЕКСТ</div>
+    <h2 contenteditable="true">О ЧЁМ РЕЧЬ</h2>
+    <p contenteditable="true">Основной текст слайда. Два-три предложения. Главная мысль раздела, которая заставляет листать дальше.</p>
+    <p class="dim" contenteditable="true">Дополнительный контекст мелким шрифтом.</p>
+    <div class="slide-number">2/6</div>
+</div></div>
+
+<!-- SLIDE 3: QUOTE -->
+<div class="phone-wrap"><div class="slide slide-quote">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 03 / QUOTE</div>
+    <blockquote contenteditable="true">Сильная цитата из источника. Фраза, которая заставляет задуматься и сохранить.</blockquote>
+    <div class="quote-author" contenteditable="true">Имя автора</div>
+    <div class="slide-number">3/6</div>
+</div></div>
+
+<!-- SLIDE 4: CONTENT -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 04 / CONTENT</div>
+    <div class="section-tag" contenteditable="true">// 02 ПОЧЕМУ ВАЖНО</div>
+    <h2 contenteditable="true">КЛЮЧЕВОЙ ФАКТ</h2>
+    <p contenteditable="true">Факт или цифра, которая <span class="highlight">бьёт по голове</span>. Одно число или одна мысль.</p>
+    <p contenteditable="true">И что это значит для обычного человека. Перевод на понятный язык.</p>
+    <div class="slide-number">4/6</div>
+</div></div>
+
+<!-- SLIDE 5: LIST -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 05 / LIST</div>
+    <div class="section-tag" contenteditable="true">// 03 ЧТО ДЕЛАТЬ</div>
+    <h2 contenteditable="true">КОНКРЕТНЫЕ ШАГИ</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Первый шаг.</strong> Что именно сделать.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Второй шаг.</strong> Что именно сделать.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Третий шаг.</strong> Что именно сделать.</span></div>
+    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Четвёртый шаг.</strong> Что именно сделать.</span></div>
+    <div class="slide-number">5/6</div>
+</div></div>
+
+<!-- SLIDE 6: CTA -->
+<div class="phone-wrap"><div class="slide slide-cta">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 06 / CTA</div>
+    <div class="cta-keyword" contenteditable="true">НАПИШИ<br><span class="accent">КАРУСЕЛЬ</span></div>
+    <div class="cta-desc" contenteditable="true">Пришлю промт, который из любого контента делает карусель за 10 минут</div>
+    <div class="cta-how" contenteditable="true">В КОММЕНТЫ ИЛИ В ДИРЕКТ</div>
+    <div class="cta-handle" contenteditable="true">@IRA.AND.AI</div>
+    <div class="slide-number">6/6</div>
+</div></div>
+
+</div><!-- slides-wrap -->
+
+<div class="bottombar">
+    <button class="btn-secondary" onclick="downloadInfo()">СКАЧАТЬ (PNG)</button>
+    <button class="btn-primary" onclick="fullscreen()">НА ВЕСЬ ЭКРАН</button>
+</div>
+
+</div><!-- app -->
+
+<script>
+// === PASSWORD ===
+const PASS_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'; // 'admin' — CHANGE THIS
+
+async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkPass() {
+    const input = document.getElementById('gate-input');
+    const hash = await sha256(input.value.trim());
+    if (hash === PASS_HASH || input.value.trim() === '') {
+        // For testing: empty password also works. Remove this in production.
+        document.getElementById('gate').classList.add('hidden');
+        document.getElementById('app').classList.add('visible');
+        localStorage.setItem('carousel_auth', '1');
+    } else {
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 400);
+        input.value = '';
+        input.placeholder = 'Неверный пароль';
+    }
+}
+
+document.getElementById('gate-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPass();
+});
+
+// Auto-login if previously authenticated
+if (localStorage.getItem('carousel_auth') === '1') {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.add('visible');
+}
+
+// === STYLES ===
+let currentStyle = 'nike';
+const styleDefaults = {
+    nike: { accent: '#E63946', bg: '#000000', text: '#ffffff' },
+    dirty: { accent: '#00ff88', bg: '#0d0d0d', text: '#e0e0e0' },
+    netflix: { accent: '#E50914', bg: '#141414', text: '#ffffff' },
+    light: { accent: '#E63946', bg: '#FAFAFA', text: '#1a1a1a' }
+};
+
+function setStyle(style) {
+    currentStyle = style;
+    const wrap = document.getElementById('slides-wrap');
+    const isFrame = wrap.classList.contains('frame-on');
+    wrap.className = 'slides-wrap style-' + style + (isFrame ? ' frame-on' : '');
+    document.querySelectorAll('.topbar button[id^="btn-n"], .topbar button[id^="btn-d"], .topbar button[id^="btn-l"]').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + style).classList.add('active');
+    resetColors();
+}
+
+function toggleWrap() {
+    const wrap = document.getElementById('slides-wrap');
+    const btn = document.getElementById('btn-wrap');
+    wrap.classList.toggle('frame-on');
+    btn.classList.toggle('active');
+}
+
+function toggleSettings() {
+    document.getElementById('settings-panel').classList.toggle('open');
+    document.getElementById('btn-settings').classList.toggle('active');
+}
+
+// === FONTS ===
+function applyFont() {
+    const h = document.getElementById('font-heading').value;
+    const b = document.getElementById('font-body').value;
+    document.querySelectorAll('.slide h1, .slide h2, .slide .cta-keyword').forEach(el => el.style.fontFamily = h || '');
+    document.querySelectorAll('.slide p, .slide .list-text, .slide .cta-desc, .slide .sub, .slide blockquote').forEach(el => el.style.fontFamily = b || '');
+}
+
+// === COLORS ===
+function applyColors() {
+    const accent = document.getElementById('color-accent').value;
+    const bg = document.getElementById('color-bg').value;
+    const text = document.getElementById('color-text').value;
+    document.getElementById('slides-wrap').style.setProperty('--accent', accent);
+    document.querySelectorAll('.slide').forEach(el => { el.style.background = bg; el.style.color = text; });
+}
+
+function resetColors() {
+    const d = styleDefaults[currentStyle];
+    document.getElementById('color-accent').value = d.accent;
+    document.getElementById('color-bg').value = d.bg;
+    document.getElementById('color-text').value = d.text;
+    document.getElementById('slides-wrap').style.removeProperty('--accent');
+    document.querySelectorAll('.slide').forEach(el => { el.style.background = ''; el.style.color = ''; });
+    document.querySelectorAll('.slide h1,.slide h2,.slide .cta-keyword,.slide p,.slide .list-text,.slide .cta-desc,.slide .sub,.slide blockquote').forEach(el => el.style.fontFamily = '');
+    document.getElementById('font-heading').value = '';
+    document.getElementById('font-body').value = '';
+}
+
+// === BACKGROUND IMAGE ===
+let bgImage = null;
+const dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleBgFile(e.dataTransfer.files[0]);
+});
+
+function handleBgFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => { bgImage = e.target.result; applyBgTarget(); };
+    reader.readAsDataURL(file);
+    dropZone.querySelector('p').textContent = file.name;
+}
+
+function applyBgUrl() {
+    const url = document.getElementById('bg-url').value;
+    if (url) { bgImage = url; applyBgTarget(); dropZone.querySelector('p').textContent = 'URL loaded'; }
+}
+
+function applyBgTarget() {
+    const target = document.getElementById('bg-target').value;
+    const slides = document.querySelectorAll('.slide');
+    if (target === 'all') {
+        slides.forEach(s => s.querySelector('.slide-bg').style.backgroundImage = bgImage ? `url(${bgImage})` : '');
+    } else {
+        slides.forEach(s => s.querySelector('.slide-bg').style.backgroundImage = '');
+        const i = parseInt(target);
+        if (slides[i]) slides[i].querySelector('.slide-bg').style.backgroundImage = bgImage ? `url(${bgImage})` : '';
+    }
+    applyBgOverlay();
+}
+
+function applyBgOverlay() {
+    const op = document.getElementById('bg-opacity').value / 100;
+    const isDark = ['nike','dirty','netflix'].includes(currentStyle);
+    const c = isDark ? `rgba(0,0,0,${op})` : `rgba(255,255,255,${op})`;
+    document.querySelectorAll('.slide-overlay').forEach(el => el.style.background = bgImage ? c : '');
+}
+
+function clearBg() {
+    bgImage = null;
+    document.getElementById('bg-url').value = '';
+    document.getElementById('bg-file').value = '';
+    dropZone.querySelector('p').textContent = 'Перетащите картинку сюда';
+    document.querySelectorAll('.slide-bg').forEach(el => el.style.backgroundImage = '');
+    document.querySelectorAll('.slide-overlay').forEach(el => el.style.background = '');
+}
+
+// === SCALE ===
+function applyScale() {
+    const v = document.getElementById('scale-slider').value / 100;
+    document.querySelector('.slides-wrap').style.setProperty('--scale', v);
+    document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = `calc(-1350px * (1 - ${v}))`);
+}
+
+// === ACTIONS ===
+function downloadInfo() {
+    alert('Для скриншота слайда:\n\n1. Поставьте масштаб на 100% (в Settings)\n2. Cmd + Shift + 4 (Mac) или Win + Shift + S (Windows)\n3. Выделите слайд\n\nКаждый слайд = 1080 x 1350px (Instagram)');
+}
+
+function fullscreen() {
+    const wrap = document.getElementById('slides-wrap');
+    wrap.style.setProperty('--scale', '1');
+    document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = '0');
+    document.getElementById('scale-slider').value = 100;
+    window.scrollTo(0, 0);
+}
+
+// Init
+setStyle('nike');
+</script>
+</body>
+</html>
