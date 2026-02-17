@@ -140,6 +140,7 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointe
     <div class="terminal-feedback" id="termFeedback"></div>
   </div>
   <div class="pass-links">
+    <a href="#" id="passPlay">ИГРАТЬ</a>
     <a href="https://app.aifromspace.com/" target="_blank">AI FROM SPACE</a>
     <a href="https://t.me/ira_and_ai" target="_blank">TELEGRAM</a>
     <a href="https://iraai.ru/" target="_blank">IRAAI.RU</a>
@@ -830,6 +831,13 @@ function buildMonitors() {
 document.getElementById('navPlay').addEventListener('click', e => {
   e.preventDefault();
   cockpitScreen.classList.remove('active');
+  startScreen.classList.add('active');
+  state = 'start';
+});
+
+document.getElementById('passPlay').addEventListener('click', e => {
+  e.preventDefault();
+  passwordScreen.classList.remove('active');
   startScreen.classList.add('active');
   state = 'start';
 });
