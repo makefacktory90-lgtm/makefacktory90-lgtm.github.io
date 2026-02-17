@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPACE HUB — Уничтожь хаос</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0a14;font-family:'Press Start 2P',monospace;color:#e8e6f0}
+
+/* ── scanlines overlay ── */
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px)}
+
+/* ── canvas ── */
+#gameCanvas{display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);image-rendering:pixelated}
+
+/* ── screens ── */
+.screen{position:fixed;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}
+.screen.active{display:flex}
+
+/* ── start screen ── */
+#startScreen{background:radial-gradient(ellipse at center,#14142a 0%,#0a0a14 70%)}
+#startScreen .title{font-size:clamp(32px,8vw,72px);color:#9b4dca;text-shadow:0 0 20px #9b4dca,0 0 60px #9b4dca88;margin-bottom:16px;letter-spacing:6px}
+#startScreen .subtitle{font-size:clamp(8px,2vw,14px);color:#00a8ff;text-shadow:0 0 10px #00a8ff;margin-bottom:60px;text-align:center;padding:0 20px;line-height:1.8}
+#startScreen .prompt{font-size:clamp(9px,1.8vw,13px);color:#ffe000;animation:blink 1s step-end infinite}
+#startScreen .skip{position:absolute;bottom:32px;font-size:clamp(7px,1.2vw,10px);color:#ff3cac88;cursor:pointer;text-decoration:none;transition:color .3s}
+#startScreen .skip:hover{color:#ff3cac}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── password screen ── */
+#passwordScreen{background:#0a0a14}
+.terminal-box{border:2px solid #00ff88;padding:32px 40px;max-width:560px;width:90%;box-shadow:0 0 30px #00ff8844,inset 0 0 30px #00ff8811;position:relative}
+.terminal-box::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,136,.03) 2px,rgba(0,255,136,.03) 4px)}
+.terminal-header{font-size:clamp(8px,1.6vw,12px);color:#00ff88;margin-bottom:24px;text-shadow:0 0 8px #00ff88}
+.terminal-line{font-size:clamp(7px,1.2vw,10px);color:#00ff8899;margin-bottom:10px;line-height:1.6}
+.terminal-input-row{display:flex;align-items:center;margin-top:20px;gap:8px}
+.terminal-input-row .prompt-char{color:#00ff88;font-size:clamp(10px,2vw,16px)}
+#passInput{background:transparent;border:none;outline:none;font-family:'Press Start 2P',monospace;font-size:clamp(10px,2vw,16px);color:#ffe000;caret-color:#ffe000;width:100%;letter-spacing:2px}
+.terminal-feedback{margin-top:16px;font-size:clamp(7px,1.2vw,10px);min-height:20px}
+.terminal-feedback.denied{color:#ff3c3c;text-shadow:0 0 8px #ff3c3c}
+.terminal-feedback.granted{color:#00ff88;text-shadow:0 0 8px #00ff88}
+@keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-6px)}20%,40%,60%,80%{transform:translateX(6px)}}
+.shake{animation:shake .4s ease}
+
+.pass-links{display:flex;gap:clamp(10px,2vw,24px);margin-top:24px;justify-content:center;flex-wrap:wrap}
+.pass-links a{font-family:'Press Start 2P',monospace;font-size:clamp(5px,.8vw,8px);color:#00ff8866;text-decoration:none;letter-spacing:2px;padding:6px 10px;border:1px solid #00ff8822;border-radius:4px;transition:all .3s}
+.pass-links a:hover{color:#00ff88;border-color:#00ff8866;box-shadow:0 0 10px #00ff8833}
+
+/* ── cockpit screen ── */
+#cockpitScreen{background:radial-gradient(ellipse at center,#14142a 0%,#0a0a14 70%);overflow-y:auto;justify-content:center;padding:16px}
+
+.cockpit-panel{
+  border:2px solid #9b4dca;
+  border-radius:12px;
+  padding:clamp(20px,3vh,40px) clamp(16px,3vw,48px);
+  box-shadow:0 0 30px #9b4dca33,0 0 80px #9b4dca11,inset 0 0 30px #9b4dca08;
+  position:relative;
+  max-width:680px;
+  width:95%;
+  display:flex;flex-direction:column;align-items:center;
+  opacity:0;animation:panelIn .6s .1s forwards;
+}
+.cockpit-panel::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,transparent,#9b4dca,transparent);border-radius:2px}
+.cockpit-panel::after{content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,transparent,#00ff88,transparent);border-radius:2px}
+@keyframes panelIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+
+.cockpit-title{font-size:clamp(9px,1.8vw,14px);color:#00ff88;letter-spacing:6px;text-shadow:0 0 12px #00ff88;margin-bottom:clamp(16px,2.5vh,28px);opacity:0;animation:fadeUp .8s .3s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.monitors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.5vw,20px);width:100%}
+.monitor{opacity:0;animation:monFadeIn .6s forwards;cursor:pointer;transition:transform .3s,filter .3s}
+.monitor:nth-child(1){animation-delay:.4s}.monitor:nth-child(2){animation-delay:.5s}.monitor:nth-child(3){animation-delay:.6s}
+.monitor:nth-child(4){animation-delay:.7s}.monitor:nth-child(5){animation-delay:.8s}.monitor:nth-child(6){animation-delay:.9s}
+@keyframes monFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+.monitor:hover{transform:scale(1.08);filter:brightness(1.2)}
+.monitor.locked{opacity:.45!important;cursor:not-allowed}
+.monitor.locked:hover{transform:none;filter:none}
+
+.bezel{background:linear-gradient(180deg,#2a2a3a,#1a1a28);border:2px solid #3a3a4a;border-radius:8px;padding:6px;width:100%}
+.inner-screen{background:#0a0a14;border-radius:4px;padding:clamp(12px,2vw,20px) clamp(6px,1vw,10px);text-align:center;position:relative;overflow:hidden;min-height:clamp(60px,8vh,90px);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.inner-screen::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.02) 2px,rgba(255,255,255,.02) 4px)}
+.mon-icon{font-size:clamp(16px,2.5vw,24px);margin-bottom:6px;display:block}
+.mon-label{font-size:clamp(6px,1vw,9px);display:block;margin-top:2px}
+.mon-tag{font-size:clamp(5px,.8vw,7px);text-align:center;margin-top:4px;color:#e8e6f066;letter-spacing:2px}
+.mon-lock-icon{font-size:clamp(8px,1.5vw,14px);display:block;margin-top:4px;opacity:.4}
+
+.mon-purple .inner-screen{box-shadow:inset 0 0 20px #9b4dca44}.mon-purple .mon-icon,.mon-purple .mon-label{color:#9b4dca;text-shadow:0 0 8px #9b4dca}
+.mon-blue .inner-screen{box-shadow:inset 0 0 20px #00a8ff44}.mon-blue .mon-icon,.mon-blue .mon-label{color:#00a8ff;text-shadow:0 0 8px #00a8ff}
+.mon-yellow .inner-screen{box-shadow:inset 0 0 20px #ffe00044}.mon-yellow .mon-icon,.mon-yellow .mon-label{color:#ffe000;text-shadow:0 0 8px #ffe000}
+.mon-pink .inner-screen{box-shadow:inset 0 0 20px #ff3cac44}.mon-pink .mon-icon,.mon-pink .mon-label{color:#ff3cac;text-shadow:0 0 8px #ff3cac}
+.mon-burgundy .inner-screen{box-shadow:inset 0 0 20px #8b004044}.mon-burgundy .mon-icon,.mon-burgundy .mon-label{color:#8b0040;text-shadow:0 0 8px #8b0040}
+.mon-green .inner-screen{box-shadow:inset 0 0 20px #00ff8844}.mon-green .mon-icon,.mon-green .mon-label{color:#00ff88;text-shadow:0 0 8px #00ff88}
+
+/* ── console bar ── */
+.console-bar{margin-top:clamp(12px,2vh,20px);background:linear-gradient(180deg,#1a1a28,#12121a);border:1px solid #2a2a3a;border-radius:6px;padding:8px 16px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp .8s 1.1s forwards;width:100%}
+.status-dot{width:5px;height:5px;border-radius:50%;background:#00ff88;box-shadow:0 0 6px #00ff88;animation:blink 2s infinite;flex-shrink:0}
+.console-text{font-size:clamp(5px,.8vw,7px);color:#00ff8866;letter-spacing:2px;flex:1;text-align:center}
+
+/* ── nav bar ── */
+.nav-bar{margin-top:clamp(12px,2vh,20px);display:flex;gap:clamp(6px,1.5vw,16px);align-items:center;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .8s 1.3s forwards}
+.nav-btn{font-family:'Press Start 2P',monospace;font-size:clamp(5px,.8vw,8px);padding:8px 12px;border:1px solid;border-radius:4px;cursor:pointer;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:5px;background:transparent;letter-spacing:1px}
+.nav-btn:hover{filter:brightness(1.3);transform:translateY(-2px)}
+.nav-btn--tg{color:#00a8ff;border-color:#00a8ff44}.nav-btn--tg:hover{background:#00a8ff11;box-shadow:0 0 12px #00a8ff44}
+.nav-btn--play{color:#ffe000;border-color:#ffe00044}.nav-btn--play:hover{background:#ffe00011;box-shadow:0 0 12px #ffe00044}
+.nav-btn--home{color:#ff3cac;border-color:#ff3cac44}.nav-btn--home:hover{background:#ff3cac11;box-shadow:0 0 12px #ff3cac44}
+
+/* ── from space brand ── */
+.from-space{margin-top:clamp(8px,1.5vh,16px);opacity:0;animation:fadeUp .8s 1.5s forwards;text-align:center}
+.from-space a{font-size:clamp(5px,.7vw,7px);color:#e8e6f033;text-decoration:none;letter-spacing:4px;transition:color .3s}
+.from-space a:hover{color:#9b4dca;text-shadow:0 0 8px #9b4dca}
+</style>
+</head>
+<body>
+
+<!-- ===== START SCREEN ===== -->
+<div id="startScreen" class="screen active">
+  <div class="title">SPACE HUB</div>
+  <div class="subtitle">УНИЧТОЖЬ ХАОС. ПОПАДИ В SPACE HUB.</div>
+  <div class="prompt">&#9654; НАЖМИ ENTER &#9664;</div>
+  <a class="skip" id="skipLink">УЖЕ В ЭКИПАЖЕ? ВВЕДИ КОД &rarr;</a>
+</div>
+
+<!-- ===== GAME CANVAS ===== -->
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<!-- ===== PASSWORD SCREEN ===== -->
+<div id="passwordScreen" class="screen">
+  <div class="terminal-box" id="terminalBox">
+    <div class="terminal-header">&#9889; SPACE HUB &mdash; ТЕРМИНАЛ ДОСТУПА</div>
+    <div class="terminal-line">СИСТЕМА: ВСЕ УГРОЗЫ УНИЧТОЖЕНЫ</div>
+    <div class="terminal-line">СИСТЕМА: ВВЕДИТЕ КОД ДОСТУПА</div>
+    <div class="terminal-input-row">
+      <span class="prompt-char">&gt;</span>
+      <input type="text" id="passInput" autocomplete="off" spellcheck="false" autofocus>
+    </div>
+    <div class="terminal-feedback" id="termFeedback"></div>
+  </div>
+  <div class="pass-links">
+    <a href="https://app.aifromspace.com/" target="_blank">AI FROM SPACE</a>
+    <a href="https://t.me/ira_and_ai" target="_blank">TELEGRAM</a>
+    <a href="https://iraai.ru/" target="_blank">IRAAI.RU</a>
+  </div>
+</div>
+
+<!-- ===== COCKPIT SCREEN ===== -->
+<div id="cockpitScreen" class="screen">
+  <div class="cockpit-panel">
+    <div class="cockpit-title">SPACE HUB // КОМАНДНЫЙ ПУНКТ</div>
+    <div class="monitors-grid" id="monitorsRow"></div>
+    <div class="console-bar">
+      <span class="status-dot"></span>
+      <span class="status-dot" style="animation-delay:.5s"></span>
+      <span class="console-text">SPACE HUB v2.0 // СТАТУС: АКТИВЕН</span>
+      <span class="status-dot" style="animation-delay:1s"></span>
+      <span class="status-dot" style="animation-delay:1.5s"></span>
+    </div>
+    <div class="nav-bar">
+      <a class="nav-btn nav-btn--tg" href="https://t.me/ira_and_ai" target="_blank">TELEGRAM</a>
+      <a class="nav-btn nav-btn--play" href="#" id="navPlay">ИГРАТЬ</a>
+      <a class="nav-btn nav-btn--home" href="https://app.aifromspace.com/" target="_blank">AI FROM SPACE</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   SPACE HUB — Arcade Entrance
+   ================================================================ */
+
+const PASSWORD = 'ekipazh';
+
+const MONITORS = [
+  {color:'purple',icon:'00',label:'ИНТРО',tag:'СТАРТ',url:'https://makefacktory90-lgtm.github.io/spacehub-lessons/lesson-01.html'},
+  {color:'blue',icon:'01',label:'УРОК 1',tag:'AI-АГЕНТЫ',url:'https://makefacktory90-lgtm.github.io/spacehub-lessons/lesson-02.html'},
+  {color:'yellow',icon:'02',label:'УРОК 2',tag:'ПРАКТИКА',url:'https://iraai.ru/spacehub-lessons/lesson-03.html'},
+  {color:'pink',icon:'03',label:'УРОК 3',tag:'СКОРО',url:'#',locked:true},
+  {color:'burgundy',icon:'04',label:'УРОК 4',tag:'СКОРО',url:'#',locked:true},
+  {color:'green',icon:'>_',label:'ПРОМПТЫ',tag:'БИБЛИОТЕКА',url:'#',locked:true}
+];
+
+const COLORS = {
+  purple:'#9b4dca', blue:'#00a8ff', yellow:'#ffe000',
+  pink:'#ff3cac', burgundy:'#8b0040', green:'#00ff88',
+  white:'#e8e6f0', bg:'#0a0a14'
+};
+
+const ENEMY_COLORS = [COLORS.yellow, COLORS.purple, COLORS.blue, COLORS.pink, COLORS.burgundy];
+
+const ENEMY_ROWS = [
+  {hp:1, labels:['ХАОС','VPN','СПАМ','ZOOM','БАГИ']},
+  {hp:2, labels:['ЛЕНЬ','РУТИНА','ДЕДЛАЙН','EXCEL','ПАНИКА']},
+  {hp:3, labels:['ТРЕВОГА','ЗАВАЛ','ОШИБКИ','СКУКА','СТРЕСС']}
+];
+
+/* ── DOM ── */
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const startScreen = document.getElementById('startScreen');
+const passwordScreen = document.getElementById('passwordScreen');
+const cockpitScreen = document.getElementById('cockpitScreen');
+const passInput = document.getElementById('passInput');
+const termFeedback = document.getElementById('termFeedback');
+const terminalBox = document.getElementById('terminalBox');
+const skipLink = document.getElementById('skipLink');
+const monitorsRow = document.getElementById('monitorsRow');
+
+const W = 800, H = 600;
+let scale = 1;
+let state = 'start'; // start | playing | gameover | victory | password | cockpit
+
+/* ── input ── */
+const keys = {};
+document.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (state === 'start' && e.code === 'Enter') { e.preventDefault(); startGame(); }
+  if (state === 'gameover' && e.code === 'Enter') { e.preventDefault(); startGame(); }
+  if (state === 'gameover' && e.code === 'Escape') { e.preventDefault(); showPassword(); }
+  if (state === 'playing' && e.code === 'Escape') { e.preventDefault(); showPassword(); }
+  if (state === 'playing' && e.code === 'Space') e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.code] = false; });
+
+skipLink.addEventListener('click', e => { e.preventDefault(); showPassword(); });
+
+/* ── resize ── */
+function resize() {
+  const maxW = window.innerWidth * 0.96;
+  const maxH = window.innerHeight * 0.96;
+  scale = Math.min(maxW / W, maxH / H);
+  canvas.style.width = (W * scale) + 'px';
+  canvas.style.height = (H * scale) + 'px';
+}
+window.addEventListener('resize', resize);
+resize();
+
+/* ── helpers ── */
+function rnd(a, b) { return a + Math.random() * (b - a); }
+function rndInt(a, b) { return Math.floor(rnd(a, b + 1)); }
+
+/* ================================================================
+   STARS
+   ================================================================ */
+const stars = [];
+for (let i = 0; i < 80; i++) {
+  stars.push({ x: rnd(0, W), y: rnd(0, H), size: rnd(0.5, 2), speed: rnd(0.3, 1.2) });
+}
+function updateStars() {
+  for (const s of stars) {
+    s.y += s.speed;
+    if (s.y > H) { s.y = 0; s.x = rnd(0, W); }
+  }
+}
+function drawStars() {
+  ctx.fillStyle = '#ffffff';
+  for (const s of stars) {
+    ctx.globalAlpha = 0.4 + s.size / 2 * 0.3;
+    ctx.fillRect(s.x, s.y, s.size, s.size);
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ================================================================
+   PLAYER
+   ================================================================ */
+let player;
+function initPlayer() {
+  player = {
+    x: W / 2, y: H - 60, w: 40, h: 36, speed: 5,
+    lives: 3, invincible: 0, shootCooldown: 0, alive: true
+  };
+}
+
+function updatePlayer(dt) {
+  if (!player.alive) return;
+  if (keys['ArrowLeft'] || keys['KeyA']) player.x -= player.speed;
+  if (keys['ArrowRight'] || keys['KeyD']) player.x += player.speed;
+  player.x = Math.max(player.w / 2, Math.min(W - player.w / 2, player.x));
+
+  if (player.shootCooldown > 0) player.shootCooldown -= dt;
+  if ((keys['Space'] || keys['ArrowUp']) && player.shootCooldown <= 0) {
+    playerBullets.push({ x: player.x, y: player.y - player.h / 2, w: 4, h: 14 });
+    player.shootCooldown = 0.22;
+  }
+  if (player.invincible > 0) player.invincible -= dt;
+}
+
+function drawPlayer() {
+  if (!player.alive) return;
+  if (player.invincible > 0 && Math.floor(player.invincible * 10) % 2 === 0) return;
+
+  const x = player.x, y = player.y;
+  ctx.save();
+
+  // engine flames
+  ctx.fillStyle = COLORS.yellow;
+  ctx.shadowColor = COLORS.yellow;
+  ctx.shadowBlur = 10;
+  const flameH = rnd(8, 18);
+  ctx.beginPath();
+  ctx.moveTo(x - 6, y + player.h / 2);
+  ctx.lineTo(x, y + player.h / 2 + flameH);
+  ctx.lineTo(x + 6, y + player.h / 2);
+  ctx.fill();
+
+  // wings
+  ctx.shadowBlur = 6;
+  ctx.shadowColor = COLORS.purple;
+  ctx.fillStyle = COLORS.purple;
+  ctx.beginPath();
+  ctx.moveTo(x - 20, y + 14);
+  ctx.lineTo(x - 6, y - 4);
+  ctx.lineTo(x - 6, y + 14);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(x + 20, y + 14);
+  ctx.lineTo(x + 6, y - 4);
+  ctx.lineTo(x + 6, y + 14);
+  ctx.fill();
+
+  // body
+  ctx.shadowColor = COLORS.blue;
+  ctx.fillStyle = COLORS.blue;
+  ctx.beginPath();
+  ctx.moveTo(x, y - player.h / 2);
+  ctx.lineTo(x - 10, y + player.h / 2);
+  ctx.lineTo(x + 10, y + player.h / 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // cockpit
+  ctx.shadowBlur = 4;
+  ctx.shadowColor = COLORS.white;
+  ctx.fillStyle = COLORS.white;
+  ctx.beginPath();
+  ctx.arc(x, y - 4, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+/* ================================================================
+   ENEMIES
+   ================================================================ */
+let enemies, enemyDir, enemySpeed, baseEnemySpeed, enemyShootTimer, totalEnemies;
+
+function initEnemies() {
+  enemies = [];
+  totalEnemies = 0;
+  const startX = 100, startY = 60, gapX = 130, gapY = 100;
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 5; c++) {
+      const row = ENEMY_ROWS[r];
+      enemies.push({
+        x: startX + c * gapX,
+        y: startY + r * gapY,
+        w: 100, h: 70,
+        hp: row.hp, maxHp: row.hp,
+        label: row.labels[c],
+        color: ENEMY_COLORS[c],
+        alive: true,
+        flashTimer: 0
+      });
+      totalEnemies++;
+    }
+  }
+  enemyDir = 1;
+  baseEnemySpeed = 30;
+  enemySpeed = baseEnemySpeed;
+  enemyShootTimer = rnd(0.3, 0.7);
+}
+
+function updateEnemies(dt) {
+  const aliveCount = enemies.filter(e => e.alive).length;
+  if (aliveCount === 0) return;
+
+  // speed increases as enemies die
+  enemySpeed = baseEnemySpeed + (totalEnemies - aliveCount) * 4;
+
+  // move group
+  let needReverse = false;
+  for (const e of enemies) {
+    if (!e.alive) continue;
+    e.x += enemyDir * enemySpeed * dt;
+    if (e.flashTimer > 0) e.flashTimer -= dt;
+  }
+
+  // check walls
+  for (const e of enemies) {
+    if (!e.alive) continue;
+    if (e.x + e.w / 2 > W - 10) { needReverse = true; break; }
+    if (e.x - e.w / 2 < 10) { needReverse = true; break; }
+  }
+
+  if (needReverse) {
+    enemyDir *= -1;
+    for (const e of enemies) {
+      if (!e.alive) continue;
+      e.y += 18;
+      // check if reached bottom
+      if (e.y + e.h / 2 > H - 40) {
+        state = 'gameover';
+        player.alive = false;
+        return;
+      }
+    }
+  }
+
+  // shooting — aggressive, multiple shooters possible
+  enemyShootTimer -= dt;
+  if (enemyShootTimer <= 0) {
+    const aliveEnemies = enemies.filter(e => e.alive);
+    if (aliveEnemies.length > 0) {
+      // 1-3 enemies shoot at once
+      const salvo = Math.min(aliveEnemies.length, rndInt(1, 3));
+      for (let s = 0; s < salvo; s++) {
+        const shooter = aliveEnemies[rndInt(0, aliveEnemies.length - 1)];
+        enemyBullets.push({ x: shooter.x, y: shooter.y + shooter.h / 2, w: 4, h: 12 });
+      }
+    }
+    enemyShootTimer = rnd(0.3, 0.8);
+  }
+}
+
+function drawEnemy(e) {
+  if (!e.alive) return;
+  const x = e.x - e.w / 2, y = e.y - e.h / 2;
+
+  ctx.save();
+
+  if (e.flashTimer > 0) {
+    ctx.shadowColor = '#ffffff';
+    ctx.shadowBlur = 20;
+  } else {
+    ctx.shadowColor = e.color;
+    ctx.shadowBlur = 6;
+  }
+
+  // body
+  ctx.fillStyle = e.flashTimer > 0 ? '#ffffff' : '#12121a';
+  ctx.strokeStyle = e.color;
+  ctx.lineWidth = 2;
+  ctx.fillRect(x, y, e.w, e.h);
+  ctx.strokeRect(x, y, e.w, e.h);
+
+  // title bar
+  ctx.fillStyle = e.color + '44';
+  ctx.fillRect(x, y, e.w, 16);
+
+  // title bar text
+  ctx.font = '7px "Press Start 2P"';
+  ctx.fillStyle = e.color;
+  ctx.textAlign = 'left';
+  ctx.fillText('\u26A0 ERROR', x + 4, y + 12);
+
+  // close button
+  ctx.fillStyle = '#ff3c3c';
+  ctx.fillRect(x + e.w - 14, y + 3, 10, 10);
+  ctx.fillStyle = '#0a0a14';
+  ctx.font = '7px "Press Start 2P"';
+  ctx.textAlign = 'center';
+  ctx.fillText('\u00D7', x + e.w - 9, y + 11);
+
+  // label
+  ctx.font = '8px "Press Start 2P"';
+  ctx.fillStyle = e.flashTimer > 0 ? '#0a0a14' : e.color;
+  ctx.textAlign = 'center';
+  ctx.fillText(e.label, e.x, e.y + 6);
+
+  // HP bar (if maxHp > 1)
+  if (e.maxHp > 1) {
+    const barW = e.w - 16, barH = 5;
+    const bx = x + 8, by = y + e.h - 10;
+    ctx.fillStyle = '#0a0a1488';
+    ctx.fillRect(bx, by, barW, barH);
+    ctx.fillStyle = e.color;
+    ctx.fillRect(bx, by, barW * (e.hp / e.maxHp), barH);
+  }
+
+  ctx.restore();
+}
+
+function drawEnemies() {
+  for (const e of enemies) drawEnemy(e);
+}
+
+/* ================================================================
+   BULLETS
+   ================================================================ */
+let playerBullets, enemyBullets;
+function initBullets() { playerBullets = []; enemyBullets = []; }
+
+function updateBullets(dt) {
+  // player bullets
+  for (let i = playerBullets.length - 1; i >= 0; i--) {
+    const b = playerBullets[i];
+    b.y -= 500 * dt;
+    if (b.y + b.h < 0) { playerBullets.splice(i, 1); continue; }
+
+    // vs enemies
+    for (const e of enemies) {
+      if (!e.alive) continue;
+      if (aabb(b, e)) {
+        playerBullets.splice(i, 1);
+        e.hp--;
+        e.flashTimer = 0.1;
+        if (e.hp <= 0) {
+          e.alive = false;
+          score += e.maxHp * 100;
+          spawnExplosion(e.x, e.y, e.color);
+        }
+        break;
+      }
+    }
+  }
+
+  // enemy bullets
+  for (let i = enemyBullets.length - 1; i >= 0; i--) {
+    const b = enemyBullets[i];
+    b.y += 300 * dt;
+    if (b.y > H) { enemyBullets.splice(i, 1); continue; }
+
+    if (player.alive && player.invincible <= 0) {
+      const pb = { x: player.x - player.w / 2, y: player.y - player.h / 2, w: player.w, h: player.h };
+      const bb = { x: b.x - b.w / 2, y: b.y - b.h / 2, w: b.w, h: b.h };
+      if (pb.x < bb.x + bb.w && pb.x + pb.w > bb.x && pb.y < bb.y + bb.h && pb.y + pb.h > bb.y) {
+        enemyBullets.splice(i, 1);
+        player.lives--;
+        player.invincible = 2;
+        spawnExplosion(player.x, player.y, COLORS.pink);
+        if (player.lives <= 0) {
+          player.alive = false;
+          state = 'gameover';
+        }
+      }
+    }
+  }
+}
+
+function aabb(bullet, enemy) {
+  const bx = bullet.x - bullet.w / 2, by = bullet.y - bullet.h / 2;
+  const ex = enemy.x - enemy.w / 2, ey = enemy.y - enemy.h / 2;
+  return bx < ex + enemy.w && bx + bullet.w > ex && by < ey + enemy.h && by + bullet.h > ey;
+}
+
+function drawBullets() {
+  ctx.save();
+  // player bullets
+  ctx.shadowColor = COLORS.green;
+  ctx.shadowBlur = 8;
+  ctx.fillStyle = COLORS.green;
+  for (const b of playerBullets) {
+    ctx.fillRect(b.x - b.w / 2, b.y - b.h / 2, b.w, b.h);
+  }
+  // enemy bullets
+  ctx.shadowColor = '#ff3c3c';
+  ctx.shadowBlur = 8;
+  ctx.fillStyle = '#ff3c3c';
+  for (const b of enemyBullets) {
+    ctx.fillRect(b.x - b.w / 2, b.y - b.h / 2, b.w, b.h);
+  }
+  ctx.restore();
+}
+
+/* ================================================================
+   PARTICLES
+   ================================================================ */
+let particles = [];
+
+function spawnExplosion(x, y, color) {
+  for (let i = 0; i < 15; i++) {
+    particles.push({
+      x, y,
+      vx: rnd(-120, 120),
+      vy: rnd(-120, 120),
+      size: rnd(2, 6),
+      life: 1,
+      color: color,
+      decay: rnd(0.8, 1.5)
+    });
+  }
+}
+
+function updateParticles(dt) {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.life -= p.decay * dt;
+    if (p.life <= 0) particles.splice(i, 1);
+  }
+}
+
+function drawParticles() {
+  for (const p of particles) {
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ================================================================
+   HUD
+   ================================================================ */
+function drawHUD() {
+  ctx.save();
+  ctx.font = '14px "Press Start 2P"';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = COLORS.yellow;
+  ctx.shadowColor = COLORS.yellow;
+  ctx.shadowBlur = 6;
+  ctx.fillText('SCORE: ' + score, 16, 28);
+
+  // lives
+  ctx.textAlign = 'right';
+  ctx.fillStyle = COLORS.pink;
+  ctx.shadowColor = COLORS.pink;
+  let heartsStr = '';
+  for (let i = 0; i < player.lives; i++) heartsStr += '\u2665 ';
+  ctx.fillText(heartsStr, W - 16, 28);
+
+  // controls hint at bottom
+  ctx.textAlign = 'center';
+  ctx.font = '10px "Press Start 2P"';
+  ctx.fillStyle = '#e8e6f033';
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.fillText('\u25C0 \u25B6  \u2014 \u0414\u0412\u0418\u0416\u0415\u041D\u0418\u0415     \u2588 \u041F\u0420\u041E\u0411\u0415\u041B \u2014 \u041E\u0413\u041E\u041D\u042C', W / 2, H - 12);
+  ctx.restore();
+}
+
+/* ================================================================
+   OVERLAYS (drawn on canvas)
+   ================================================================ */
+function drawGameOver() {
+  ctx.save();
+  ctx.fillStyle = 'rgba(10,10,20,0.75)';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.textAlign = 'center';
+  ctx.font = '28px "Press Start 2P"';
+  ctx.fillStyle = '#ff3c3c';
+  ctx.shadowColor = '#ff3c3c';
+  ctx.shadowBlur = 20;
+  ctx.fillText('GAME OVER', W / 2, H / 2 - 30);
+
+  ctx.font = '14px "Press Start 2P"';
+  ctx.fillStyle = COLORS.yellow;
+  ctx.shadowColor = COLORS.yellow;
+  ctx.shadowBlur = 10;
+  ctx.fillText('SCORE: ' + score, W / 2, H / 2 + 20);
+
+  ctx.font = '11px "Press Start 2P"';
+  ctx.fillStyle = COLORS.white;
+  ctx.shadowColor = COLORS.white;
+  ctx.shadowBlur = 6;
+  if (Math.floor(Date.now() / 500) % 2 === 0) {
+    ctx.fillText('ENTER \u2014 ЗАНОВО', W / 2, H / 2 + 60);
+  }
+
+  ctx.font = '9px "Press Start 2P"';
+  ctx.fillStyle = COLORS.green;
+  ctx.shadowColor = COLORS.green;
+  ctx.shadowBlur = 6;
+  ctx.fillText('ESC \u2014 ВВЕСТИ КОД', W / 2, H / 2 + 90);
+
+  ctx.restore();
+}
+
+let victoryTimer = 0;
+function drawVictory() {
+  ctx.save();
+  ctx.fillStyle = 'rgba(10,10,20,0.75)';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.textAlign = 'center';
+  ctx.font = '24px "Press Start 2P"';
+  ctx.fillStyle = COLORS.green;
+  ctx.shadowColor = COLORS.green;
+  ctx.shadowBlur = 20;
+  ctx.fillText('МИССИЯ ВЫПОЛНЕНА', W / 2, H / 2 - 30);
+
+  ctx.font = '14px "Press Start 2P"';
+  ctx.fillStyle = COLORS.yellow;
+  ctx.shadowColor = COLORS.yellow;
+  ctx.shadowBlur = 10;
+  ctx.fillText('SCORE: ' + score, W / 2, H / 2 + 20);
+
+  ctx.font = '9px "Press Start 2P"';
+  ctx.fillStyle = COLORS.white;
+  ctx.shadowBlur = 4;
+  const remaining = Math.max(0, Math.ceil(3 - victoryTimer));
+  ctx.fillText('ВХОД ЧЕРЕЗ ' + remaining + '...', W / 2, H / 2 + 55);
+  ctx.restore();
+}
+
+/* ================================================================
+   GAME LOOP
+   ================================================================ */
+let score = 0;
+let lastTime = 0;
+
+function gameLoop(ts) {
+  requestAnimationFrame(gameLoop);
+  const dt = Math.min((ts - lastTime) / 1000, 0.05);
+  lastTime = ts;
+
+  if (state === 'playing' || state === 'gameover' || state === 'victory') {
+    // update
+    updateStars();
+    if (state === 'playing') {
+      updatePlayer(dt);
+      updateEnemies(dt);
+      updateBullets(dt);
+      // check victory
+      if (enemies.every(e => !e.alive) && state === 'playing') {
+        state = 'victory';
+        victoryTimer = 0;
+      }
+    }
+    if (state === 'victory') {
+      victoryTimer += dt;
+      if (victoryTimer >= 3) {
+        showPassword();
+        return;
+      }
+    }
+    updateParticles(dt);
+
+    // draw
+    ctx.fillStyle = COLORS.bg;
+    ctx.fillRect(0, 0, W, H);
+    drawStars();
+    drawEnemies();
+    drawBullets();
+    drawPlayer();
+    drawParticles();
+    drawHUD();
+
+    if (state === 'gameover') drawGameOver();
+    if (state === 'victory') drawVictory();
+  }
+}
+
+/* ================================================================
+   STATE TRANSITIONS
+   ================================================================ */
+function startGame() {
+  startScreen.classList.remove('active');
+  canvas.style.display = 'block';
+  passwordScreen.classList.remove('active');
+  cockpitScreen.classList.remove('active');
+  state = 'playing';
+  score = 0;
+  particles = [];
+  initPlayer();
+  initEnemies();
+  initBullets();
+}
+
+function showPassword() {
+  state = 'password';
+  canvas.style.display = 'none';
+  startScreen.classList.remove('active');
+  passwordScreen.classList.add('active');
+  cockpitScreen.classList.remove('active');
+  termFeedback.textContent = '';
+  termFeedback.className = 'terminal-feedback';
+  passInput.value = '';
+  setTimeout(() => passInput.focus(), 100);
+}
+
+function showCockpit() {
+  state = 'cockpit';
+  canvas.style.display = 'none';
+  startScreen.classList.remove('active');
+  passwordScreen.classList.remove('active');
+  cockpitScreen.classList.add('active');
+  buildMonitors();
+}
+
+/* ── password handling ── */
+passInput.addEventListener('keydown', e => {
+  if (e.code === 'Enter') {
+    e.preventDefault();
+    const val = passInput.value.trim().toLowerCase();
+    if (val === PASSWORD) {
+      termFeedback.textContent = '\u2713 ДОСТУП РАЗРЕШЁН';
+      termFeedback.className = 'terminal-feedback granted';
+      passInput.disabled = true;
+      setTimeout(showCockpit, 1200);
+    } else {
+      termFeedback.textContent = '\u2717 ДОСТУП ЗАПРЕЩЁН';
+      termFeedback.className = 'terminal-feedback denied';
+      terminalBox.classList.remove('shake');
+      void terminalBox.offsetWidth; // reflow
+      terminalBox.classList.add('shake');
+      passInput.value = '';
+    }
+  }
+});
+
+/* ── cockpit monitors ── */
+function buildMonitors() {
+  monitorsRow.innerHTML = '';
+  for (const m of MONITORS) {
+    const mon = document.createElement('div');
+    mon.className = 'monitor mon-' + m.color + (m.locked ? ' locked' : '');
+    const lockHtml = m.locked ? '<span class="mon-lock-icon">\u{1F512}</span>' : '';
+    mon.innerHTML =
+      '<div class="bezel"><div class="inner-screen">' +
+        '<span class="mon-icon">' + m.icon + '</span>' +
+        '<span class="mon-label">' + m.label + '</span>' +
+        lockHtml +
+      '</div></div>' +
+      '<div class="mon-tag">' + m.tag + '</div>';
+    if (!m.locked) {
+      mon.addEventListener('click', () => window.open(m.url, '_blank'));
+    }
+    monitorsRow.appendChild(mon);
+  }
+}
+
+/* ── nav play button ── */
+document.getElementById('navPlay').addEventListener('click', e => {
+  e.preventDefault();
+  cockpitScreen.classList.remove('active');
+  startScreen.classList.add('active');
+  state = 'start';
+});
+
+/* ================================================================
+   INIT
+   ================================================================ */
+canvas.style.display = 'none';
+
+document.fonts.ready.then(() => {
+  lastTime = performance.now();
+  requestAnimationFrame(gameLoop);
+});
+</script>
+</body>
+</html>
