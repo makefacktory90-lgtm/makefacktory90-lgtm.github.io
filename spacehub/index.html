@@ -112,6 +112,32 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointe
 .from-space{margin-top:clamp(8px,1.5vh,16px);opacity:0;animation:fadeUp .8s 1.5s forwards;text-align:center}
 .from-space a{font-size:clamp(5px,.7vw,7px);color:#e8e6f033;text-decoration:none;letter-spacing:4px;transition:color .3s}
 .from-space a:hover{color:#9b4dca;text-shadow:0 0 8px #9b4dca}
+
+/* ── mobile touch controls ── */
+.touch-controls{display:none;position:fixed;bottom:0;left:0;width:100%;z-index:20;padding:10px 16px 20px;justify-content:space-between;align-items:flex-end;pointer-events:none}
+.touch-controls.active{display:flex}
+.touch-group{display:flex;gap:8px;pointer-events:auto}
+.touch-btn{
+  font-family:'Press Start 2P',monospace;font-size:16px;
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid;background:rgba(10,10,20,.7);
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;touch-action:manipulation;
+  transition:background .1s;
+}
+.touch-btn:active{background:rgba(255,255,255,.15)}
+.touch-btn--left{color:#00a8ff;border-color:#00a8ff66}
+.touch-btn--right{color:#00a8ff;border-color:#00a8ff66}
+.touch-btn--fire{color:#ffe000;border-color:#ffe00066;width:72px;height:72px;font-size:12px}
+.touch-btn--esc{color:#00ff88;border-color:#00ff8844;width:44px;height:44px;font-size:8px;pointer-events:auto}
+
+@media(hover:none)and(pointer:coarse){
+  .touch-controls.active{display:flex}
+}
+@media(hover:hover){
+  .touch-controls{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -120,12 +146,24 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointe
 <div id="startScreen" class="screen active">
   <div class="title">SPACE HUB</div>
   <div class="subtitle">УНИЧТОЖЬ ХАОС. ПОПАДИ В SPACE HUB.</div>
-  <div class="prompt">&#9654; НАЖМИ ENTER &#9664;</div>
+  <div class="prompt" id="startPrompt">&#9654; НАЖМИ ENTER &#9664;</div>
   <a class="skip" id="skipLink">УЖЕ В ЭКИПАЖЕ? ВВЕДИ КОД &rarr;</a>
 </div>
 
 <!-- ===== GAME CANVAS ===== -->
 <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<!-- ===== MOBILE TOUCH CONTROLS ===== -->
+<div class="touch-controls" id="touchControls">
+  <div class="touch-group">
+    <div class="touch-btn touch-btn--left" id="btnLeft">&#9664;</div>
+    <div class="touch-btn touch-btn--right" id="btnRight">&#9654;</div>
+  </div>
+  <div class="touch-btn touch-btn--esc" id="btnEsc">ESC</div>
+  <div class="touch-group">
+    <div class="touch-btn touch-btn--fire" id="btnFire">ОГОНЬ</div>
+  </div>
+</div>
 
 <!-- ===== PASSWORD SCREEN ===== -->
 <div id="passwordScreen" class="screen">
@@ -841,6 +879,67 @@ document.getElementById('passPlay').addEventListener('click', e => {
   startScreen.classList.add('active');
   state = 'start';
 });
+
+/* ================================================================
+   MOBILE TOUCH
+   ================================================================ */
+const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+const touchControls = document.getElementById('touchControls');
+const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
+const btnFire = document.getElementById('btnFire');
+const btnEsc = document.getElementById('btnEsc');
+
+if (isMobile) {
+  document.getElementById('startPrompt').textContent = '\u25B6 НАЖМИ СЮДА \u25C0';
+}
+
+function showTouchControls(show) {
+  if (isMobile) {
+    touchControls.classList.toggle('active', show);
+  }
+}
+
+// touch button handlers
+function touchOn(btn, code) {
+  btn.addEventListener('touchstart', e => { e.preventDefault(); keys[code] = true; }, {passive:false});
+  btn.addEventListener('touchend', e => { e.preventDefault(); keys[code] = false; }, {passive:false});
+  btn.addEventListener('touchcancel', e => { keys[code] = false; });
+}
+touchOn(btnLeft, 'ArrowLeft');
+touchOn(btnRight, 'ArrowRight');
+touchOn(btnFire, 'Space');
+
+btnEsc.addEventListener('touchstart', e => { e.preventDefault(); showPassword(); }, {passive:false});
+
+// tap on start screen
+startScreen.addEventListener('click', e => {
+  if (state === 'start' && e.target === startScreen || e.target.classList.contains('prompt') || e.target.classList.contains('title') || e.target.classList.contains('subtitle')) {
+    startGame();
+  }
+});
+
+// tap on game over
+canvas.addEventListener('click', e => {
+  if (state === 'gameover') startGame();
+});
+
+// show/hide touch controls on state change
+const origStartGame = startGame;
+startGame = function() {
+  origStartGame();
+  showTouchControls(true);
+};
+const origShowPassword = showPassword;
+showPassword = function() {
+  origShowPassword();
+  showTouchControls(false);
+};
+const origShowCockpit = showCockpit;
+showCockpit = function() {
+  origShowCockpit();
+  showTouchControls(false);
+};
 
 /* ================================================================
    INIT
