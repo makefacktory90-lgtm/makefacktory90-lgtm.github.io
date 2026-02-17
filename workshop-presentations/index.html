@@ -919,6 +919,63 @@
 
         .modal-btn:hover { background: #ddd; }
 
+        /* ===================== POST-IT ===================== */
+        .postit-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+        }
+
+        .postit {
+            background: #fff740;
+            color: #333;
+            width: 220px;
+            padding: 24px 18px 18px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 16px;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 4px 4px 14px rgba(0,0,0,0.2);
+            transform: rotate(2deg);
+            transition: transform 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .postit:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 6px 6px 18px rgba(0,0,0,0.3);
+        }
+
+        .postit::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 26px;
+            background: rgba(0,0,0,0.06);
+        }
+
+        .postit-title {
+            font-weight: bold;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .postit-text { color: #1a1a1a; }
+
+        .postit-arrow {
+            display: block;
+            text-align: right;
+            font-size: 22px;
+            margin-top: 8px;
+        }
+
         /* ===================== MOBILE ===================== */
         @media (max-width: 900px) {
             .hero-container { grid-template-columns: 1fr; gap: 40px; text-align: center; }
@@ -934,6 +991,8 @@
         }
 
         @media (max-width: 768px) {
+            .postit-container { bottom: 16px; right: 16px; }
+            .postit { width: 180px; font-size: 14px; padding: 20px 14px 14px; }
             .details-grid { grid-template-columns: 1fr 1fr; }
             .detail-item:nth-child(2) { border-right: none; }
             .detail-item:nth-child(3),
@@ -1117,7 +1176,7 @@
 
                     <a href="https://payform.ru/cuaHgnw/" class="btn-buy" id="buy-btn" onclick="playClick()" target="_blank">Купить</a>
 
-                    <div style="font-family:'Courier New',monospace; font-size:12px; color:var(--dim); text-align:center; margin-bottom:20px; letter-spacing:0.5px;">После оплаты доступ упадёт в почту</div>
+                    <div style="font-family:'Courier New',monospace; font-size:13px; color:var(--text); text-align:center; margin-bottom:20px; letter-spacing:0.5px; padding:10px; background:#f9f7f0; border:1px solid var(--divider);">&#128233; После оплаты ссылка на воркшоп придёт в почту</div>
 
                     <div class="promo-section">
                         <div class="promo-label">Есть кодовое слово?</div>
@@ -1198,6 +1257,15 @@
     <footer>
         <a href="https://iraai.ru">iraai.ru</a> &middot; Ира Буян, 2026
     </footer>
+
+    <!-- POST-IT -->
+    <div class="postit-container">
+        <a href="https://t.me/ira_alfred_bot" target="_blank" class="postit" onclick="playClick()">
+            <div class="postit-title">Вопрос?</div>
+            <div class="postit-text">Оплатили и&nbsp;не&nbsp;нашли письмо? Напишите Альфреду&nbsp;&mdash; поможет</div>
+            <span class="postit-arrow">&rarr;</span>
+        </a>
+    </div>
 
     <!-- MODAL (easter egg) -->
     <div id="modal">
