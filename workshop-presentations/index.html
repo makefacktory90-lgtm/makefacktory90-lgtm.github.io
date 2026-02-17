@@ -1334,7 +1334,7 @@
         function applyPromo() {
             const input = document.getElementById('promo-input');
             const result = document.getElementById('promo-result');
-            const val = input.value.trim().toLowerCase();
+            const val = input.value.trim().toLowerCase().replace(/\s+/g, '');
 
             if (val === PROMO_CODE) {
                 playSuccess();
