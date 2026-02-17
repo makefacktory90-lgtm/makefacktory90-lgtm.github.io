@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Презентации с AI за 4 часа — воркшоп Иры Буян</title>
+    <meta name="description" content="Воркшоп по презентациям с AI. 3 уровня: от базового до продвинутого. 22 февраля, 10:00–14:00 мск, онлайн.">
+    <meta property="og:title" content="Презентации с AI за 4 часа — воркшоп">
+    <meta property="og:description" content="Не курс. Не хаб. Разовый интенсив по презентациям с AI. 3 уровня, 4 часа, результат в руках.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iraai.ru/workshop-presentations/">
+    <meta property="og:image" content="https://iraai.ru/ira-photo.png">
+    <link rel="canonical" href="https://iraai.ru/workshop-presentations/">
+
+    <style>
+        :root {
+            --bg: #f4f1e6;
+            --text: #1a1a1a;
+            --accent: #b32a1e;
+            --accent-hover: #d4382b;
+            --green: #00ff41;
+            --green-dim: #00cc33;
+            --case-color: #ebe7d9;
+            --case-shadow: #dcd7c5;
+            --case-border: #d4cfba;
+            --dim: #888;
+            --divider: #ccc;
+            --card-bg: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: "Times New Roman", Times, serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            background-image: url("https://www.transparenttextures.com/patterns/paper.png");
+        }
+
+        /* ===================== NAV ===================== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(244, 241, 230, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-style: italic;
+            font-weight: bold;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .nav-back {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--dim);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover { color: var(--text); }
+
+        /* ===================== HERO ===================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 24px 60px;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            max-width: 1100px;
+            align-items: center;
+        }
+
+        .info-side h1 {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-style: italic;
+            margin: 0 0 16px 0;
+            line-height: 0.9;
+            letter-spacing: -2px;
+        }
+
+        .info-side h1 span { color: var(--accent); }
+
+        .hero-meta {
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .description {
+            font-size: 1.3rem;
+            max-width: 420px;
+            line-height: 1.5;
+            margin-bottom: 32px;
+            color: var(--text);
+        }
+
+        .hero-cta-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 14px 36px;
+            background: var(--accent);
+            color: #fff;
+            border: 2px solid var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+        }
+
+        .price-tag {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .price-tag strong {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            font-size: 13px;
+            border-top: 1px solid var(--divider);
+            padding-top: 28px;
+        }
+
+        .spec-item span {
+            display: block;
+            color: #666;
+            margin-bottom: 3px;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .spec-item {
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        /* ===================== COMPUTER ===================== */
+        .computer-case {
+            background: var(--case-color);
+            width: 380px;
+            height: 480px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 20px 20px 0px var(--case-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 35px;
+            border: 1px solid var(--case-border);
+            justify-self: center;
+        }
+
+        .screen-border {
+            background: var(--case-shadow);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .screen {
+            background: #1a1a1a;
+            width: 280px;
+            height: 210px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--green);
+            font-family: 'Courier New', monospace;
+            font-size: 1.6rem;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 8px var(--green);
+        }
+
+        .screen::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .blinking-date { animation: blink 1.2s steps(1) infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .glitch { animation: shake 0.15s infinite; filter: hue-rotate(90deg); }
+        @keyframes shake {
+            0% { transform: translate(2px, 1px); }
+            50% { transform: translate(-2px, -1px); }
+            100% { transform: translate(1px, -1px); }
+        }
+
+        .floppy-slot {
+            width: 160px; height: 10px;
+            background: #333;
+            margin-top: 50px;
+            border-radius: 2px;
+            border-bottom: 2px solid #666;
+        }
+
+        .case-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 260px;
+            margin-top: 16px;
+        }
+
+        .computer-label {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .case-btn {
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--case-shadow);
+            border: 1px solid var(--case-border);
+            color: var(--dim);
+            padding: 4px 10px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .case-btn:hover {
+            color: var(--text);
+            border-color: var(--dim);
+            background: #d4cfba;
+        }
+
+        /* ===================== DETAILS BAR ===================== */
+        .details-bar {
+            background: var(--text);
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .details-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .detail-item {
+            padding: 28px 20px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .detail-item:last-child { border-right: none; }
+
+        .detail-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: var(--green);
+            text-shadow: 0 0 6px rgba(0,255,65,0.3);
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===================== PROGRAM ===================== */
+        .program { padding: 80px 24px; }
+        .program-inner { max-width: 1100px; margin: 0 auto; }
+
+        .section-label {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-style: italic;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            font-size: 1.15rem;
+            color: #333;
+            max-width: 520px;
+            margin-bottom: 48px;
+            line-height: 1.5;
+        }
+
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .retro-window {
+            background: var(--card-bg);
+            border: 2px solid var(--text);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .retro-window:hover {
+            transform: translateY(-4px);
+            box-shadow: 8px 8px 0px var(--case-shadow);
+        }
+
+        .retro-window.featured {
+            border-color: var(--accent);
+            border-width: 3px;
+        }
+
+        .window-titlebar {
+            background: var(--text);
+            color: #fff;
+            padding: 6px 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .retro-window.featured .window-titlebar { background: var(--accent); }
+
+        .window-dots { display: flex; gap: 4px; }
+        .window-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+
+        .window-body {
+            padding: 28px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .level-subtitle {
+            font-size: 1.3rem;
+            font-style: italic;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .level-desc {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .level-tools { list-style: none; margin-bottom: 16px; }
+
+        .level-tools li {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            padding: 4px 0 4px 16px;
+            position: relative;
+        }
+
+        .level-tools li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--green);
+        }
+
+        .level-result {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 12px;
+            background: #f0f5f1;
+            color: #5A7A60;
+            border-left: 3px solid #5A7A60;
+            margin-top: auto;
+        }
+
+        .level-result.alt {
+            background: #fff5f2;
+            color: var(--accent);
+            border-left-color: var(--accent);
+        }
+
+        /* ===================== INCLUDED + PRICE ===================== */
+        .included {
+            padding: 80px 24px;
+            background: var(--case-color);
+            background-image: url("https://www.transparenttextures.com/patterns/paper.png");
+            border-top: 1px solid var(--divider);
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .included-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .included-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .included-list li {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .included-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--text);
+            color: var(--green);
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .included-text h4 {
+            font-size: 1.15rem;
+            font-style: italic;
+            margin-bottom: 2px;
+        }
+
+        .included-text p {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Price box */
+        .price-box {
+            background: var(--card-bg);
+            border: 3px solid var(--text);
+            text-align: center;
+        }
+
+        .price-box-header {
+            background: var(--text);
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            padding: 8px;
+            text-transform: uppercase;
+        }
+
+        .price-box-body { padding: 36px 32px 32px; }
+
+        .price-box h3 {
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .price-display {
+            font-family: 'Courier New', monospace;
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 4px;
+            transition: all 0.3s;
+        }
+
+        .price-display.discounted { color: var(--accent); }
+
+        .price-label {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .price-old {
+            display: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--dim);
+            margin-bottom: 4px;
+        }
+
+        .price-old.visible { display: block; }
+        .price-old s { color: #bbb; }
+
+        .btn-buy {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: #fff;
+            border: 2px solid var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: all 0.2s;
+            cursor: pointer;
+            margin-bottom: 24px;
+        }
+
+        .btn-buy:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+        }
+
+        .promo-section {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .promo-label {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .promo-row { display: flex; gap: 0; }
+
+        #promo-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-right: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: #fafafa;
+            outline: none;
+            text-transform: lowercase;
+            letter-spacing: 1px;
+        }
+
+        #promo-input:focus { border-color: var(--text); }
+
+        .promo-btn {
+            padding: 10px 16px;
+            border: 2px solid #ddd;
+            background: var(--text);
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .promo-btn:hover { background: #333; }
+
+        #promo-result {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 10px;
+            min-height: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        #promo-result.success { color: #2e7d32; }
+        #promo-result.error { color: var(--accent); }
+
+        /* ===================== ABOUT ===================== */
+        .about { padding: 80px 24px; }
+
+        .about-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-photo {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 3px solid var(--text);
+            box-shadow: 8px 8px 0px var(--case-shadow);
+        }
+
+        .about-text h3 {
+            font-size: 1.6rem;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .about-stat { color: var(--dim); }
+        .about-stat strong { color: var(--text); }
+
+        /* ===================== FAQ ===================== */
+        .faq {
+            padding: 80px 24px;
+            background: var(--text);
+            color: #fff;
+        }
+
+        .faq-inner { max-width: 700px; margin: 0 auto; }
+        .faq .section-label { color: var(--green); }
+        .faq .section-title { color: #fff; margin-bottom: 40px; }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+        }
+
+        .faq-q {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--green);
+            margin-bottom: 6px;
+        }
+
+        .faq-q::before { content: "> "; }
+
+        .faq-a {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            padding-left: 16px;
+        }
+
+        /* ===================== FINAL CTA ===================== */
+        .final-cta {
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-style: italic;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .final-cta p {
+            font-size: 1.15rem;
+            color: #333;
+            margin-bottom: 32px;
+        }
+
+        /* ===================== CREDITS ===================== */
+        .credits {
+            padding: 40px 24px;
+            text-align: center;
+            border-top: 1px solid var(--divider);
+        }
+
+        .credits-label {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .credits-list {
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--text);
+            letter-spacing: 0.5px;
+            line-height: 2.2;
+        }
+
+        /* ===================== FOOTER ===================== */
+        footer {
+            padding: 28px 24px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--dim);
+            border-top: 1px solid var(--divider);
+        }
+
+        footer a { color: var(--dim); text-decoration: none; }
+        footer a:hover { color: var(--text); }
+
+        /* ===================== COFFEE COUNTER ===================== */
+        .computer-area {
+            position: relative;
+            justify-self: center;
+        }
+
+        .coffee-shelf {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            align-items: flex-end;
+            min-height: 50px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+            max-width: 380px;
+        }
+
+        .retro-cup {
+            width: 28px;
+            height: 32px;
+            background: #8B7355;
+            border: 2px solid #5C4A32;
+            border-radius: 0 0 4px 4px;
+            position: relative;
+            display: inline-block;
+            animation: cupAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .retro-cup::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 3px;
+            right: 3px;
+            height: 5px;
+            background: #6B4226;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .retro-cup::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 4px;
+            width: 8px;
+            height: 14px;
+            border: 3px solid #5C4A32;
+            border-left: none;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .retro-cup .steam {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            color: #5C4A32;
+            animation: steamFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes steamFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
+            50% { transform: translateX(-50%) translateY(-6px); opacity: 0.3; }
+        }
+
+        @keyframes cupAppear {
+            0% { transform: scale(0) translateY(10px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .coffee-message {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--accent);
+            text-align: center;
+            min-height: 18px;
+            margin-top: 10px;
+            max-width: 380px;
+            transition: opacity 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===================== MODAL ===================== */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 3px solid var(--text);
+            padding: 2px;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
+            z-index: 200;
+            width: 320px;
+        }
+
+        .modal-header {
+            background: var(--text);
+            color: white;
+            padding: 5px 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-content {
+            padding: 24px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .modal-content p { margin-bottom: 8px; }
+
+        .modal-btn {
+            background: #eee;
+            border: 2px solid #000;
+            padding: 6px 24px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .modal-btn:hover { background: #ddd; }
+
+        /* ===================== MOBILE ===================== */
+        @media (max-width: 900px) {
+            .hero-container { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .description { margin: 0 auto 32px; }
+            .hero-cta-row { justify-content: center; }
+            .specs { max-width: 360px; margin: 0 auto; }
+            .computer-case { width: 300px; height: 400px; margin: 0 auto; }
+            .screen { width: 220px; height: 165px; font-size: 1.3rem; }
+            .program-grid { grid-template-columns: 1fr; }
+            .included-inner { grid-template-columns: 1fr; gap: 40px; }
+            .about-inner { flex-direction: column; text-align: center; }
+            .about-stats { justify-content: center; }
+        }
+
+        @media (max-width: 768px) {
+            .details-grid { grid-template-columns: 1fr 1fr; }
+            .detail-item:nth-child(2) { border-right: none; }
+            .detail-item:nth-child(3),
+            .detail-item:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="https://iraai.ru" class="nav-logo">ира&ai</a>
+            <a href="https://iraai.ru" class="nav-back" onclick="playClick()">&larr; На главную</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="info-side">
+                <h1>Презентации<br>с <span>AI.</span></h1>
+                <div class="hero-meta">22 февраля, с 10 до 14.00 по Москве &nbsp;&middot;&nbsp; Запись будет</div>
+                <p class="description">
+                    Не курс. Не хаб на месяц. Разовый интенсив для не-дизайнеров.
+                    Три уровня&nbsp;&mdash; от&nbsp;&laquo;с&nbsp;нуля&raquo; до&nbsp;&laquo;увидите, как можно по-другому&raquo;.
+                </p>
+
+                <div class="hero-cta-row">
+                    <a href="#buy" class="btn-primary" onclick="playClick()">Хочу на воркшоп</a>
+                    <div class="price-tag">
+                        <strong>6 500 &#8381;</strong>
+                    </div>
+                </div>
+
+                <div class="specs">
+                    <div class="spec-item"><span>Format</span>Live Online</div>
+                    <div class="spec-item"><span>Duration</span>4 часа</div>
+                    <div class="spec-item"><span>AI Tools</span>8+ нейросетей</div>
+                    <div class="spec-item"><span>Output</span>Стартовый навык</div>
+                </div>
+            </div>
+
+            <div class="computer-area">
+                <div class="computer-case">
+                    <div class="screen-border">
+                        <div class="screen" id="main-screen">
+                            <div class="blinking-date" id="screen-text">22 ФЕВРАЛЯ</div>
+                        </div>
+                    </div>
+                    <div class="floppy-slot"></div>
+                    <div class="case-bottom">
+                        <div class="computer-label">Workshop Machine</div>
+                        <button class="case-btn" onclick="easterEgg()">brew</button>
+                    </div>
+                </div>
+                <div class="coffee-shelf" id="coffee-shelf"></div>
+                <div class="coffee-message" id="coffee-message"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILS BAR -->
+    <div class="details-bar">
+        <div class="details-grid">
+            <div class="detail-item">
+                <div class="detail-number">4 ч</div>
+                <div class="detail-label">Длительность</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-number">3</div>
+                <div class="detail-label">Уровня</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-number">8+</div>
+                <div class="detail-label">AI-инструментов</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-number">1</div>
+                <div class="detail-label">Стартовый навык</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROGRAM -->
+    <section class="program">
+        <div class="program-inner">
+            <div class="section-label">// Программа</div>
+            <h2 class="section-title">Три уровня.<br>Один воркшоп.</h2>
+            <p class="section-desc">Базовый и средний&nbsp;&mdash; заберёте как навык. В&nbsp;руки. Домой. Сразу применять. Продвинутый&nbsp;&mdash; увидите, как можно по-другому.</p>
+
+            <div class="program-grid">
+                <div class="retro-window">
+                    <div class="window-titlebar">
+                        <span>Level 01 &mdash; Basic</span>
+                        <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div></div>
+                    </div>
+                    <div class="window-body">
+                        <div class="level-subtitle">С нуля до &laquo;ого&raquo;</div>
+                        <p class="level-desc">Вообще не делали презентации с AI? Начнём отсюда. Через час будет первый результат.</p>
+                        <ul class="level-tools"><li>NotebookLM</li></ul>
+                        <div class="level-result">Заберёте навык домой</div>
+                    </div>
+                </div>
+
+                <div class="retro-window">
+                    <div class="window-titlebar">
+                        <span>Level 02 &mdash; Mid</span>
+                        <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div></div>
+                    </div>
+                    <div class="window-body">
+                        <div class="level-subtitle">Быстро и красиво</div>
+                        <p class="level-desc">Уже пробовали нейросети? Покажу инструменты, которые дают результат за минуты.</p>
+                        <ul class="level-tools"><li>Gamma</li><li>Kimi</li><li>Manus</li><li>GenSpark</li></ul>
+                        <div class="level-result">Заберёте навык домой</div>
+                    </div>
+                </div>
+
+                <div class="retro-window featured">
+                    <div class="window-titlebar">
+                        <span>Level 03 &mdash; Pro</span>
+                        <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div></div>
+                    </div>
+                    <div class="window-body">
+                        <div class="level-subtitle">Как я работаю сама</div>
+                        <p class="level-desc">Честно: вы это не повторите сходу. Но увидите, как можно по-другому. И&nbsp;границы точно подвинутся.</p>
+                        <ul class="level-tools"><li>Claude</li><li>ChatGPT</li><li>Интерактивные презентации</li></ul>
+                        <div class="level-result alt">Увидите, как можно по-другому</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT YOU GET + PRICE -->
+    <section class="included" id="buy">
+        <div class="included-inner">
+            <div>
+                <div class="section-label">// Что внутри</div>
+                <h2 class="section-title">4 часа&nbsp;&mdash; и&nbsp;вы делаете презентации иначе.</h2>
+
+                <ul class="included-list">
+                    <li>
+                        <div class="included-icon">&gt;_</div>
+                        <div class="included-text">
+                            <h4>Живой воркшоп, не запись</h4>
+                            <p>Онлайн, с вопросами, с разбором ваших задач прямо в процессе</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="included-icon">REC</div>
+                        <div class="included-text">
+                            <h4>Запись будет</h4>
+                            <p>Все 4 часа в записи + скиллы + интерактивный урок по итогам</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="included-icon">8+</div>
+                        <div class="included-text">
+                            <h4>8+ инструментов</h4>
+                            <p>От самых простых до тех, о которых вы не слышали</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="included-icon">***</div>
+                        <div class="included-text">
+                            <h4>Другой подход</h4>
+                            <p>Не &laquo;красивый слайд&raquo;, а &laquo;как вообще сейчас работают с презентациями&raquo;</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="price-box">
+                <div class="price-box-header">Купить</div>
+                <div class="price-box-body">
+                    <h3>Воркшоп по презентациям</h3>
+                    <div class="price-old" id="price-old"><s>6 500 &#8381;</s></div>
+                    <div class="price-display" id="price-display">6 500 &#8381;</div>
+                    <div class="price-label" id="price-label">стандартная цена</div>
+
+                    <a href="https://t.me/ira_alfred_bot" class="btn-buy" id="buy-btn" onclick="playClick()">Купить</a>
+
+                    <div class="promo-section">
+                        <div class="promo-label">Есть кодовое слово?</div>
+                        <div class="promo-row">
+                            <input type="text" id="promo-input" placeholder="введите слово"
+                                   onkeydown="if(event.key==='Enter') applyPromo()">
+                            <button class="promo-btn" onclick="applyPromo()">&rarr;</button>
+                        </div>
+                        <div id="promo-result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about">
+        <div class="about-inner">
+            <img src="https://iraai.ru/ira-photo.png" alt="Ира Буян" class="about-photo">
+            <div class="about-text">
+                <h3>Ира Буян</h3>
+                <p>AI-стратег. Обучаю экспертов и&nbsp;сотрудников компаний работать с&nbsp;нейросетями. В&nbsp;воскресенье провела 6-часовой корпоративный воркшоп по&nbsp;презентациям с&nbsp;AI&nbsp;&mdash; и&nbsp;люди, которые утром не&nbsp;понимали как это делать, в&nbsp;обед ушли с&nbsp;навыком.</p>
+                <div class="about-stats">
+                    <div class="about-stat"><strong>16K+</strong> Instagram</div>
+                    <div class="about-stat"><strong>3.2K</strong> Telegram</div>
+                    <div class="about-stat"><strong>100+</strong> учеников</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="faq-inner">
+            <div class="section-label">// FAQ</div>
+            <h2 class="section-title">Частые вопросы.</h2>
+
+            <div class="faq-item">
+                <div class="faq-q">Нужен ли опыт с нейросетями?</div>
+                <div class="faq-a">Нет. Первый уровень начинается с&nbsp;нуля. Если уже пробовали&nbsp;&mdash; тем интереснее будут уровни 2&nbsp;и&nbsp;3.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Будет запись?</div>
+                <div class="faq-a">Да. Запись + все скиллы + бонусом интерактивный урок по итогам воркшопа.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Что мне понадобится?</div>
+                <div class="faq-a">Ноутбук и&nbsp;интернет. Покупать подписки заранее не&nbsp;нужно&nbsp;&mdash; среди инструментов есть полностью бесплатные, в&nbsp;которых можно работать. После воркшопа определитесь, что вам подходит.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Чем это отличается от YouTube-туториалов?</div>
+                <div class="faq-a">Живой формат: покажу, отвечу, разберу ваши задачи. И три уровня сразу&nbsp;&mdash; от простого до того, что на YouTube не покажут.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">А если не смогу прийти?</div>
+                <div class="faq-a">Запись будет. Но живой формат&nbsp;&mdash; это вопросы, разборы и энергия. Рекомендую быть.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+        <h2>Порог входа рухнул. Серьёзно.</h2>
+        <p>22&nbsp;февраля, с&nbsp;10 до&nbsp;14.00 по&nbsp;Москве. Три уровня. Стартовый навык&nbsp;в&nbsp;руках.</p>
+        <a href="#buy" class="btn-primary" onclick="playClick()">Хочу на воркшоп &rarr;</a>
+    </section>
+
+    <!-- CREDITS -->
+    <div class="credits">
+        <div class="credits-label">AI-инструменты на воркшопе</div>
+        <div class="credits-list">
+            NotebookLM &nbsp;&middot;&nbsp; Gamma &nbsp;&middot;&nbsp; Kimi &nbsp;&middot;&nbsp; Manus &nbsp;&middot;&nbsp; GenSpark<br>
+            Claude &nbsp;&middot;&nbsp; ChatGPT &nbsp;&middot;&nbsp; Chronicle
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="https://iraai.ru">iraai.ru</a> &middot; Ира Буян, 2026
+    </footer>
+
+    <!-- MODAL (easter egg) -->
+    <div id="modal">
+        <div class="modal-header">
+            <span>SYSTEM MESSAGE</span>
+            <span style="cursor:pointer" onclick="closeModal()">[X]</span>
+        </div>
+        <div class="modal-content">
+            <p>BREW COMPLETE.</p>
+            <p style="font-size: 0.8rem; color: #333;">А теперь — на воркшоп.</p>
+            <button class="modal-btn" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        /* ===== SOUNDS ===== */
+        function playClick() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.05);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.05);
+            } catch(e) {}
+        }
+
+        function playSuccess() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                [440, 554, 659, 880].forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.05, ctx.currentTime + i * 0.1);
+                    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.1 + 0.12);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + i * 0.1);
+                    osc.stop(ctx.currentTime + i * 0.1 + 0.12);
+                });
+            } catch(e) {}
+        }
+
+        function playError() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, ctx.currentTime);
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.2);
+            } catch(e) {}
+        }
+
+        /* ===== PROMO CODE ===== */
+        const PROMO_CODE = 'хочупрезу';
+
+        function applyPromo() {
+            const input = document.getElementById('promo-input');
+            const result = document.getElementById('promo-result');
+            const val = input.value.trim().toLowerCase();
+
+            if (val === PROMO_CODE) {
+                playSuccess();
+
+                const screen = document.getElementById('main-screen');
+                const text = document.getElementById('screen-text');
+                screen.classList.add('glitch');
+                text.innerText = '5 500 ₽';
+                text.classList.remove('blinking-date');
+                setTimeout(() => { screen.classList.remove('glitch'); }, 600);
+
+                document.getElementById('price-display').innerHTML = '5 500 &#8381;';
+                document.getElementById('price-display').classList.add('discounted');
+                document.getElementById('price-label').textContent = 'ваша цена';
+                document.getElementById('price-old').classList.add('visible');
+                document.getElementById('buy-btn').textContent = 'Купить за 5 500 ₽';
+                document.getElementById('buy-btn').href = 'https://t.me/ira_alfred_bot?start=prez5500';
+
+                result.textContent = 'КОДОВОЕ СЛОВО ПРИНЯТО';
+                result.className = 'success';
+                input.disabled = true;
+                input.style.opacity = '0.5';
+            } else {
+                playError();
+                result.textContent = 'НЕВЕРНОЕ СЛОВО';
+                result.className = 'error';
+                input.value = '';
+                setTimeout(() => { result.textContent = ''; result.className = ''; }, 2000);
+            }
+        }
+
+        /* ===== EASTER EGG ===== */
+        function easterEgg() {
+            playClick();
+            const screen = document.getElementById('main-screen');
+            const text = document.getElementById('screen-text');
+            screen.classList.add('glitch');
+            text.innerText = "BREWING...";
+            text.classList.remove('blinking-date');
+
+            setTimeout(() => {
+                screen.classList.remove('glitch');
+                text.innerText = "READY >";
+                document.getElementById('modal').style.display = 'block';
+            }, 1200);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            const text = document.getElementById('screen-text');
+            text.innerText = "22 ФЕВРАЛЯ";
+            text.classList.add('blinking-date');
+        }
+
+        /* ===== COFFEE COUNTER ===== */
+        const coffeeMessages = [
+            '',
+            'Пока думаете — кофе стынет',
+            'Второй стаканчик...',
+            'Три кофе. Пора решаться.',
+            'Кофеин зашкаливает.',
+            'Вы точно думаете?',
+            'Просто купите.',
+            'Бариста волнуется.',
+            'Это уже рекорд.',
+            'Ну серьёзно.',
+            'Вы легенда. Но купите уже.'
+        ];
+
+        let coffeeCount = 0;
+
+        function addCoffee() {
+            coffeeCount++;
+            const shelf = document.getElementById('coffee-shelf');
+            const msg = document.getElementById('coffee-message');
+
+            const cup = document.createElement('div');
+            cup.className = 'retro-cup';
+            const steam = document.createElement('span');
+            steam.className = 'steam';
+            steam.textContent = '~';
+            cup.appendChild(steam);
+            shelf.appendChild(cup);
+
+            const msgIndex = Math.min(coffeeCount, coffeeMessages.length - 1);
+            if (coffeeMessages[msgIndex]) {
+                msg.style.opacity = '0';
+                setTimeout(() => {
+                    msg.textContent = coffeeMessages[msgIndex];
+                    msg.style.opacity = '1';
+                }, 200);
+            }
+
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.03, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.1);
+            } catch(e) {}
+        }
+
+        setTimeout(() => {
+            addCoffee();
+            setInterval(addCoffee, 60000);
+        }, 45000);
+
+        /* ===== BOOT SOUND (first click) ===== */
+        document.body.addEventListener('click', function bootSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(220, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.03, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.2);
+            } catch(e) {}
+            document.body.removeEventListener('click', bootSound);
+        }, { once: true });
+    </script>
+
+</body>
+</html>

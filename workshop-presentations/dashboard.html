@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop OS — Презентации с AI</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --green: #00ff41;
+            --green-dim: #00cc33;
+            --green-glow: rgba(0, 255, 65, 0.15);
+            --text: #e0e0e0;
+            --text-dim: #888;
+            --text-muted: #555;
+            --accent: #b32a1e;
+            --card-bg: #141414;
+            --card-border: #2a2a2a;
+            --card-hover: #1e1e1e;
+            --postit: #fff740;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scan lines */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.06) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ===================== LOGIN ===================== */
+        #login-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .login-frame {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 4px;
+            padding: 48px 56px;
+            min-width: 420px;
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.06);
+        }
+
+        .login-title {
+            color: var(--green);
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px var(--green);
+        }
+
+        .login-subtitle {
+            color: var(--text-dim);
+            font-size: 13px;
+            letter-spacing: 1px;
+            margin-bottom: 36px;
+        }
+
+        .login-prompt {
+            color: var(--green);
+            font-size: 18px;
+            margin-bottom: 16px;
+            text-shadow: 0 0 8px var(--green);
+        }
+
+        .login-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .login-cursor {
+            color: var(--green);
+            font-size: 18px;
+        }
+
+        #password-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #333;
+            color: var(--green);
+            font-family: 'Courier New', monospace;
+            font-size: 22px;
+            padding: 10px 4px;
+            width: 260px;
+            outline: none;
+            text-shadow: 0 0 8px var(--green);
+            letter-spacing: 4px;
+        }
+
+        #password-input::placeholder {
+            color: #2a4a2e;
+            letter-spacing: 1px;
+        }
+
+        #login-error {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 14px;
+            min-height: 18px;
+            text-shadow: 0 0 6px rgba(179, 42, 30, 0.5);
+        }
+
+        .login-hint {
+            color: #444;
+            font-size: 12px;
+            margin-top: 28px;
+            letter-spacing: 1px;
+        }
+
+        .boot-text {
+            color: var(--green);
+            font-size: 14px;
+            text-align: left;
+            display: none;
+            text-shadow: 0 0 4px var(--green);
+            line-height: 2;
+        }
+
+        /* ===================== DESKTOP ===================== */
+        #desktop {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Top bar */
+        .topbar {
+            background: #0d0d0d;
+            border-bottom: 2px solid #1a1a1a;
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .topbar-logo {
+            color: var(--green);
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--green);
+        }
+
+        .topbar-sep { color: #333; font-size: 18px; }
+
+        .topbar-title {
+            color: var(--text);
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .topbar-right {
+            color: var(--green);
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 4px var(--green);
+        }
+
+        /* Desktop content */
+        .desktop-content {
+            flex: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 36px 24px;
+            width: 100%;
+        }
+
+        /* Sections */
+        .desktop-section { margin-bottom: 48px; }
+
+        .desktop-section-title {
+            color: var(--green);
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a1a1a;
+            text-shadow: 0 0 6px var(--green);
+        }
+
+        .desktop-section-title::before {
+            content: "// ";
+            color: #333;
+        }
+
+        /* Icon grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .desktop-icon {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 24px 16px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .desktop-icon:hover {
+            background: var(--card-hover);
+            border-color: var(--green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 255, 65, 0.1);
+        }
+
+        .desktop-icon:hover .icon-emoji { transform: scale(1.1); }
+
+        .icon-emoji {
+            font-size: 42px;
+            margin-bottom: 12px;
+            display: block;
+            transition: transform 0.2s;
+        }
+
+        .icon-name {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .icon-status {
+            font-size: 11px;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 4px rgba(0,255,65,0.3);
+        }
+
+        /* ===================== PLACEHOLDER WINDOWS ===================== */
+        .placeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .placeholder-window {
+            border: 2px dashed #333;
+            background: #0d0d0d;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+
+        .placeholder-window:hover {
+            border-color: var(--text-muted);
+        }
+
+        .placeholder-titlebar {
+            background: #161616;
+            border-bottom: 1px solid #222;
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .placeholder-titlebar-text {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .placeholder-lock {
+            font-size: 14px;
+        }
+
+        .placeholder-body {
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        .placeholder-emoji {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .placeholder-label {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .placeholder-desc {
+            font-size: 14px;
+            color: var(--green);
+            text-shadow: 0 0 4px rgba(0,255,65,0.3);
+            line-height: 1.5;
+        }
+
+        .placeholder-when {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border: 1px solid #333;
+            background: #111;
+        }
+
+        /* ===================== BOOKS ===================== */
+        .books-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .book-card {
+            border: 2px dashed #333;
+            background: #0d0d0d;
+            padding: 0;
+            text-align: center;
+        }
+
+        .book-card .placeholder-titlebar {
+            background: #161616;
+            border-bottom: 1px solid #222;
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book-emoji {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .book-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .book-desc {
+            font-size: 14px;
+            color: var(--green);
+            text-shadow: 0 0 4px rgba(0,255,65,0.3);
+            line-height: 1.5;
+        }
+
+        .book-when {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border: 1px solid #333;
+            background: #111;
+        }
+
+        /* ===================== WELCOME ===================== */
+        .welcome-panel {
+            background: #0d0d0d;
+            border: 2px solid var(--green);
+            margin-bottom: 44px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.06);
+        }
+
+        .welcome-titlebar {
+            background: #111;
+            border-bottom: 2px solid var(--green);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 6px var(--green);
+        }
+
+        .welcome-close {
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .welcome-close:hover { color: var(--green); }
+
+        .welcome-body { padding: 28px; }
+
+        .welcome-intro {
+            color: var(--text);
+            font-size: 16px;
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .welcome-intro strong {
+            color: var(--green);
+            font-size: 18px;
+            text-shadow: 0 0 6px rgba(0, 255, 65, 0.4);
+        }
+
+        .welcome-map {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .welcome-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+            padding: 10px 14px;
+            background: #141414;
+            border-left: 3px solid var(--card-border);
+            transition: border-color 0.2s;
+        }
+
+        .welcome-item:hover { border-left-color: var(--green); }
+        .welcome-item.active { border-left-color: var(--green); }
+
+        .welcome-item .wi-arrow {
+            color: var(--green);
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+            text-shadow: 0 0 4px var(--green);
+        }
+
+        .welcome-item .wi-label {
+            color: #fff;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .welcome-item .wi-desc {
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+
+        /* ===================== ALERT PANEL ===================== */
+        .alert-panel {
+            background: #0d0d0d;
+            border: 2px solid #ff6b35;
+            margin-bottom: 44px;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.08);
+        }
+
+        .alert-titlebar {
+            background: #ff6b35;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .alert-body {
+            padding: 28px;
+        }
+
+        .alert-main {
+            font-size: 17px;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .alert-main strong {
+            color: #ff6b35;
+        }
+
+        .alert-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .alert-point {
+            font-size: 14px;
+            color: var(--text);
+            padding: 8px 12px;
+            background: #141414;
+            border-left: 3px solid #ff6b35;
+            line-height: 1.5;
+        }
+
+        .alert-point strong {
+            color: #fff;
+        }
+
+        .alert-bonuses {
+            background: #141414;
+            padding: 16px 20px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .alert-bonus-title {
+            font-size: 13px;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 4px rgba(0,255,65,0.3);
+        }
+
+        .alert-bonus-item {
+            font-size: 14px;
+            color: var(--text);
+            padding: 4px 0;
+            line-height: 1.5;
+        }
+
+        .bonus-tool {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .alert-bonus-item strong {
+            color: var(--green);
+            text-shadow: 0 0 4px rgba(0,255,65,0.3);
+        }
+
+        /* Bonus badges on icons */
+        .desktop-icon.has-bonus {
+            border-color: #ff6b35;
+        }
+
+        .desktop-icon.has-bonus:hover {
+            border-color: #ff6b35;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.15);
+        }
+
+        .bonus-badge {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            background: #ff6b35;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            text-align: center;
+        }
+
+        /* ===================== POST-IT ===================== */
+        .postit-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+        }
+
+        .postit {
+            background: var(--postit);
+            color: #333;
+            width: 220px;
+            padding: 24px 18px 18px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 16px;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 4px 4px 14px rgba(0,0,0,0.5);
+            transform: rotate(2deg);
+            transition: transform 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .postit:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 6px 6px 18px rgba(0,0,0,0.6);
+        }
+
+        .postit::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 26px;
+            background: rgba(0,0,0,0.06);
+        }
+
+        .postit-title {
+            font-weight: bold;
+            font-size: 15px;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .postit-text { color: #1a1a1a; }
+
+        .postit-arrow {
+            display: block;
+            text-align: right;
+            font-size: 22px;
+            margin-top: 8px;
+        }
+
+        /* ===================== DOCK ===================== */
+        .dock {
+            background: #0d0d0d;
+            border-top: 2px solid #1a1a1a;
+            padding: 14px 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .dock a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .dock a:hover { color: var(--green); }
+
+        /* ===================== MOBILE ===================== */
+        @media (max-width: 900px) {
+            .icon-grid { grid-template-columns: repeat(2, 1fr); }
+            .placeholder-grid { grid-template-columns: 1fr; }
+            .books-row { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .login-frame {
+                min-width: auto;
+                margin: 0 16px;
+                padding: 36px 28px;
+            }
+
+            #password-input { width: 200px; font-size: 18px; }
+
+            .icon-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .desktop-icon { padding: 18px 12px; }
+            .icon-emoji { font-size: 34px; margin-bottom: 8px; }
+            .icon-name { font-size: 12px; }
+
+            .placeholder-grid { grid-template-columns: 1fr; }
+            .placeholder-label { font-size: 16px; }
+
+            .postit-container { bottom: 16px; right: 16px; }
+            .postit { width: 180px; font-size: 14px; }
+
+            .topbar { padding: 10px 16px; }
+            .topbar-title { display: none; }
+
+            .welcome-item { font-size: 13px; }
+            .welcome-item .wi-label { font-size: 13px; }
+            .welcome-item .wi-desc { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== LOGIN ==================== -->
+    <div id="login-screen">
+        <div class="login-computer" style="text-align:center">
+            <div class="login-frame">
+                <div id="login-form">
+                    <div class="login-title">Workshop OS v2.2</div>
+                    <div class="login-subtitle">Презентации с AI &mdash; 22.02.2026</div>
+                    <div class="login-prompt">ENTER ACCESS CODE:</div>
+                    <div class="login-input-row">
+                        <span class="login-cursor">&gt;</span>
+                        <input type="password" id="password-input" placeholder="________" autofocus
+                               onkeydown="if(event.key==='Enter') checkPassword()">
+                    </div>
+                    <div id="login-error"></div>
+                    <div class="login-hint">Код доступа в письме после оплаты</div>
+                </div>
+                <div class="boot-text" id="boot-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DESKTOP ==================== -->
+    <div id="desktop">
+        <!-- Top bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <span class="topbar-logo">ира&ai</span>
+                <span class="topbar-sep">|</span>
+                <span class="topbar-title">WORKSHOP OS &mdash; Презентации с AI</span>
+            </div>
+            <div class="topbar-right" id="clock"></div>
+        </div>
+
+        <div class="desktop-content">
+
+            <!-- WELCOME -->
+            <div class="welcome-panel" id="welcome-panel">
+                <div class="welcome-titlebar">
+                    <span>readme.txt</span>
+                    <span class="welcome-close" onclick="this.closest('.welcome-panel').style.display='none'; playClick()">[X]</span>
+                </div>
+                <div class="welcome-body">
+                    <div class="welcome-intro">
+                        <strong>Добро пожаловать!</strong><br>
+                        Это ваш личный рабочий стол воркшопа. Вот что здесь есть и что появится:
+                    </div>
+                    <div class="welcome-map">
+                        <div class="welcome-item active">
+                            <span class="wi-arrow">&gt;</span>
+                            <span><span class="wi-label">Нейронки</span> <span class="wi-desc">&mdash; ссылки на все инструменты уже работают, кликайте</span></span>
+                        </div>
+                        <div class="welcome-item">
+                            <span class="wi-arrow">&gt;</span>
+                            <span><span class="wi-label">Ссылка на Zoom</span> <span class="wi-desc">&mdash; появится в окошке ниже 22 февраля перед стартом</span></span>
+                        </div>
+                        <div class="welcome-item">
+                            <span class="wi-arrow">&gt;</span>
+                            <span><span class="wi-label">Запись воркшопа</span> <span class="wi-desc">&mdash; будет загружена в своё окошко после 22 февраля</span></span>
+                        </div>
+                        <div class="welcome-item">
+                            <span class="wi-arrow">&gt;</span>
+                            <span><span class="wi-label">Промты и шаблоны</span> <span class="wi-desc">&mdash; библиотека появится после воркшопа</span></span>
+                        </div>
+                        <div class="welcome-item">
+                            <span class="wi-arrow">&gt;</span>
+                            <span><span class="wi-label">Вопросы?</span> <span class="wi-desc">&mdash; жёлтый стикер справа внизу &rarr; Альфред ответит или передаст Ире</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ВАЖНО: РЕГИСТРАЦИЯ -->
+            <div class="alert-panel">
+                <div class="alert-titlebar">
+                    <span>&#9888; ВАЖНО — прочитайте до воркшопа</span>
+                </div>
+                <div class="alert-body">
+                    <div class="alert-main">
+                        До старта воркшопа <strong>зарегистрируйтесь во всех нейронках</strong> по ссылкам ниже.
+                    </div>
+                    <div class="alert-details">
+                        <div class="alert-point">&gt; Для регистрации <strong>нужен VPN</strong></div>
+                        <div class="alert-point">&gt; Оплачивать подписки пока <strong>не нужно</strong> — практику сделаем в бесплатных версиях</div>
+                        <div class="alert-point">&gt; Но иметь <strong>подключённые аккаунты крайне желательно</strong> — иначе вы ничего не сможете повторить за мной</div>
+                    </div>
+                    <div class="alert-bonuses">
+                        <div class="alert-bonus-title">Бонусы по нашим ссылкам ниже (иконки с оранжевой плашкой):</div>
+                        <div class="alert-bonus-item"><span class="bonus-tool">Manus</span> <span class="bonus-desc">— код приглашения, даёт <strong>+500 токенов</strong></span></div>
+                        <div class="alert-bonus-item"><span class="bonus-tool">Chronicle</span> <span class="bonus-desc">— бесплатный <strong>месяц Pro</strong></span></div>
+                        <div class="alert-bonus-item"><span class="bonus-tool">Gamma</span> <span class="bonus-desc">— <strong>+200 кредитов</strong> при регистрации</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI TOOLS -->
+            <div class="desktop-section">
+                <div class="desktop-section-title">AI-инструменты</div>
+                <div class="icon-grid">
+                    <a href="https://notebooklm.google.com/" target="_blank" class="desktop-icon" onclick="playClick()">
+                        <span class="icon-emoji">&#128211;</span>
+                        <div class="icon-name">NotebookLM</div>
+                        <div class="icon-status">Level 01</div>
+                    </a>
+                    <a href="https://gamma.app/signup?r=9nmr42f6fh905k2" target="_blank" class="desktop-icon has-bonus" onclick="playClick()">
+                        <span class="bonus-badge">+200 кредитов</span>
+                        <span class="icon-emoji">&#10024;</span>
+                        <div class="icon-name">Gamma</div>
+                        <div class="icon-status">Level 02</div>
+                    </a>
+                    <a href="https://kimi.ai/" target="_blank" class="desktop-icon" onclick="playClick()">
+                        <span class="icon-emoji">&#127769;</span>
+                        <div class="icon-name">Kimi</div>
+                        <div class="icon-status">Level 02</div>
+                    </a>
+                    <a href="https://manus.im/invitation/9NHYMOP1YHMKE6" target="_blank" class="desktop-icon has-bonus" onclick="playClick()">
+                        <span class="bonus-badge">+500 токенов</span>
+                        <span class="icon-emoji">&#9995;</span>
+                        <div class="icon-name">Manus</div>
+                        <div class="icon-status">Level 02</div>
+                    </a>
+                    <a href="https://genspark.ai/" target="_blank" class="desktop-icon" onclick="playClick()">
+                        <span class="icon-emoji">&#9889;</span>
+                        <div class="icon-name">GenSpark</div>
+                        <div class="icon-status">Level 02</div>
+                    </a>
+                    <a href="https://claude.ai/" target="_blank" class="desktop-icon" onclick="playClick()">
+                        <span class="icon-emoji">&#129520;</span>
+                        <div class="icon-name">Claude</div>
+                        <div class="icon-status">Level 03</div>
+                    </a>
+                    <a href="https://chatgpt.com/" target="_blank" class="desktop-icon" onclick="playClick()">
+                        <span class="icon-emoji">&#128172;</span>
+                        <div class="icon-name">ChatGPT</div>
+                        <div class="icon-status">Level 03</div>
+                    </a>
+                    <a href="https://chr.so/TepgUKl" target="_blank" class="desktop-icon has-bonus" onclick="playClick()">
+                        <span class="bonus-badge">Месяц Pro</span>
+                        <span class="icon-emoji">&#128218;</span>
+                        <div class="icon-name">Chronicle</div>
+                        <div class="icon-status">Bonus</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WORKSHOP MATERIALS — BIG WINDOWS -->
+            <div class="desktop-section">
+                <div class="desktop-section-title">Материалы воркшопа</div>
+                <div class="placeholder-grid">
+
+                    <div class="placeholder-window" id="zoom-window">
+                        <div class="placeholder-titlebar">
+                            <span class="placeholder-titlebar-text">Zoom</span>
+                            <span class="placeholder-lock">&#128274;</span>
+                        </div>
+                        <div class="placeholder-body">
+                            <span class="placeholder-emoji">&#127909;</span>
+                            <div class="placeholder-label">Ссылка на Zoom</div>
+                            <div class="placeholder-desc">Появится здесь<br>22 февраля перед стартом</div>
+                            <span class="placeholder-when">10:00 мск</span>
+                        </div>
+                    </div>
+
+                    <div class="placeholder-window" id="recording-window">
+                        <div class="placeholder-titlebar">
+                            <span class="placeholder-titlebar-text">Запись</span>
+                            <span class="placeholder-lock">&#128274;</span>
+                        </div>
+                        <div class="placeholder-body">
+                            <span class="placeholder-emoji">&#127916;</span>
+                            <div class="placeholder-label">Запись воркшопа</div>
+                            <div class="placeholder-desc">Будет загружена сюда<br>после 22 февраля</div>
+                            <span class="placeholder-when">После воркшопа</span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- PROMPTS -->
+            <div class="desktop-section">
+                <div class="desktop-section-title">Библиотека промтов</div>
+                <div class="books-row">
+                    <div class="book-card">
+                        <div class="placeholder-titlebar">
+                            <span class="placeholder-titlebar-text">Промты</span>
+                            <span class="placeholder-lock">&#128274;</span>
+                        </div>
+                        <div class="placeholder-body">
+                            <span class="book-emoji">&#128214;</span>
+                            <div class="book-title">Промты для презентаций</div>
+                            <div class="book-desc">Появятся здесь<br>после воркшопа</div>
+                            <span class="book-when">После воркшопа</span>
+                        </div>
+                    </div>
+                    <div class="book-card">
+                        <div class="placeholder-titlebar">
+                            <span class="placeholder-titlebar-text">Шаблоны</span>
+                            <span class="placeholder-lock">&#128274;</span>
+                        </div>
+                        <div class="placeholder-body">
+                            <span class="book-emoji">&#128213;</span>
+                            <div class="book-title">Скиллы и шаблоны</div>
+                            <div class="book-desc">Появятся здесь<br>после воркшопа</div>
+                            <span class="book-when">После воркшопа</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Post-it -->
+        <div class="postit-container">
+            <a href="https://t.me/ira_alfred_bot" target="_blank" class="postit" onclick="playClick()">
+                <div class="postit-title">&#128172; Вопрос?</div>
+                <div class="postit-text">Напиши Альфреду&nbsp;&mdash; он&nbsp;ответит или&nbsp;передаст Ире</div>
+                <span class="postit-arrow">&rarr;</span>
+            </a>
+        </div>
+
+        <!-- Dock -->
+        <div class="dock">
+            <a href="https://iraai.ru">iraai.ru</a> &middot; Workshop OS &middot; 2026
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD = 'PREZAI22';
+
+        function playClick() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.05);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.05);
+            } catch(e) {}
+        }
+
+        function playBoot() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                [440, 554, 659, 880].forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.05, ctx.currentTime + i * 0.12);
+                    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.12 + 0.15);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + i * 0.12);
+                    osc.stop(ctx.currentTime + i * 0.12 + 0.15);
+                });
+            } catch(e) {}
+        }
+
+        function playError() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, ctx.currentTime);
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.2);
+            } catch(e) {}
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const error = document.getElementById('login-error');
+            const val = input.value.trim().toUpperCase();
+
+            if (val === CORRECT_PASSWORD) {
+                playBoot();
+                document.getElementById('login-form').style.display = 'none';
+                const bootEl = document.getElementById('boot-text');
+                bootEl.style.display = 'block';
+
+                const lines = [
+                    'ACCESS GRANTED.',
+                    'Loading Workshop OS v2.2...',
+                    'Mounting AI tools........... OK',
+                    'Initializing desktop........ OK',
+                    'Syncing prompts............. OK',
+                    '',
+                    'Welcome, participant.',
+                    'Launching desktop...'
+                ];
+
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < lines.length) {
+                        bootEl.innerHTML += lines[i] + '<br>';
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            document.getElementById('login-screen').style.display = 'none';
+                            document.getElementById('desktop').style.display = 'flex';
+                            updateClock();
+                            setInterval(updateClock, 60000);
+                        }, 600);
+                    }
+                }, 250);
+            } else {
+                playError();
+                error.textContent = 'ACCESS DENIED. Try again.';
+                input.value = '';
+                input.style.borderBottomColor = '#b32a1e';
+                setTimeout(() => { input.style.borderBottomColor = '#333'; }, 1500);
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const d = String(now.getDate()).padStart(2, '0');
+            const mo = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('clock').textContent = d + '.' + mo + '.2026 ' + h + ':' + m;
+        }
+    </script>
+
+</body>
+</html>
