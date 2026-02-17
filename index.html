@@ -504,6 +504,17 @@
             color: var(--accent);
         }
 
+        .product-tag.new {
+            background: #1a1a1a;
+            color: #00ff41;
+            animation: newPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes newPulse {
+            0%, 100% { box-shadow: 0 0 0 rgba(0,255,65,0); }
+            50% { box-shadow: 0 0 8px rgba(0,255,65,0.3); }
+        }
+
         .product-card h3 {
             font-size: 22px;
             font-weight: 800;
@@ -1057,6 +1068,14 @@
         <p class="section-desc">Серьёзная работа с AI. Каждый хаб. Конкретный навык, конкретный результат.</p>
 
         <div class="products-grid">
+            <!-- Card 0: Workshop Presentations -->
+            <a href="/workshop-presentations/" class="product-card fallable">
+                <div class="product-tag new">&#9733; NEW &middot; 22 февраля</div>
+                <h3>Презентации с AI</h3>
+                <p>4 часа, 3 уровня, 8+ нейросетей. От &laquo;с нуля&raquo; до &laquo;как я работаю сама&raquo;. Разовый интенсив, не курс.</p>
+                <div class="product-price">6,500 &#8381;</div>
+            </a>
+
             <!-- Card 1: Carousels -->
             <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card fallable">
                 <div class="product-tag live">Доступен</div>
