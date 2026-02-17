@@ -770,6 +770,7 @@ function showPassword() {
   cockpitScreen.classList.remove('active');
   termFeedback.textContent = '';
   termFeedback.className = 'terminal-feedback';
+  passInput.disabled = false;
   passInput.value = '';
   setTimeout(() => passInput.focus(), 100);
 }
