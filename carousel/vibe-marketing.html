@@ -3,45 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carousel Constructor — Ira & AI</title>
+<title>Вайб-маркетинг — Carousel Constructor</title>
 <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* === PASSWORD GATE === */
-.gate {
-    position: fixed; inset: 0; z-index: 9999;
-    background: #0a0a0a;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    transition: opacity 0.5s, visibility 0.5s;
-}
-.gate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.gate-box { text-align: center; max-width: 400px; padding: 40px; }
-.gate-logo { font-family: 'Roboto Mono', monospace; font-size: 12px; letter-spacing: 0.3em; color: #555; margin-bottom: 48px; text-transform: uppercase; }
-.gate-title { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 12px; }
-.gate-sub { font-family: 'Inter', sans-serif; font-size: 16px; color: #666; margin-bottom: 40px; line-height: 1.5; }
-.gate-input {
-    width: 100%; padding: 16px 20px; background: #1a1a1a; border: 2px solid #333;
-    color: #fff; font-family: 'Roboto Mono', monospace; font-size: 16px;
-    border-radius: 12px; text-align: center; letter-spacing: 0.1em; outline: none;
-    transition: border-color 0.2s;
-}
-.gate-input:focus { border-color: #E63946; }
-.gate-input.error { border-color: #E63946; animation: shake 0.4s; }
-@keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-.gate-btn {
-    width: 100%; padding: 16px; margin-top: 16px; background: #E63946; border: none;
-    color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700;
-    border-radius: 12px; cursor: pointer; transition: background 0.2s;
-}
-.gate-btn:hover { background: #c62d38; }
-.gate-hint { font-family: 'Roboto Mono', monospace; font-size: 11px; color: #333; margin-top: 32px; }
-
 /* === MAIN APP === */
 body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
-.app { display: none; }
-.app.visible { display: block; }
 
 /* === TOP BAR === */
 .topbar {
@@ -151,6 +120,12 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     position: absolute; bottom: 40px; right: 50px;
     font-family: 'Roboto Mono', monospace; font-size: 14px;
     opacity: 0.3; z-index: 3;
+}
+.slide-brand {
+    position: absolute; bottom: 40px; left: 64px;
+    font-family: 'Roboto Mono', monospace; font-size: 13px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    opacity: 0.4; z-index: 3;
 }
 
 /* Editable text styling */
@@ -336,47 +311,35 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 </head>
 <body>
 
-<!-- PASSWORD GATE -->
-<div class="gate" id="gate">
-    <div class="gate-box">
-        <div class="gate-logo">Ira & AI</div>
-        <div class="gate-title">Carousel Constructor</div>
-        <div class="gate-sub">Конструктор каруселей для Instagram.<br>Введите пароль для входа.</div>
-        <input type="password" class="gate-input" id="gate-input" placeholder="Пароль" autofocus>
-        <button class="gate-btn" onclick="checkPass()">Войти</button>
-        <div class="gate-hint">Пароль из курса или от @ira.and.ai</div>
-    </div>
-</div>
-
 <!-- MAIN APP -->
-<div class="app" id="app">
+<div id="app">
 
 <div class="topbar">
     <div class="topbar-section">
         <span class="topbar-label">Style</span>
-        <button onclick="setStyle('nike')" class="active" id="btn-nike">NIKE PRO</button>
+        <button onclick="setStyle('nike')" id="btn-nike">NIKE PRO</button>
         <button onclick="setStyle('dirty')" id="btn-dirty">DIRTY ROBOT</button>
         <button onclick="setStyle('netflix')" id="btn-netflix">NETFLIX</button>
-        <button onclick="setStyle('light')" id="btn-light">CLEAN LIGHT</button>
+        <button onclick="setStyle('light')" class="active" id="btn-light">CLEAN LIGHT</button>
     </div>
     <div class="spacer"></div>
     <div class="topbar-section">
         <span class="topbar-label">Frame</span>
-        <button onclick="toggleWrap()" id="btn-wrap" class="active">PHONE</button>
+        <button onclick="toggleWrap()" id="btn-wrap">PHONE</button>
     </div>
     <div class="spacer"></div>
     <div class="topbar-section">
         <button onclick="toggleSettings()" id="btn-settings">SETTINGS</button>
     </div>
-    <span class="brand">@ira.and.ai</span>
+    <span class="brand">VIBE MARKETING // @IRA.AND.AI</span>
 </div>
 
 <!-- SETTINGS PANEL -->
 <div class="settings-panel" id="settings-panel">
-    <h3>Шрифты</h3>
-    <label>Заголовки</label>
+    <h3>Fonts</h3>
+    <label>Headings</label>
     <select id="font-heading" onchange="applyFont()">
-        <option value="">По умолчанию стиля</option>
+        <option value="">Default</option>
         <option value="'Inter', sans-serif">Inter</option>
         <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
         <option value="'Playfair Display', serif">Playfair Display</option>
@@ -385,9 +348,9 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
         <option value="'Outfit', sans-serif">Outfit</option>
         <option value="'Roboto Mono', monospace">Roboto Mono</option>
     </select>
-    <label>Текст</label>
+    <label>Body</label>
     <select id="font-body" onchange="applyFont()">
-        <option value="">По умолчанию стиля</option>
+        <option value="">Default</option>
         <option value="'Inter', sans-serif">Inter</option>
         <option value="'DM Sans', sans-serif">DM Sans</option>
         <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
@@ -396,177 +359,194 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
         <option value="'Playfair Display', serif">Playfair Display</option>
     </select>
 
-    <h3>Размер шрифтов</h3>
+    <h3>Font Sizes</h3>
     <label>H1 Cover: <span id="val-h1">96</span>px</label>
     <input type="range" id="size-h1" min="40" max="160" value="96" oninput="applyFontSizes()">
     <label>H2: <span id="val-h2">64</span>px</label>
     <input type="range" id="size-h2" min="28" max="120" value="64" oninput="applyFontSizes()">
-    <label>Текст (p): <span id="val-p">28</span>px</label>
+    <label>Body (p): <span id="val-p">28</span>px</label>
     <input type="range" id="size-p" min="16" max="48" value="28" oninput="applyFontSizes()">
-    <label>Цитата: <span id="val-quote">48</span>px</label>
+    <label>Quote: <span id="val-quote">48</span>px</label>
     <input type="range" id="size-quote" min="24" max="72" value="48" oninput="applyFontSizes()">
-    <label>Список текст: <span id="val-list">28</span>px</label>
+    <label>List text: <span id="val-list">28</span>px</label>
     <input type="range" id="size-list" min="16" max="48" value="28" oninput="applyFontSizes()">
-    <label>Список номер: <span id="val-listnum">48</span>px</label>
+    <label>List number: <span id="val-listnum">48</span>px</label>
     <input type="range" id="size-listnum" min="20" max="72" value="48" oninput="applyFontSizes()">
-    <label>Тег / метка: <span id="val-tag">14</span>px</label>
+    <label>Tag / label: <span id="val-tag">14</span>px</label>
     <input type="range" id="size-tag" min="10" max="28" value="14" oninput="applyFontSizes()">
-    <label>CTA заголовок: <span id="val-cta">120</span>px</label>
+    <label>CTA keyword: <span id="val-cta">120</span>px</label>
     <input type="range" id="size-cta" min="48" max="200" value="120" oninput="applyFontSizes()">
-    <label>CTA описание: <span id="val-ctadesc">32</span>px</label>
+    <label>CTA description: <span id="val-ctadesc">32</span>px</label>
     <input type="range" id="size-ctadesc" min="16" max="48" value="32" oninput="applyFontSizes()">
-    <label>Бренд: <span id="val-brand">13</span>px</label>
+    <label>Brand: <span id="val-brand">13</span>px</label>
     <input type="range" id="size-brand" min="8" max="24" value="13" oninput="applyFontSizes()">
-    <button class="s-btn s-btn-dark" onclick="resetFontSizes()">СБРОС РАЗМЕРОВ</button>
+    <button class="s-btn s-btn-dark" onclick="resetFontSizes()">RESET SIZES</button>
 
-    <h3>Цвета</h3>
+    <h3>Colors</h3>
     <div class="color-row">
-        <div><label>Акцент</label><input type="color" id="color-accent" value="#E63946" onchange="applyColors()"></div>
-        <div><label>Фон</label><input type="color" id="color-bg" value="#000000" onchange="applyColors()"></div>
-        <div><label>Текст</label><input type="color" id="color-text" value="#ffffff" onchange="applyColors()"></div>
+        <div><label>Accent</label><input type="color" id="color-accent" value="#E63946" onchange="applyColors()"></div>
+        <div><label>Background</label><input type="color" id="color-bg" value="#FAFAFA" onchange="applyColors()"></div>
+        <div><label>Text</label><input type="color" id="color-text" value="#1a1a1a" onchange="applyColors()"></div>
     </div>
-    <button class="s-btn s-btn-red" onclick="resetColors()">СБРОС ЦВЕТОВ</button>
+    <button class="s-btn s-btn-red" onclick="resetColors()">RESET COLORS</button>
 
-    <h3>Картинка на фон</h3>
+    <h3>Background Image</h3>
     <div class="drop-zone" id="drop-zone" onclick="document.getElementById('bg-file').click()">
         <input type="file" id="bg-file" accept="image/*" onchange="handleBgFile(this.files[0])">
-        <p>Перетащите картинку сюда</p>
+        <p>Drop image here</p>
     </div>
-    <label>Или вставьте URL</label>
+    <label>Or paste URL</label>
     <input type="text" id="bg-url" placeholder="https://..." onchange="applyBgUrl()">
-    <label>Затемнение</label>
+    <label>Overlay opacity</label>
     <input type="range" id="bg-opacity" min="0" max="100" value="70" oninput="applyBgOverlay()">
-    <div class="hint">Больше = текст читабельнее</div>
-    <label>Куда</label>
+    <label>Apply to</label>
     <select id="bg-target" onchange="applyBgTarget()">
-        <option value="all">Все слайды</option>
-        <option value="0">Слайд 1: Обложка</option>
-        <option value="1">Слайд 2: Контент</option>
-        <option value="2">Слайд 3: Цитата</option>
-        <option value="3">Слайд 4: Контент</option>
-        <option value="4">Слайд 5: Список</option>
-        <option value="5">Слайд 6: CTA</option>
+        <option value="all">All slides</option>
+        <option value="0">01 / Cover</option>
+        <option value="1">02 / Greg Isenberg</option>
+        <option value="2">03 / Old World</option>
+        <option value="3">04 / New World</option>
+        <option value="4">05 / Examples</option>
+        <option value="5">06 / Numbers</option>
+        <option value="6">07 / My Angle</option>
+        <option value="7">08 / Action</option>
+        <option value="8">09 / CTA</option>
     </select>
-    <button class="s-btn s-btn-dark" onclick="clearBg()">УБРАТЬ КАРТИНКУ</button>
+    <button class="s-btn s-btn-dark" onclick="clearBg()">REMOVE IMAGE</button>
 
-    <h3>Масштаб</h3>
+    <h3>Scale</h3>
     <input type="range" id="scale-slider" min="20" max="100" value="42" oninput="applyScale()">
-    <div class="hint">100% = полный размер для скриншота</div>
+    <div class="hint">100% = full size for screenshot</div>
 </div>
 
 <!-- SLIDES -->
-<div class="slides-wrap frame-on" id="slides-wrap">
+<div class="slides-wrap" id="slides-wrap">
 
-<!-- SLIDE 1: COVER -->
+<!-- SLIDE 01: COVER -->
 <div class="phone-wrap"><div class="slide slide-cover">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 01 / COVER</div>
-    <div class="tag" contenteditable="true">ТРЕНД НЕДЕЛИ</div>
-    <h1 contenteditable="true">ЗАГОЛОВОК<br><span class="accent">КАРУСЕЛИ</span></h1>
-    <div class="sub" contenteditable="true">Одно предложение, которое цепляет и объясняет, зачем листать дальше</div>
-    <div class="author" contenteditable="true">@IRA.AND.AI</div>
+    <div class="tag" contenteditable="true">ТРЕНД</div>
+    <h1 contenteditable="true">ВАЙБ-<br><span class="accent">МАРКЕТИНГ</span></h1>
+    <div class="sub" contenteditable="true">Пока вы недоумеваете, зачем вам этот странный вайб-кодинг — вайб-маркетинг зарабатывает без вас.</div>
+    <div class="author" contenteditable="true">686% РОСТ ЗАПРОСОВ ЗА ГОД</div>
     <div class="bar"></div>
-    <div class="slide-number">1/6</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">1/9</div>
 </div></div>
 
-<!-- SLIDE 2: CONTENT -->
-<div class="phone-wrap"><div class="slide slide-content">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 02 / CONTENT</div>
-    <div class="section-tag" contenteditable="true">// 01 КОНТЕКСТ</div>
-    <h2 contenteditable="true">О ЧЁМ РЕЧЬ</h2>
-    <p contenteditable="true">Основной текст слайда. Два-три предложения. Главная мысль раздела, которая заставляет листать дальше.</p>
-    <p class="dim" contenteditable="true">Дополнительный контекст мелким шрифтом.</p>
-    <div class="slide-number">2/6</div>
-</div></div>
-
-<!-- SLIDE 3: QUOTE -->
+<!-- SLIDE 02: QUOTE (Greg Isenberg) -->
 <div class="phone-wrap"><div class="slide slide-quote">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 03 / QUOTE</div>
-    <blockquote contenteditable="true">Сильная цитата из источника. Фраза, которая заставляет задуматься и сохранить.</blockquote>
-    <div class="quote-author" contenteditable="true">Имя автора</div>
-    <div class="slide-number">3/6</div>
+    <div class="slide-label">SLIDE 02 / QUOTE</div>
+    <blockquote contenteditable="true">Помните, как вайб-кодинг превратил 8-недельную разработку в 2-дневный спринт? То же самое сейчас происходит с маркетингом.</blockquote>
+    <div class="quote-author" contenteditable="true">Greg Isenberg — 3 стартапа продано, ex-TikTok, ex-Reddit</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">2/9</div>
 </div></div>
 
-<!-- SLIDE 4: CONTENT -->
+<!-- SLIDE 03: LIST (Old World — professions) -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 03 / LIST</div>
+    <div class="section-tag" contenteditable="true">// СТАРЫЙ МИР</div>
+    <h2 contenteditable="true">МАРКЕТИНГОВЫЙ ОТДЕЛ: 10+ ЧЕЛОВЕК</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Копирайтер</strong></span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Дизайнер</strong></span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Таргетолог</strong></span></div>
+    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Аналитик</strong></span></div>
+    <div class="list-item"><span class="list-num">05</span><span class="list-text" contenteditable="true"><strong>Менеджер проекта</strong></span></div>
+    <div class="list-item"><span class="list-num">06</span><span class="list-text" contenteditable="true"><strong>Стратег</strong></span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">3/9</div>
+</div></div>
+
+<!-- SLIDE 04: CONTENT (New World — compare) -->
 <div class="phone-wrap"><div class="slide slide-content">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 04 / CONTENT</div>
-    <div class="section-tag" contenteditable="true">// 02 ПОЧЕМУ ВАЖНО</div>
-    <h2 contenteditable="true">КЛЮЧЕВОЙ ФАКТ</h2>
-    <p contenteditable="true">Факт или цифра, которая <span class="highlight">бьёт по голове</span>. Одно число или одна мысль.</p>
-    <p contenteditable="true">И что это значит для обычного человека. Перевод на понятный язык.</p>
-    <div class="slide-number">4/6</div>
+    <div class="section-tag" contenteditable="true">// НОВЫЙ МИР</div>
+    <h2 contenteditable="true">ОДИН ЭКСПЕРТ + AI-АГЕНТЫ</h2>
+    <p contenteditable="true">Запуск — <span class="highlight">дни, не недели</span>. Тест гипотезы — часы, не месяцы. Один человек + агенты.</p>
+    <p contenteditable="true">Не потому что команды не нужны. А потому что один человек с агентами сейчас двигается со скоростью, которая раньше была невозможна.</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">4/9</div>
 </div></div>
 
-<!-- SLIDE 5: LIST -->
+<!-- SLIDE 05: LIST (Examples) -->
 <div class="phone-wrap"><div class="slide slide-list">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 05 / LIST</div>
-    <div class="section-tag" contenteditable="true">// 03 ЧТО ДЕЛАТЬ</div>
-    <h2 contenteditable="true">КОНКРЕТНЫЕ ШАГИ</h2>
-    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Первый шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Второй шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Третий шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Четвёртый шаг.</strong> Что именно сделать.</span></div>
-    <div class="slide-number">5/6</div>
+    <div class="section-tag" contenteditable="true">// ЧТО УЖЕ РАБОТАЕТ</div>
+    <h2 contenteditable="true">РЕАЛЬНЫЕ ПРИМЕРЫ</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>CRM-агент:</strong> сам находит лидов, анализирует их контент, пишет персональные сообщения.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Конкурент-аналитик:</strong> парсит чужую рекламу, генерирует вариации под ваш бренд.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Автозапуск продукта:</strong> лендинг + воронка + email-серия + креативы. За 24 часа.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">5/9</div>
 </div></div>
 
-<!-- SLIDE 6: CTA -->
+<!-- SLIDE 06: CONTENT (Numbers — 686%) -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 06 / CONTENT</div>
+    <div class="section-tag" contenteditable="true">// МАСШТАБ</div>
+    <h2 contenteditable="true">686%</h2>
+    <p contenteditable="true">Рост поисковых запросов «vibe marketing» с февраля 2025.</p>
+    <p contenteditable="true">Стартапы нанимают конкретно под этот навык. Зарплаты вайб-маркетологов сами погуглите, я не буду про это писать, не поверите.</p>
+    <p class="dim" contenteditable="true">«Это как зайти в соцсети в 2005-м.» — Greg Isenberg</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">6/9</div>
+</div></div>
+
+<!-- SLIDE 07: QUOTE (My Angle) -->
+<div class="phone-wrap"><div class="slide slide-quote">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 07 / QUOTE</div>
+    <blockquote contenteditable="true">Вайб-кодинг — для тех, кто делает продукт. Вайб-маркетинг — для тех, кто его продаёт. Угадайте, чего не хватает 90% экспертов.</blockquote>
+    <div class="quote-author" contenteditable="true">Подсказка: продукт у них есть.</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">7/9</div>
+</div></div>
+
+<!-- SLIDE 08: LIST (Action — steps) -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 08 / LIST</div>
+    <div class="section-tag" contenteditable="true">// ЧТО ДЕЛАТЬ</div>
+    <h2 contenteditable="true">ПРЯМО СЕЙЧАС</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Выберите одну</strong> рутинную маркетинговую задачу.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Найдите AI-агента</strong> под неё. Вот, например, Manus вышел.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Замените ручной процесс</strong> на агента. Одну задачу. Не весь маркетинг.</span></div>
+    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Посмотрите на результат</strong> через неделю.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">8/9</div>
+</div></div>
+
+<!-- SLIDE 09: CTA -->
 <div class="phone-wrap"><div class="slide slide-cta">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 06 / CTA</div>
-    <div class="cta-keyword" contenteditable="true">НАПИШИ<br><span class="accent">КАРУСЕЛЬ</span></div>
-    <div class="cta-desc" contenteditable="true">Пришлю промт, который из любого контента делает карусель за 10 минут</div>
-    <div class="cta-how" contenteditable="true">В КОММЕНТЫ ИЛИ В ДИРЕКТ</div>
-    <div class="cta-handle" contenteditable="true">@IRA.AND.AI</div>
-    <div class="slide-number">6/6</div>
+    <div class="slide-label">SLIDE 09 / CTA</div>
+    <div class="cta-keyword" contenteditable="true">IRA &<br><span class="accent">AI</span></div>
+    <div class="cta-desc" contenteditable="true">Вайб-маркетинг, AI-агенты, промты — разбираю в канале каждую неделю</div>
+    <div class="cta-how" contenteditable="true">T.ME/IRA_AND_AI  //  IRAAI.RU</div>
+    <div class="cta-handle" contenteditable="true">РАССЫЛКА AI REHАБ — СТАРТ В МАРТЕ</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">9/9</div>
 </div></div>
 
 </div><!-- slides-wrap -->
 
 <div class="bottombar">
-    <button class="btn-secondary" onclick="downloadInfo()">СКАЧАТЬ (PNG)</button>
-    <button class="btn-primary" onclick="fullscreen()">НА ВЕСЬ ЭКРАН</button>
+    <button class="btn-secondary" onclick="exportAll()">EXPORT ALL (PNG)</button>
+    <button class="btn-primary" onclick="fullscreen()">FULL SIZE</button>
 </div>
 
 </div><!-- app -->
 
 <script>
-// === PASSWORD ===
-const PASS_HASH = 'e34f6dec12c4f4599eba078f31ae8139420d21b1bd2d7ced7d22b09c2074fb48';
-
-async function sha256(str) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-
-async function checkPass() {
-    const input = document.getElementById('gate-input');
-    const hash = await sha256(input.value.trim());
-    if (hash === PASS_HASH) {
-        document.getElementById('gate').classList.add('hidden');
-        document.getElementById('app').classList.add('visible');
-        localStorage.setItem('carousel_auth', '1');
-    } else {
-        input.classList.add('error');
-        setTimeout(() => input.classList.remove('error'), 400);
-        input.value = '';
-        input.placeholder = 'Неверный пароль';
-    }
-}
-
-document.getElementById('gate-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPass();
-});
-
-// Auto-login — gate disabled temporarily
-document.getElementById('gate').classList.add('hidden');
-document.getElementById('app').classList.add('visible');
-
 // === STYLES ===
-let currentStyle = 'nike';
+let currentStyle = 'light';
 const styleDefaults = {
     nike: { accent: '#E63946', bg: '#000000', text: '#ffffff' },
     dirty: { accent: '#00ff88', bg: '#0d0d0d', text: '#e0e0e0' },
@@ -618,7 +598,9 @@ function applyFontSizes() {
         ctadesc: document.getElementById('size-ctadesc').value,
         brand: document.getElementById('size-brand').value,
     };
+    // Update labels
     Object.keys(vals).forEach(k => document.getElementById('val-' + k).textContent = vals[k]);
+    // Apply sizes
     document.querySelectorAll('.slide h1').forEach(el => el.style.fontSize = vals.h1 + 'px');
     document.querySelectorAll('.slide h2').forEach(el => el.style.fontSize = vals.h2 + 'px');
     document.querySelectorAll('.slide p, .slide .sub, .slide .dim').forEach(el => el.style.fontSize = vals.p + 'px');
@@ -708,7 +690,7 @@ function clearBg() {
     bgImage = null;
     document.getElementById('bg-url').value = '';
     document.getElementById('bg-file').value = '';
-    dropZone.querySelector('p').textContent = 'Перетащите картинку сюда';
+    dropZone.querySelector('p').textContent = 'Drop image here';
     document.querySelectorAll('.slide-bg').forEach(el => el.style.backgroundImage = '');
     document.querySelectorAll('.slide-overlay').forEach(el => el.style.background = '');
 }
@@ -721,8 +703,8 @@ function applyScale() {
 }
 
 // === ACTIONS ===
-function downloadInfo() {
-    alert('Для скриншота слайда:\n\n1. Поставьте масштаб на 100% (в Settings)\n2. Cmd + Shift + 4 (Mac) или Win + Shift + S (Windows)\n3. Выделите слайд\n\nКаждый слайд = 1080 x 1350px (Instagram)');
+function exportAll() {
+    alert('Export:\n\n1. Set scale to 100% (Settings)\n2. Use Cmd+Shift+4 (Mac) to screenshot each slide\n3. Each slide = 1080 x 1350px\n\nOR use carousel-to-png.js with Playwright for auto-export.');
 }
 
 function fullscreen() {
@@ -733,8 +715,8 @@ function fullscreen() {
     window.scrollTo(0, 0);
 }
 
-// Init
-setStyle('nike');
+// Init — start with Clean Light (closest to GCONF editorial style)
+setStyle('light');
 </script>
 </body>
 </html>
