@@ -27,6 +27,8 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointe
 #startScreen .prompt{font-size:clamp(9px,1.8vw,13px);color:#ffe000;animation:blink 1s step-end infinite}
 #startScreen .skip{position:absolute;bottom:32px;font-size:clamp(7px,1.2vw,10px);color:#ff3cac88;cursor:pointer;text-decoration:none;transition:color .3s}
 #startScreen .skip:hover{color:#ff3cac}
+#startScreen .back-home{position:absolute;bottom:32px;left:32px;font-size:clamp(7px,1.2vw,10px);color:#e8e6f044;cursor:pointer;text-decoration:none;transition:color .3s}
+#startScreen .back-home:hover{color:#e8e6f0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ── password screen ── */
@@ -148,6 +150,7 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointe
   <div class="subtitle">УНИЧТОЖЬ ХАОС. ПОПАДИ В SPACE HUB.</div>
   <div class="prompt" id="startPrompt">&#9654; НАЖМИ ENTER &#9664;</div>
   <a class="skip" id="skipLink">УЖЕ В ЭКИПАЖЕ? ВВЕДИ КОД &rarr;</a>
+  <a class="back-home" href="https://iraai.ru/">&larr; IRAAI.RU</a>
 </div>
 
 <!-- ===== GAME CANVAS ===== -->
