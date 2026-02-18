@@ -111,7 +111,7 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 }
 .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
 .slide-overlay { position: absolute; inset: 0; z-index: 1; }
-.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number) { position: relative; z-index: 2; }
+.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number):not(.slide-brand) { position: relative; z-index: 2; }
 .slide-label {
     position: absolute; top: -28px; left: 4px;
     font-family: 'Roboto Mono', monospace; font-size: 11px; color: #999; z-index: 5;
@@ -122,10 +122,11 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     opacity: 0.3; z-index: 3;
 }
 .slide-brand {
-    position: absolute; bottom: 40px; left: 64px;
-    font-family: 'Roboto Mono', monospace; font-size: 13px;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    opacity: 0.4; z-index: 3;
+    position: absolute; bottom: 48px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    opacity: 0.85; z-index: 3;
 }
 
 /* Editable text styling */
@@ -142,7 +143,7 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 .style-nike .slide-cover h1 { font-size: 96px; font-weight: 900; line-height: 0.95; text-transform: uppercase; letter-spacing: -0.03em; }
 .style-nike .slide-cover h1 .accent { color: var(--accent, #E63946); }
 .style-nike .slide-cover .sub { font-size: 24px; color: #888; margin-top: 40px; line-height: 1.4; }
-.style-nike .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #555; margin-top: 60px; letter-spacing: 0.15em; }
+.style-nike .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 28px; font-weight: 700; color: var(--accent, #E63946); margin-top: 60px; letter-spacing: 0.15em; }
 
 .style-nike .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
 .style-nike .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 14px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
@@ -180,7 +181,7 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 .style-dirty .slide-cover h1 { font-family: 'Bebas Neue', sans-serif; font-size: 120px; line-height: 0.9; letter-spacing: 0.05em; text-transform: uppercase; }
 .style-dirty .slide-cover h1 .accent { color: var(--accent, #00ff88); }
 .style-dirty .slide-cover .sub { font-family: 'Roboto Mono', monospace; font-size: 20px; color: #666; margin-top: 32px; line-height: 1.6; }
-.style-dirty .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 13px; color: #333; margin-top: 80px; letter-spacing: 0.2em; border-top: 1px solid #222; padding-top: 16px; }
+.style-dirty .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 28px; font-weight: 700; color: var(--accent, #00ff88); margin-top: 80px; letter-spacing: 0.2em; border-top: 1px solid #222; padding-top: 16px; }
 
 .style-dirty .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
 .style-dirty .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.4em; color: var(--accent, #00ff88); margin-bottom: 20px; }
@@ -216,7 +217,7 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 .style-netflix .slide-cover h1 { font-size: 88px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
 .style-netflix .slide-cover h1 .accent { color: var(--accent, #E50914); }
 .style-netflix .slide-cover .sub { font-size: 26px; color: #808080; margin-top: 40px; line-height: 1.5; }
-.style-netflix .slide-cover .author { font-size: 16px; color: #404040; margin-top: 60px; letter-spacing: 0.1em; }
+.style-netflix .slide-cover .author { font-size: 28px; font-weight: 700; color: var(--accent, #E50914); margin-top: 60px; letter-spacing: 0.1em; }
 .style-netflix .slide-cover .bar { width: 60px; height: 4px; background: var(--accent, #E50914); margin-top: 48px; }
 
 .style-netflix .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
@@ -254,7 +255,7 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 .style-light .slide-cover h1 { font-size: 86px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
 .style-light .slide-cover h1 .accent { color: var(--accent, #E63946); }
 .style-light .slide-cover .sub { font-size: 26px; color: #888; margin-top: 40px; line-height: 1.5; }
-.style-light .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #bbb; margin-top: 60px; letter-spacing: 0.15em; }
+.style-light .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 28px; font-weight: 700; color: #E63946; margin-top: 60px; letter-spacing: 0.15em; }
 .style-light .slide-cover .bar { width: 80px; height: 3px; background: var(--accent, #E63946); margin-top: 40px; }
 
 .style-light .slide-content { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
