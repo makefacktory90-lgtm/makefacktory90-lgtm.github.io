@@ -451,17 +451,152 @@ body::before {
   box-shadow: 0 6px 20px rgba(179,42,30,0.1);
 }
 
-/* Timer */
-.timer-badge {
-  display: inline-block;
-  font-family: 'Courier New', monospace;
-  font-size: 28px;
-  color: var(--accent);
-  border: 2px solid var(--accent);
-  padding: 10px 28px;
-  border-radius: 8px;
+/* ===== INTERACTIVE TIMER ===== */
+.timer-box {
+  background: var(--terminal-bg);
+  border-radius: 12px;
+  padding: 24px 36px 20px;
   margin-top: 20px;
-  letter-spacing: 4px;
+  max-width: 520px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,255,65,0.15);
+  z-index: 600;
+  user-select: none;
+}
+.timer-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,255,65,0.03) 2px, rgba(0,255,65,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+.timer-display {
+  font-family: 'Courier New', monospace;
+  font-size: 52px;
+  color: var(--neon);
+  text-align: center;
+  letter-spacing: 8px;
+  text-shadow: 0 0 12px rgba(0,255,65,0.4);
+  position: relative;
+  z-index: 2;
+  margin-bottom: 16px;
+}
+.timer-road {
+  width: 100%;
+  height: 2px;
+  background: rgba(0,255,65,0.15);
+  position: relative;
+  margin-bottom: 16px;
+  z-index: 2;
+}
+.timer-road-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--neon);
+  width: 0%;
+  transition: width 1s linear;
+}
+.timer-car {
+  position: absolute;
+  bottom: 6px;
+  left: 0%;
+  transition: left 1s linear;
+  z-index: 3;
+}
+.timer-car-body {
+  width: 28px;
+  height: 12px;
+  background: var(--neon);
+  border-radius: 2px 6px 1px 1px;
+  position: relative;
+}
+.timer-car-body::before,
+.timer-car-body::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  width: 6px;
+  height: 6px;
+  background: var(--neon);
+  border-radius: 50%;
+}
+.timer-car-body::before { left: 2px; }
+.timer-car-body::after { right: 2px; }
+.timer-running .timer-car {
+  filter: drop-shadow(-10px 0 8px rgba(0,255,65,0.25));
+}
+.timer-running .timer-car-body::before,
+.timer-running .timer-car-body::after {
+  animation: wheelspin 0.25s linear infinite;
+}
+@keyframes wheelspin {
+  0% { box-shadow: inset 2px 0 0 rgba(10,10,10,0.5); }
+  25% { box-shadow: inset 0 2px 0 rgba(10,10,10,0.5); }
+  50% { box-shadow: inset -2px 0 0 rgba(10,10,10,0.5); }
+  75% { box-shadow: inset 0 -2px 0 rgba(10,10,10,0.5); }
+}
+.timer-finish {
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: rgba(0,255,65,0.3);
+  letter-spacing: 1px;
+}
+.timer-hint {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: rgba(0,255,65,0.45);
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+.timer-done .timer-display {
+  animation: timer-blink 1s ease infinite;
+}
+.timer-done .timer-car-body {
+  animation: timer-pulse 1s ease infinite;
+}
+@keyframes timer-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+@keyframes timer-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(0,255,65,0); }
+  50% { box-shadow: 0 0 12px rgba(0,255,65,0.8); }
+}
+
+/* ===== PACE BAR (auto-pacing per slide) ===== */
+.pace-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--dot-green);
+  z-index: 10;
+  border-radius: 0 2px 0 0;
+  pointer-events: none;
+}
+.pace-bar.pace-warn { background: var(--dot-yellow); }
+.pace-bar.pace-over {
+  background: var(--dot-red);
+  animation: pace-pulse 1.5s ease infinite;
+}
+@keyframes pace-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 /* Checklist */
@@ -904,7 +1039,15 @@ body::before {
         6. Скриншот лучшего слайда –в чат
       </div>
     </div>
-    <div class="timer-badge">&#9201; 20:00</div>
+    <div class="timer-box" data-seconds="1200" onclick="window._timerToggle(event, this)">
+      <div class="timer-display">20:00</div>
+      <div class="timer-road">
+        <div class="timer-road-fill"></div>
+        <div class="timer-car"><div class="timer-car-body"></div></div>
+        <div class="timer-finish">&#9632;</div>
+      </div>
+      <div class="timer-hint">&#9654; click to start</div>
+    </div>
   </div>
   <div class="svg-slot" id="svg-practice1"></div>
 </div>
@@ -984,26 +1127,25 @@ body::before {
         <div class="retro-dot yellow"></div>
         <div class="retro-dot green"></div>
       </div>
-      <div class="retro-terminal-body white-text">Create a pitch deck that tells a story.
-Topic: [тема]
-Audience: [кто]. They are skeptical.
+      <div class="retro-terminal-body white-text">Создай питч-дек, который рассказывает историю.
+Тема: [тема]
+Аудитория: [кто]. Они скептики.
 
-Narrative arc:
-— Slide 1: A specific moment the audience
-  recognizes. Not abstract – a scene
-— Slides 2-3: The cost of doing nothing.
-  How much time/money they lose per month
-— Slide 4: What changed in the world that
-  makes a new solution possible NOW
-— Slides 5-6: Solution. Before/after.
-  Show, don't tell
-— Slide 7: ONE proof. One metric, one quote.
-  Not three – one, but irrefutable
-— Slides 8-9: How it works. 3 steps max
-— Slide 10: One ask. One action. One deadline
+Нарративная арка:
+— Слайд 1: конкретный момент, который аудитория
+  узнает. Не абстракция – сцена
+— Слайды 2-3: цена бездействия.
+  Сколько времени/денег теряют в месяц
+— Слайд 4: что изменилось в мире, что делает
+  новое решение возможным ИМЕННО СЕЙЧАС
+— Слайды 5-6: решение. До/после.
+  Показывай, не рассказывай
+— Слайд 7: ОДНО доказательство. Одна метрика,
+  одна цитата. Не три – одно, но неопровержимое
+— Слайды 8-9: как это работает. Максимум 3 шага
+— Слайд 10: одна просьба. Одно действие. Один дедлайн
 
-Language: Russian
-Tone: confident, like a smart friend</div>
+Тон: уверенный, как умный друг</div>
     </div>
     <div class="bottom-tip">Или: вставьте URL вашего сайта –Chronicle сам построит питч из содержания</div>
   </div>
@@ -1022,27 +1164,27 @@ Tone: confident, like a smart friend</div>
         <div class="retro-dot yellow"></div>
         <div class="retro-dot green"></div>
       </div>
-      <div class="retro-terminal-body white-text">Build a presentation backed by research.
-Topic: [тема] · Mode: Adaptive
+      <div class="retro-terminal-body white-text">Создай презентацию с исследованием.
+Тема: [тема] · Режим: Adaptive
 
-RESEARCH RULES:
-— Only data from 2024-2026. Older = ignore
-— Every stat must have a source URL
-— Find one fact that CONTRADICTS common
-  assumptions about this topic
+ПРАВИЛА РЕСЁРЧА:
+— Только данные 2024-2026. Старее – игнорировать
+— Каждая цифра – со ссылкой на источник
+— Найди один факт, который ПРОТИВОРЕЧИТ
+  общепринятому мнению по теме
 
-STRUCTURE:
-Slide 1: "Everyone thinks X. Data says Y"
-Slides 2-4: Real picture with current data
-Slide 5: Comparison table – who does this
-  well vs who's falling behind
-Slides 6-8: What this means for [аудитория].
-  Practical implications, not theory
-Slides 9-10: 3 actions ranked by impact.
-  #1 = highest ROI, do this first
-Slide 11: All source URLs
+СТРУКТУРА:
+Слайд 1: "Все думают X. Данные говорят Y"
+Слайды 2-4: реальная картина с актуальными данными
+Слайд 5: таблица сравнения – кто делает хорошо,
+  кто отстаёт
+Слайды 6-8: что это значит для [аудитория].
+  Практические выводы, не теория
+Слайды 9-10: 3 действия по убыванию импакта.
+  #1 = максимальный ROI, делать первым
+Слайд 11: все ссылки на источники
 
-Slides: 11 · Language: Russian</div>
+Слайдов: 11</div>
     </div>
     <div class="bottom-tip">Adaptive = глубокий ресёрч (30-60 мин, качество). Visual = быстро (5 мин, поверхностно)</div>
   </div>
@@ -1061,31 +1203,31 @@ Slides: 11 · Language: Russian</div>
         <div class="retro-dot yellow"></div>
         <div class="retro-dot green"></div>
       </div>
-      <div class="retro-terminal-body white-text">Data presentation: [тема]
-RULE: 70% charts, 30% text. Not reverse.
+      <div class="retro-terminal-body white-text">Презентация с данными: [тема]
+ПРАВИЛО: 70% графиков, 30% текста. Не наоборот.
 
-REQUIRED CHARTS:
-— Slide 2: Trend. Line or bar. Label the
-  inflection point where everything changed
-— Slide 4: Comparison table. 4+ columns.
-  Color: green = leader, red = lagging
-— Slide 6: Breakdown. Pie or treemap.
-  Highlight #1 segment prominently
-— Slide 8: Process. Left → right. Max
-  5 steps. Each: icon + 3 words
+ОБЯЗАТЕЛЬНЫЕ ГРАФИКИ:
+— Слайд 2: тренд. Линия или столбцы. Подпиши
+  точку перелома, где всё изменилось
+— Слайд 4: таблица сравнения. 4+ колонки.
+  Цвет: зелёный = лидер, красный = отстающий
+— Слайд 6: структура. Пирог или treemap.
+  Выдели сегмент #1 крупно
+— Слайд 8: процесс. Слева → направо. Макс.
+  5 шагов. Каждый: иконка + 3 слова
 
-FOR EVERY CHART:
-— Title = insight, not data type.
-  "Revenue doubled in Q3" not "Revenue"
-— Annotate the key data point on chart
-— Source in small text below
+ДЛЯ КАЖДОГО ГРАФИКА:
+— Заголовок = инсайт, не тип данных.
+  "Выручка удвоилась в Q3", не "Выручка"
+— Аннотация к ключевой точке на графике
+— Источник мелким шрифтом снизу
 
-Text slides (max 3):
-Slide 1: One headline + one number
-Slide 5: "So what?" – what to decide
-Slide 9: 3 actions ranked by impact
+Текстовые слайды (макс. 3):
+Слайд 1: один заголовок + одно число
+Слайд 5: "Ну и что?" – какое решение принять
+Слайд 9: 3 действия по убыванию импакта
 
-Language: Russian · Slides: 10</div>
+Слайдов: 10</div>
     </div>
   </div>
   <div class="svg-slot" id="svg-genspark"></div>
@@ -1103,30 +1245,30 @@ Language: Russian · Slides: 10</div>
         <div class="retro-dot yellow"></div>
         <div class="retro-dot green"></div>
       </div>
-      <div class="retro-terminal-body white-text">Build a complete PowerPoint.
-Topic: [тема] · Audience: [кто]
+      <div class="retro-terminal-body white-text">Собери полный PowerPoint.
+Тема: [тема] · Аудитория: [кто]
 
-STEP 1 – RESEARCH (before designing):
-— 3 statistics 2024-2026 with sources
-— 2 real examples (not hypothetical)
-— 1 expert quote with attribution
+ШАГ 1 – РЕСЁРЧ (до дизайна):
+— 3 статистики 2024-2026 с источниками
+— 2 реальных примера (не гипотетических)
+— 1 цитата эксперта с указанием автора
 
-STEP 2 – STRUCTURE:
-Slide 1: Bold claim + number. No logo
-Slides 2-3: Problem. Quantify the pain:
-  how much time/money/opportunity lost
-Slides 4-5: Solution. Screenshot or demo
-  &gt; description. Show it working
-Slide 6: How. 3 steps: icon + verb + result
-Slide 7: Proof. ONE metric or case study
-Slide 8: Next step. Make it easy to say yes
+ШАГ 2 – СТРУКТУРА:
+Слайд 1: смелое утверждение + число. Без лого
+Слайды 2-3: проблема. Оцифруй боль:
+  сколько времени/денег/возможностей теряется
+Слайды 4-5: решение. Скриншот или демо
+  &gt; описание. Покажи, что работает
+Слайд 6: как. 3 шага: иконка + глагол + результат
+Слайд 7: доказательство. ОДНА метрика или кейс
+Слайд 8: следующий шаг. Чтобы легко сказать "да"
 
-STEP 3 – DESIGN:
-[Upload your PPT for brand matching OR:
-describe brand colors + fonts + mood]
+ШАГ 3 – ДИЗАЙН:
+[Загрузите свой PPT для копирования стиля ИЛИ:
+опишите цвета бренда + шрифты + настроение]
 
-Speaker notes: 2-3 sentences, conversational.
-Export .pptx · Language: Russian</div>
+Заметки спикера: 2-3 предложения, разговорно.
+Экспорт .pptx</div>
     </div>
     <div class="bottom-tip">Фишка: загрузите свой PPT-файл – Manus скопирует ваши цвета, шрифты и стиль</div>
   </div>
@@ -1153,7 +1295,15 @@ Export .pptx · Language: Russian</div>
         6. Напишите: какой понравился и почему
       </div>
     </div>
-    <div class="timer-badge">&#9201; 25:00</div>
+    <div class="timer-box" data-seconds="1500" onclick="window._timerToggle(event, this)">
+      <div class="timer-display">25:00</div>
+      <div class="timer-road">
+        <div class="timer-road-fill"></div>
+        <div class="timer-car"><div class="timer-car-body"></div></div>
+        <div class="timer-finish">&#9632;</div>
+      </div>
+      <div class="timer-hint">&#9654; click to start</div>
+    </div>
   </div>
   <div class="svg-slot" id="svg-practice2"></div>
 </div>
@@ -1228,10 +1378,10 @@ F = полный экран.
 — Полностью автономный файл
 
 СОДЕРЖАНИЕ:
-Слайд 1: [заголовок + автор]
-Слайд 2: [...]
-...
-Последний: [действие + контакт]</div>
+Тема: [ваша тема]
+Аудитория: [кто будет смотреть]
+Цель: [что они сделают после]
+Слайдов: [число]</div>
     </div>
     <div class="bottom-tip">Это то, как я делаю свои презентации. Сейчас покажу вживую.</div>
   </div>
@@ -1337,11 +1487,6 @@ F = полный экран.
 Цель: [что они сделают после]
 Слайдов: [число]
 
-Слайд 1: [заголовок + подзаголовок + автор]
-Слайд 2: [проблема – 2-3 факта]
-...опишите каждый слайд...
-Последний: [действие + контакт]
-
 Файл должен работать офлайн. Шрифты из
 Google Fonts. Chrome, Safari, Firefox.</div>
     </div>
@@ -1410,6 +1555,7 @@ Google Fonts. Chrome, Safari, Firefox.</div>
     if (n === currentSlide) return;
     currentSlide = n;
     updateUI();
+    startPace(n);
   }
 
   function next() { goTo(currentSlide + 1); }
@@ -1488,8 +1634,136 @@ Google Fonts. Chrome, Safari, Firefox.</div>
     item.classList.add('no-dash');
   });
 
+  // ===== INTERACTIVE TIMER =====
+  window._timerToggle = function(e, el) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    var display = el.querySelector('.timer-display');
+    var fill = el.querySelector('.timer-road-fill');
+    var car = el.querySelector('.timer-car');
+    var hint = el.querySelector('.timer-hint');
+
+    // RESET after done
+    if (el._done) {
+      el._done = false;
+      el.classList.remove('timer-done', 'timer-running');
+      el._remaining = el._total;
+      clearInterval(el._interval);
+      el._interval = null;
+      var m = Math.floor(el._remaining / 60);
+      var s = el._remaining % 60;
+      display.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      fill.style.transition = 'none';
+      car.style.transition = 'none';
+      fill.style.width = '0%';
+      car.style.left = '0%';
+      setTimeout(function() {
+        fill.style.transition = 'width 1s linear';
+        car.style.transition = 'left 1s linear';
+      }, 50);
+      hint.textContent = '\u25B6 click to start';
+      return;
+    }
+
+    // PAUSE
+    if (el._interval) {
+      clearInterval(el._interval);
+      el._interval = null;
+      el.classList.remove('timer-running');
+      hint.textContent = '\u23F8 paused \u2013 click to resume';
+      return;
+    }
+
+    // START or RESUME
+    if (!el._total) {
+      el._total = parseInt(el.getAttribute('data-seconds'), 10);
+      el._remaining = el._total;
+    }
+
+    el.classList.add('timer-running');
+    hint.textContent = '\u23F8 click to pause';
+
+    el._interval = setInterval(function() {
+      el._remaining--;
+      if (el._remaining <= 0) {
+        el._remaining = 0;
+        clearInterval(el._interval);
+        el._interval = null;
+        el._done = true;
+        el.classList.remove('timer-running');
+        el.classList.add('timer-done');
+        hint.textContent = '\u21BB click to reset';
+      }
+      var mm = Math.floor(el._remaining / 60);
+      var ss = el._remaining % 60;
+      display.textContent = String(mm).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+      var pct = ((el._total - el._remaining) / el._total) * 100;
+      fill.style.width = pct + '%';
+      car.style.left = Math.min(pct, 94) + '%';
+    }, 1000);
+  };
+
+  // ===== PACE BAR (auto-pacing) =====
+  var paceMap = {
+    1:120, 2:300, 3:120, 4:300, 5:300,
+    6:420, 7:420, 8:120, 9:420, 10:420,
+    12:300, 13:120, 14:420, 15:420, 16:420,
+    17:420, 18:420,
+    20:300, 21:120, 22:420, 23:420, 24:300,
+    25:420, 26:300
+  };
+
+  // Create pace bar elements (skip practice slides 11 & 19)
+  slides.forEach(function(s) {
+    var num = parseInt(s.getAttribute('data-slide'), 10);
+    if (num === 11 || num === 19) return;
+    var bar = document.createElement('div');
+    bar.className = 'pace-bar';
+    s.appendChild(bar);
+  });
+
+  var paceInterval = null;
+
+  function startPace(slideNum) {
+    clearInterval(paceInterval);
+    // Reset all pace bars
+    document.querySelectorAll('.pace-bar').forEach(function(b) {
+      b.style.transition = 'none';
+      b.style.width = '0%';
+      b.style.background = '';
+      b.classList.remove('pace-warn', 'pace-over');
+    });
+
+    var duration = paceMap[slideNum];
+    if (!duration) return;
+
+    var slide = document.querySelector('[data-slide="' + slideNum + '"]');
+    var bar = slide ? slide.querySelector('.pace-bar') : null;
+    if (!bar) return;
+
+    var started = Date.now();
+
+    setTimeout(function() {
+      bar.style.transition = 'width ' + duration + 's linear';
+      bar.style.width = '100%';
+
+      paceInterval = setInterval(function() {
+        var pct = (Date.now() - started) / (duration * 1000);
+        if (pct >= 1 && !bar.classList.contains('pace-over')) {
+          bar.classList.remove('pace-warn');
+          bar.classList.add('pace-over');
+        } else if (pct >= 0.75 && !bar.classList.contains('pace-warn') && !bar.classList.contains('pace-over')) {
+          bar.classList.add('pace-warn');
+        }
+        if (pct >= 1.2) clearInterval(paceInterval);
+      }, 1000);
+    }, 60);
+  }
+
   // Init
   updateUI();
+  startPace(1);
 })();
 </script>
 
