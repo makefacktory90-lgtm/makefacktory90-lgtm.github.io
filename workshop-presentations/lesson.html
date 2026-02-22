@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Презентации с AI за 4 часа — Интерактивный урок | ira&ai</title>
+<meta name="description" content="Интерактивный урок «Презентации с AI за 4 часа». 6 инструментов, 10 промтов, полная шпаргалка.">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f4f1e6;
+  --text: #1a1a1a;
+  --accent: #b32a1e;
+  --accent-light: rgba(179, 42, 30, 0.08);
+  --neon: #00ff41;
+  --terminal-bg: #0a0a0a;
+  --terminal-text: #00ff41;
+  --terminal-text-white: #e0e0e0;
+  --muted: #888877;
+  --card-bg: #ffffff;
+  --titlebar: #1a1a1a;
+  --dot-red: #ff5f57;
+  --dot-yellow: #ffbd2e;
+  --dot-green: #28c840;
+  --border: #d0cec0;
+  --serif: Georgia, 'Times New Roman', serif;
+  --mono: 'Courier New', Courier, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--serif);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Paper texture */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.008) 2px, rgba(0,0,0,0.008) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.006) 3px, rgba(0,0,0,0.006) 6px),
+    radial-gradient(ellipse at 20% 50%, rgba(180,160,120,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(160,140,100,0.04) 0%, transparent 60%);
+}
+
+/* ===== PROGRESS BAR ===== */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #d44a3e);
+  z-index: 10000;
+  transition: width 0.3s ease;
+}
+
+/* ===== STICKY HEADER ===== */
+.sticky-header {
+  position: fixed;
+  top: 3px; left: 0; right: 0;
+  height: 44px;
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  z-index: 9999;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.sticky-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sticky-header .header-dots {
+  display: flex;
+  gap: 5px;
+  margin-right: 12px;
+}
+
+.sticky-header .header-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.sticky-header a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.sticky-header a:hover {
+  color: #fff;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--neon) !important;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  padding: 4px 12px 4px 8px;
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 3px;
+  margin-right: 14px;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.back-btn:hover {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: var(--neon);
+  color: var(--neon) !important;
+}
+
+.back-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== LAYOUT ===== */
+.page-content {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 120px 0 60px;
+  text-align: center;
+}
+
+.hero-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-weight: bold;
+  font-style: italic;
+  font-size: clamp(36px, 7vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.hero-meta {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
+}
+
+.hero-meta span::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.hero-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin: 40px auto;
+}
+
+/* ===== SECTION ===== */
+.section {
+  padding: 50px 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-number {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: bold;
+  font-style: italic;
+  font-size: clamp(28px, 5vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.section-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.section-text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.section-text ul {
+  list-style: none;
+  padding: 0;
+}
+
+.section-text li {
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.section-text li::before {
+  content: '\2014';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 50px 0;
+}
+
+/* ===== VIDEO SECTION ===== */
+.video-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 0;
+}
+
+.video-tab {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+
+.video-tab:hover {
+  color: var(--text);
+}
+
+.video-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: #000;
+  border: 1px solid var(--border);
+  border-top: none;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-panel {
+  display: none;
+}
+
+.video-panel.active {
+  display: block;
+}
+
+/* ===== TABLE OF CONTENTS ===== */
+.toc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.toc-item:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+  background: var(--accent-light);
+}
+
+.toc-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.toc-label {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* ===== RETRO CARD ===== */
+.retro-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.retro-card-titlebar {
+  background: var(--titlebar);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.retro-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.retro-dot.red { background: var(--dot-red); }
+.retro-dot.yellow { background: var(--dot-yellow); }
+.retro-dot.green { background: var(--dot-green); }
+
+.retro-card-body {
+  padding: 24px;
+}
+
+.retro-card-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+/* ===== RETRO TERMINAL ===== */
+.retro-terminal {
+  background: var(--terminal-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.7;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+}
+
+.retro-terminal-body {
+  padding: 20px 24px;
+  color: var(--terminal-text-white);
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanline effect */
+.retro-terminal-body::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,255,65,0.02) 2px, rgba(0,255,65,0.02) 4px
+  );
+}
+
+/* ===== PROMPT BLOCK ===== */
+.prompt-block {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.prompt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.prompt-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+.prompt-tool {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.5);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 10;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.copy-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.copy-btn.copied {
+  background: rgba(0,255,65,0.15);
+  border-color: rgba(0,255,65,0.3);
+  color: var(--neon);
+}
+
+/* ===== CHEATSHEET TABLE ===== */
+.cheat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.cheat-table thead {
+  background: var(--terminal-bg);
+}
+
+.cheat-table th {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--neon);
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.cheat-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.cheat-table tr:hover {
+  background: var(--accent-light);
+}
+
+.cheat-table .tool-name {
+  font-family: var(--mono);
+  font-weight: bold;
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.cheat-table .free-yes {
+  color: var(--dot-green);
+  font-family: var(--mono);
+  font-weight: bold;
+}
+
+.cheat-table .free-partial {
+  color: var(--dot-yellow);
+  font-family: var(--mono);
+}
+
+/* ===== QUIZ ===== */
+.quiz-question {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quiz-question:hover {
+  border-color: var(--accent);
+}
+
+.quiz-q {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.quiz-num {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.quiz-text {
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.quiz-answer {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+  display: none;
+  animation: fadeSlideIn 0.3s ease;
+}
+
+.quiz-answer.revealed {
+  display: block;
+}
+
+.quiz-answer-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.quiz-answer-text {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== KEY POINTS ===== */
+.key-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.key-point {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.key-point:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.key-point-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.key-point-title {
+  font-weight: bold;
+  font-style: italic;
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.key-point-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* ===== TOOL BADGE ===== */
+.tool-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.tool-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neon);
+}
+
+/* ===== SUPERPOWER TAG ===== */
+.superpower {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+}
+
+/* ===== TIP BOX ===== */
+.tip-box {
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  font-size: 15px;
+  color: #444;
+  margin: 16px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.tip-box strong {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--terminal-bg);
+  padding: 48px 24px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.footer-terminal {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--neon);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px rgba(0,255,65,0.3);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-made {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+}
+
+.footer-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--neon);
+  margin-left: 4px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===== FLOW STEPS ===== */
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.flow-step {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.flow-step:hover {
+  border-color: var(--accent);
+  transform: scale(1.02);
+}
+
+.flow-arrow {
+  font-size: 20px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .page-content {
+    padding: 0 16px;
+  }
+
+  .hero {
+    padding: 100px 0 40px;
+  }
+
+  .hero-title {
+    letter-spacing: -1px;
+  }
+
+  .hero-meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sticky-header {
+    padding: 0 16px;
+    font-size: 10px;
+  }
+
+  .toc {
+    grid-template-columns: 1fr;
+  }
+
+  .key-points {
+    grid-template-columns: 1fr;
+  }
+
+  .video-tabs {
+    flex-wrap: wrap;
+  }
+
+  .video-tab {
+    font-size: 11px;
+    padding: 10px 16px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .retro-terminal-body {
+    font-size: 12px;
+    padding: 16px;
+  }
+
+  .copy-btn {
+    top: 44px;
+    right: 8px;
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .cheat-table {
+    font-size: 13px;
+  }
+
+  .cheat-table th, .cheat-table td {
+    padding: 10px 10px;
+  }
+
+  .quiz-text {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sticky-header .header-right {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar"></div>
+
+<!-- Sticky Header -->
+<header class="sticky-header">
+  <div class="header-left">
+    <a href="dashboard.html?unlocked=1" class="back-btn">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      Назад
+    </a>
+    <div class="header-dots">
+      <div class="header-dot" style="background: var(--dot-red);"></div>
+      <div class="header-dot" style="background: var(--dot-yellow);"></div>
+      <div class="header-dot" style="background: var(--dot-green);"></div>
+    </div>
+    <span>PREZAI // WORKSHOP 22.02.2026 // LESSON</span>
+  </div>
+  <div class="header-right">
+    <a href="#video">ВИДЕО</a>
+    &nbsp;&middot;&nbsp;
+    <a href="#prompts">ПРОМТЫ</a>
+    &nbsp;&middot;&nbsp;
+    <a href="#cheatsheet">ШПАРГАЛКА</a>
+  </div>
+</header>
+
+<div class="page-content">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-label">// ВОРКШОП</div>
+    <h1 class="hero-title">Презентации с AI<br>за 4 часа</h1>
+    <p class="hero-subtitle">Интерактивный урок</p>
+    <div class="hero-meta">
+      <span>22 февраля 2026</span>
+      <span>ira&ai</span>
+      <span>6 инструментов</span>
+      <span>10 промтов</span>
+    </div>
+    <div class="hero-divider"></div>
+  </section>
+
+  <!-- ===== VIDEO ===== -->
+  <section class="section" id="video">
+    <div class="section-number">// ЗАПИСЬ ВОРКШОПА</div>
+    <h2 class="section-title">Смотрите в своём темпе</h2>
+    <p class="section-subtitle">Два видео, полная запись воркшопа</p>
+
+    <div class="video-tabs">
+      <button class="video-tab active" data-video="1">Часть 1 &mdash; Теория + NotebookLM + Gemini</button>
+      <button class="video-tab" data-video="2">Часть 2 &mdash; Gamma + Kimi + Chronicle + GenSpark + Manus + Claude</button>
+    </div>
+
+    <div class="video-panel active" data-panel="1">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/YNVVClpUB0M" title="Презентации с AI — Часть 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+    <div class="video-panel" data-panel="2">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/LESvC3VgEKs" title="Презентации с AI — Часть 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== TABLE OF CONTENTS ===== -->
+  <section class="section" id="toc">
+    <div class="section-number">// СОДЕРЖАНИЕ</div>
+    <h2 class="section-title">10 блоков урока</h2>
+    <p class="section-subtitle">Кликните, чтобы перейти к нужному разделу</p>
+
+    <div class="toc">
+      <a class="toc-item" href="#block-01"><span class="toc-num">01</span><span class="toc-label">Теория презентаций</span></a>
+      <a class="toc-item" href="#block-02"><span class="toc-num">02</span><span class="toc-label">Промт-конструктор</span></a>
+      <a class="toc-item" href="#block-03"><span class="toc-num">03</span><span class="toc-label">Визуальный стиль</span></a>
+      <a class="toc-item" href="#block-04"><span class="toc-num">04</span><span class="toc-label">NotebookLM</span></a>
+      <a class="toc-item" href="#block-05"><span class="toc-num">05</span><span class="toc-label">Gamma</span></a>
+      <a class="toc-item" href="#block-06"><span class="toc-num">06</span><span class="toc-label">Kimi</span></a>
+      <a class="toc-item" href="#block-07"><span class="toc-num">07</span><span class="toc-label">Chronicle</span></a>
+      <a class="toc-item" href="#block-08"><span class="toc-num">08</span><span class="toc-label">GenSpark</span></a>
+      <a class="toc-item" href="#block-09"><span class="toc-num">09</span><span class="toc-label">Manus</span></a>
+      <a class="toc-item" href="#block-10"><span class="toc-num">10</span><span class="toc-label">Claude Code</span></a>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 01: THEORY ===== -->
+  <section class="section" id="block-01">
+    <div class="section-number">// БЛОК 01</div>
+    <h2 class="section-title">Теория презентаций</h2>
+    <p class="section-subtitle">Принципы, которые работают без любого AI</p>
+
+    <div class="key-points">
+      <div class="key-point">
+        <div class="key-point-num">01</div>
+        <div class="key-point-title">Заголовок = вывод</div>
+        <div class="key-point-desc">Не &laquo;Продажи Q4&raquo;, а &laquo;Продажи Q4 выросли на 47% год к году&raquo;. Тест: прочитай только заголовки &mdash; вся история понятна?</div>
+      </div>
+      <div class="key-point">
+        <div class="key-point-num">02</div>
+        <div class="key-point-title">Один слайд = одна мысль</div>
+        <div class="key-point-desc">Максимум 3 буллита. Каждый &le; 10 слов. Если на слайде больше &mdash; разбейте на два слайда.</div>
+      </div>
+      <div class="key-point">
+        <div class="key-point-num">03</div>
+        <div class="key-point-title">Storyline: хук &rarr; доказательства &rarr; действие</div>
+        <div class="key-point-desc">Проблема (2-3 сл.) &rarr; Решение (3 сл.) &rarr; Доказательства (2 сл.) &rarr; Одно действие (1 сл.). Первый слайд &mdash; провокация, последний &mdash; дедлайн.</div>
+      </div>
+      <div class="key-point">
+        <div class="key-point-num">04</div>
+        <div class="key-point-title">Данные &gt; мнения</div>
+        <div class="key-point-desc">Числа &gt; слова. Графики &gt; описания. Одна убедительная метрика сильнее трёх абзацев текста.</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Антиправила</strong>
+      Запрещённые фразы: &laquo;в современном мире&raquo;, &laquo;стоит отметить&raquo;, &laquo;важно понимать&raquo;. Первый слайд &mdash; никогда &laquo;Добро пожаловать&raquo;. Последний &mdash; никогда &laquo;Спасибо&raquo; и &laquo;Вопросы?&raquo;.
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 02: PROMPT CONSTRUCTOR ===== -->
+  <section class="section" id="block-02">
+    <div class="section-number">// БЛОК 02</div>
+    <h2 class="section-title">Промт-конструктор</h2>
+    <p class="section-subtitle">Один промт &rarr; структура из любой темы</p>
+
+    <div class="section-text">
+      <p>Главный промт воркшопа. Работает в любой нейронке: Claude, ChatGPT, Gemini, Kimi. Подставьте свою тему, аудиторию и цель &mdash; получите структуру презентации McKinsey-уровня за 30 секунд.</p>
+    </div>
+
+    <div class="tip-box">
+      <strong>Алгоритм</strong>
+      Тема &rarr; этот промт &rarr; структура слайдов с заголовками-выводами. Потом &mdash; в любой инструмент: Gamma, Kimi, NotebookLM, Chronicle.
+    </div>
+
+    <div class="prompt-block" id="prompt-01">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #1 &mdash; Структура презентации</span>
+        <span class="prompt-tool">Claude / ChatGPT / Gemini</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Ты – презентационный стратег McKinsey.
+Мой материал: [вставить текст или тему].
+
+Правила – нарушать нельзя:
+1. Слайд 1 – крючок: факт, который удивит,
+   вопрос без очевидного ответа, или сцена,
+   которую аудитория узнает. НЕ "Добро
+   пожаловать". НЕ название темы
+2. Заголовок = вывод. Тест: прочитай ТОЛЬКО
+   заголовки – вся история понятна?
+3. Для каждого слайда:
+   – Заголовок-вывод (&le; 8 слов)
+   – 2-3 факта. Числа > слова
+   – Какой визуал: график / схема / иконка /
+     крупный текст на пустом фоне
+   – Одна фраза-мост к следующему слайду
+4. Арка: Проблема (2-3 сл.) &rarr; Решение (3 сл.)
+   &rarr; Доказательства (2 сл.) &rarr; Действие (1 сл.)
+5. Последний слайд: одно действие + дедлайн.
+   НЕ "Спасибо". НЕ "Вопросы?"
+
+Аудитория: [кто]
+Цель: [что СДЕЛАЮТ после – одно действие]
+Слайдов: [число]</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-01">COPY</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 03: VISUAL STYLE ===== -->
+  <section class="section" id="block-03">
+    <div class="section-number">// БЛОК 03</div>
+    <h2 class="section-title">Визуальный стиль</h2>
+    <p class="section-subtitle">Скриншот вдохновения &rarr; Gemini &rarr; готовое ТЗ</p>
+
+    <div class="section-text">
+      <p>Нашли красивый слайд, сайт, постер? Сделайте скриншот и скормите Gemini. Он вернёт точное описание визуального стиля, которое можно вставить в любой AI-инструмент как ТЗ.</p>
+    </div>
+
+    <div class="flow-steps">
+      <div class="flow-step">Шаг 1: Скриншот того, что нравится</div>
+      <div class="flow-arrow">&darr;</div>
+      <div class="flow-step">Шаг 2: Этот промт + картинка в Gemini</div>
+      <div class="flow-arrow">&darr;</div>
+      <div class="flow-step">Шаг 3: Описание стиля готово &mdash; вставить куда угодно</div>
+    </div>
+
+    <div class="prompt-block" id="prompt-02">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #2 &mdash; Визуальный стиль</span>
+        <span class="prompt-tool">Gemini (с картинкой)</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Опиши визуальный стиль этого изображения
+как ТЗ для дизайнера:
+
+1. ЦВЕТА: фон, текст, акцент. HEX-коды
+2. ШРИФТЫ: тип, размеры, uppercase?
+3. КОМПОЗИЦИЯ: сетка, воздух, разделители
+4. ПРИЁМЫ: тени, градиенты, текстуры
+5. НАСТРОЕНИЕ: 3 прилагательных
+6. ИТОГО: один абзац – вставить
+   в любой AI-инструмент</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-02">COPY</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 04: NOTEBOOKLM ===== -->
+  <section class="section" id="block-04">
+    <div class="section-number">// БЛОК 04</div>
+    <h2 class="section-title">NotebookLM</h2>
+    <p class="section-subtitle">Из ваших документов &mdash; в презентацию</p>
+
+    <div class="tool-badge">notebooklm.google.com</div>
+    <div class="superpower">Суперсила: работа с вашими источниками. PDF, YouTube, сайты &rarr; слайды</div>
+
+    <div class="section-text">
+      <ul>
+        <li>Загрузите файлы, ссылки на YouTube, сайты &mdash; NotebookLM всё прочитает</li>
+        <li>Studio &rarr; Slide Deck &rarr; Detailed Deck &mdash; генерация из ваших данных</li>
+        <li>Инфографика, презентации, mindmap, аудиоподкасты &mdash; всё в одном</li>
+        <li>Правки слайдов промтами прямо внутри: &laquo;Перепиши заголовки в выводы&raquo;</li>
+      </ul>
+    </div>
+
+    <div class="prompt-block" id="prompt-03">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #3 &mdash; NotebookLM</span>
+        <span class="prompt-tool">Add Instructions</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Роль: дизайнер презентаций McKinsey.
+Аудитория: [предприниматели / клиенты / инвесторы]
+
+Для каждого слайда:
+— Заголовок = вывод. Не "Продажи Q4",
+  а "Продажи Q4 выросли на 47% год к году"
+— Максимум 3 тезиса, каждый &le; 12 слов
+— Каждый тезис = факт из источника с цитатой
+
+Первый слайд: самый удивительный инсайт
+  из материала. Тот, ради которого стоит
+  смотреть дальше.
+Предпоследний: сравнение "было &rarr; стало"
+Последний: одно действие. Не "Спасибо"
+
+Формат: Detailed Deck
+Стиль: минималистичный, много воздуха
+Язык: русский</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-03">COPY</button>
+    </div>
+
+    <div class="tip-box">
+      <strong>Алгоритм</strong>
+      1. Откройте notebooklm.google.com &rarr; 2. Загрузите документ &rarr; 3. Studio &rarr; Slide Deck &rarr; Detailed Deck &rarr; 4. Вставьте промт в &laquo;Add instructions&raquo; &rarr; 5. Сгенерируйте
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 05: GAMMA ===== -->
+  <section class="section" id="block-05">
+    <div class="section-number">// БЛОК 05</div>
+    <h2 class="section-title">Gamma</h2>
+    <p class="section-subtitle">Палочка-выручалочка &mdash; презентация за 3 минуты</p>
+
+    <div class="tool-badge">gamma.app</div>
+    <div class="superpower">Суперсила: скорость. Когда вызвали на ковёр и слайды нужны через 5 минут</div>
+
+    <div class="section-text">
+      <ul>
+        <li>Бесплатный тариф &mdash; 300 кредитов, хватает на 30+ презентаций</li>
+        <li>Брендбук: загрузите цвета и логотип &mdash; все презентации в вашем стиле</li>
+        <li>Экспорт в PDF, PPTX</li>
+        <li>После генерации: Edit with AI &rarr; &laquo;Каждый заголовок &mdash; это тема или вывод? Если тема &mdash; перепиши в вывод&raquo;</li>
+      </ul>
+    </div>
+
+    <div class="prompt-block" id="prompt-04">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #4 &mdash; Gamma</span>
+        <span class="prompt-tool">gamma.app</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Тема: [ваша тема]
+Дек для [аудитория], цель – [одно действие].
+
+Жёсткие правила:
+1. Слайд 1: вопрос, на который аудитория
+   НЕ знает ответ. Или число, которое удивит
+2. Тест: прочитай ТОЛЬКО заголовки всех
+   слайдов подряд – история понятна целиком?
+   Если нет – переписать заголовки
+3. Буллит &le; 10 слов. На слайде &le; 3 буллита
+4. Ноль стоковых картинок. Нужен визуал?
+   График, диаграмма или иконка
+5. Запрещённые фразы: "в современном мире",
+   "стоит отметить", "важно понимать"
+6. Последний слайд: действие + дедлайн
+
+Карточек: 10 &middot; Язык: русский</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-04">COPY</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 06: KIMI ===== -->
+  <section class="section" id="block-06">
+    <div class="section-number">// БЛОК 06</div>
+    <h2 class="section-title">Kimi</h2>
+    <p class="section-subtitle">Бесплатный исследователь &mdash; сам ищет данные</p>
+
+    <div class="tool-badge">kimi.ai</div>
+    <div class="superpower">Суперсила: deep research. Адаптивные слайды с актуальными данными. Бесплатно</div>
+
+    <div class="section-text">
+      <ul>
+        <li>Два режима: Adaptive (глубокий ресёрч, 30-60 мин) и Visual (быстро, 5 мин)</li>
+        <li>NanoBanano Pro &mdash; генерация фотографий прямо внутри</li>
+        <li>Конкурирует с Claude по качеству текстов, растёт быстро</li>
+        <li>Бесплатный, без ограничений на количество презентаций</li>
+      </ul>
+    </div>
+
+    <div class="prompt-block" id="prompt-05">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #5 &mdash; Kimi</span>
+        <span class="prompt-tool">kimi.ai &middot; Adaptive</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Создай презентацию с исследованием.
+Тема: [тема] &middot; Режим: Adaptive
+
+ПРАВИЛА РЕСЁРЧА:
+— Только данные 2024-2026. Старее – игнорировать
+— Каждая цифра – со ссылкой на источник
+— Найди один факт, который ПРОТИВОРЕЧИТ
+  общепринятому мнению по теме
+
+СТРУКТУРА:
+Слайд 1: "Все думают X. Данные говорят Y"
+Слайды 2-4: реальная картина с актуальными данными
+Слайд 5: таблица сравнения – кто делает хорошо,
+  кто отстаёт
+Слайды 6-8: что это значит для [аудитория].
+  Практические выводы, не теория
+Слайды 9-10: 3 действия по убыванию импакта.
+  #1 = максимальный ROI, делать первым
+Слайд 11: все ссылки на источники
+
+Слайдов: 11</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-05">COPY</button>
+    </div>
+
+    <div class="tip-box">
+      <strong>Выбор режима</strong>
+      Adaptive = глубокий ресёрч (30-60 мин, качество). Visual = быстро (5 мин, поверхностно). Для важных презентаций &mdash; всегда Adaptive.
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 07: CHRONICLE ===== -->
+  <section class="section" id="block-07">
+    <div class="section-number">// БЛОК 07</div>
+    <h2 class="section-title">Chronicle</h2>
+    <p class="section-subtitle">Питч-дек со сценарием &mdash; сторителлинг, не слайды</p>
+
+    <div class="tool-badge">chronicle.io</div>
+    <div class="superpower">Суперсила: сторителлинг. Строит историю, не набор слайдов. Впечатляющий визуал</div>
+
+    <div class="section-text">
+      <ul>
+        <li>Стильные шаблоны, красивый визуал из коробки</li>
+        <li>Редактируется: шрифты, картинки, тексты &mdash; полный контроль</li>
+        <li>Экспорт в Google Slides</li>
+        <li>Фишка: вставьте URL вашего сайта &mdash; Chronicle сам построит питч из содержания</li>
+      </ul>
+    </div>
+
+    <div class="prompt-block" id="prompt-06">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #6 &mdash; Chronicle</span>
+        <span class="prompt-tool">chronicle.io</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Создай питч-дек, который рассказывает историю.
+Тема: [тема]
+Аудитория: [кто]. Они скептики.
+
+Нарративная арка:
+— Слайд 1: конкретный момент, который аудитория
+  узнает. Не абстракция – сцена
+— Слайды 2-3: цена бездействия.
+  Сколько времени/денег теряют в месяц
+— Слайд 4: что изменилось в мире, что делает
+  новое решение возможным ИМЕННО СЕЙЧАС
+— Слайды 5-6: решение. До/после.
+  Показывай, не рассказывай
+— Слайд 7: ОДНО доказательство. Одна метрика,
+  одна цитата. Не три – одно, но неопровержимое
+— Слайды 8-9: как это работает. Максимум 3 шага
+— Слайд 10: одна просьба. Одно действие. Один дедлайн
+
+Тон: уверенный, как умный друг</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-06">COPY</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 08: GENSPARK ===== -->
+  <section class="section" id="block-08">
+    <div class="section-number">// БЛОК 08</div>
+    <h2 class="section-title">GenSpark</h2>
+    <p class="section-subtitle">Графики, таблицы, данные &mdash; визуализация на максимум</p>
+
+    <div class="tool-badge">genspark.ai</div>
+    <div class="superpower">Суперсила: визуализация данных. 70% графиков, 30% текста. Лучший для Excel &rarr; презентация</div>
+
+    <div class="section-text">
+      <ul>
+        <li>Лучший инструмент для презентаций с данными, графиками и таблицами</li>
+        <li>Бесплатные шаблоны и стили</li>
+        <li>Тренды, сравнения, пироговые диаграммы, treemap &mdash; всё из коробки</li>
+        <li>Правило: заголовок графика = инсайт, не тип данных</li>
+      </ul>
+    </div>
+
+    <div class="prompt-block" id="prompt-07">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #7 &mdash; GenSpark</span>
+        <span class="prompt-tool">genspark.ai</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Презентация с данными: [тема]
+ПРАВИЛО: 70% графиков, 30% текста. Не наоборот.
+
+ОБЯЗАТЕЛЬНЫЕ ГРАФИКИ:
+— Слайд 2: тренд. Линия или столбцы. Подпиши
+  точку перелома, где всё изменилось
+— Слайд 4: таблица сравнения. 4+ колонки.
+  Цвет: зелёный = лидер, красный = отстающий
+— Слайд 6: структура. Пирог или treemap.
+  Выдели сегмент #1 крупно
+— Слайд 8: процесс. Слева &rarr; направо. Макс.
+  5 шагов. Каждый: иконка + 3 слова
+
+ДЛЯ КАЖДОГО ГРАФИКА:
+— Заголовок = инсайт, не тип данных.
+  "Выручка удвоилась в Q3", не "Выручка"
+— Аннотация к ключевой точке на графике
+— Источник мелким шрифтом снизу
+
+Текстовые слайды (макс. 3):
+Слайд 1: один заголовок + одно число
+Слайд 5: "Ну и что?" – какое решение принять
+Слайд 9: 3 действия по убыванию импакта
+
+Слайдов: 10</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-07">COPY</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 09: MANUS ===== -->
+  <section class="section" id="block-09">
+    <div class="section-number">// БЛОК 09</div>
+    <h2 class="section-title">Manus</h2>
+    <p class="section-subtitle">Агент-дизайнер &mdash; ставишь задачу и уходишь</p>
+
+    <div class="tool-badge">manus.im</div>
+    <div class="superpower">Суперсила: полная автоматизация. Сам ищет, сам дизайнит, экспорт в .pptx</div>
+
+    <div class="section-text">
+      <ul>
+        <li>Ставите задачу &rarr; уходите от компьютера &rarr; возвращаетесь &mdash; презентация готова</li>
+        <li>Работает параллельно: ресёрч + дизайн + структура одновременно</li>
+        <li>Экспорт в PPTX, правки через чат</li>
+        <li>Фишка: загрузите свой PPT-файл &mdash; Manus скопирует ваши цвета, шрифты и стиль</li>
+      </ul>
+    </div>
+
+    <div class="prompt-block" id="prompt-08">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #8 &mdash; Manus</span>
+        <span class="prompt-tool">manus.im</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Собери полный PowerPoint.
+Тема: [тема] &middot; Аудитория: [кто]
+
+ШАГ 1 – РЕСЁРЧ (до дизайна):
+— 3 статистики 2024-2026 с источниками
+— 2 реальных примера (не гипотетических)
+— 1 цитата эксперта с указанием автора
+
+ШАГ 2 – СТРУКТУРА:
+Слайд 1: смелое утверждение + число. Без лого
+Слайды 2-3: проблема. Оцифруй боль:
+  сколько времени/денег/возможностей теряется
+Слайды 4-5: решение. Скриншот или демо
+  > описание. Покажи, что работает
+Слайд 6: как. 3 шага: иконка + глагол + результат
+Слайд 7: доказательство. ОДНА метрика или кейс
+Слайд 8: следующий шаг. Чтобы легко сказать "да"
+
+ШАГ 3 – ДИЗАЙН:
+[Загрузите свой PPT для копирования стиля ИЛИ:
+опишите цвета бренда + шрифты + настроение]
+
+Заметки спикера: 2-3 предложения, разговорно.
+Экспорт .pptx</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-08">COPY</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOCK 10: CLAUDE CODE ===== -->
+  <section class="section" id="block-10">
+    <div class="section-number">// БЛОК 10</div>
+    <h2 class="section-title">Claude Code</h2>
+    <p class="section-subtitle">Будущее презентаций &mdash; HTML с анимациями</p>
+
+    <div class="tool-badge">claude.ai / Claude Code</div>
+    <div class="superpower">Суперсила: полный кастом. Один HTML-файл. Браузер. Анимации. Полная свобода</div>
+
+    <div class="section-text">
+      <ul>
+        <li>Будущее презентаций: HTML с CSS-анимациями, SVG, интерактив</li>
+        <li>Один файл &mdash; открывается в любом браузере, работает офлайн</li>
+        <li>Навигация стрелками, свайпы на мобильных, полный экран</li>
+        <li>Демо на воркшопе: живая презентация с мерцающими элементами, прогресс-баром, таймерами</li>
+      </ul>
+    </div>
+
+    <div class="prompt-block" id="prompt-09">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #9 &mdash; Claude Code</span>
+        <span class="prompt-tool">claude.ai / Claude Code</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Ты – дизайнер презентаций. Создай HTML-презентацию
+в одном файле. Весь CSS и JS встроены.
+
+ВИЗУАЛЬНЫЙ СТИЛЬ:
+[Вставьте описание стиля из Gemini.
+Если нет – опишите: "тёмный фон, белый текст,
+акцент синий" или "светлый, минималистичный,
+как Apple"]
+
+ОБЯЗАТЕЛЬНЫЕ ЭЛЕМЕНТЫ:
+— Навигация: &larr; &rarr; стрелки, пробел, клик
+— Прогресс-бар сверху (тонкая линия)
+— Счётчик слайдов внизу справа
+— F = полный экран
+— Свайп на мобильных
+— Fade-переход 0.4s между слайдами
+— Заголовок появляется первым, затем текст
+— Буллиты по одному с задержкой 0.15s
+
+ПРАВИЛА КОНТЕНТА:
+— Заголовок каждого слайда = ВЫВОД, не тема
+— Максимум 3 буллита на слайд
+— Первый слайд: провокация или ключевой факт
+— Последний: конкретное действие, не "Спасибо"
+— Адаптив: 1920x1080 + мобильный
+
+СОДЕРЖАНИЕ:
+Тема: [ваша тема]
+Аудитория: [кто будет смотреть]
+Цель: [что они сделают после]
+Слайдов: [число]
+
+Файл должен работать офлайн. Шрифты из
+Google Fonts. Chrome, Safari, Firefox.</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-09">COPY</button>
+    </div>
+
+    <div class="tip-box">
+      <strong>Связка</strong>
+      ChatGPT &rarr; структура контента. Gemini &rarr; описание стиля. Claude &rarr; HTML-презентация. Итерации &rarr; довести до идеала.
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== CHEATSHEET ===== -->
+  <section class="section" id="cheatsheet">
+    <div class="section-number">// ШПАРГАЛКА</div>
+    <h2 class="section-title">Когда что использовать</h2>
+    <p class="section-subtitle">Сохраните &mdash; пригодится каждую неделю</p>
+
+    <div class="retro-card" style="overflow-x: auto;">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <table class="cheat-table">
+        <thead>
+          <tr>
+            <th>Инструмент</th>
+            <th>Когда использовать</th>
+            <th>Время</th>
+            <th>Бесплатно?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tool-name">NotebookLM</td>
+            <td>Из своих документов &rarr; визуал. PDF, YouTube, сайты</td>
+            <td>3 мин</td>
+            <td class="free-yes">Да</td>
+          </tr>
+          <tr>
+            <td class="tool-name">Gamma</td>
+            <td>Быстро и красиво. Вызвали на ковёр &mdash; слайды за 5 минут</td>
+            <td>3 мин</td>
+            <td class="free-yes">Да (300 кредитов)</td>
+          </tr>
+          <tr>
+            <td class="tool-name">Kimi</td>
+            <td>Умный текст + deep research. Бесплатный аналитик</td>
+            <td>5-60 мин</td>
+            <td class="free-yes">Да</td>
+          </tr>
+          <tr>
+            <td class="tool-name">Chronicle</td>
+            <td>Питч-дек, стильный визуал, впечатлить инвестора</td>
+            <td>5 мин</td>
+            <td class="free-partial">Бесплатный месяц</td>
+          </tr>
+          <tr>
+            <td class="tool-name">GenSpark</td>
+            <td>Графики, данные, аналитика. Excel &rarr; красота</td>
+            <td>10 мин</td>
+            <td class="free-yes">Да</td>
+          </tr>
+          <tr>
+            <td class="tool-name">Manus</td>
+            <td>Полная автоматизация. Ставишь задачу &mdash; уходишь</td>
+            <td>15 мин</td>
+            <td class="free-partial">VPN, бесплатный триал</td>
+          </tr>
+          <tr>
+            <td class="tool-name">Claude</td>
+            <td>HTML-презентации будущего. Кастом, анимации, wow</td>
+            <td>15 мин</td>
+            <td class="free-partial">$20/мес</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== PROMPTS COLLECTION ===== -->
+  <section class="section" id="prompts">
+    <div class="section-number">// ВСЕ ПРОМТЫ</div>
+    <h2 class="section-title">10 промтов воркшопа</h2>
+    <p class="section-subtitle">Копируйте и вставляйте. Каждый работает сразу</p>
+
+    <!-- Prompts 1-9 are already shown above. Add prompt 10 here and provide a compact index -->
+
+    <div class="retro-card" style="margin-bottom: 28px;">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-card-body" style="padding: 16px 20px;">
+        <div style="font-family: var(--mono); font-size: 12px; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase;">Быстрый доступ &mdash; кликните, чтобы перейти к промту</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <a href="#prompt-01" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#1 Структура</a>
+          <a href="#prompt-02" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#2 Стиль</a>
+          <a href="#prompt-03" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#3 NotebookLM</a>
+          <a href="#prompt-04" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#4 Gamma</a>
+          <a href="#prompt-05" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#5 Kimi</a>
+          <a href="#prompt-06" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#6 Chronicle</a>
+          <a href="#prompt-07" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#7 GenSpark</a>
+          <a href="#prompt-08" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#8 Manus</a>
+          <a href="#prompt-09" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#9 Claude</a>
+          <a href="#prompt-10" style="font-family: var(--mono); font-size: 12px; padding: 4px 10px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 4px; color: var(--text); text-decoration: none;">#10 Бонус</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-block" id="prompt-10">
+      <div class="prompt-header">
+        <span class="prompt-label">Промт #10 &mdash; Бонус: провокационный ресёрч</span>
+        <span class="prompt-tool">Любая нейронка</span>
+      </div>
+      <div class="retro-terminal">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-terminal-body">Ты – аналитик, который любит ломать мифы.
+Тема: [тема]
+
+Задание:
+1. Найди 3 общепринятых мнения по теме,
+   которые данные НЕ подтверждают
+2. Для каждого мифа:
+   — Что все думают (1 предложение)
+   — Что показывают данные (факт + источник)
+   — Почему миф живёт (1 предложение)
+3. Оформи как 3 слайда презентации:
+   — Заголовок = разрушенный миф
+   — Визуал: "до/после" или контрастная цифра
+   — Один вывод: что делать по-другому
+
+Тон: не агрессивный, а удивлённый.
+"Смотрите, как интересно" – не "все дураки".</div>
+      </div>
+      <button class="copy-btn" data-prompt="prompt-10">COPY</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== QUIZ ===== -->
+  <section class="section" id="quiz">
+    <div class="section-number">// КВИЗ</div>
+    <h2 class="section-title">Проверьте себя</h2>
+    <p class="section-subtitle">6 вопросов по материалу воркшопа. Кликните, чтобы увидеть ответ</p>
+
+    <div class="quiz-question" onclick="this.querySelector('.quiz-answer').classList.toggle('revealed')">
+      <div class="quiz-q">
+        <span class="quiz-num">01</span>
+        <span class="quiz-text">Какой инструмент лучше всего подходит для быстрой презентации за 5 минут?</span>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-label">Ответ</div>
+        <div class="quiz-answer-text"><strong>Gamma.</strong> Суперсила Gamma &mdash; скорость. 3 минуты до готового дека. Бесплатный тариф с 300 кредитами, экспорт в PDF и PPTX. Когда вызвали на ковёр &mdash; это ваш инструмент.</div>
+      </div>
+    </div>
+
+    <div class="quiz-question" onclick="this.querySelector('.quiz-answer').classList.toggle('revealed')">
+      <div class="quiz-q">
+        <span class="quiz-num">02</span>
+        <span class="quiz-text">Что должно быть в заголовке каждого слайда?</span>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-label">Ответ</div>
+        <div class="quiz-answer-text"><strong>Вывод, а не тема.</strong> Не &laquo;Продажи Q4&raquo;, а &laquo;Продажи Q4 выросли на 47% год к году&raquo;. Тест: прочитайте только заголовки подряд &mdash; вся история должна быть понятна без текста слайдов.</div>
+      </div>
+    </div>
+
+    <div class="quiz-question" onclick="this.querySelector('.quiz-answer').classList.toggle('revealed')">
+      <div class="quiz-q">
+        <span class="quiz-num">03</span>
+        <span class="quiz-text">Какой инструмент лучше всего работает с данными и графиками?</span>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-label">Ответ</div>
+        <div class="quiz-answer-text"><strong>GenSpark.</strong> Правило для GenSpark: 70% графиков, 30% текста. Тренды, таблицы сравнения, пироговые диаграммы, treemap &mdash; всё из коробки. Идеален для превращения Excel в красивую презентацию.</div>
+      </div>
+    </div>
+
+    <div class="quiz-question" onclick="this.querySelector('.quiz-answer').classList.toggle('revealed')">
+      <div class="quiz-q">
+        <span class="quiz-num">04</span>
+        <span class="quiz-text">Что такое NanoBanano Pro?</span>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-label">Ответ</div>
+        <div class="quiz-answer-text"><strong>Генерация фотографий в Kimi.</strong> Встроенная функция для создания фотоконтента прямо внутри Kimi. Не нужно переключаться в отдельный генератор изображений.</div>
+      </div>
+    </div>
+
+    <div class="quiz-question" onclick="this.querySelector('.quiz-answer').classList.toggle('revealed')">
+      <div class="quiz-q">
+        <span class="quiz-num">05</span>
+        <span class="quiz-text">Какой инструмент работает как агент &mdash; ставишь задачу и уходишь?</span>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-label">Ответ</div>
+        <div class="quiz-answer-text"><strong>Manus.</strong> Полная автоматизация: сам ищет данные, сам дизайнит, экспортирует в .pptx. Ставите задачу, уходите от компьютера, возвращаетесь &mdash; презентация готова. Бонус: загрузите свой PPT &mdash; скопирует ваш стиль.</div>
+      </div>
+    </div>
+
+    <div class="quiz-question" onclick="this.querySelector('.quiz-answer').classList.toggle('revealed')">
+      <div class="quiz-q">
+        <span class="quiz-num">06</span>
+        <span class="quiz-text">Какие три шага превращают чужой визуальный стиль в ваш?</span>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-label">Ответ</div>
+        <div class="quiz-answer-text"><strong>Скриншот &rarr; Gemini &rarr; ТЗ.</strong> Шаг 1: скриншот того, что нравится. Шаг 2: промт &laquo;Опиши визуальный стиль&raquo; + картинка в Gemini. Шаг 3: получаете описание стиля &mdash; вставляете в любой AI-инструмент как ТЗ.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== AFTER WORKSHOP ===== -->
+  <section class="section" id="next-steps">
+    <div class="section-number">// ЧТО ДАЛЬШЕ</div>
+    <h2 class="section-title">5 шагов после воркшопа</h2>
+
+    <div class="retro-card">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-card-body" style="font-size: 17px; line-height: 2.2;">
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px;">
+          <span style="font-family: var(--mono); color: var(--accent); font-size: 14px;">01</span>
+          <span>Выберите 2 инструмента из 7 &mdash; это ваш стек</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px;">
+          <span style="font-family: var(--mono); color: var(--accent); font-size: 14px;">02</span>
+          <span>Сделайте первую презентацию сегодня. Плохую. Покажите кому-нибудь</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px;">
+          <span style="font-family: var(--mono); color: var(--accent); font-size: 14px;">03</span>
+          <span>Сохраните промты &mdash; все 10 есть на этой странице</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px;">
+          <span style="font-family: var(--mono); color: var(--accent); font-size: 14px;">04</span>
+          <span>Пересмотрите запись через неделю &mdash; увидите новое</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span style="font-family: var(--mono); color: var(--accent); font-size: 14px;">05</span>
+          <span>Вопросы &rarr; Telegram <a href="https://t.me/ira_and_ai" style="color: var(--accent);">@ira_and_ai</a></span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap;">
+      <div class="retro-card" style="flex: 1; min-width: 240px;">
+        <div class="retro-card-body" style="text-align: center; padding: 20px;">
+          <div class="retro-card-label">Бесплатный гайд</div>
+          <div style="font-size: 17px; margin-bottom: 8px;">Гайд по каруселям</div>
+          <a href="https://iraai.ru/carousel-guide" style="font-family: var(--mono); font-size: 13px; background: var(--accent); color: #fff; display: inline-block; padding: 6px 18px; border-radius: 4px; letter-spacing: 1px; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">СКАЧАТЬ</a>
+        </div>
+      </div>
+      <div class="retro-card" style="flex: 1; min-width: 240px;">
+        <div class="retro-card-body" style="text-align: center; padding: 20px;">
+          <div class="retro-card-label">Рассылка</div>
+          <div style="font-size: 17px; margin-bottom: 8px;">AI reХАБ</div>
+          <a href="https://iraai.ru" style="font-family: var(--mono); font-size: 13px; background: var(--accent); color: #fff; display: inline-block; padding: 6px 18px; border-radius: 4px; letter-spacing: 1px; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">iraai.ru</a>
+          <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">Интерактивные уроки каждый четверг</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page-content -->
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-terminal">
+    > WORKSHOP COMPLETE // DEPLOYED 22.02.2026 // STATUS: LIVE
+  </div>
+  <div class="footer-links">
+    <a class="footer-link" href="https://t.me/ira_and_ai">TELEGRAM</a>
+    <a class="footer-link" href="https://instagram.com/ira.and.ai">INSTAGRAM</a>
+    <a class="footer-link" href="https://iraai.ru">IRAAI.RU</a>
+    <a class="footer-link" href="presentation.html">ПРЕЗЕНТАЦИЯ</a>
+  </div>
+  <div class="footer-made">
+    Made by ira&ai<span class="footer-cursor"></span>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== SCROLL PROGRESS BAR =====
+  var progressBar = document.getElementById('progress-bar');
+
+  function updateProgress() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // ===== SCROLL REVEAL =====
+  var sections = document.querySelectorAll('.section');
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  sections.forEach(function(section) {
+    observer.observe(section);
+  });
+
+  // ===== VIDEO TABS =====
+  var videoTabs = document.querySelectorAll('.video-tab');
+  var videoPanels = document.querySelectorAll('.video-panel');
+
+  videoTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var target = this.getAttribute('data-video');
+
+      videoTabs.forEach(function(t) { t.classList.remove('active'); });
+      videoPanels.forEach(function(p) { p.classList.remove('active'); });
+
+      this.classList.add('active');
+      document.querySelector('.video-panel[data-panel="' + target + '"]').classList.add('active');
+    });
+  });
+
+  // ===== COPY TO CLIPBOARD =====
+  var copyButtons = document.querySelectorAll('.copy-btn');
+
+  copyButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var promptId = this.getAttribute('data-prompt');
+      var block = document.getElementById(promptId);
+      var terminalBody = block.querySelector('.retro-terminal-body');
+      var text = terminalBody.textContent || terminalBody.innerText;
+
+      // Clean up HTML entities that might appear
+      text = text.replace(/\u00a0/g, ' ').trim();
+
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'COPIED';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.textContent = 'COPY';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(function() {
+        // Fallback
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          btn.textContent = 'COPIED';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = 'COPY';
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch(e) {
+          btn.textContent = 'ERROR';
+          setTimeout(function() { btn.textContent = 'COPY'; }, 1500);
+        }
+        document.body.removeChild(textarea);
+      });
+    });
+  });
+
+  // ===== SMOOTH SCROLL for TOC and nav links =====
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      var targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        var headerOffset = 60;
+        var elementPosition = targetEl.getBoundingClientRect().top;
+        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // ===== HEADER HIDE/SHOW on scroll direction =====
+  var header = document.querySelector('.sticky-header');
+  var lastScrollY = 0;
+
+  window.addEventListener('scroll', function() {
+    var currentScrollY = window.pageYOffset;
+    if (currentScrollY > lastScrollY && currentScrollY > 200) {
+      header.style.transform = 'translateY(-100%)';
+      header.style.transition = 'transform 0.3s ease';
+    } else {
+      header.style.transform = 'translateY(0)';
+    }
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+
+})();
+</script>
+
+</body>
+</html>
