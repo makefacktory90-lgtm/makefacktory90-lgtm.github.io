@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Презентации с AI за 4 часа – Ира Буян</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* ===== CSS RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f4f1e6;
+  --text: #1a1a1a;
+  --accent: #b32a1e;
+  --neon: #00ff41;
+  --card-bg: #ffffff;
+  --terminal-bg: #0a0a0a;
+  --terminal-text: #00ff41;
+  --terminal-text-white: #e0e0e0;
+  --muted: #888877;
+  --titlebar: #1a1a1a;
+  --dot-red: #ff5f57;
+  --dot-yellow: #ffbd2e;
+  --dot-green: #28c840;
+  --slide-transition: 0.4s;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Times New Roman', 'Georgia', serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Paper texture via CSS gradient */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.01) 2px,
+      rgba(0,0,0,0.01) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.008) 3px,
+      rgba(0,0,0,0.008) 6px
+    ),
+    radial-gradient(ellipse at 20% 50%, rgba(180,160,120,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(160,140,100,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 80%, rgba(170,150,110,0.05) 0%, transparent 50%);
+}
+
+/* ===== PROGRESS BAR ===== */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 1000;
+  transition: width 0.4s ease;
+}
+
+/* ===== SLIDE COUNTER ===== */
+#slide-counter {
+  position: fixed;
+  bottom: 24px;
+  right: 32px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--muted);
+  z-index: 1000;
+  letter-spacing: 2px;
+}
+
+/* ===== SLIDE CONTAINER ===== */
+#slides-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 100px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--slide-transition) ease, visibility var(--slide-transition);
+  overflow-y: auto;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== CLICK ZONES ===== */
+#click-left, #click-right {
+  position: fixed;
+  top: 0;
+  width: 15%;
+  height: 100%;
+  z-index: 500;
+  cursor: pointer;
+}
+#click-left { left: 0; }
+#click-right { right: 0; }
+#click-left:hover { background: linear-gradient(to right, rgba(0,0,0,0.03), transparent); }
+#click-right:hover { background: linear-gradient(to left, rgba(0,0,0,0.03), transparent); }
+
+/* ===== TYPOGRAPHY ===== */
+.slide-label {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.slide-title {
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 52px;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 36px;
+}
+
+.slide-title.large {
+  font-size: 72px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.slide-subtitle {
+  font-family: 'Courier New', monospace;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.slide-tagline {
+  font-family: 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 24px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.slide-text {
+  font-size: 22px;
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+.slide-text li {
+  margin-bottom: 12px;
+  list-style: none;
+  padding-left: 24px;
+  position: relative;
+}
+
+.slide-text li::before {
+  content: '\2014';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.slide-bottom {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 32px;
+  letter-spacing: 1px;
+}
+
+/* ===== RETRO WINDOW CARD ===== */
+.retro-card {
+  background: var(--card-bg);
+  border: 1px solid #d0cec0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.retro-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+
+.retro-card-titlebar {
+  background: var(--titlebar);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.retro-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.retro-dot.red { background: var(--dot-red); }
+.retro-dot.yellow { background: var(--dot-yellow); }
+.retro-dot.green { background: var(--dot-green); }
+
+.retro-card-body {
+  padding: 24px;
+}
+
+.retro-card-label {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.retro-card-title {
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.retro-card-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Three cards row */
+.cards-row {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.cards-row .retro-card {
+  flex: 1;
+}
+
+/* ===== RETRO TERMINAL ===== */
+.retro-terminal {
+  background: var(--terminal-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  line-height: 1.7;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.retro-terminal .retro-card-titlebar {
+  background: #111;
+}
+
+.retro-terminal-body {
+  padding: 24px 28px;
+  color: var(--terminal-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+  overflow: hidden;
+}
+
+.retro-terminal-body.white-text {
+  color: var(--terminal-text-white);
+}
+
+/* Scanline effect */
+.retro-terminal-body::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,65,0.03) 2px,
+    rgba(0,255,65,0.03) 4px
+  );
+}
+
+/* Text glow */
+.retro-terminal-body {
+  text-shadow: 0 0 6px rgba(0,255,65,0.15);
+}
+
+.retro-terminal-body.white-text {
+  text-shadow: 0 0 6px rgba(255,255,255,0.08);
+}
+
+/* ===== SVG SLOTS ===== */
+.svg-slot {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42%;
+  height: 70%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure text content is above SVG slot */
+.slide-content {
+  position: relative;
+  z-index: 2;
+  max-width: 55%;
+}
+
+/* ===== CENTERED SLIDES ===== */
+.slide.centered {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px;
+}
+
+.slide.centered .slide-content {
+  max-width: 80%;
+}
+
+/* ===== SPECIFIC LAYOUTS ===== */
+
+/* Title slide */
+.slide-title-main {
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 68px;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.slide-title-sub {
+  font-family: 'Courier New', monospace;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.slide-title-bottom {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+/* Table */
+.retro-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 17px;
+}
+
+.retro-table th {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--text);
+}
+
+.retro-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #d0cec0;
+  vertical-align: top;
+}
+
+.retro-table tr:hover {
+  background: rgba(179,42,30,0.04);
+}
+
+.retro-table td:nth-child(2) {
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* Vote cards */
+.vote-row {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.vote-card {
+  flex: 1;
+  background: var(--card-bg);
+  border: 2px solid #d0cec0;
+  border-radius: 8px;
+  padding: 32px 20px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: default;
+  transition: all 0.25s ease;
+}
+
+.vote-card:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(179,42,30,0.1);
+}
+
+/* ===== INTERACTIVE TIMER ===== */
+.timer-box {
+  background: var(--terminal-bg);
+  border-radius: 12px;
+  padding: 24px 36px 20px;
+  margin-top: 20px;
+  max-width: 520px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,255,65,0.15);
+  z-index: 600;
+  user-select: none;
+}
+.timer-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,255,65,0.03) 2px, rgba(0,255,65,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+.timer-display {
+  font-family: 'Courier New', monospace;
+  font-size: 52px;
+  color: var(--neon);
+  text-align: center;
+  letter-spacing: 8px;
+  text-shadow: 0 0 12px rgba(0,255,65,0.4);
+  position: relative;
+  z-index: 2;
+  margin-bottom: 16px;
+}
+.timer-road {
+  width: 100%;
+  height: 2px;
+  background: rgba(0,255,65,0.15);
+  position: relative;
+  margin-bottom: 16px;
+  z-index: 2;
+}
+.timer-road-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--neon);
+  width: 0%;
+  transition: width 1s linear;
+}
+.timer-car {
+  position: absolute;
+  bottom: 6px;
+  left: 0%;
+  transition: left 1s linear;
+  z-index: 3;
+}
+.timer-car-body {
+  width: 28px;
+  height: 12px;
+  background: var(--neon);
+  border-radius: 2px 6px 1px 1px;
+  position: relative;
+}
+.timer-car-body::before,
+.timer-car-body::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  width: 6px;
+  height: 6px;
+  background: var(--neon);
+  border-radius: 50%;
+}
+.timer-car-body::before { left: 2px; }
+.timer-car-body::after { right: 2px; }
+.timer-running .timer-car {
+  filter: drop-shadow(-10px 0 8px rgba(0,255,65,0.25));
+}
+.timer-running .timer-car-body::before,
+.timer-running .timer-car-body::after {
+  animation: wheelspin 0.25s linear infinite;
+}
+@keyframes wheelspin {
+  0% { box-shadow: inset 2px 0 0 rgba(10,10,10,0.5); }
+  25% { box-shadow: inset 0 2px 0 rgba(10,10,10,0.5); }
+  50% { box-shadow: inset -2px 0 0 rgba(10,10,10,0.5); }
+  75% { box-shadow: inset 0 -2px 0 rgba(10,10,10,0.5); }
+}
+.timer-finish {
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: rgba(0,255,65,0.3);
+  letter-spacing: 1px;
+}
+.timer-hint {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: rgba(0,255,65,0.45);
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+.timer-done .timer-display {
+  animation: timer-blink 1s ease infinite;
+}
+.timer-done .timer-car-body {
+  animation: timer-pulse 1s ease infinite;
+}
+@keyframes timer-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+@keyframes timer-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(0,255,65,0); }
+  50% { box-shadow: 0 0 12px rgba(0,255,65,0.8); }
+}
+
+/* ===== PACE BAR (auto-pacing per slide) ===== */
+.pace-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--dot-green);
+  z-index: 10;
+  border-radius: 0 2px 0 0;
+  pointer-events: none;
+}
+.pace-bar.pace-warn { background: var(--dot-yellow); }
+.pace-bar.pace-over {
+  background: var(--dot-red);
+  animation: pace-pulse 1.5s ease infinite;
+}
+@keyframes pace-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Checklist */
+.checklist {
+  list-style: none;
+  font-size: 20px;
+  line-height: 2;
+}
+
+.checklist li {
+  padding-left: 36px;
+  position: relative;
+}
+
+.checklist li::before {
+  content: '\2610';
+  position: absolute;
+  left: 0;
+  font-size: 22px;
+  color: var(--accent);
+}
+
+/* Steps flow */
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 22px;
+}
+
+.flow-step {
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  letter-spacing: 1px;
+  padding: 12px 32px;
+  background: var(--card-bg);
+  border: 1px solid #d0cec0;
+  border-radius: 6px;
+  text-align: center;
+  min-width: 400px;
+}
+
+.flow-arrow {
+  font-size: 24px;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+/* Side label for tool slides */
+.side-label {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+  margin-bottom: 24px;
+}
+
+/* Bottom tip */
+.bottom-tip {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 20px;
+  padding-left: 16px;
+  border-left: 2px solid #d0cec0;
+  line-height: 1.6;
+}
+
+/* ===== GLITCH ANIMATION ===== */
+@keyframes glitch-subtle {
+  0%, 95%, 100% { transform: translate(0); }
+  96% { transform: translate(-2px, 1px); }
+  97% { transform: translate(1px, -1px); }
+  98% { transform: translate(-1px, 0); }
+}
+
+.glitch-text {
+  animation: glitch-subtle 8s infinite;
+}
+
+/* ===== SLIDE ENTRANCE ANIMATIONS ===== */
+.slide.active .slide-label {
+  animation: fadeSlideUp 0.4s ease both;
+}
+.slide.active .slide-title,
+.slide.active .slide-title-main {
+  animation: fadeSlideUp 0.4s ease 0.1s both;
+}
+.slide.active .slide-content > *:nth-child(3) {
+  animation: fadeSlideUp 0.4s ease 0.2s both;
+}
+.slide.active .slide-content > *:nth-child(4) {
+  animation: fadeSlideUp 0.4s ease 0.3s both;
+}
+.slide.active .slide-content > *:nth-child(5) {
+  animation: fadeSlideUp 0.4s ease 0.35s both;
+}
+.slide.active .slide-content > *:nth-child(6) {
+  animation: fadeSlideUp 0.4s ease 0.4s both;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== FULLSCREEN HINT ===== */
+#fullscreen-hint {
+  position: fixed;
+  bottom: 24px;
+  left: 32px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  z-index: 1000;
+  opacity: 0.5;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .slide { padding: 60px 60px; }
+  .slide-title { font-size: 40px; }
+  .slide-title.large { font-size: 56px; }
+  .slide-title-main { font-size: 52px; }
+  .svg-slot { width: 35%; }
+  .slide-content { max-width: 60%; }
+  .cards-row { flex-direction: column; }
+}
+
+@media (max-width: 768px) {
+  .slide { padding: 40px 28px; }
+  .slide-title { font-size: 30px; }
+  .slide-title.large { font-size: 38px; }
+  .slide-title-main { font-size: 36px; }
+  .slide-content { max-width: 100%; }
+  .svg-slot { display: none; }
+  .cards-row { flex-direction: column; }
+  .vote-row { flex-direction: column; }
+  .retro-terminal-body { font-size: 13px; padding: 16px; }
+  .retro-table { font-size: 14px; }
+  .flow-step { min-width: 280px; font-size: 15px; }
+  #click-left, #click-right { width: 10%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Slide counter -->
+<div id="slide-counter">1 / 27</div>
+
+<!-- Fullscreen hint -->
+<div id="fullscreen-hint">F –fullscreen</div>
+
+<!-- Click zones -->
+<div id="click-left"></div>
+<div id="click-right"></div>
+
+<!-- ===== SLIDES ===== -->
+<div id="slides-container">
+
+<!-- ==================== SLIDE 1: TITLE ==================== -->
+<div class="slide centered active" data-slide="1">
+  <div class="slide-content">
+    <div class="slide-title-main glitch-text">ПРЕЗЕНТАЦИИ С&nbsp;AI<br>ЗА 4 ЧАСА</div>
+    <div class="slide-title-sub">8 инструментов. 3 раунда. 1 навык.</div>
+    <div class="slide-title-bottom">Ира Буян &middot; @ira.and.ai &middot; 22 февраля 2026</div>
+  </div>
+  <div class="svg-slot" id="svg-title"></div>
+</div>
+
+<!-- ==================== SLIDE 2: WHO AM I ==================== -->
+<div class="slide" data-slide="2">
+  <div class="slide-content">
+    <div class="slide-label">// ВЕДУЩАЯ</div>
+    <div class="slide-title">ИРА БУЯН</div>
+    <ul class="slide-text">
+      <li>AI-стратег. Упаковываю экспертизу сильных в цифровые продукты</li>
+      <li>16,100 в Instagram &middot; 3,200 в Telegram</li>
+      <li>100+ учеников &middot; Корпоративные воркшопы</li>
+      <li>iraai.ru</li>
+    </ul>
+  </div>
+  <div class="svg-slot" id="svg-about"></div>
+</div>
+
+<!-- ==================== SLIDE 3: WHAT WE'LL DO ==================== -->
+<div class="slide" data-slide="3">
+  <div class="slide-content" style="max-width:100%;">
+    <div class="slide-label">// ПЛАН</div>
+    <div class="slide-title">ЧТО МЫ СЕГОДНЯ СДЕЛАЕМ</div>
+    <div class="cards-row">
+      <div class="retro-card">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-card-body">
+          <div class="retro-card-label">РАУНД 1</div>
+          <div class="retro-card-title">NotebookLM</div>
+          <div class="retro-card-text">Из ваших документов –в слайды за&nbsp;3&nbsp;минуты</div>
+        </div>
+      </div>
+      <div class="retro-card">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-card-body">
+          <div class="retro-card-label">РАУНД 2</div>
+          <div class="retro-card-title">Gamma &middot; Chronicle &middot; Kimi &middot; GenSpark &middot; Manus</div>
+          <div class="retro-card-text">5 инструментов, каждый с суперсилой</div>
+        </div>
+      </div>
+      <div class="retro-card">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-card-body">
+          <div class="retro-card-label">РАУНД 3</div>
+          <div class="retro-card-title">Claude</div>
+          <div class="retro-card-text">HTML-презентация за 15 минут –live</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-plan" style="width:30%;right:20px;"></div>
+</div>
+
+<!-- ==================== SLIDE 4: THE PRINCIPLE ==================== -->
+<div class="slide" data-slide="4">
+  <div class="slide-content" style="max-width:52%;">
+    <div class="slide-label">// ВАЖНО</div>
+    <div class="slide-title">СНАЧАЛА БУДЕТ ДОЛЬШЕ И ХУЖЕ</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body">Первые 2-3 презентации вы будете делать дольше, чем привыкли. Это нормально. Вы перестраиваете навык. После 5-й – экономите часы на каждой.</div>
+    </div>
+    <div class="slide-bottom" style="margin-top:24px;">Как с ручной коробкой: сначала глохнешь, потом не замечаешь</div>
+  </div>
+  <div class="svg-slot" id="svg-principle"><svg viewBox="0 0 400 300">
+    <line x1="50" y1="260" x2="370" y2="260" stroke="#d0cec0"/>
+    <line x1="50" y1="20" x2="50" y2="260" stroke="#d0cec0"/>
+    <line x1="50" y1="110" x2="370" y2="110" stroke="#d0cec0" stroke-dasharray="4 4" opacity=".5"/>
+    <path class="sd" style="--l:550;--t:2.5s;--d:.5s" d="M60 110 C95 112,140 248,195 242 S310 30,360 25" stroke="#b32a1e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <text class="sf" style="--d:.6s" x="55" y="102" font-family="Courier New" font-size="10" fill="#888877">комфорт</text>
+    <text class="sf" style="--d:1.8s" x="148" y="280" font-family="Courier New" font-size="12" fill="#b32a1e" font-weight="bold">тут больно</text>
+    <text class="sf" style="--d:2.8s" x="325" y="20" font-family="Courier New" font-size="14" fill="#b32a1e" font-weight="bold">wow</text>
+  </svg></div>
+</div>
+
+<!-- ==================== SLIDE 5: WHAT IS A GOOD PRESENTATION ==================== -->
+<div class="slide" data-slide="5">
+  <div class="slide-content" style="max-width:58%;">
+    <div class="slide-label">// БЛОК 0 – БАЗА</div>
+    <div class="slide-title">ЧТО ТАКОЕ ХОРОШАЯ ПРЕЗЕНТАЦИЯ</div>
+    <ul class="slide-text">
+      <li>Заголовок слайда = вывод, а&nbsp;не тема. &laquo;Рынок утроился&raquo;, не &laquo;О рынке&raquo;</li>
+      <li>Один слайд = одна мысль. Две мысли? Два слайда</li>
+      <li>Первый слайд –крючок. Последний –действие. Не &laquo;Спасибо&raquo;</li>
+      <li>Данные &gt; мнения. Числа &gt; слова</li>
+    </ul>
+    <div style="margin-top:28px;">
+      <div class="retro-card" style="max-width:420px;">
+        <div class="retro-card-titlebar">
+          <div class="retro-dot red"></div>
+          <div class="retro-dot yellow"></div>
+          <div class="retro-dot green"></div>
+        </div>
+        <div class="retro-card-body">
+          <div class="retro-card-text" style="font-style:italic;">Сегодня мы про визуалку, но без этого она не&nbsp;работает</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-good-pres"></div>
+</div>
+
+<!-- ==================== SLIDE 6: BASE PROMPT ==================== -->
+<div class="slide" data-slide="6">
+  <div class="slide-content" style="max-width:62%;">
+    <div class="slide-label">// ПРОМТ</div>
+    <div class="slide-title">СТРУКТУРА ЗА 30 СЕКУНД</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Ты – презентационный стратег McKinsey.
+Мой материал: [вставить текст или тему].
+
+Правила – нарушать нельзя:
+1. Слайд 1 – крючок: факт, который удивит,
+   вопрос без очевидного ответа, или сцена,
+   которую аудитория узнает. НЕ "Добро
+   пожаловать". НЕ название темы
+2. Заголовок = вывод. Тест: прочитай ТОЛЬКО
+   заголовки – вся история понятна?
+3. Для каждого слайда:
+   – Заголовок-вывод (≤ 8 слов)
+   – 2-3 факта. Числа &gt; слова
+   – Какой визуал: график / схема / иконка /
+     крупный текст на пустом фоне
+   – Одна фраза-мост к следующему слайду
+4. Арка: Проблема (2-3 сл.) → Решение (3 сл.)
+   → Доказательства (2 сл.) → Действие (1 сл.)
+5. Последний слайд: одно действие + дедлайн.
+   НЕ "Спасибо". НЕ "Вопросы?"
+
+Аудитория: [кто]
+Цель: [что СДЕЛАЮТ после – одно действие]
+Слайдов: [число]</div>
+    </div>
+    <div class="slide-bottom">Работает в ChatGPT, Claude, Gemini – везде</div>
+  </div>
+  <div class="svg-slot" id="svg-structure-prompt"></div>
+</div>
+
+<!-- ==================== SLIDE 7: STYLE PROMPT ==================== -->
+<div class="slide" data-slide="7">
+  <div class="slide-content" style="max-width:62%;">
+    <div class="slide-label">// ПРОМТ</div>
+    <div class="slide-title">НЕТ СТИЛЯ? СЕЙЧАС БУДЕТ</div>
+    <div style="font-size:19px;margin-bottom:16px;color:#555;">Скриншот → Gemini → готовое ТЗ</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Опиши визуальный стиль этого изображения
+как ТЗ для дизайнера:
+
+1. ЦВЕТА: фон, текст, акцент. HEX-коды
+2. ШРИФТЫ: тип, размеры, uppercase?
+3. КОМПОЗИЦИЯ: сетка, воздух, разделители
+4. ПРИЁМЫ: тени, градиенты, текстуры
+5. НАСТРОЕНИЕ: 3 прилагательных
+6. ИТОГО: один абзац – вставить
+   в любой AI-инструмент</div>
+    </div>
+    <div class="bottom-tip">Шаг 1 – скриншот того, что нравится. Шаг 2 – этот промт в Gemini. Шаг 3 – описание стиля готово</div>
+  </div>
+  <div class="svg-slot" id="svg-gemini"><svg viewBox="0 0 400 300">
+    <path d="M80 150 Q200 230 320 150" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+    <path fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round">
+      <animate attributeName="d" values="M80 150 Q200 70 320 150;M80 150 Q200 70 320 150;M80 150 Q200 148 320 150;M80 150 Q200 70 320 150;M80 150 Q200 70 320 150" keyTimes="0;0.43;0.47;0.51;1" dur="5s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="200" cy="155" r="28" fill="none" stroke="#b32a1e" stroke-width="1.5">
+      <animate attributeName="cx" values="200;212;192;200" dur="7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="155" r="10" fill="#1a1a1a">
+      <animate attributeName="cx" values="200;212;192;200" dur="7s" repeatCount="indefinite"/>
+    </circle>
+    <line x1="110" y1="130" x2="290" y2="130" stroke="#b32a1e" stroke-width=".5" opacity="0">
+      <animate attributeName="opacity" values="0;.4;0" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="y1" values="120;180" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="120;180" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+    </line>
+    <text x="132" y="228" font-family="Courier New" font-size="10" fill="#888877" opacity=".6">analyzing style...</text>
+  </svg></div>
+</div>
+
+<!-- ==================== SLIDE 8: ROUND 1 TITLE ==================== -->
+<div class="slide centered" data-slide="8">
+  <div class="slide-content">
+    <div class="slide-title large glitch-text">РАУНД 1</div>
+    <div class="slide-subtitle">NotebookLM</div>
+    <div class="slide-tagline">Ваши документы → слайды за 3 минуты</div>
+    <div class="retro-terminal" style="max-width:500px;margin:20px auto 0;">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body" style="padding:14px 20px;font-size:14px;">&gt; notebooklm.google.com</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-round1"></div>
+</div>
+
+<!-- ==================== SLIDE 9: NOTEBOOKLM HOW ==================== -->
+<div class="slide" data-slide="9">
+  <div class="slide-content">
+    <div class="slide-label">// NOTEBOOKLM</div>
+    <div class="slide-title">КАК ЭТО РАБОТАЕТ</div>
+    <ol class="slide-text" style="list-style:none;counter-reset:steps;">
+      <li style="padding-left:36px;" class="step-item">Откройте notebooklm.google.com</li>
+      <li style="padding-left:36px;" class="step-item">Создайте новый ноутбук</li>
+      <li style="padding-left:36px;" class="step-item">Загрузите источник: PDF, Google Doc, ссылку, текст</li>
+      <li style="padding-left:36px;" class="step-item">Studio Panel → Slide Deck → Detailed Deck</li>
+      <li style="padding-left:36px;" class="step-item">В поле &laquo;Add instructions&raquo; – вставьте промт (→)</li>
+    </ol>
+  </div>
+  <div class="svg-slot" id="svg-nlm-how"><svg viewBox="0 0 400 300">
+    <rect x="40" y="80" width="80" height="110" rx="3" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <path d="M100 80 L120 80 L120 100 Z" fill="#f4f1e6" stroke="#1a1a1a" stroke-width="1"/>
+    <line x1="55" y1="110" x2="105" y2="110" stroke="#d0cec0" stroke-width="2"/>
+    <line x1="55" y1="125" x2="100" y2="125" stroke="#d0cec0" stroke-width="2"/>
+    <line x1="55" y1="140" x2="95" y2="140" stroke="#d0cec0" stroke-width="2"/>
+    <line x1="55" y1="155" x2="90" y2="155" stroke="#d0cec0" stroke-width="2"/>
+    <circle r="3" fill="#b32a1e"><animate attributeName="cx" values="135;230" dur="1.2s" begin=".5s" repeatCount="indefinite"/><animate attributeName="cy" values="135;90" dur="1.2s" begin=".5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin=".5s" repeatCount="indefinite"/></circle>
+    <circle r="2" fill="#b32a1e"><animate attributeName="cx" values="135;248" dur="1.2s" begin=".9s" repeatCount="indefinite"/><animate attributeName="cy" values="140;145" dur="1.2s" begin=".9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin=".9s" repeatCount="indefinite"/></circle>
+    <circle r="2.5" fill="#b32a1e"><animate attributeName="cx" values="135;262" dur="1.2s" begin="1.3s" repeatCount="indefinite"/><animate attributeName="cy" values="145;200" dur="1.2s" begin="1.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin="1.3s" repeatCount="indefinite"/></circle>
+    <g class="sf" style="--d:1.2s"><rect x="240" y="60" width="65" height="45" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><line x1="250" y1="74" x2="295" y2="74" stroke="#b32a1e" stroke-width="2"/><line x1="250" y1="86" x2="288" y2="86" stroke="#d0cec0" stroke-width="1.5"/></g>
+    <g class="sf" style="--d:1.7s"><rect x="250" y="118" width="65" height="45" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><line x1="260" y1="132" x2="305" y2="132" stroke="#b32a1e" stroke-width="2"/><line x1="260" y1="144" x2="298" y2="144" stroke="#d0cec0" stroke-width="1.5"/></g>
+    <g class="sf" style="--d:2.2s"><rect x="260" y="176" width="65" height="45" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><line x1="270" y1="190" x2="315" y2="190" stroke="#b32a1e" stroke-width="2"/><line x1="270" y1="202" x2="308" y2="202" stroke="#d0cec0" stroke-width="1.5"/></g>
+    <text class="sf" style="--d:2.8s" x="140" y="260" font-family="Courier New" font-size="10" fill="#888877">doc → slides</text>
+  </svg></div>
+</div>
+
+<!-- ==================== SLIDE 10: NOTEBOOKLM PROMPT ==================== -->
+<div class="slide" data-slide="10">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// ПРОМТ ДЛЯ NOTEBOOKLM</div>
+    <div class="slide-title">ВСТАВЬТЕ В &laquo;ADD INSTRUCTIONS&raquo;</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Роль: дизайнер презентаций McKinsey.
+Аудитория: [предприниматели / клиенты / инвесторы]
+
+Для каждого слайда:
+— Заголовок = вывод. Не "Продажи Q4",
+  а "Продажи Q4 выросли на 47% год к году"
+— Максимум 3 тезиса, каждый ≤ 12 слов
+— Каждый тезис = факт из источника с цитатой
+
+Первый слайд: самый удивительный инсайт
+  из материала. Тот, ради которого стоит
+  смотреть дальше.
+Предпоследний: сравнение "было → стало"
+Последний: одно действие. Не "Спасибо"
+
+Формат: Detailed Deck
+Стиль: минималистичный, много воздуха
+Язык: русский</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-nlm-prompt"></div>
+</div>
+
+<!-- ==================== SLIDE 11: PRACTICE 1 ==================== -->
+<div class="slide" data-slide="11">
+  <div class="slide-content" style="max-width:65%;">
+    <div class="slide-label">// ПРАКТИКА</div>
+    <div class="slide-title">ЗАДАНИЕ: 25 МИНУТ</div>
+    <div class="retro-card">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-card-body" style="font-size:19px;line-height:2;">
+        1. Откройте notebooklm.google.com<br>
+        2. Загрузите ЛЮБОЙ свой документ –PDF, статью, ссылку на сайт<br>
+        3. Studio → Slide Deck → Detailed Deck<br>
+        4. Вставьте промт из предыдущего слайда<br>
+        5. Сгенерируйте<br>
+        6. Скриншот лучшего слайда –в чат
+      </div>
+    </div>
+    <div class="timer-box" data-seconds="1500" onclick="window._timerToggle(event, this)">
+      <div class="timer-display">25:00</div>
+      <div class="timer-road">
+        <div class="timer-road-fill"></div>
+        <div class="timer-car"><div class="timer-car-body"></div></div>
+        <div class="timer-finish">&#9632;</div>
+      </div>
+      <div class="timer-hint">&#9654; click to start</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-practice1"></div>
+</div>
+
+<!-- ==================== SLIDE 12: ROUND 1 RESULTS ==================== -->
+<div class="slide centered" data-slide="12">
+  <div class="slide-content">
+    <div class="slide-label">// РЕЗУЛЬТАТ</div>
+    <div class="slide-title" style="font-size:48px;">У КОГО ЧТО ПОЛУЧИЛОСЬ?</div>
+    <div style="font-size:26px;color:#555;margin-bottom:30px;">Кидайте скриншоты в чат</div>
+    <div class="retro-terminal" style="max-width:560px;margin:0 auto;">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body" style="padding:16px 24px;font-size:15px;">&gt; Это уровень 1. Дальше интереснее.</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-results1"></div>
+</div>
+
+<!-- ==================== SLIDE 13: BREAK ==================== -->
+<div class="slide centered" data-slide="13" style="background:#1a1a1a;">
+  <div class="slide-content" style="max-width:65%;">
+    <div class="slide-label" style="color:#8B7355;">// ПЕРЕРЫВ</div>
+    <div class="slide-title" style="font-size:56px; color:#f4f1e6; font-style:italic;">КОФЕ-БРЕЙК</div>
+    <div style="display:flex; gap:20px; justify-content:center; margin:30px 0; flex-wrap:wrap;">
+      <div class="retro-cup"><span class="steam">~</span></div>
+      <div class="retro-cup"><span class="steam" style="animation-delay:0.3s">~</span></div>
+      <div class="retro-cup"><span class="steam" style="animation-delay:0.7s">~</span></div>
+      <div class="retro-cup"><span class="steam" style="animation-delay:1.1s">~</span></div>
+      <div class="retro-cup"><span class="steam" style="animation-delay:1.5s">~</span></div>
+    </div>
+    <div id="coffee-message">Пока думаете — кофе стынет</div>
+    <div class="timer-box" data-seconds="600" onclick="window._timerToggle(event, this)" style="margin:24px auto 0; border-color:rgba(139,115,85,0.3);">
+      <div class="timer-display" style="color:#8B7355; text-shadow:0 0 12px rgba(139,115,85,0.4);">10:00</div>
+      <div class="timer-road" style="background:rgba(139,115,85,0.15);">
+        <div class="timer-road-fill" style="background:#8B7355;"></div>
+        <div class="timer-car"><div class="timer-car-body" style="background:#8B7355;"></div></div>
+        <div class="timer-finish" style="color:rgba(139,115,85,0.3);">&#9632;</div>
+      </div>
+      <div class="timer-hint" style="color:rgba(139,115,85,0.45);">&#9654; click to start</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 14: ROUND 2 TITLE ==================== -->
+<div class="slide centered" data-slide="14">
+  <div class="slide-content">
+    <div class="slide-title large glitch-text">РАУНД 2</div>
+    <div class="slide-subtitle">Gamma &middot; Chronicle &middot; Kimi &middot; GenSpark &middot; Manus</div>
+    <div class="slide-tagline">5 инструментов. У каждого –суперсила.</div>
+  </div>
+  <div class="svg-slot" id="svg-round2"></div>
+</div>
+
+<!-- ==================== SLIDE 15: GAMMA ==================== -->
+<div class="slide" data-slide="15">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// GAMMA.APP</div>
+    <div class="slide-title">GAMMA –БЫСТРО И КРАСИВО</div>
+    <div class="side-label">Суперсила: скорость. 3 минуты до готового дека</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Тема: [ваша тема]
+Дек для [аудитория], цель – [одно действие].
+
+Жёсткие правила:
+1. Слайд 1: вопрос, на который аудитория
+   НЕ знает ответ. Или число, которое удивит
+2. Тест: прочитай ТОЛЬКО заголовки всех
+   слайдов подряд – история понятна целиком?
+   Если нет – переписать заголовки
+3. Буллит ≤ 10 слов. На слайде ≤ 3 буллита
+4. Ноль стоковых картинок. Нужен визуал?
+   График, диаграмма или иконка
+5. Запрещённые фразы: "в современном мире",
+   "стоит отметить", "важно понимать"
+6. Последний слайд: действие + дедлайн
+
+Карточек: 10 · Язык: русский</div>
+    </div>
+    <div class="bottom-tip">После генерации → Edit with AI → &laquo;Каждый заголовок – это тема или вывод? Если тема – перепиши в вывод. Есть ли на слайде число? Если нет – найди&raquo;</div>
+  </div>
+  <div class="svg-slot" id="svg-gamma"></div>
+</div>
+
+<!-- ==================== SLIDE 16: CHRONICLE ==================== -->
+<div class="slide" data-slide="16">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// CHRONICLE</div>
+    <div class="slide-title">CHRONICLE –ПИТЧ-ДЕК СО СЦЕНАРИЕМ</div>
+    <div class="side-label">Суперсила: сторителлинг. Строит историю, не слайды</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Создай питч-дек, который рассказывает историю.
+Тема: [тема]
+Аудитория: [кто]. Они скептики.
+
+Нарративная арка:
+— Слайд 1: конкретный момент, который аудитория
+  узнает. Не абстракция – сцена
+— Слайды 2-3: цена бездействия.
+  Сколько времени/денег теряют в месяц
+— Слайд 4: что изменилось в мире, что делает
+  новое решение возможным ИМЕННО СЕЙЧАС
+— Слайды 5-6: решение. До/после.
+  Показывай, не рассказывай
+— Слайд 7: ОДНО доказательство. Одна метрика,
+  одна цитата. Не три – одно, но неопровержимое
+— Слайды 8-9: как это работает. Максимум 3 шага
+— Слайд 10: одна просьба. Одно действие. Один дедлайн
+
+Тон: уверенный, как умный друг</div>
+    </div>
+    <div class="bottom-tip">Или: вставьте URL вашего сайта –Chronicle сам построит питч из содержания</div>
+  </div>
+  <div class="svg-slot" id="svg-chronicle"></div>
+</div>
+
+<!-- ==================== SLIDE 17: KIMI ==================== -->
+<div class="slide" data-slide="17">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// KIMI SLIDES</div>
+    <div class="slide-title">KIMI –БЕСПЛАТНЫЙ ИССЛЕДОВАТЕЛЬ</div>
+    <div class="side-label">Суперсила: сам ищет данные. Бесплатно</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Создай презентацию с исследованием.
+Тема: [тема] · Режим: Adaptive
+
+ПРАВИЛА РЕСЁРЧА:
+— Только данные 2024-2026. Старее – игнорировать
+— Каждая цифра – со ссылкой на источник
+— Найди один факт, который ПРОТИВОРЕЧИТ
+  общепринятому мнению по теме
+
+СТРУКТУРА:
+Слайд 1: "Все думают X. Данные говорят Y"
+Слайды 2-4: реальная картина с актуальными данными
+Слайд 5: таблица сравнения – кто делает хорошо,
+  кто отстаёт
+Слайды 6-8: что это значит для [аудитория].
+  Практические выводы, не теория
+Слайды 9-10: 3 действия по убыванию импакта.
+  #1 = максимальный ROI, делать первым
+Слайд 11: все ссылки на источники
+
+Слайдов: 11</div>
+    </div>
+    <div class="bottom-tip">Adaptive = глубокий ресёрч (30-60 мин, качество). Visual = быстро (5 мин, поверхностно)</div>
+  </div>
+  <div class="svg-slot" id="svg-kimi"></div>
+</div>
+
+<!-- ==================== SLIDE 18: GENSPARK ==================== -->
+<div class="slide" data-slide="18">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// GENSPARK</div>
+    <div class="slide-title">GENSPARK –ГРАФИКИ И ДАННЫЕ</div>
+    <div class="side-label">Суперсила: визуализация. Графики вместо текста</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Презентация с данными: [тема]
+ПРАВИЛО: 70% графиков, 30% текста. Не наоборот.
+
+ОБЯЗАТЕЛЬНЫЕ ГРАФИКИ:
+— Слайд 2: тренд. Линия или столбцы. Подпиши
+  точку перелома, где всё изменилось
+— Слайд 4: таблица сравнения. 4+ колонки.
+  Цвет: зелёный = лидер, красный = отстающий
+— Слайд 6: структура. Пирог или treemap.
+  Выдели сегмент #1 крупно
+— Слайд 8: процесс. Слева → направо. Макс.
+  5 шагов. Каждый: иконка + 3 слова
+
+ДЛЯ КАЖДОГО ГРАФИКА:
+— Заголовок = инсайт, не тип данных.
+  "Выручка удвоилась в Q3", не "Выручка"
+— Аннотация к ключевой точке на графике
+— Источник мелким шрифтом снизу
+
+Текстовые слайды (макс. 3):
+Слайд 1: один заголовок + одно число
+Слайд 5: "Ну и что?" – какое решение принять
+Слайд 9: 3 действия по убыванию импакта
+
+Слайдов: 10</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-genspark"></div>
+</div>
+
+<!-- ==================== SLIDE 19: MANUS ==================== -->
+<div class="slide" data-slide="19">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// MANUS AI</div>
+    <div class="slide-title">MANUS –АГЕНТ-ДИЗАЙНЕР</div>
+    <div class="side-label">Суперсила: сам ищет, сам дизайнит, экспорт в .pptx</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text">Собери полный PowerPoint.
+Тема: [тема] · Аудитория: [кто]
+
+ШАГ 1 – РЕСЁРЧ (до дизайна):
+— 3 статистики 2024-2026 с источниками
+— 2 реальных примера (не гипотетических)
+— 1 цитата эксперта с указанием автора
+
+ШАГ 2 – СТРУКТУРА:
+Слайд 1: смелое утверждение + число. Без лого
+Слайды 2-3: проблема. Оцифруй боль:
+  сколько времени/денег/возможностей теряется
+Слайды 4-5: решение. Скриншот или демо
+  &gt; описание. Покажи, что работает
+Слайд 6: как. 3 шага: иконка + глагол + результат
+Слайд 7: доказательство. ОДНА метрика или кейс
+Слайд 8: следующий шаг. Чтобы легко сказать "да"
+
+ШАГ 3 – ДИЗАЙН:
+[Загрузите свой PPT для копирования стиля ИЛИ:
+опишите цвета бренда + шрифты + настроение]
+
+Заметки спикера: 2-3 предложения, разговорно.
+Экспорт .pptx</div>
+    </div>
+    <div class="bottom-tip">Фишка: загрузите свой PPT-файл – Manus скопирует ваши цвета, шрифты и стиль</div>
+  </div>
+  <div class="svg-slot" id="svg-manus"></div>
+</div>
+
+<!-- ==================== SLIDE 20: PRACTICE 2 ==================== -->
+<div class="slide" data-slide="20">
+  <div class="slide-content" style="max-width:65%;">
+    <div class="slide-label">// ПРАКТИКА</div>
+    <div class="slide-title">ЗАДАНИЕ: 30 МИНУТ</div>
+    <div class="retro-card">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-card-body" style="font-size:19px;line-height:2;">
+        1. Выберите 2 инструмента из пяти<br>
+        2. Возьмите ОДНУ тему<br>
+        3. Сделайте презентацию в каждом<br>
+        4. Сравните результат<br>
+        5. Скриншот лучшего –в чат<br>
+        6. Напишите: какой понравился и почему
+      </div>
+    </div>
+    <div class="timer-box" data-seconds="1800" onclick="window._timerToggle(event, this)">
+      <div class="timer-display">30:00</div>
+      <div class="timer-road">
+        <div class="timer-road-fill"></div>
+        <div class="timer-car"><div class="timer-car-body"></div></div>
+        <div class="timer-finish">&#9632;</div>
+      </div>
+      <div class="timer-hint">&#9654; click to start</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-practice2"></div>
+</div>
+
+<!-- ==================== SLIDE 21: ROUND 2 RESULTS ==================== -->
+<div class="slide centered" data-slide="21">
+  <div class="slide-content" style="max-width:90%;">
+    <div class="slide-label">// ГЛАВНОЕ</div>
+    <div class="slide-title" style="font-size:42px;">ЦЕННОСТЬ НЕ В КНОПКАХ</div>
+    <div style="font-size:22px;line-height:1.7;max-width:700px;margin:0 auto 28px;text-align:left;color:#333;">
+      Сегодня я&nbsp;показала вам 8&nbsp;инструментов. Через месяц появится ещё&nbsp;20. Через полгода&nbsp;—&nbsp;ещё&nbsp;50.<br><br>
+      Вы&nbsp;не&nbsp;можете ходить на&nbsp;воркшоп каждый раз. Но&nbsp;теперь вам и&nbsp;не&nbsp;нужно. Вы&nbsp;знаете, как выглядит хороший результат. Вы&nbsp;знаете принципы. Дальше&nbsp;— сами:
+    </div>
+    <div class="retro-terminal" style="max-width:620px;margin:0 auto;">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body" style="padding:16px 24px;font-size:15px;">&gt; Я хочу научиться работать в [новый инструмент]. Проведи меня пошагово.</div>
+    </div>
+    <div style="font-size:19px;line-height:1.7;max-width:700px;margin:24px auto 0;text-align:left;color:#555;border-left:3px solid var(--accent);padding-left:16px;">
+      Но зачем тогда воркшопы? Затем же, зачем музыкальная школа. Плавать проще, снимая технику с&nbsp;рук. Играть на&nbsp;гитаре быстрее учишься, глядя на&nbsp;того, кто играет. Можно по&nbsp;учебнику&nbsp;— но&nbsp;потратите месяцы. Сегодня вы&nbsp;сняли с&nbsp;рук у&nbsp;играющего тренера. Не&nbsp;упустите&nbsp;— закрепите сегодня.
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-results2"></div>
+</div>
+
+<!-- ==================== SLIDE 22: ROUND 3 TITLE ==================== -->
+<div class="slide centered" data-slide="22">
+  <div class="slide-content">
+    <div class="slide-title large glitch-text">РАУНД 3</div>
+    <div class="slide-subtitle">Claude</div>
+  </div>
+  <div class="svg-slot" id="svg-round3"></div>
+</div>
+
+<!-- ==================== SLIDE 23: CLAUDE HTML ==================== -->
+<div class="slide" data-slide="23">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// CLAUDE</div>
+    <div class="slide-title">CLAUDE –HTML ЗА 15 МИНУТ</div>
+    <div class="side-label">Суперсила: полный кастом. Один файл. Браузер. Анимации</div>
+    <div class="retro-terminal">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-terminal-body white-text" style="font-size:13px;line-height:1.6;">Ты – дизайнер презентаций. Создай HTML-презентацию
+в одном файле. Весь CSS и JS встроены.
+
+ВИЗУАЛЬНЫЙ СТИЛЬ:
+[Вставьте описание стиля из Gemini.
+Если нет – опишите: "тёмный фон, белый текст,
+акцент синий" или "светлый, минималистичный,
+как Apple"]
+
+ОБЯЗАТЕЛЬНЫЕ ЭЛЕМЕНТЫ:
+— Навигация: ← → стрелки, пробел, клик
+— Прогресс-бар сверху (тонкая линия)
+— Счётчик слайдов внизу справа
+— F = полный экран
+— Свайп на мобильных
+— Fade-переход 0.4s между слайдами
+— Заголовок появляется первым, затем текст
+— Буллиты по одному с задержкой 0.15s
+
+ПРАВИЛА КОНТЕНТА:
+— Заголовок каждого слайда = ВЫВОД, не тема
+— Максимум 3 буллита на слайд
+— Первый слайд: провокация или ключевой факт
+— Последний: конкретное действие, не "Спасибо"
+— Адаптив: 1920x1080 + мобильный
+
+СОДЕРЖАНИЕ:
+Тема: [ваша тема]
+Аудитория: [кто будет смотреть]
+Цель: [что они сделают после]
+Слайдов: [число]
+
+Файл должен работать офлайн. Шрифты из
+Google Fonts. Chrome, Safari, Firefox.</div>
+    </div>
+    <div class="bottom-tip">Скопируйте. Вставьте в Claude. Получите презентацию в браузере за 5 минут.</div>
+  </div>
+  <div class="svg-slot" id="svg-claude"></div>
+</div>
+
+<!-- ==================== SLIDE 24: LIVE DEMO ==================== -->
+<div class="slide centered" data-slide="24">
+  <div class="slide-content">
+    <div class="slide-label">// LIVE</div>
+    <div class="slide-title" style="font-size:48px;">СОБИРАЕМ ВМЕСТЕ</div>
+    <div class="flow-steps" style="margin:30px 0;">
+      <div class="flow-step">ChatGPT → структура контента</div>
+      <div class="flow-arrow">&#8595;</div>
+      <div class="flow-step">Gemini → описание стиля</div>
+      <div class="flow-arrow">&#8595;</div>
+      <div class="flow-step">Claude → HTML-презентация</div>
+      <div class="flow-arrow">&#8595;</div>
+      <div class="flow-step">Итерации → довести до идеала</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-livedemo"></div>
+</div>
+
+<!-- ==================== SLIDE 25: CHEATSHEET ==================== -->
+<div class="slide" data-slide="25">
+  <div class="slide-content" style="max-width:80%;">
+    <div class="slide-label">// ШПАРГАЛКА</div>
+    <div class="slide-title">КОГДА ЧТО ИСПОЛЬЗОВАТЬ</div>
+    <div class="retro-card">
+      <div class="retro-card-titlebar">
+        <div class="retro-dot red"></div>
+        <div class="retro-dot yellow"></div>
+        <div class="retro-dot green"></div>
+      </div>
+      <div class="retro-card-body" style="padding:0;">
+        <table class="retro-table">
+          <thead>
+            <tr>
+              <th>Задача</th>
+              <th>Инструмент</th>
+              <th>Время</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Из своих документов</td><td>NotebookLM</td><td>3 мин</td></tr>
+            <tr><td>Быстро и красиво</td><td>Gamma</td><td>3 мин</td></tr>
+            <tr><td>Питч-дек</td><td>Chronicle</td><td>5 мин</td></tr>
+            <tr><td>Графики и данные</td><td>GenSpark</td><td>10 мин</td></tr>
+            <tr><td>Бесплатно + ресёрч</td><td>Kimi</td><td>5-60 мин</td></tr>
+            <tr><td>Брендированный PPT</td><td>Manus</td><td>15 мин</td></tr>
+            <tr><td>Кастом HTML, wow</td><td>Claude</td><td>15 мин</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-cheatsheet"></div>
+</div>
+
+<!-- ==================== SLIDE 26: Q&A ==================== -->
+<div class="slide centered" data-slide="26">
+  <div class="slide-content" style="max-width:65%;">
+    <div class="slide-label">// ВОПРОСЫ</div>
+    <div class="slide-title" style="font-size:52px;">ВРЕМЯ ВАШИХ ВОПРОСОВ</div>
+    <div style="font-size:22px;color:#555;margin-bottom:30px;">Любые вопросы по инструментам, промтам, процессу</div>
+    <div class="timer-box" data-seconds="2100" onclick="window._timerToggle(event, this)">
+      <div class="timer-display">35:00</div>
+      <div class="timer-road">
+        <div class="timer-road-fill"></div>
+        <div class="timer-car"><div class="timer-car-body"></div></div>
+        <div class="timer-finish">&#9632;</div>
+      </div>
+      <div class="timer-hint">&#9654; click to start</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-qa"></div>
+</div>
+
+<!-- ==================== SLIDE 27: FINAL ==================== -->
+<div class="slide" data-slide="27">
+  <div class="slide-content" style="max-width:60%;">
+    <div class="slide-label">// ФИНАЛ</div>
+    <div class="slide-title">5 ШАГОВ ПОСЛЕ ВОРКШОПА</div>
+    <ul class="checklist">
+      <li>Выберите 2 инструмента из 8 –ваш стек</li>
+      <li>Сделайте первую презентацию сегодня. Плохую. Опубликуйте</li>
+      <li>Сохраните промты –все промты будут в записи</li>
+      <li>Вопросы → Telegram @ira_and_ai</li>
+    </ul>
+    <div style="margin-top:40px;padding-top:28px;border-top:1px solid #d0cec0;">
+      <div style="font-size:18px;margin-bottom:12px;"><strong style="color:var(--accent);">Бесплатный гайд по каруселям</strong> → слово <span style="font-family:'Courier New',monospace;background:#1a1a1a;color:#fff;padding:2px 10px;border-radius:3px;">КАРУСЕЛЬ</span> в директ</div>
+      <div style="font-size:18px;"><strong style="color:var(--accent);">Рассылка AI реХАБ</strong> → iraai.ru</div>
+    </div>
+  </div>
+  <div class="svg-slot" id="svg-final"></div>
+</div>
+
+</div><!-- end #slides-container -->
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function() {
+  'use strict';
+
+  const TOTAL_SLIDES = 27;
+  let currentSlide = 1;
+
+  const progressBar = document.getElementById('progress-bar');
+  const slideCounter = document.getElementById('slide-counter');
+  const slides = document.querySelectorAll('.slide');
+  const clickLeft = document.getElementById('click-left');
+  const clickRight = document.getElementById('click-right');
+
+  function updateUI() {
+    // Progress
+    const pct = (currentSlide / TOTAL_SLIDES) * 100;
+    progressBar.style.width = pct + '%';
+
+    // Counter
+    slideCounter.textContent = currentSlide + ' / ' + TOTAL_SLIDES;
+
+    // Slides visibility
+    slides.forEach(function(s) {
+      const num = parseInt(s.getAttribute('data-slide'), 10);
+      if (num === currentSlide) {
+        s.classList.add('active');
+      } else {
+        s.classList.remove('active');
+      }
+    });
+  }
+
+  function goTo(n) {
+    if (n < 1) n = 1;
+    if (n > TOTAL_SLIDES) n = TOTAL_SLIDES;
+    if (n === currentSlide) return;
+    currentSlide = n;
+    updateUI();
+    startPace(n);
+  }
+
+  function next() { goTo(currentSlide + 1); }
+  function prev() { goTo(currentSlide - 1); }
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      next();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prev();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      goTo(1);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      goTo(TOTAL_SLIDES);
+    } else if (e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А') {
+      // F for fullscreen (including Russian keyboard layout)
+      e.preventDefault();
+      toggleFullscreen();
+    }
+  });
+
+  // Click zones
+  clickLeft.addEventListener('click', prev);
+  clickRight.addEventListener('click', next);
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) next(); else prev();
+    }
+  }, { passive: true });
+
+  // Fullscreen
+  function toggleFullscreen() {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      var el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+  }
+
+  // Numbered steps styling (Slide 9)
+  var stepItems = document.querySelectorAll('.step-item');
+  stepItems.forEach(function(item, i) {
+    item.style.counterIncrement = 'steps';
+    item.style.position = 'relative';
+    item.style.listStyle = 'none';
+    var num = document.createElement('span');
+    num.textContent = (i + 1) + '.';
+    num.style.position = 'absolute';
+    num.style.left = '0';
+    num.style.fontFamily = "'Courier New', monospace";
+    num.style.fontWeight = 'bold';
+    num.style.color = '#b32a1e';
+    item.insertBefore(num, item.firstChild);
+    // Remove default bullet
+    item.style.paddingLeft = '36px';
+  });
+
+  // Override default list bullet for step items
+  stepItems.forEach(function(item) {
+    // Remove the ::before pseudo element by setting a class
+    item.classList.add('no-dash');
+  });
+
+  // ===== INTERACTIVE TIMER =====
+  window._timerToggle = function(e, el) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    var display = el.querySelector('.timer-display');
+    var fill = el.querySelector('.timer-road-fill');
+    var car = el.querySelector('.timer-car');
+    var hint = el.querySelector('.timer-hint');
+
+    // RESET after done
+    if (el._done) {
+      el._done = false;
+      el.classList.remove('timer-done', 'timer-running');
+      el._remaining = el._total;
+      clearInterval(el._interval);
+      el._interval = null;
+      var m = Math.floor(el._remaining / 60);
+      var s = el._remaining % 60;
+      display.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      fill.style.transition = 'none';
+      car.style.transition = 'none';
+      fill.style.width = '0%';
+      car.style.left = '0%';
+      setTimeout(function() {
+        fill.style.transition = 'width 1s linear';
+        car.style.transition = 'left 1s linear';
+      }, 50);
+      hint.textContent = '\u25B6 click to start';
+      return;
+    }
+
+    // PAUSE
+    if (el._interval) {
+      clearInterval(el._interval);
+      el._interval = null;
+      el.classList.remove('timer-running');
+      hint.textContent = '\u23F8 paused \u2013 click to resume';
+      return;
+    }
+
+    // START or RESUME
+    if (!el._total) {
+      el._total = parseInt(el.getAttribute('data-seconds'), 10);
+      el._remaining = el._total;
+    }
+
+    el.classList.add('timer-running');
+    hint.textContent = '\u23F8 click to pause';
+
+    el._interval = setInterval(function() {
+      el._remaining--;
+      if (el._remaining <= 0) {
+        el._remaining = 0;
+        clearInterval(el._interval);
+        el._interval = null;
+        el._done = true;
+        el.classList.remove('timer-running');
+        el.classList.add('timer-done');
+        hint.textContent = '\u21BB click to reset';
+      }
+      var mm = Math.floor(el._remaining / 60);
+      var ss = el._remaining % 60;
+      display.textContent = String(mm).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+      var pct = ((el._total - el._remaining) / el._total) * 100;
+      fill.style.width = pct + '%';
+      car.style.left = Math.min(pct, 94) + '%';
+    }, 1000);
+  };
+
+  // ===== PACE BAR (auto-pacing) =====
+  var paceMap = {
+    1:120, 2:300, 3:120, 4:300, 5:300,
+    6:420, 7:420, 8:120, 9:420, 10:420,
+    12:300, 14:120, 15:420, 16:420, 17:420,
+    18:420, 19:420,
+    21:300, 22:120, 23:420, 24:1200, 25:300,
+    26:2100, 27:600
+  };
+
+  // Create pace bar elements (skip practice slides 11 & 19)
+  slides.forEach(function(s) {
+    var num = parseInt(s.getAttribute('data-slide'), 10);
+    if (num === 11 || num === 13 || num === 20) return;
+    var bar = document.createElement('div');
+    bar.className = 'pace-bar';
+    s.appendChild(bar);
+  });
+
+  var paceInterval = null;
+
+  function startPace(slideNum) {
+    clearInterval(paceInterval);
+    // Reset all pace bars
+    document.querySelectorAll('.pace-bar').forEach(function(b) {
+      b.style.transition = 'none';
+      b.style.width = '0%';
+      b.style.background = '';
+      b.classList.remove('pace-warn', 'pace-over');
+    });
+
+    var duration = paceMap[slideNum];
+    if (!duration) return;
+
+    var slide = document.querySelector('[data-slide="' + slideNum + '"]');
+    var bar = slide ? slide.querySelector('.pace-bar') : null;
+    if (!bar) return;
+
+    var started = Date.now();
+
+    setTimeout(function() {
+      bar.style.transition = 'width ' + duration + 's linear';
+      bar.style.width = '100%';
+
+      paceInterval = setInterval(function() {
+        var pct = (Date.now() - started) / (duration * 1000);
+        if (pct >= 1 && !bar.classList.contains('pace-over')) {
+          bar.classList.remove('pace-warn');
+          bar.classList.add('pace-over');
+        } else if (pct >= 0.75 && !bar.classList.contains('pace-warn') && !bar.classList.contains('pace-over')) {
+          bar.classList.add('pace-warn');
+        }
+        if (pct >= 1.2) clearInterval(paceInterval);
+      }, 1000);
+    }, 60);
+  }
+
+  // Init
+  updateUI();
+  startPace(1);
+})();
+</script>
+
+<style>
+/* Override dash for numbered steps */
+.step-item::before {
+  content: '' !important;
+  display: none !important;
+}
+
+/* Coffee cup */
+.retro-cup {
+  width: 28px; height: 32px;
+  background: #8B7355;
+  border: 2px solid #5C4A32;
+  border-radius: 0 0 4px 4px;
+  position: relative;
+  display: inline-block;
+}
+.retro-cup::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 3px; right: 3px;
+  height: 5px;
+  background: #6B4226;
+  border-radius: 2px 2px 0 0;
+}
+.retro-cup::after {
+  content: '';
+  position: absolute;
+  right: -10px; top: 4px;
+  width: 8px; height: 14px;
+  border: 3px solid #5C4A32;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+}
+.retro-cup .steam {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #8B7355;
+  animation: steamFloat 2s ease-in-out infinite;
+}
+@keyframes steamFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
+  50% { transform: translateX(-50%) translateY(-6px); opacity: 0.3; }
+}
+#coffee-message {
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  font-weight: bold;
+  color: #b32a1e;
+  text-align: center;
+  min-height: 18px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== SVG Illustrations ===== */
+.svg-slot svg { width:100%; height:100%; overflow:visible; }
+.svg-slot .sd { stroke-dasharray: var(--l); stroke-dashoffset: var(--l); }
+.svg-slot .sf { opacity: 0; }
+.slide.active .sd { animation: sdAnim var(--t,1s) ease-out var(--d,0s) forwards; }
+.slide.active .sf { animation: sfAnim 0.3s ease var(--d,0s) forwards; }
+.slide.active .sc { animation: scAnim 1s step-end var(--d,2s) infinite; }
+@keyframes sdAnim { to { stroke-dashoffset:0 } }
+@keyframes sfAnim { to { opacity:1 } }
+@keyframes scAnim { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+</style>
+
+</body>
+</html>
