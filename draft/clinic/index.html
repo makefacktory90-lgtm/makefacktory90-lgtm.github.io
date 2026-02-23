@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>НАЗВАНИЕ КЛИНИКИ — Философия красоты и технологий</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --light-bg: #F2F2F2;
+  --white: #FFFFFF;
+  --dark: #1A1A1A;
+  --olive: #5E6259;
+  --sienna: #B36739;
+  --black: #000000;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'JetBrains Mono', monospace;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--black);
+  background: var(--dark);
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a, button, input {
+  cursor: none;
+}
+
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--white);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  mix-blend-mode: difference;
+  transition: width 0.3s ease, height 0.3s ease, margin 0.3s ease;
+}
+
+.cursor-circle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--white);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  mix-blend-mode: difference;
+  transition: width 0.35s ease, height 0.35s ease, margin 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+}
+
+.cursor-circle.hover {
+  width: 70px;
+  height: 70px;
+  margin: -15px 0 0 -15px;
+  background: rgba(255,255,255,0.06);
+  border-color: var(--sienna);
+}
+
+/* ============================================
+   FILM GRAIN OVERLAY
+   ============================================ */
+.grain-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 99990;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  animation: grainShift 0.5s steps(6) infinite;
+}
+
+@keyframes grainShift {
+  0%   { transform: translate(0, 0); }
+  16%  { transform: translate(-5%, -10%); }
+  33%  { transform: translate(3%, 5%); }
+  50%  { transform: translate(-8%, 2%); }
+  66%  { transform: translate(6%, -5%); }
+  83%  { transform: translate(-3%, 8%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ============================================
+   SLIDE COUNTER
+   ============================================ */
+.slide-counter {
+  position: fixed;
+  bottom: 40px;
+  right: 50px;
+  z-index: 9999;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  mix-blend-mode: difference;
+  transition: opacity 0.4s ease;
+}
+
+.slide-counter .current {
+  font-weight: 500;
+  font-size: 22px;
+  display: inline-block;
+  min-width: 28px;
+  text-align: right;
+}
+
+.slide-counter .divider {
+  display: inline-block;
+  margin: 0 8px;
+  opacity: 0.4;
+}
+
+.slide-counter .total {
+  opacity: 0.5;
+}
+
+/* ============================================
+   NAVIGATION DOTS
+   ============================================ */
+.nav-dots {
+  position: fixed;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  mix-blend-mode: difference;
+}
+
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: transparent;
+  transition: all 0.4s ease;
+  cursor: none;
+}
+
+.nav-dot.active {
+  background: var(--white);
+  border-color: var(--white);
+  transform: scale(1.4);
+}
+
+/* ============================================
+   SECTIONS BASE
+   ============================================ */
+.section {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section--dark {
+  background: var(--dark);
+  color: var(--white);
+}
+
+.section--light {
+  background: linear-gradient(180deg, #F2F2F2 0%, #FFFFFF 100%);
+  color: var(--black);
+}
+
+/* Section content fade-in on scroll */
+.section-content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   SCANNER LINE
+   ============================================ */
+.scanner-line {
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--olive) 20%, rgba(94,98,89,0.8) 50%, var(--olive) 80%, transparent 100%);
+  box-shadow: 0 0 15px rgba(94,98,89,0.4), 0 0 40px rgba(94,98,89,0.15);
+  animation: scanDown 6s ease-in-out infinite;
+  z-index: 10;
+  pointer-events: none;
+}
+
+@keyframes scanDown {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ============================================
+   PLACEHOLDER IMAGES
+   ============================================ */
+.placeholder-img {
+  background: #2A2A2A;
+  border: 1px dashed rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-img span {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.35;
+  text-align: center;
+  padding: 20px;
+}
+
+.section--light .placeholder-img {
+  background: #D8D8D8;
+  border-color: rgba(0,0,0,0.12);
+}
+
+.section--light .placeholder-img span {
+  color: var(--black);
+}
+
+/* Image reveal: B&W to color on hover */
+.img-reveal {
+  filter: grayscale(100%);
+  transition: filter 0.8s ease, transform 1.2s ease;
+}
+
+.img-reveal:hover {
+  filter: grayscale(0%);
+  animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.025); }
+}
+
+/* ============================================
+   SLIDE 1 — COVER
+   ============================================ */
+.cover {
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+}
+
+.cover-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.cover-logo-wrapper {
+  width: 120px;
+  height: 120px;
+  perspective: 800px;
+  margin-bottom: 20px;
+}
+
+.cover-logo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: logoSpin 12s linear infinite;
+}
+
+.cover-logo .face {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 -50px;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+}
+
+.cover-logo .face:nth-child(1) {
+  transform: rotateY(0deg) translateZ(30px);
+}
+.cover-logo .face:nth-child(2) {
+  transform: rotateY(60deg) translateZ(30px);
+  border-color: rgba(94,98,89,0.35);
+}
+.cover-logo .face:nth-child(3) {
+  transform: rotateY(120deg) translateZ(30px);
+  border-color: rgba(179,103,57,0.25);
+}
+
+@keyframes logoSpin {
+  0%   { transform: rotateY(0deg) rotateX(8deg); }
+  100% { transform: rotateY(360deg) rotateX(8deg); }
+}
+
+.cover h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(38px, 6vw, 90px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.1;
+  margin-right: -0.4em;
+}
+
+.cover .subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1.2vw, 15px);
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+}
+
+.cover .scroll-hint {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.3;
+  animation: hintPulse 2.5s ease-in-out infinite;
+}
+
+.scroll-hint span {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.scroll-hint .line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--white) 0%, transparent 100%);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.5; }
+}
+
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ============================================
+   SLIDE 2 — PHILOSOPHY
+   ============================================ */
+.philosophy {
+  padding: 0;
+}
+
+.philosophy-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+}
+
+.philosophy-photo {
+  width: 100%;
+  height: 70vh;
+  margin-left: 80px;
+  max-width: 480px;
+}
+
+.philosophy-text {
+  padding: 0 80px 0 60px;
+}
+
+.philosophy-text h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  margin-right: -0.35em;
+  color: var(--black);
+}
+
+.philosophy-text .body-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 2;
+  color: rgba(0,0,0,0.6);
+  max-width: 440px;
+  letter-spacing: 0.02em;
+}
+
+.philosophy-text .accent-line {
+  width: 60px;
+  height: 1px;
+  background: var(--sienna);
+  margin: 35px 0;
+  opacity: 0.6;
+}
+
+.philosophy-text .quote {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(0,0,0,0.4);
+  letter-spacing: 0.04em;
+  line-height: 1.9;
+}
+
+/* ============================================
+   SLIDE 3 — SERVICES (3D CAROUSEL)
+   ============================================ */
+.services {
+  flex-direction: column;
+  padding: 0;
+}
+
+.services-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.services h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 56px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 60px;
+  margin-right: -0.4em;
+  text-align: center;
+}
+
+.carousel-container {
+  width: 100%;
+  max-width: 1000px;
+  height: 450px;
+  perspective: 1200px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-track {
+  position: relative;
+  width: 280px;
+  height: 380px;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.carousel-card {
+  position: absolute;
+  width: 280px;
+  height: 380px;
+  background: #242424;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+  transition: filter 0.6s ease, box-shadow 0.6s ease;
+  cursor: none;
+}
+
+.carousel-card .card-img {
+  width: 100%;
+  height: 200px;
+  background: #2E2E2E;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-card .card-img span {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.25;
+  color: var(--white);
+}
+
+.carousel-card .card-body {
+  padding: 28px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel-card .card-number {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--sienna);
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.carousel-card .card-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+
+.carousel-card .card-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.02em;
+}
+
+/* Card expanded overlay */
+.card-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 50000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  backdrop-filter: blur(10px);
+}
+
+.card-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.card-overlay-content {
+  max-width: 700px;
+  padding: 60px;
+  transform: translateY(30px) scale(0.95);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-overlay.active .card-overlay-content {
+  transform: translateY(0) scale(1);
+}
+
+.card-overlay-close {
+  position: absolute;
+  top: 40px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  transition: all 0.3s ease;
+  cursor: none;
+}
+
+.card-overlay-close:hover {
+  border-color: var(--sienna);
+  color: var(--sienna);
+}
+
+.card-overlay-number {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--sienna);
+  margin-bottom: 20px;
+}
+
+.card-overlay-title {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 30px;
+  margin-right: -0.3em;
+}
+
+.card-overlay-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 2.1;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 30px;
+}
+
+.card-overlay-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 30px;
+}
+
+.card-overlay-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-overlay-detail .label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+.card-overlay-detail .value {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+/* Carousel nav arrows */
+.carousel-nav {
+  position: absolute;
+  bottom: -10px;
+  display: flex;
+  gap: 20px;
+}
+
+.carousel-btn {
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  font-family: var(--font-body);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: none;
+}
+
+.carousel-btn:hover {
+  border-color: var(--sienna);
+  color: var(--sienna);
+}
+
+/* ============================================
+   SLIDE 4 — RESULTS (BEFORE / AFTER)
+   ============================================ */
+.results {
+  flex-direction: column;
+}
+
+.results-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  padding: 0 80px;
+}
+
+.results h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 56px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--black);
+  margin-bottom: 50px;
+  margin-right: -0.4em;
+  text-align: center;
+}
+
+.ba-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.ba-before, .ba-after {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ba-before {
+  background: #C8C8C8;
+  z-index: 1;
+}
+
+.ba-after {
+  background: #E0D5CC;
+  z-index: 2;
+  clip-path: inset(0 50% 0 0);
+}
+
+.ba-before span, .ba-after span {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.2;
+  color: var(--black);
+}
+
+.ba-slider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: var(--white);
+  z-index: 5;
+  cursor: none;
+  transform: translateX(-50%);
+}
+
+.ba-slider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+}
+
+.ba-slider::after {
+  content: '⟨  ⟩';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--white);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.testimonial {
+  margin-top: 50px;
+  max-width: 600px;
+  text-align: center;
+}
+
+.testimonial p {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 2;
+  color: rgba(0,0,0,0.4);
+  letter-spacing: 0.02em;
+}
+
+.testimonial .author {
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sienna);
+  margin-top: 18px;
+  display: block;
+  opacity: 0.7;
+}
+
+/* ============================================
+   SLIDE 5 — TECHNOLOGY
+   ============================================ */
+.technology {
+  flex-direction: column;
+}
+
+.technology-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  padding: 0 80px;
+}
+
+.technology h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 56px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 60px;
+  margin-right: -0.4em;
+  text-align: center;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.tech-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 40px 30px;
+  border-radius: 2px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.4s ease, background 0.4s ease;
+}
+
+.tech-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tech-card:hover {
+  border-color: rgba(94,98,89,0.3);
+  background: rgba(255,255,255,0.05);
+}
+
+.tech-card .icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 28px;
+  opacity: 0.5;
+}
+
+.tech-card .icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tech-card h3 {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.tech-card p {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   SLIDE 6 — CONTACT
+   ============================================ */
+.contact {
+  flex-direction: column;
+}
+
+.contact-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  padding: 0 80px;
+  text-align: center;
+  position: relative;
+}
+
+.contact-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--olive), transparent);
+  opacity: 0.3;
+}
+
+.contact h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 3.5vw, 50px);
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--black);
+  margin-bottom: 50px;
+  margin-right: -0.35em;
+  max-width: 800px;
+}
+
+.buttons-row {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.magnetic-btn {
+  position: relative;
+  padding: 18px 48px;
+  border: 1.5px solid var(--black);
+  background: transparent;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--black);
+  cursor: none;
+  transition: background 0.4s ease, color 0.4s ease;
+  overflow: hidden;
+}
+
+.magnetic-btn .btn-text {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.magnetic-btn .btn-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--dark);
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+}
+
+.magnetic-btn:hover .btn-bg {
+  transform: translateY(0);
+}
+
+.magnetic-btn:hover {
+  color: var(--white);
+  border-color: var(--dark);
+}
+
+.magnetic-btn.accent {
+  background: var(--dark);
+  color: var(--white);
+  border-color: var(--dark);
+}
+
+.magnetic-btn.accent .btn-bg {
+  background: var(--sienna);
+}
+
+.magnetic-btn.accent:hover {
+  border-color: var(--sienna);
+}
+
+.contact-info {
+  display: flex;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-item .label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.3);
+}
+
+.contact-item .value {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--black);
+  letter-spacing: 0.04em;
+}
+
+.contact-item .value a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  transition: border-color 0.3s ease;
+}
+
+.contact-item .value a:hover {
+  border-color: var(--sienna);
+}
+
+.contact-footer {
+  position: absolute;
+  bottom: 40px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.2);
+}
+
+/* ============================================
+   PARALLAX HEADING UTIL
+   ============================================ */
+.parallax-heading {
+  will-change: transform;
+}
+
+/* ============================================
+   RESPONSIVE BASICS
+   ============================================ */
+@media (max-width: 1024px) {
+  .philosophy-inner {
+    grid-template-columns: 1fr;
+    padding: 80px 40px;
+    gap: 40px;
+  }
+  .philosophy-photo {
+    margin-left: 0;
+    height: 40vh;
+    max-width: 100%;
+  }
+  .philosophy-text {
+    padding: 0;
+  }
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .contact-info {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+  .nav-dots {
+    display: none;
+  }
+  .slide-counter {
+    right: 20px;
+    bottom: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- GRAIN OVERLAY -->
+<div class="grain-overlay"></div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-circle" id="cursorCircle"></div>
+
+<!-- SLIDE COUNTER -->
+<div class="slide-counter">
+  <span class="current" id="slideNum">01</span>
+  <span class="divider">/</span>
+  <span class="total">06</span>
+</div>
+
+<!-- NAV DOTS -->
+<nav class="nav-dots" id="navDots">
+  <div class="nav-dot active" data-index="0"></div>
+  <div class="nav-dot" data-index="1"></div>
+  <div class="nav-dot" data-index="2"></div>
+  <div class="nav-dot" data-index="3"></div>
+  <div class="nav-dot" data-index="4"></div>
+  <div class="nav-dot" data-index="5"></div>
+</nav>
+
+<!-- CARD OVERLAY (for carousel click expansion) -->
+<div class="card-overlay" id="cardOverlay">
+  <button class="card-overlay-close" id="cardOverlayClose">&times;</button>
+  <div class="card-overlay-content">
+    <div class="card-overlay-number" id="overlayNumber">01</div>
+    <div class="card-overlay-title" id="overlayTitle">ПРОЦЕДУРА</div>
+    <div class="card-overlay-desc" id="overlayDesc">Описание процедуры. Подробная информация о технологии, ожидаемых результатах и особенностях. Текст-текст-текст. Здесь описание преимуществ и деталей процедуры для клиента.</div>
+    <div class="card-overlay-details">
+      <div class="card-overlay-detail">
+        <span class="label">Длительность</span>
+        <span class="value" id="overlayDuration">60–90 мин</span>
+      </div>
+      <div class="card-overlay-detail">
+        <span class="label">Курс</span>
+        <span class="value" id="overlayCourse">4–6 сеансов</span>
+      </div>
+      <div class="card-overlay-detail">
+        <span class="label">Реабилитация</span>
+        <span class="value" id="overlayRehab">1–3 дня</span>
+      </div>
+      <div class="card-overlay-detail">
+        <span class="label">Стоимость</span>
+        <span class="value" id="overlayPrice">от ₽XX,XXX</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================
+     SLIDE 1 — COVER
+     ============================================ -->
+<section class="section section--dark cover" data-slide="1">
+  <div class="scanner-line"></div>
+  <div class="section-content">
+    <div class="cover-inner">
+      <div class="cover-logo-wrapper">
+        <div class="cover-logo">
+          <div class="face"></div>
+          <div class="face"></div>
+          <div class="face"></div>
+        </div>
+      </div>
+      <h1 class="parallax-heading">НАЗВАНИЕ<br>КЛИНИКИ</h1>
+      <p class="subtitle">Философия красоты и технологий</p>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 2 — PHILOSOPHY
+     ============================================ -->
+<section class="section section--light philosophy" data-slide="2">
+  <div class="section-content">
+    <div class="philosophy-inner">
+      <div class="placeholder-img philosophy-photo img-reveal">
+        <span>ФОТО ОСНОВАТЕЛЯ /<br>МОДЕЛИ</span>
+      </div>
+      <div class="philosophy-text">
+        <h2 class="parallax-heading">ФИЛОСОФИЯ</h2>
+        <p class="body-text">
+          Здесь текст о философии клиники. Ваш подход к красоте. Ваши ценности и принципы.
+          Мы верим в гармонию науки и эстетики. Каждая процедура — это результат
+          глубокого понимания анатомии и индивидуальных особенностей.
+        </p>
+        <div class="accent-line"></div>
+        <p class="quote">
+          «Истинная красота — это баланс между тем, что дала природа,<br>
+          и тем, что может предложить наука»
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 3 — SERVICES (3D CAROUSEL)
+     ============================================ -->
+<section class="section section--dark services" data-slide="3">
+  <div class="section-content">
+    <div class="services-inner">
+      <h2 class="parallax-heading">УСЛУГИ</h2>
+      <div class="carousel-container" id="carouselContainer">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-card" data-card="0">
+            <div class="card-img"><span>ИЗОБРАЖЕНИЕ</span></div>
+            <div class="card-body">
+              <div class="card-number">01</div>
+              <div class="card-title">ПРОЦЕДУРА 01</div>
+              <div class="card-desc">Описание процедуры. Краткая информация о результатах и технологии.</div>
+            </div>
+          </div>
+          <div class="carousel-card" data-card="1">
+            <div class="card-img"><span>ИЗОБРАЖЕНИЕ</span></div>
+            <div class="card-body">
+              <div class="card-number">02</div>
+              <div class="card-title">ПРОЦЕДУРА 02</div>
+              <div class="card-desc">Описание процедуры. Краткая информация о результатах и технологии.</div>
+            </div>
+          </div>
+          <div class="carousel-card" data-card="2">
+            <div class="card-img"><span>ИЗОБРАЖЕНИЕ</span></div>
+            <div class="card-body">
+              <div class="card-number">03</div>
+              <div class="card-title">ПРОЦЕДУРА 03</div>
+              <div class="card-desc">Описание процедуры. Краткая информация о результатах и технологии.</div>
+            </div>
+          </div>
+          <div class="carousel-card" data-card="3">
+            <div class="card-img"><span>ИЗОБРАЖЕНИЕ</span></div>
+            <div class="card-body">
+              <div class="card-number">04</div>
+              <div class="card-title">ПРОЦЕДУРА 04</div>
+              <div class="card-desc">Описание процедуры. Краткая информация о результатах и технологии.</div>
+            </div>
+          </div>
+          <div class="carousel-card" data-card="4">
+            <div class="card-img"><span>ИЗОБРАЖЕНИЕ</span></div>
+            <div class="card-body">
+              <div class="card-number">05</div>
+              <div class="card-title">ПРОЦЕДУРА 05</div>
+              <div class="card-desc">Описание процедуры. Краткая информация о результатах и технологии.</div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="carouselPrev">&#8592;</button>
+          <button class="carousel-btn" id="carouselNext">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 4 — RESULTS (BEFORE / AFTER)
+     ============================================ -->
+<section class="section section--light results" data-slide="4">
+  <div class="section-content">
+    <div class="results-inner">
+      <h2 class="parallax-heading">РЕЗУЛЬТАТЫ</h2>
+      <div class="ba-container" id="baContainer">
+        <div class="ba-before"><span>ДО</span></div>
+        <div class="ba-after" id="baAfter"><span>ПОСЛЕ</span></div>
+        <div class="ba-slider" id="baSlider"></div>
+      </div>
+      <div class="testimonial">
+        <p>«Результат превзошёл все мои ожидания. Профессиональный подход, индивидуальная программа и невероятное внимание к деталям. Рекомендую каждому, кто ценит качество.»</p>
+        <span class="author">— Имя Клиента, возраст</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 5 — TECHNOLOGY
+     ============================================ -->
+<section class="section section--dark technology" data-slide="5">
+  <div class="scanner-line" style="animation-delay: 2s;"></div>
+  <div class="section-content">
+    <div class="technology-inner">
+      <h2 class="parallax-heading">ТЕХНОЛОГИИ</h2>
+      <div class="tech-grid">
+
+        <div class="tech-card" data-stagger="0">
+          <div class="icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1">
+              <circle cx="22" cy="22" r="18"/>
+              <line x1="22" y1="4" x2="22" y2="40"/>
+              <line x1="4" y1="22" x2="40" y2="22"/>
+            </svg>
+          </div>
+          <h3>ЛАЗЕРНЫЕ СИСТЕМЫ</h3>
+          <p>Описание технологии. Преимущества и особенности оборудования. Текст-текст-текст описание.</p>
+        </div>
+
+        <div class="tech-card" data-stagger="1">
+          <div class="icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1">
+              <rect x="6" y="6" width="32" height="32" rx="2"/>
+              <circle cx="22" cy="22" r="8"/>
+              <line x1="22" y1="14" x2="22" y2="30"/>
+            </svg>
+          </div>
+          <h3>ИНЪЕКЦИОННАЯ КОСМЕТОЛОГИЯ</h3>
+          <p>Описание технологии. Преимущества и особенности оборудования. Текст-текст-текст описание.</p>
+        </div>
+
+        <div class="tech-card" data-stagger="2">
+          <div class="icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1">
+              <polygon points="22,4 40,16 36,36 8,36 4,16"/>
+              <circle cx="22" cy="22" r="6"/>
+            </svg>
+          </div>
+          <h3>АППАРАТНАЯ КОСМЕТОЛОГИЯ</h3>
+          <p>Описание технологии. Преимущества и особенности оборудования. Текст-текст-текст описание.</p>
+        </div>
+
+        <div class="tech-card" data-stagger="3">
+          <div class="icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1">
+              <ellipse cx="22" cy="22" rx="18" ry="10"/>
+              <ellipse cx="22" cy="22" rx="18" ry="10" transform="rotate(60 22 22)"/>
+              <ellipse cx="22" cy="22" rx="18" ry="10" transform="rotate(120 22 22)"/>
+              <circle cx="22" cy="22" r="3" fill="rgba(255,255,255,0.5)"/>
+            </svg>
+          </div>
+          <h3>РЕГЕНЕРАТИВНАЯ МЕДИЦИНА</h3>
+          <p>Описание технологии. Преимущества и особенности оборудования. Текст-текст-текст описание.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 6 — CONTACT
+     ============================================ -->
+<section class="section section--light contact" data-slide="6">
+  <div class="section-content">
+    <div class="contact-inner">
+      <h2 class="parallax-heading">ЗАПИСАТЬСЯ<br>НА КОНСУЛЬТАЦИЮ</h2>
+      <div class="buttons-row">
+        <button class="magnetic-btn accent" data-magnetic>
+          <span class="btn-bg"></span>
+          <span class="btn-text">ЗАПИСАТЬСЯ</span>
+        </button>
+        <button class="magnetic-btn" data-magnetic>
+          <span class="btn-bg"></span>
+          <span class="btn-text">КОНТАКТЫ</span>
+        </button>
+      </div>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="label">Телефон</span>
+          <span class="value"><a href="tel:+70001234567">+7 (000) 123-45-67</a></span>
+        </div>
+        <div class="contact-item">
+          <span class="label">Адрес</span>
+          <span class="value">г. Москва, ул. Примерная, д. 1</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">Социальные сети</span>
+          <span class="value"><a href="#">Instagram</a> &nbsp;/&nbsp; <a href="#">Telegram</a></span>
+        </div>
+      </div>
+      <div class="contact-footer">&copy; 2026 НАЗВАНИЕ КЛИНИКИ</div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+(() => {
+  const dot = document.getElementById('cursorDot');
+  const circle = document.getElementById('cursorCircle');
+
+  let mouseX = -100, mouseY = -100;
+  let dotX = -100, dotY = -100;
+  let circleX = -100, circleY = -100;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  // Hover detection
+  const interactiveEls = 'a, button, .carousel-card, .magnetic-btn, .nav-dot, .ba-slider, .card-overlay-close';
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest(interactiveEls)) {
+      circle.classList.add('hover');
+    }
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest(interactiveEls)) {
+      circle.classList.remove('hover');
+    }
+  });
+
+  function animateCursor() {
+    // Dot follows instantly
+    dotX += (mouseX - dotX) * 0.35;
+    dotY += (mouseY - dotY) * 0.35;
+    dot.style.transform = `translate(${dotX - 4}px, ${dotY - 4}px)`;
+
+    // Circle follows with delay (lerp)
+    circleX += (mouseX - circleX) * 0.12;
+    circleY += (mouseY - circleY) * 0.12;
+    circle.style.transform = `translate(${circleX - 20}px, ${circleY - 20}px)`;
+
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+})();
+
+
+/* ============================================
+   SMOOTH SCROLL & SECTION OBSERVER
+   ============================================ */
+(() => {
+  const sections = document.querySelectorAll('.section');
+  const contents = document.querySelectorAll('.section-content');
+  const slideNum = document.getElementById('slideNum');
+  const navDots = document.querySelectorAll('.nav-dot');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelector('.section-content').classList.add('visible');
+        const idx = entry.target.dataset.slide;
+        slideNum.textContent = idx.padStart(2, '0');
+
+        navDots.forEach(d => d.classList.remove('active'));
+        const activeDot = document.querySelector(`.nav-dot[data-index="${idx - 1}"]`);
+        if (activeDot) activeDot.classList.add('active');
+      }
+    });
+  }, {
+    threshold: 0.35
+  });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Nav dot click
+  navDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.dataset.index);
+      sections[idx].scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+})();
+
+
+/* ============================================
+   PARALLAX TYPOGRAPHY
+   ============================================ */
+(() => {
+  const parallaxHeadings = document.querySelectorAll('.parallax-heading');
+
+  function updateParallax() {
+    parallaxHeadings.forEach(h => {
+      const section = h.closest('.section');
+      const rect = section.getBoundingClientRect();
+      const sectionCenter = rect.top + rect.height / 2;
+      const viewCenter = window.innerHeight / 2;
+      const offset = (sectionCenter - viewCenter) * 0.08;
+      h.style.transform = `translateY(${offset}px)`;
+    });
+    requestAnimationFrame(updateParallax);
+  }
+  updateParallax();
+})();
+
+
+/* ============================================
+   3D CARD CAROUSEL
+   ============================================ */
+(() => {
+  const track = document.getElementById('carouselTrack');
+  const cards = track.querySelectorAll('.carousel-card');
+  const container = document.getElementById('carouselContainer');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  const overlay = document.getElementById('cardOverlay');
+  const overlayClose = document.getElementById('cardOverlayClose');
+
+  const cardCount = cards.length;
+  let currentAngle = 0;
+  const angleStep = 360 / cardCount;
+  const radius = 380;
+  let autoRotateTimer;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragAngle = 0;
+  let mouseInfluenceX = 0;
+  let mouseInfluenceY = 0;
+
+  function positionCards() {
+    cards.forEach((card, i) => {
+      const angle = currentAngle + i * angleStep;
+      const rad = (angle * Math.PI) / 180;
+      const x = Math.sin(rad) * radius;
+      const z = Math.cos(rad) * radius;
+      const scale = (z + radius) / (2 * radius) * 0.4 + 0.6;
+      const blur = Math.max(0, (1 - (z + radius) / (2 * radius)) * 3);
+      const opacity = (z + radius) / (2 * radius) * 0.6 + 0.4;
+
+      card.style.transform = `translateX(${x}px) translateZ(${z}px) scale(${scale})`;
+      card.style.filter = `blur(${blur}px)`;
+      card.style.opacity = opacity;
+      card.style.zIndex = Math.round(z + radius);
+    });
+  }
+
+  // Auto-rotate
+  function startAutoRotate() {
+    clearInterval(autoRotateTimer);
+    autoRotateTimer = setInterval(() => {
+      if (!isDragging) {
+        currentAngle -= 0.15;
+        positionCards();
+      }
+    }, 16);
+  }
+
+  // Mouse influence on carousel
+  container.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    mouseInfluenceX = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
+    mouseInfluenceY = ((e.clientY - rect.top) / rect.height - 0.5) * 6;
+    track.style.transform = `rotateY(${mouseInfluenceX}deg) rotateX(${-mouseInfluenceY}deg)`;
+  });
+
+  container.addEventListener('mouseleave', () => {
+    track.style.transform = 'rotateY(0deg) rotateX(0deg)';
+  });
+
+  // Drag
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragAngle = currentAngle;
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const dx = e.clientX - dragStartX;
+      currentAngle = dragAngle + dx * 0.3;
+      positionCards();
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  // Buttons
+  prevBtn.addEventListener('click', () => {
+    currentAngle += angleStep;
+    positionCards();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentAngle -= angleStep;
+    positionCards();
+  });
+
+  // Click to expand
+  const cardData = [
+    { num: '01', title: 'ПРОЦЕДУРА 01', desc: 'Подробное описание первой процедуры. Инновационная методика, направленная на комплексное омоложение и восстановление. Используются сертифицированные препараты премиум-класса.', duration: '60–90 мин', course: '4–6 сеансов', rehab: '1–3 дня', price: 'от ₽15,000' },
+    { num: '02', title: 'ПРОЦЕДУРА 02', desc: 'Подробное описание второй процедуры. Современный протокол, сочетающий аппаратные методики с инъекционными техниками для максимального эффекта.', duration: '45–60 мин', course: '3–5 сеансов', rehab: 'Без реабилитации', price: 'от ₽12,000' },
+    { num: '03', title: 'ПРОЦЕДУРА 03', desc: 'Подробное описание третьей процедуры. Авторская методика клиники, разработанная на основе передовых международных протоколов и адаптированная для российского рынка.', duration: '90–120 мин', course: '6–8 сеансов', rehab: '3–5 дней', price: 'от ₽25,000' },
+    { num: '04', title: 'ПРОЦЕДУРА 04', desc: 'Подробное описание четвёртой процедуры. Минимально инвазивная технология нового поколения, обеспечивающая видимый результат после первого сеанса.', duration: '30–45 мин', course: '2–4 сеанса', rehab: '1 день', price: 'от ₽8,000' },
+    { num: '05', title: 'ПРОЦЕДУРА 05', desc: 'Подробное описание пятой процедуры. Комплексный протокол ухода, включающий диагностику, индивидуальный подбор программы и пролонгированный результат.', duration: '120 мин', course: 'Индивидуально', rehab: 'Без реабилитации', price: 'от ₽20,000' }
+  ];
+
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      if (isDragging) return;
+      const d = cardData[i];
+      document.getElementById('overlayNumber').textContent = d.num;
+      document.getElementById('overlayTitle').textContent = d.title;
+      document.getElementById('overlayDesc').textContent = d.desc;
+      document.getElementById('overlayDuration').textContent = d.duration;
+      document.getElementById('overlayCourse').textContent = d.course;
+      document.getElementById('overlayRehab').textContent = d.rehab;
+      document.getElementById('overlayPrice').textContent = d.price;
+      overlay.classList.add('active');
+    });
+  });
+
+  overlayClose.addEventListener('click', () => {
+    overlay.classList.remove('active');
+  });
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') overlay.classList.remove('active');
+  });
+
+  positionCards();
+  startAutoRotate();
+})();
+
+
+/* ============================================
+   BEFORE / AFTER SLIDER
+   ============================================ */
+(() => {
+  const container = document.getElementById('baContainer');
+  const after = document.getElementById('baAfter');
+  const slider = document.getElementById('baSlider');
+  let isDragging = false;
+
+  function updatePosition(x) {
+    const rect = container.getBoundingClientRect();
+    let pct = ((x - rect.left) / rect.width) * 100;
+    pct = Math.max(2, Math.min(98, pct));
+    after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    slider.style.left = pct + '%';
+  }
+
+  slider.addEventListener('mousedown', () => { isDragging = true; });
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    updatePosition(e.clientX);
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) updatePosition(e.clientX);
+  });
+
+  document.addEventListener('mouseup', () => { isDragging = false; });
+})();
+
+
+/* ============================================
+   TECHNOLOGY CARDS — STAGGERED REVEAL
+   ============================================ */
+(() => {
+  const techCards = document.querySelectorAll('.tech-card');
+  const techSection = document.querySelector('.technology');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        techCards.forEach((card, i) => {
+          const delay = parseInt(card.dataset.stagger) * 150;
+          setTimeout(() => card.classList.add('revealed'), delay);
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(techSection);
+})();
+
+
+/* ============================================
+   MAGNETIC BUTTONS
+   ============================================ */
+(() => {
+  const magneticBtns = document.querySelectorAll('[data-magnetic]');
+
+  magneticBtns.forEach(btn => {
+    const btnText = btn.querySelector('.btn-text');
+
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const distX = e.clientX - centerX;
+      const distY = e.clientY - centerY;
+
+      // Btn itself shifts slightly
+      btn.style.transform = `translate(${distX * 0.15}px, ${distY * 0.15}px)`;
+      // Inner text shifts more
+      btnText.style.transform = `translate(${distX * 0.25}px, ${distY * 0.25}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0, 0)';
+      btnText.style.transform = 'translate(0, 0)';
+    });
+
+    // Area-of-influence: attract from nearby
+    document.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+      const threshold = 120;
+
+      if (dist < threshold && dist > 0) {
+        const strength = 1 - dist / threshold;
+        const dx = (e.clientX - centerX) * strength * 0.2;
+        const dy = (e.clientY - centerY) * strength * 0.2;
+        btn.style.transform = `translate(${dx}px, ${dy}px)`;
+      }
+    });
+  });
+})();
+
+
+/* ============================================
+   KEYBOARD NAVIGATION
+   ============================================ */
+(() => {
+  const sections = document.querySelectorAll('.section');
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      const current = getCurrentSlideIndex();
+      if (current < sections.length - 1) {
+        sections[current + 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const current = getCurrentSlideIndex();
+      if (current > 0) {
+        sections[current - 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  });
+
+  function getCurrentSlideIndex() {
+    let closest = 0;
+    let minDist = Infinity;
+    sections.forEach((s, i) => {
+      const rect = s.getBoundingClientRect();
+      const dist = Math.abs(rect.top);
+      if (dist < minDist) {
+        minDist = dist;
+        closest = i;
+      }
+    });
+    return closest;
+  }
+})();
+</script>
+</body>
+</html>
