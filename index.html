@@ -995,6 +995,10 @@
             .services-teaser-grid a {
                 padding: 24px 16px !important;
             }
+
+            .rehab-examples-grid {
+                grid-template-columns: 1fr !important;
+            }
         }
     </style>
 </head>
@@ -1024,15 +1028,15 @@
     </div>
 
     <div class="hero-content">
-        <div class="hero-tag">AI для экспертов</div>
-        <h1 class="hero-title">Усиливаю сильных</h1>
-        <p class="hero-subtitle">Курсы, инструменты и проекты под ключ.<br>Для тех, кому некогда разбираться в&nbsp;нейросетях месяцами.</p>
+        <div class="hero-tag">Для экспертов, которым некогда</div>
+        <h1 class="hero-title">Ваши знания стоят лучшей упаковки</h1>
+        <p class="hero-subtitle">Научитесь сами за 3 900 &#8381; или закажите под ключ.<br>Контент, сайты, презентации — с AI, без агентства.</p>
 
         <div class="hero-buttons">
             <a href="#products" class="btn btn-primary">Курсы от 3 900 &#8381;</a>
-            <a href="/services/" class="btn btn-secondary">Заказать проект</a>
+            <a href="/services/" class="btn btn-secondary">Проект под ключ</a>
         </div>
-        <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Или подпишитесь на <a href="#rehab" style="color:var(--accent);font-weight:600;">AI реХАБ</a> — бесплатная рассылка</p>
+        <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Или начните бесплатно: <a href="#rehab" style="color:var(--accent);font-weight:600;">AI реХАБ</a> — рассылка с промптами и инструментами</p>
     </div>
 </section>
 
@@ -1048,7 +1052,7 @@
             <a href="/workshop-presentations/" class="product-card fallable">
                 <div class="product-tag live">Доступен в записи</div>
                 <h3>Презентации с AI</h3>
-                <p>4 часа, 3 уровня, 8+ нейросетей. От &laquo;с нуля&raquo; до &laquo;как я работаю сама&raquo;. Запись воркшопа 22 февраля.</p>
+                <p>Через 4 часа вы сделаете презентацию, которую не отличить от работы дизайнера. С нуля. Без Figma и Canva.</p>
                 <div class="product-price">6,500 &#8381;</div>
             </a>
 
@@ -1056,18 +1060,27 @@
             <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card fallable">
                 <div class="product-tag live">Доступен в записи</div>
                 <h3>Карусели с AI</h3>
-                <p>15+ промптов, 3 видео, 3 дня. И вы делаете карусели для Instagram, которые цепляют. Без дизайнера.</p>
+                <p>За 3 дня вы начнёте делать карусели для Instagram, которые собирают сохранения. 15 готовых промптов — вставил и работает.</p>
                 <div class="product-price">3,900 &#8381;</div>
             </a>
 
             <!-- Card 2: Space Hub -->
             <a href="https://iraai.ru/spacehub/" class="product-card fallable">
-                <div class="product-tag live">Идёт</div>
+                <div class="product-tag live">Идёт набор</div>
                 <h3>SpaceHub: ИИ-ассистенты</h3>
-                <p>4-недельная программа. Создаёте AI-ассистентов, которые работают за вас.</p>
+                <p>AI-ассистенты, которые пишут, ищут, анализируют — пока вы занимаетесь бизнесом. 4 недели, и у вас своя команда агентов.</p>
                 <div class="product-price">19,900 &#8381;</div>
             </a>
         </div>
+    </div>
+</section>
+
+<!-- ==================== BRIDGE: Products → Rehab ==================== -->
+<section style="padding: 48px 24px; text-align: center; background: var(--off-white);">
+    <div style="max-width: 520px; margin: 0 auto;">
+        <p style="font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px;">Хотите попробовать бесплатно?</p>
+        <p style="font-size: 16px; color: var(--text-secondary); line-height: 1.6;">AI реХАБ — рассылка раз в неделю. Промпты, лайфхаки, инструменты. Применяете сразу.</p>
+        <a href="#rehab" style="display: inline-block; margin-top: 16px; font-size: 15px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px;">Подписаться бесплатно &darr;</a>
     </div>
 </section>
 
@@ -1129,43 +1142,20 @@
             </div>
         </div>
 
-        <div style="margin-top: 3rem; padding: 2rem; background: var(--warm-gray); border-radius: 16px; border: 1px solid var(--light-gray);">
-            <div style="font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">Выпуск 00</div>
-            <a href="https://iraai.ru/masterclass-reid-hoffman/" style="text-decoration: none; color: var(--text);">
-                <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; line-height: 1.3;">5 предсказаний про AI на 2026 год</h3>
+        <div style="margin-top: 2rem; font-size: 13px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase;">Примеры выпусков</div>
+        <div class="rehab-examples-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;">
+            <a href="https://iraai.ru/masterclass-hassid/" style="padding: 20px; background: var(--warm-gray); border-radius: 12px; border: 1px solid var(--light-gray); text-decoration: none; color: inherit; transition: all 0.2s;">
+                <div style="font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Выпуск 03</div>
+                <div style="font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px;">Claude — не один инструмент. Их шесть.</div>
+                <div style="font-size: 13px; color: var(--text-secondary);">Ruben Hassid &middot; Полный разбор с промтами</div>
             </a>
-            <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">Интерактивный мастер-класс с квизом и таймкодами</p>
-            <a href="https://iraai.ru/masterclass-reid-hoffman/" style="display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">Смотреть &rarr;</a>
-        </div>
-
-        <div style="margin-top: 1.5rem; padding: 2rem; background: var(--warm-gray); border-radius: 16px; border: 1px solid var(--light-gray);">
-            <div style="font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">Выпуск 01</div>
-            <a href="https://iraai.ru/masterclass-openclaw/" style="text-decoration: none; color: var(--text);">
-                <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; line-height: 1.3;">OpenClaw: AI, который пишет сам себя</h3>
+            <a href="https://iraai.ru/masterclass-shumer/" style="padding: 20px; background: #0A0A0A; border-radius: 12px; border: 1px solid #E63946; text-decoration: none; color: inherit; transition: all 0.2s;">
+                <div style="font-size: 11px; font-weight: 600; color: #E63946; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Выпуск 02</div>
+                <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 4px;">Грядёт нечто большое</div>
+                <div style="font-size: 13px; color: #999;">Matt Shumer &middot; 50 млн просмотров</div>
             </a>
-            <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">Lex Fridman Podcast #491 &middot; Peter Steinberger &middot; Интерактивный урок с квизом</p>
-            <a href="https://iraai.ru/masterclass-openclaw/" style="display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">Смотреть &rarr;</a>
-        </div>
-
-        <div style="margin-top: 1.5rem; padding: 2rem; background: #0A0A0A; border-radius: 16px; border: 1px solid #E63946; position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 12px; right: 16px; font-size: 10px; font-weight: 600; color: #E63946; letter-spacing: 0.15em; font-family: 'Roboto Mono', monospace; animation: pulse-red 2s infinite;">&#9679; ЭКСТРЕННЫЙ</div>
-            <div style="font-size: 12px; font-weight: 600; color: #E63946; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">Выпуск 02</div>
-            <a href="https://iraai.ru/masterclass-shumer/" style="text-decoration: none; color: #FFFFFF;">
-                <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; line-height: 1.3;">Грядёт нечто большое</h3>
-            </a>
-            <p style="font-size: 14px; color: #999999; line-height: 1.6;">Matt Shumer &middot; 50 млн просмотров &middot; Эссе, которое напугало интернет &middot; Разбор</p>
-            <a href="https://iraai.ru/masterclass-shumer/" style="display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #E63946; text-decoration: none; border-bottom: 1px solid #E63946;">Читать &rarr;</a>
         </div>
         <style>@keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.3} }</style>
-
-        <div style="margin-top: 1.5rem; padding: 2rem; background: var(--warm-gray); border-radius: 16px; border: 1px solid var(--light-gray);">
-            <div style="font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">Выпуск 03</div>
-            <a href="https://iraai.ru/masterclass-hassid/" style="text-decoration: none; color: var(--text);">
-                <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; line-height: 1.3;">Claude &mdash; не один инструмент. Их шесть.</h3>
-            </a>
-            <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">Ruben Hassid &middot; 281K подписчиков &middot; Полный разбор на русском с промтами</p>
-            <a href="https://iraai.ru/masterclass-hassid/" style="display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">Читать &rarr;</a>
-        </div>
     </div>
 </section>
 
@@ -1238,6 +1228,11 @@
                     <a href="https://t.me/ira_and_ai" class="social-link" target="_blank">
                         TG @ira_and_ai
                     </a>
+                </div>
+
+                <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a href="#products" class="btn btn-primary" style="font-size: 14px; padding: 12px 24px;">Курсы от 3 900 &#8381;</a>
+                    <a href="/services/" class="btn btn-secondary" style="font-size: 14px; padding: 12px 24px;">Проект под ключ</a>
                 </div>
             </div>
         </div>
