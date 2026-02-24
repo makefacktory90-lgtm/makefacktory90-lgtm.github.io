@@ -308,6 +308,34 @@
             font-size: 13px;
             color: var(--text-dim);
         }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 32px;
+        }
+        .testimonial-card {
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 28px;
+        }
+        .testimonial-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .testimonial-card .testimonial-author {
+            font-size: 13px;
+        }
+        .testimonial-card .testimonial-role {
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-grid { grid-template-columns: 1fr; }
+        }
 
         /* HONEST */
         .honest-block {
@@ -552,6 +580,21 @@
             </div>
             <div class="testimonial-author">Сергей Ткачев</div>
             <div class="testimonial-role">Начальник направления продаж, CUBQ (международная логистика)</div>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p>Каждый вложенный рубль в&nbsp;твой продукт на выходе превращается минимум в&nbsp;сто. Одно обучение закрывает сразу несколько запросов: нейросети, дизайн, тексты, смыслы, креатив.</p>
+                <div class="testimonial-author">Участница обучения</div>
+            </div>
+            <div class="testimonial-card">
+                <p>В середине обучения моя компания объявила мне благодарность за визуальный контент в&nbsp;Instagram. Это напрямую связано с&nbsp;тем, что я&nbsp;училась у&nbsp;Иры и&nbsp;сразу применяла всё на практике.</p>
+                <div class="testimonial-author">Участница обучения</div>
+            </div>
+            <div class="testimonial-card">
+                <p>Настолько основательно подходишь к&nbsp;созданию контента&nbsp;&mdash; начинаешь со&nbsp;смыслов. Подход допиливания всего открыл для меня новые горизонты. Много промтов забрала себе.</p>
+                <div class="testimonial-author">Участница обучения</div>
+            </div>
         </div>
 
         <!-- Honest block -->
