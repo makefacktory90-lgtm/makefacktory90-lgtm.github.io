@@ -267,6 +267,48 @@
             margin-bottom: 12px;
         }
 
+        /* TESTIMONIAL */
+        .testimonial-block {
+            margin-top: 48px;
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            padding: 48px;
+        }
+        .testimonial-pull {
+            font-size: clamp(20px, 2.5vw, 26px);
+            font-weight: 800;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+        .testimonial-pull::before {
+            content: '\201C';
+            color: var(--accent);
+            font-size: 1.2em;
+        }
+        .testimonial-pull::after {
+            content: '\201D';
+            color: var(--accent);
+            font-size: 1.2em;
+        }
+        .testimonial-full {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .testimonial-author {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .testimonial-role {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
         /* HONEST */
         .honest-block {
             background: var(--warm-gray); border-radius: 20px;
@@ -590,6 +632,16 @@
                 </ul>
                 <a href="https://t.me/ira_alfred_bot" class="btn btn-primary" style="width: 100%; text-align: center;" target="_blank">Обсудить задачу</a>
             </div>
+        </div>
+
+        <!-- Testimonial -->
+        <div class="testimonial-block">
+            <div class="testimonial-pull">Созданный инструмент сокращает рабочую нагрузку аналитиков не на часы, а на дни</div>
+            <div class="testimonial-full">
+                Ирина продемонстрировала исключительный уровень экспертизы в разработке стратегии работы с B2B-сегментом и значительно превзошла наши первоначальные ожидания. Инструменты и системы функционируют с исключительной надёжностью и точностью. За три недели совместной работы нам удалось достичь такой степени автоматизации и оптимизации, которая существенно повысила производительность отдела. Настоятельно рекомендую сотрудничество с Ириной всем компаниям, нуждающимся в разработке высокоуровневых решений для автоматизации и оптимизации бизнес-процессов.
+            </div>
+            <div class="testimonial-author">Сергей Ткачев</div>
+            <div class="testimonial-role">Начальник направления продаж, CUBQ (международная логистика)</div>
         </div>
 
         <!-- Honest block -->
