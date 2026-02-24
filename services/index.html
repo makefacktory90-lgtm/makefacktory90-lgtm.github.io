@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивные продукты с AI — Ира Буян</title>
+    <meta name="description" content="Закажите интерактивный урок, портал для курса или лендинг с wow-эффектом. Или научитесь делать это сами за 2 урока. Ира Буян — wow-experience design с AI.">
+    <meta name="keywords" content="интерактивные уроки AI, wow experience design, портал для курса, лендинг с AI, интерактивный мастер-класс, Ира Буян, вайб-кодинг, упаковка эксперта, сайт за один день">
+    <meta name="author" content="Ира Буян">
+    <link rel="canonical" href="https://iraai.ru/services/">
+
+    <meta name="geo.region" content="RU">
+    <meta name="content-language" content="ru">
+
+    <meta property="og:title" content="Интерактивные продукты с AI — Ира Буян">
+    <meta property="og:description" content="Порталы, лендинги, интерактивные уроки. Концепт → MVP за день. Закажите или научитесь сами.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iraai.ru/services/">
+    <meta property="og:image" content="https://iraai.ru/ira-photo.png">
+    <meta property="og:locale" content="ru_RU">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Интерактивные продукты с AI — Ира Буян">
+    <meta name="twitter:description" content="Wow-experience design. Концепт → MVP за день.">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Wow-Experience Design с AI",
+        "provider": {
+            "@type": "Person",
+            "name": "Ира Буян",
+            "url": "https://iraai.ru",
+            "sameAs": ["https://instagram.com/ira.and.ai", "https://t.me/ira_and_ai"]
+        },
+        "description": "Интерактивные уроки, порталы для курсов, лендинги с wow-эффектом. Концепт, идея, MVP — за один день.",
+        "areaServed": "RU",
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Услуги",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "name": "Создание интерактивного продукта",
+                    "description": "Интерактивный урок, портал для курса или лендинг с wow-эффектом. Готово за 1-3 дня.",
+                    "price": "100000",
+                    "priceCurrency": "RUB"
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Обучение 1-on-1",
+                    "description": "2 урока. Уходите с готовым проектом и навыком делать это самостоятельно.",
+                    "price": "60000",
+                    "priceCurrency": "RUB"
+                }
+            ]
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Что такое wow-experience design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Это интерактивные цифровые продукты, которые вызывают эмоции: порталы с играми, лендинги с пасхалками, мастер-классы с квизами. Не просто сайт — а опыт, который запоминается."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Сколько времени занимает создание?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "От 1 до 3 дней. Два полноценных интерактивных продукта за один день — реальный кейс."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Нужно ли уметь программировать для обучения?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Нет. Обучение рассчитано на экспертов без технического бэкграунда. Вы научитесь создавать интерактивные продукты с помощью AI — без написания кода вручную."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --off-white: #FAFAF8;
+            --warm-gray: #F5F3F0;
+            --light-gray: #E8E5E0;
+            --mid-gray: #B0ACA6;
+            --text: #1A1A1A;
+            --text-secondary: #5C5856;
+            --text-dim: #8A8580;
+            --accent: #C4654E;
+            --accent-soft: #E8917A;
+            --accent-bg: #FFF5F2;
+            --sage: #5A7A60;
+            --sage-bg: #F0F5F1;
+            --deep: #2C2926;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .nav-inner {
+            max-width: 1080px; margin: 0 auto; padding: 16px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo {
+            font-weight: 800; font-size: 18px; color: var(--text);
+            text-decoration: none; letter-spacing: -0.02em;
+        }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 14px; font-weight: 500; transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+
+        /* HERO */
+        .hero {
+            padding: 140px 24px 80px; text-align: center;
+        }
+        .hero-content { max-width: 700px; margin: 0 auto; }
+        .hero-label {
+            font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+        }
+        .hero-title {
+            font-size: clamp(32px, 5vw, 52px); font-weight: 900;
+            line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px;
+        }
+        .hero-sub {
+            font-size: clamp(15px, 1.8vw, 18px); color: var(--text-secondary);
+            line-height: 1.7; margin-bottom: 40px; max-width: 540px; margin-left: auto; margin-right: auto;
+        }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 16px 32px; border-radius: 12px; font-family: 'Inter', sans-serif;
+            font-size: 15px; font-weight: 600; text-decoration: none;
+            transition: all 0.2s; display: inline-block; cursor: pointer; border: none;
+        }
+        .btn-primary {
+            background: var(--accent); color: var(--white);
+        }
+        .btn-primary:hover { background: var(--accent-soft); transform: translateY(-1px); }
+        .btn-secondary {
+            background: var(--white); color: var(--text);
+            border: 2px solid var(--light-gray);
+        }
+        .btn-secondary:hover { border-color: var(--mid-gray); transform: translateY(-1px); }
+
+        /* SPEED BANNER */
+        .speed-banner {
+            background: var(--deep); color: var(--white);
+            padding: 32px 24px; text-align: center;
+            font-size: 15px; font-weight: 500; letter-spacing: 0.02em;
+        }
+        .speed-banner strong { color: var(--accent-soft); }
+
+        /* SECTION */
+        section { padding: 80px 24px; }
+        .section-inner { max-width: 1080px; margin: 0 auto; }
+        .section-label {
+            font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px); font-weight: 800;
+            letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px;
+        }
+        .section-desc {
+            font-size: 17px; color: var(--text-secondary);
+            max-width: 560px; line-height: 1.7; margin-bottom: 48px;
+        }
+
+        /* PORTFOLIO */
+        .portfolio-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .portfolio-card {
+            background: var(--white); border: 1px solid var(--light-gray);
+            border-radius: 20px; overflow: hidden; transition: all 0.3s;
+            text-decoration: none; color: inherit; display: block;
+        }
+        .portfolio-card:hover {
+            border-color: var(--mid-gray); transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+        .portfolio-preview {
+            height: 200px; display: flex; align-items: center; justify-content: center;
+            font-size: 48px; position: relative; overflow: hidden;
+        }
+        .portfolio-preview .overlay-label {
+            position: absolute; bottom: 12px; right: 12px;
+            font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+        }
+        .portfolio-body { padding: 24px 28px 28px; }
+        .portfolio-body h3 {
+            font-size: 20px; font-weight: 800; margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+        .portfolio-body p {
+            font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+        }
+        .portfolio-tag {
+            display: inline-block; font-size: 11px; font-weight: 600;
+            color: var(--accent); margin-bottom: 8px;
+        }
+
+        /* OFFERS */
+        #offers { background: var(--off-white); }
+        .offers-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+        }
+        .offer-card {
+            background: var(--white); border: 1px solid var(--light-gray);
+            border-radius: 20px; padding: 40px;
+        }
+        .offer-card h3 {
+            font-size: 24px; font-weight: 800; margin-bottom: 8px;
+        }
+        .offer-card .price {
+            font-size: 28px; font-weight: 900; color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .offer-card .price-note {
+            font-size: 14px; color: var(--text-dim); margin-bottom: 24px;
+        }
+        .offer-card ul {
+            list-style: none; margin-bottom: 32px;
+        }
+        .offer-card li {
+            padding: 8px 0; font-size: 15px; color: var(--text-secondary);
+            border-bottom: 1px solid var(--light-gray);
+            display: flex; gap: 10px; align-items: baseline;
+        }
+        .offer-card li:last-child { border-bottom: none; }
+        .offer-card li::before {
+            content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0;
+        }
+
+        /* HONEST */
+        .honest-block {
+            background: var(--warm-gray); border-radius: 20px;
+            padding: 48px; margin-top: 48px;
+            border: 1px solid var(--light-gray);
+        }
+        .honest-block h3 {
+            font-size: 22px; font-weight: 800; margin-bottom: 24px;
+        }
+        .honest-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+        }
+        .honest-col h4 {
+            font-size: 14px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.06em; margin-bottom: 12px;
+        }
+        .honest-col.yes h4 { color: var(--sage); }
+        .honest-col.no h4 { color: var(--text-dim); }
+        .honest-col p {
+            font-size: 15px; color: var(--text-secondary); line-height: 1.7;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 48px 24px; text-align: center;
+            border-top: 1px solid var(--light-gray);
+        }
+        footer p { font-size: 14px; color: var(--text-dim); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero { padding: 120px 20px 60px; }
+            .offers-grid { grid-template-columns: 1fr; }
+            .offers-three { grid-template-columns: 1fr !important; }
+            .honest-grid { grid-template-columns: 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="nav-logo">Ира Буян <span style="color:var(--mid-gray);font-weight:400;font-size:14px">(ira&ai)</span></a>
+        <ul class="nav-links">
+            <li><a href="#portfolio">Портфолио</a></li>
+            <li><a href="#offers">Услуги</a></li>
+            <li><a href="/">Главная</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-label">Wow-Experience Design</div>
+        <h1 class="hero-title">Интерактивные продукты с&nbsp;AI</h1>
+        <p class="hero-sub">Концепт, идея, MVP. Интерактивные уроки, порталы для курсов, лендинги, от которых не уходят. Готово за&nbsp;день.</p>
+        <p style="font-size: 15px; color: var(--text-dim); margin-bottom: 40px; font-style: italic;">Я беру немного проектов, потому что это моё хобби.</p>
+        <div class="hero-buttons">
+            <a href="#offers" class="btn btn-primary">Заказать</a>
+            <a href="#offers" class="btn btn-secondary">Научиться самой</a>
+        </div>
+    </div>
+</section>
+
+<!-- PROOF -->
+<div class="speed-banner">
+    <a href="/" style="color: var(--accent-soft); text-decoration: underline; text-decoration-color: rgba(232,145,122,0.4);">iraai.ru</a> — воксельный робот с репертуаром в 190 фраз, падающие блоки, пасхалки для взрослых.<br>
+    Многостраничник, сделанный <strong>креатором-гуманитарием без опыта дизайна и кода</strong>
+</div>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+    <div class="section-inner">
+        <div class="section-label">Портфолио</div>
+        <h2 class="section-title">Живые проекты</h2>
+        <p class="section-desc">Каждый проект — рабочий продукт. Не макет в Figma, не концепт в PDF. Кликайте и смотрите.</p>
+
+        <div class="portfolio-grid">
+            <!-- iraai.ru -->
+            <a href="/" class="portfolio-card">
+                <div class="portfolio-preview" style="background: linear-gradient(135deg, #F5F3F0, #FFF5F2, #F0F5F1); background-size: 400% 400%; animation: gradShift 8s ease infinite;">
+                    <span style="font-size: 56px;">✦</span>
+                    <div class="overlay-label" style="background: rgba(196,101,78,0.15); color: var(--accent);">Сайт</div>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-tag">Многостраничник</div>
+                    <h3>iraai.ru</h3>
+                    <p>Воксельный робот с репертуаром в 190 фраз шагает по экрану и растёт. Блоки падают при клике. Пасхалки для взрослых. Сделан креатором-гуманитарием без опыта дизайна и кода.</p>
+                </div>
+            </a>
+            <style>@keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}</style>
+
+            <!-- SpaceHub -->
+            <a href="/spacehub/" class="portfolio-card">
+                <div class="portfolio-preview" style="background: #0a0a14;">
+                    <span style="font-size: 56px;">🕹️</span>
+                    <div class="overlay-label" style="background: rgba(138,0,255,0.3); color: #c084fc;">Аркада</div>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-tag">Портал для курса</div>
+                    <h3>SpaceHub: ИИ-ассистенты</h3>
+                    <p>Аркадный шутер → пароль через терминал → кокпит с мониторами-уроками. Ретро 80-е, неон, звуки. Весь курс внутри одного портала.</p>
+                </div>
+            </a>
+
+            <!-- Workshop -->
+            <a href="/workshop-presentations/" class="portfolio-card">
+                <div class="portfolio-preview" style="background: #F5F0E8;">
+                    <span style="font-size: 56px;">☕</span>
+                    <div class="overlay-label" style="background: rgba(179,42,30,0.15); color: #b32a1e;">Лендинг + OS</div>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-tag">Лендинг + дашборд</div>
+                    <h3>Презентации с AI</h3>
+                    <p>Ретро-компьютер 90-х, промокод меняет цену с глитч-эффектом, кофейные кружки-пасхалки. Дашборд — целая OS с паролем.</p>
+                </div>
+            </a>
+
+            <!-- Reid Hoffman -->
+            <a href="/masterclass-reid-hoffman/" class="portfolio-card">
+                <div class="portfolio-preview" style="background: #0D0D0D;">
+                    <span style="font-size: 56px;">🔮</span>
+                    <div class="overlay-label" style="background: rgba(230,57,70,0.2); color: #E63946;">Мастер-класс</div>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-tag">Интерактивный урок &middot; Выпуск 00</div>
+                    <h3>Reid Hoffman: 5 предсказаний</h3>
+                    <p>FUI-стиль, тёмная тема, квиз, таймкоды, копируемые промпты. Из 40-минутного видео — в интерактивный урок.</p>
+                </div>
+            </a>
+
+            <!-- Shumer -->
+            <a href="/masterclass-shumer/" class="portfolio-card">
+                <div class="portfolio-preview" style="background: #0A0A0A;">
+                    <span style="font-size: 56px;">⚡</span>
+                    <div class="overlay-label" style="background: rgba(230,57,70,0.2); color: #E63946;">Экстренный</div>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-tag">Интерактивный урок &middot; Выпуск 02</div>
+                    <h3>Matt Shumer: Грядёт нечто большое</h3>
+                    <p>Эссе на 73 млн просмотров → интерактивный разбор. Тёмная тема, red alert эстетика, пульсирующие элементы.</p>
+                </div>
+            </a>
+
+            <!-- Hassid -->
+            <a href="/masterclass-hassid/" class="portfolio-card">
+                <div class="portfolio-preview" style="background: #FFFFFF; border-bottom: 1px solid var(--light-gray);">
+                    <span style="font-size: 56px;">◻️</span>
+                    <div class="overlay-label" style="background: rgba(0,0,0,0.08); color: #333;">Светлый</div>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-tag">Интерактивный урок &middot; Выпуск 03</div>
+                    <h3>Ruben Hassid: Claude — это шесть</h3>
+                    <p>Светлая тема, монохром, раскрывающиеся карточки инструментов. Первый светлый выпуск серии.</p>
+                </div>
+            </a>
+
+            <!-- Clinic Demo -->
+            <a href="/draft/clinic/" class="portfolio-card">
+                <div class="portfolio-preview" style="background: #1A1A1A;">
+                    <span style="font-size: 56px;">🎭</span>
+                    <div class="overlay-label" style="background: rgba(179,103,57,0.25); color: #B36739;">Демо</div>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-tag">Интерактивная презентация &middot; Демо</div>
+                    <h3>Лендинг для бизнеса</h3>
+                    <p>Scroll-snap секции, параллакс, 3D-карусель, кастомный курсор, before/after слайдер. Демо того, что я создаю для клиентов и чему обучаю.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CASE STUDY -->
+<section id="case" style="background: var(--off-white);">
+    <div class="section-inner">
+        <div class="section-label">Кейс</div>
+        <h2 class="section-title">Контент-конвейер для Telegram</h2>
+
+        <div style="max-width: 720px;">
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 20px;">
+                Блогер, очень большой аккаунт в Instagram, там всё летает. Telegram пустой. Потому что писать&nbsp;&mdash; это отдельная работа, и она ей не нравится. Она хочет делать своё дело, а не сидеть над текстами.
+            </p>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 20px;">
+                Мы начали не с роботов. Мы начали со сбора информации, чтобы передать её роботам. Что за канал? Для кого? Как она звучит? Нашли её голос. Научили робота писать так, как пишет она.
+            </p>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 24px;">
+                А дальше я собрала ей конвейер. Семь программ, каждая делает одну вещь:
+            </p>
+
+            <div style="background: var(--white); border: 1px solid var(--light-gray); border-radius: 16px; padding: 32px; margin-bottom: 28px;">
+                <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; gap: 14px; align-items: baseline;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; flex-shrink: 0;">01</span>
+                        <span style="font-size: 15px; color: var(--text);">Ищет в интернете по теме, на которую автор хочет пост</span>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: baseline;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; flex-shrink: 0;">02</span>
+                        <span style="font-size: 15px; color: var(--text);">Критикует найденное</span>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: baseline;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; flex-shrink: 0;">03</span>
+                        <span style="font-size: 15px; color: var(--text);">Переписывает в её стиле</span>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: baseline;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; flex-shrink: 0;">04</span>
+                        <span style="font-size: 15px; color: var(--text);">Убирает всё, что звучит как робот</span>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: baseline;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; flex-shrink: 0;">05</span>
+                        <span style="font-size: 15px; color: var(--text);">Ещё раз проходится её голосом</span>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: baseline;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; flex-shrink: 0;">06</span>
+                        <span style="font-size: 15px; color: var(--text);">Сверяет со стратегией канала</span>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: baseline;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; flex-shrink: 0;">07</span>
+                        <span style="font-size: 15px; color: var(--text);">Постит в черновой Telegram-канал</span>
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 20px;">
+                А что клиентка? Утром говорит тему нейронке, нажимает кнопку и уходит жить. Потом в машине или уже на работе открывает свой черновой Telegram&nbsp;&mdash; да, мы завели ей черновой канал, куда черновики постит робот&nbsp;&mdash; правит пару слов и публикует.
+            </p>
+
+            <div style="display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap;">
+                <div style="background: var(--white); border: 1px solid var(--light-gray); border-radius: 12px; padding: 20px 24px; flex: 1; min-width: 200px;">
+                    <div style="font-size: 28px; font-weight: 900; color: var(--text);">2 мин</div>
+                    <div style="font-size: 13px; color: var(--text-dim);">поставить задачу</div>
+                </div>
+                <div style="background: var(--white); border: 1px solid var(--light-gray); border-radius: 12px; padding: 20px 24px; flex: 1; min-width: 200px;">
+                    <div style="font-size: 28px; font-weight: 900; color: var(--text);">5-10 мин</div>
+                    <div style="font-size: 13px; color: var(--text-dim);">на вычитку</div>
+                </div>
+                <div style="background: var(--white); border: 1px solid var(--light-gray); border-radius: 12px; padding: 20px 24px; flex: 1; min-width: 200px;">
+                    <div style="font-size: 28px; font-weight: 900; color: var(--text);">99%</div>
+                    <div style="font-size: 13px; color: var(--text-dim);">«человек» по детектору</div>
+                </div>
+            </div>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 20px;">
+                Вчерашний её пост я лично прогнала через два детектора. Один сказал&nbsp;&mdash; 99% человек. Второй&nbsp;&mdash; 68%. Мы им не сильно верим, но для спокойствия проверяем.
+            </p>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 20px;">
+                Настраивается такая система примерно за три встречи. Чем ниже базовый уровень владения нейросетями&nbsp;&mdash; тем больше встреч.
+            </p>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 20px;">
+                Будет ли рост у такого канала? Честно&nbsp;&mdash; не знаю. &#129335;&#8205;&#9792;&#65039; Тут много переменных. Я не являюсь в этом проекте контент-хедом, не отвечаю за её материал, смыслы, не я решаю&nbsp;&mdash; когда материал достаточно хорош, чтобы его публиковать. Это отдельная работа.
+            </p>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 20px;">
+                В её конкретном случае&nbsp;&mdash; будет, потому что барьер был не в контенте, не в идеях. Она просто не любит писать. Мы это пофиксили. Писать больше не надо.
+            </p>
+
+            <p style="font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 0;">
+                Как и не знаю&nbsp;&mdash; был бы рост, если бы она продолжала писать руками. Но то, что теперь у неё канал есть и она почти не тратит на него времени&nbsp;&mdash; это факт. &#128526;
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- OFFERS -->
+<section id="offers">
+    <div class="section-inner">
+        <div class="section-label">Услуги</div>
+        <h2 class="section-title">Что я делаю</h2>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;" class="offers-three">
+            <!-- 1: Sites -->
+            <div class="offer-card">
+                <div style="font-size: 32px; margin-bottom: 12px;">&#9670;</div>
+                <h3>Сайты и порталы</h3>
+                <div class="price">от 100,000 ₽</div>
+                <div class="price-note">Готово за 1-3 дня</div>
+                <ul>
+                    <li>Интерактивный урок из вашего видео</li>
+                    <li>Портал для курса с геймификацией</li>
+                    <li>Лендинг с wow-эффектом</li>
+                    <li>Дашборд-OS для учеников</li>
+                </ul>
+                <a href="https://t.me/ira_alfred_bot" class="btn btn-primary" style="width: 100%; text-align: center;" target="_blank">Написать Альфреду</a>
+            </div>
+
+            <!-- 2: Pipeline -->
+            <div class="offer-card">
+                <div style="font-size: 32px; margin-bottom: 12px;">&#9654;</div>
+                <h3>Текстовый конвейер</h3>
+                <div class="price">от 100,000 ₽</div>
+                <div class="price-note">Настройка за ~3 встречи</div>
+                <ul>
+                    <li>Нахожу ваш голос, учу AI писать как вы</li>
+                    <li>Собираю конвейер из 7 агентов</li>
+                    <li>Черновики постов в ваш Telegram</li>
+                    <li>Ваше время: 5-10 минут на вычитку</li>
+                </ul>
+                <a href="https://t.me/ira_alfred_bot" class="btn btn-primary" style="width: 100%; text-align: center;" target="_blank">Написать Альфреду</a>
+            </div>
+
+            <!-- 3: Teaching -->
+            <div class="offer-card">
+                <div style="font-size: 32px; margin-bottom: 12px;">&#9733;</div>
+                <h3>Научу делать</h3>
+                <div class="price">60,000 — 80,000 ₽</div>
+                <div class="price-note">2 урока 1-on-1 &middot; зависит от уровня</div>
+                <ul>
+                    <li>Два урока один на один со мной</li>
+                    <li>Уходите с готовым проектом</li>
+                    <li>Навык делать самостоятельно</li>
+                    <li>Программировать не нужно</li>
+                </ul>
+                <a href="https://t.me/ira_alfred_bot" class="btn btn-secondary" style="width: 100%; text-align: center;" target="_blank">Написать Альфреду</a>
+            </div>
+        </div>
+
+        <!-- Honest block -->
+        <div class="honest-block">
+            <h3>Честно</h3>
+            <div class="honest-grid">
+                <div class="honest-col yes">
+                    <h4>Что я делаю</h4>
+                    <p>Концепт, идея, wow-experience, MVP. Упаковка сайтов, продуктов, интерактивных уроков. Подключение рассылок. Скорость — два продукта за день. Это реальный кейс, не метафора.</p>
+                </div>
+                <div class="honest-col no">
+                    <h4>Чего пока не делаю</h4>
+                    <p>Бэкенд, базы данных, CRM, серверная логика. Если вам нужен корпоративный портал с авторизацией и платёжной системой — это не ко мне. Пока. Я учусь и дорожаю вместе с навыками.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STICKY POST-IT -->
+<div class="postit-container">
+    <a href="https://t.me/ira_alfred_bot" target="_blank" class="postit">
+        <div class="postit-title">Вопрос?</div>
+        <div class="postit-text">Пишите Альфреду, оставьте контакты&nbsp;&mdash; я&nbsp;с&nbsp;вами свяжусь</div>
+    </a>
+</div>
+
+<style>
+.postit-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+}
+.postit {
+    display: block;
+    width: 180px;
+    padding: 18px 16px;
+    background: #81D8D0;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #1A1A1A;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.15), inset 0 -2px 4px rgba(0,0,0,0.05);
+    transform: rotate(2deg);
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.postit::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 20%;
+    width: 60%; height: 14px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 0 0 4px 4px;
+}
+.postit:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 6px 8px 20px rgba(0,0,0,0.2);
+}
+.postit-title {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+.postit-text {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #2C2926;
+}
+@media (max-width: 768px) {
+    .postit-container { bottom: 16px; right: 16px; }
+    .postit { width: 160px; padding: 14px 12px; }
+}
+</style>
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; 2026 Ира Буян. <a href="https://instagram.com/ira.and.ai" target="_blank">Instagram</a> &middot; <a href="https://t.me/ira_and_ai" target="_blank">Telegram</a> &middot; <a href="/">Главная</a></p>
+    <p style="font-size:12px;color:var(--text-dim);margin-top:8px;">ИП Буян Ирина Валерьевна &middot; ОГРНИП 320774600301870 &middot; ИНН 772320882743</p>
+</footer>
+
+<script>
+// Smooth reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.portfolio-card, .offer-card, .honest-block').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+});
+</script>
+
+</body>
+</html>
