@@ -240,8 +240,7 @@
             font-weight: 400;
             color: var(--text-secondary);
             line-height: 1.8;
-            margin-bottom: 48px;
-            white-space: nowrap;
+            margin-bottom: 32px;
         }
 
         /* ===================== EMAIL FORM ===================== */
@@ -342,6 +341,43 @@
         .email-note {
             font-size: 13px;
             color: var(--text-dim);
+        }
+
+        /* HERO BUTTONS */
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background: var(--accent-soft);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text);
+            border: 2px solid var(--light-gray);
+        }
+        .btn-secondary:hover {
+            border-color: var(--mid-gray);
+            transform: translateY(-1px);
         }
 
         /* ===================== SECTION BASE ===================== */
@@ -925,6 +961,20 @@
             .products-grid {
                 grid-template-columns: 1fr;
             }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            .hero-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .services-teaser-grid {
+                grid-template-columns: 1fr !important;
+            }
         }
     </style>
 </head>
@@ -935,9 +985,9 @@
     <div class="nav-inner">
         <a href="#" class="nav-logo">Ира Буян <span style="color:var(--mid-gray);font-weight:400;font-size:14px">(ira&amp;ai)</span></a>
         <ul class="nav-links">
-            <li><a href="#rehab">AI ре<strong>ХАБ</strong></a></li>
-            <li><a href="#products">Продукты</a></li>
+            <li><a href="#products">Курсы</a></li>
             <li><a href="/services/">Услуги</a></li>
+            <li><a href="#rehab">AI реХАБ</a></li>
             <li><a href="#about">Обо мне</a></li>
         </ul>
     </div>
@@ -954,21 +1004,50 @@
     </div>
 
     <div class="hero-content">
-        <div class="hero-tag">AI ре<strong>ХАБ</strong></div>
+        <div class="hero-tag">AI для экспертов</div>
         <h1 class="hero-title">Усиливаю сильных</h1>
-        <p class="hero-subtitle">Рассылка для тех, кому некогда разбираться в нейросетях.<br>Наблюдения, фишки, промпты и скиллы, понятные инструменты.<br>В своем темпе, без перегруза.</p>
+        <p class="hero-subtitle">Курсы, инструменты и проекты под ключ.<br>Для тех, кому некогда разбираться в&nbsp;нейросетях месяцами.</p>
 
-        <form class="email-form" onsubmit="return handleSubscribe(this)">
-            <input type="email" name="email" placeholder="Ваш email" required>
-            <button type="submit" disabled>Подписаться</button>
-            <div class="consent-row">
-                <label class="consent-label">
-                    <input type="checkbox" onchange="toggleSubmit(this)">
-                    <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
-                </label>
-            </div>
-        </form>
-        <p class="email-note">Бесплатно. Отписка в один клик. Без спама.</p>
+        <div class="hero-buttons">
+            <a href="#products" class="btn btn-primary">Курсы от 3 900 &#8381;</a>
+            <a href="/services/" class="btn btn-secondary">Заказать проект</a>
+        </div>
+        <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Или подпишитесь на <a href="#rehab" style="color:var(--accent);font-weight:600;">AI реХАБ</a> — бесплатная рассылка</p>
+    </div>
+</section>
+
+<!-- ==================== PRODUCTS ==================== -->
+<section id="products">
+    <div class="section-inner">
+        <div class="section-label">Курсы</div>
+        <h2 class="section-title">Научитесь сами</h2>
+        <p class="section-desc">Записи и программы. Конкретный навык, конкретный результат.</p>
+
+        <div class="products-grid">
+            <!-- Card 0: Workshop Presentations -->
+            <a href="/workshop-presentations/" class="product-card fallable">
+                <div class="product-tag live">Доступен в записи</div>
+                <h3>Презентации с AI</h3>
+                <p>4 часа, 3 уровня, 8+ нейросетей. От &laquo;с нуля&raquo; до &laquo;как я работаю сама&raquo;. Запись воркшопа 22 февраля.</p>
+                <div class="product-price">6,500 &#8381;</div>
+            </a>
+
+            <!-- Card 1: Carousels -->
+            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card fallable">
+                <div class="product-tag live">Доступен в записи</div>
+                <h3>Карусели с AI</h3>
+                <p>15+ промптов, 3 видео, 3 дня. И вы делаете карусели для Instagram, которые цепляют. Без дизайнера.</p>
+                <div class="product-price">3,900 &#8381;</div>
+            </a>
+
+            <!-- Card 2: Space Hub -->
+            <a href="https://iraai.ru/spacehub/" class="product-card fallable">
+                <div class="product-tag live">Идёт</div>
+                <h3>SpaceHub: ИИ-ассистенты</h3>
+                <p>4-недельная программа. Создаёте AI-ассистентов, которые работают за вас.</p>
+                <div class="product-price">19,900 &#8381;</div>
+            </a>
+        </div>
     </div>
 </section>
 
@@ -1070,49 +1149,6 @@
     </div>
 </section>
 
-<!-- ==================== PRODUCTS ==================== -->
-<section id="products">
-    <div class="section-inner">
-        <div class="section-label">Продукты</div>
-        <h2 class="section-title">Хабы и инструменты</h2>
-        <p class="section-desc">Серьёзная работа с AI. Каждый хаб. Конкретный навык, конкретный результат.</p>
-
-        <div class="products-grid">
-            <!-- Card 0: Workshop Presentations -->
-            <a href="/workshop-presentations/" class="product-card fallable">
-                <div class="product-tag live">Доступен в записи</div>
-                <h3>Презентации с AI</h3>
-                <p>4 часа, 3 уровня, 8+ нейросетей. От &laquo;с нуля&raquo; до &laquo;как я работаю сама&raquo;. Запись воркшопа 22 февраля.</p>
-                <div class="product-price">6,500 &#8381;</div>
-            </a>
-
-            <!-- Card 1: Carousels -->
-            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card fallable">
-                <div class="product-tag live">Доступен в записи</div>
-                <h3>Карусели с AI</h3>
-                <p>15+ промптов, 3 видео, 3 дня. И вы делаете карусели для Instagram, которые цепляют. Без дизайнера.</p>
-                <div class="product-price">3,900 &#8381;</div>
-            </a>
-
-            <!-- Card 2: Space Hub -->
-            <a href="https://iraai.ru/spacehub/" class="product-card fallable">
-                <div class="product-tag live">Идёт</div>
-                <h3>SpaceHub: ИИ-ассистенты</h3>
-                <p>4-недельная программа. Создаёте AI-ассистентов, которые работают за вас.</p>
-                <div class="product-price">19,900 &#8381;</div>
-            </a>
-
-            <!-- Card 3: Hub 2.0 -->
-            <a href="#" class="product-card fallable">
-                <div class="product-tag soon">Скоро</div>
-                <h3>Карусели 2.0</h3>
-                <p>Обновлённые промпты. Личная обратная связь. Подробности в конце февраля.</p>
-                <div class="product-price">Ранняя цена <span>для выпускников Hub 1</span></div>
-            </a>
-        </div>
-    </div>
-</section>
-
 <!-- ==================== SERVICES TEASER ==================== -->
 <section id="services-teaser" style="background: var(--warm-bg, #F5F3F0); padding: 80px 24px;">
     <div class="section-inner" style="max-width: 1080px; margin: 0 auto;">
@@ -1121,7 +1157,7 @@
             <h2 style="font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px;">Сделаю за вас</h2>
             <p style="font-size: 17px; color: var(--text-secondary, #5C5856); max-width: 480px; margin: 0 auto; line-height: 1.7;">От лендинга до контент-конвейера. С&nbsp;AI, без агентства.</p>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto;">
+        <div class="services-teaser-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto;">
             <a href="/services/" style="background: white; border: 1px solid #E8E5E0; border-radius: 16px; padding: 32px 24px; text-decoration: none; color: inherit; transition: all 0.2s; display: block; text-align: center;">
                 <div style="font-size: 28px; margin-bottom: 12px;">&#9670;</div>
                 <div style="font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #1A1A1A;">Wow-упаковка</div>
@@ -1241,19 +1277,39 @@ function handleSubscribe(form) {
     fetch(url, { mode: 'no-cors' })
         .then(() => {
             input.value = '';
-            input.placeholder = 'Вы в AI реХАБе!';
-            input.style.borderColor = '#5A7A60';
-            btn.textContent = 'Готово!';
+            input.style.display = 'none';
+            var consent = form.querySelector('.consent-row');
+            if (consent) consent.style.display = 'none';
+            btn.textContent = 'Спасибо! Скоро увидимся \u2615';
             btn.style.background = '#5A7A60';
+            btn.style.width = '100%';
+            btn.style.fontSize = '17px';
+            btn.disabled = true;
+            var note = form.nextElementSibling;
+            if (note && note.classList.contains('email-note')) {
+                note.dataset.orig = note.textContent;
+                note.textContent = 'Добро пожаловать в AI реХАБ';
+                note.style.color = '#5A7A60';
+                note.style.fontWeight = '600';
+            }
 
             setTimeout(() => {
+                input.style.display = '';
+                if (consent) consent.style.display = '';
                 input.placeholder = 'Ваш email';
                 input.style.borderColor = '';
                 btn.textContent = origText;
                 btn.style.background = '';
-                const cb = form.querySelector('input[type="checkbox"]');
+                btn.style.width = '';
+                btn.style.fontSize = '';
+                var cb = form.querySelector('input[type="checkbox"]');
                 btn.disabled = cb ? !cb.checked : false;
-            }, 4000);
+                if (note && note.dataset.orig) {
+                    note.textContent = note.dataset.orig;
+                    note.style.color = '';
+                    note.style.fontWeight = '';
+                }
+            }, 5000);
         })
         .catch(() => {
             btn.textContent = 'Ошибка';

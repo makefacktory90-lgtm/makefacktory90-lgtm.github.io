@@ -358,6 +358,48 @@
             font-size: 15px; color: var(--text-secondary); line-height: 1.7;
         }
 
+        /* FINAL CTA */
+        .final-cta {
+            background: var(--accent);
+            color: #fff;
+            padding: 80px 24px;
+            text-align: center;
+        }
+        .final-cta h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .final-cta p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.85);
+            max-width: 520px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+        }
+        .final-cta .cta-btn-white {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #fff;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .final-cta .cta-btn-white:hover {
+            background: var(--warm-gray);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .final-cta .cta-note {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 16px;
+        }
+
         /* FOOTER */
         footer {
             padding: 48px 24px; text-align: center;
@@ -371,12 +413,16 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .hero { padding: 120px 20px 60px; }
+            .hero-title { white-space: normal !important; font-size: clamp(28px, 7vw, 40px); }
             .offers-row-top { grid-template-columns: 1fr; }
             .offers-row-bottom { grid-template-columns: 1fr; }
             .honest-grid { grid-template-columns: 1fr; }
             .portfolio-grid { grid-template-columns: 1fr; }
             .hero-buttons { flex-direction: column; align-items: center; }
             .hero-credentials { flex-wrap: wrap; gap: 4px 12px; }
+            .honest-block { padding: 32px 20px; }
+            .final-cta { padding: 60px 20px; }
+            .process-grid { grid-template-columns: 1fr !important; }
         }
     </style>
 </head>
@@ -400,8 +446,8 @@
         <h1 class="hero-title" style="white-space: nowrap;">КРЕАТИВ,&nbsp;КОНТЕНТ,&nbsp;КЛИЕНТЫ</h1>
         <p class="hero-sub">От лендинга до контент-конвейера. С&nbsp;AI, без агентства.</p>
         <div class="hero-buttons">
-            <a href="https://t.me/ira_alfred_bot" class="btn btn-primary" target="_blank">Заказать</a>
-            <a href="https://t.me/ira_alfred_bot" class="btn btn-secondary" target="_blank">Научиться</a>
+            <a href="https://t.me/ira_alfred_bot" class="btn btn-primary" target="_blank">Обсудить проект</a>
+            <a href="/#products" class="btn btn-secondary">Курсы</a>
         </div>
         <div class="hero-credentials">
             <span>15 лет в креативе и спецпроектах</span>
@@ -487,6 +533,19 @@
                 </div>
             </a>
         </div>
+    </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section style="padding: 60px 24px; text-align: center;">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <p style="font-size: clamp(18px, 2.5vw, 22px); font-weight: 600; color: var(--text); line-height: 1.6; margin-bottom: 24px;">Вы эксперт. У вас есть знания, опыт, аудитория.</p>
+        <div style="font-size: 16px; color: var(--text-secondary); line-height: 2;">
+            <p>Но сайт не отражает вашу экспертизу.</p>
+            <p>Контент отнимает часы, а не приносит клиентов.</p>
+            <p>Вы знаете, что AI может помочь, но не знаете как.</p>
+        </div>
+        <p style="font-size: 18px; font-weight: 700; color: var(--accent); margin-top: 24px;">Я это чиню.</p>
     </div>
 </section>
 
@@ -590,7 +649,7 @@
         <!-- Process -->
         <div style="margin-top: 48px; text-align: center;">
             <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 32px;">Как мы работаем</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; max-width: 720px; margin: 0 auto;">
+            <div class="process-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; max-width: 720px; margin: 0 auto;">
                 <div>
                     <div style="font-size: 32px; font-weight: 900; color: var(--accent); margin-bottom: 8px;">1</div>
                     <div style="font-size: 15px; font-weight: 700; margin-bottom: 4px;">Бриф</div>
@@ -607,6 +666,47 @@
                     <div style="font-size: 13px; color: var(--text-secondary);">Вы утверждаете. Правки включены. Работает.</div>
                 </div>
             </div>
+        </div>
+
+        <!-- Comparison -->
+        <div style="margin-top: 48px; background: var(--white); border: 1px solid var(--light-gray); border-radius: 20px; padding: 48px; overflow-x: auto;">
+            <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 32px; text-align: center;">Почему не агентство</h3>
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                <thead>
+                    <tr>
+                        <th style="text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--light-gray); color: var(--text-dim); font-weight: 600; font-size: 13px;"></th>
+                        <th style="text-align: center; padding: 12px 16px; border-bottom: 2px solid var(--light-gray); color: var(--text-dim); font-weight: 600; font-size: 13px;">Агентство</th>
+                        <th style="text-align: center; padding: 12px 16px; border-bottom: 2px solid var(--light-gray); color: var(--text-dim); font-weight: 600; font-size: 13px;">Фрилансер</th>
+                        <th style="text-align: center; padding: 12px 16px; border-bottom: 2px solid var(--accent); color: var(--accent); font-weight: 700; font-size: 13px;">Ира + AI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); font-weight: 600;">Лендинг</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; color: var(--text-secondary);">300-500k</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; color: var(--text-secondary);">30-80k</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; font-weight: 700; color: var(--accent);">от 50k</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); font-weight: 600;">Срок</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; color: var(--text-secondary);">2-3 месяца</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; color: var(--text-secondary);">2-4 недели</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; font-weight: 700; color: var(--accent);">1-3 дня</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); font-weight: 600;">Стратегия</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; color: var(--text-secondary);">Да, дорого</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; color: var(--text-secondary);">Нет</td>
+                        <td style="padding: 14px 16px; border-bottom: 1px solid var(--light-gray); text-align: center; font-weight: 700; color: var(--accent);">Да, включена</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 14px 16px; font-weight: 600;">С кем работаете</td>
+                        <td style="padding: 14px 16px; text-align: center; color: var(--text-secondary);">Менеджер</td>
+                        <td style="padding: 14px 16px; text-align: center; color: var(--text-secondary);">Исполнитель</td>
+                        <td style="padding: 14px 16px; text-align: center; font-weight: 700; color: var(--accent);">Стратег напрямую</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- Testimonial -->
@@ -644,7 +744,6 @@
 
         <!-- Honest block -->
         <div class="honest-block">
-            <h3></h3>
             <div class="honest-grid">
                 <div class="honest-col yes">
                     <h4>Что я делаю</h4>
@@ -657,6 +756,14 @@
             </div>
         </div>
     </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+    <h2>Готовы обсудить проект?</h2>
+    <p>Напишите Альфреду&nbsp;&mdash; мой AI-ассистент соберёт детали и&nbsp;передаст мне. Отвечу лично в&nbsp;течение дня.</p>
+    <a href="https://t.me/ira_alfred_bot" target="_blank" class="cta-btn-white">Написать Альфреду в Telegram</a>
+    <div class="cta-note">Бесплатно. Без обязательств. Просто разговор.</div>
 </section>
 
 <!-- STICKY POST-IT -->
