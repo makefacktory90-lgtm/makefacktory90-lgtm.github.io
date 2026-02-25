@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRA SPRINT // 26.02 — 11.03</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #E91E63;
+  --pink-light: #FF6B9D;
+  --pink-bg: #FFF5F7;
+  --pink-card: #FFF0F3;
+  --red: #FF1744;
+  --green: #00C853;
+  --dark: #1A1A2E;
+  --gray: #666;
+  --white: #fff;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(233,30,99,0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--pink-bg);
+  color: var(--dark);
+  line-height: 1.6;
+  padding-bottom: 80px;
+}
+
+/* PROGRESS BAR - FIXED TOP */
+.progress-bar-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--white);
+  padding: 8px 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.progress-bar-inner {
+  display: flex; align-items: center; gap: 12px;
+  max-width: 700px; margin: 0 auto;
+}
+.progress-track {
+  flex: 1; height: 10px; background: #FFE0E8; border-radius: 5px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: 5px; transition: width 0.5s ease;
+  background: linear-gradient(90deg, var(--pink-light), var(--pink));
+}
+.progress-text {
+  font-weight: 700; font-size: 14px; color: var(--pink); white-space: nowrap;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 20px 40px;
+  background: linear-gradient(135deg, #FFF0F3 0%, #FFE0E8 50%, #FFF5F7 100%);
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--pink);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: clamp(36px, 8vw, 56px);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--pink), var(--red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.hero .dates {
+  font-size: 18px; color: var(--gray); margin-bottom: 24px;
+}
+.hero .motto {
+  font-size: clamp(16px, 4vw, 22px);
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 12px;
+}
+.hero .motto span { color: var(--pink); }
+.hero .submotto {
+  font-size: 15px; color: var(--gray); font-style: italic; max-width: 500px; margin: 0 auto 24px;
+}
+.hero .loh {
+  display: inline-block;
+  background: var(--dark);
+  color: var(--pink-light);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+
+/* CONTAINER */
+.container { max-width: 700px; margin: 0 auto; padding: 0 16px; }
+
+/* SECTION TITLES */
+.section-title {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin: 40px 0 20px;
+  padding: 0 16px;
+}
+
+/* COMMANDS CARD */
+.commands-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.commands-card h3 {
+  font-size: 16px; margin-bottom: 16px; color: var(--dark);
+}
+.cmd-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.cmd-item {
+  background: var(--pink-bg);
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cmd-item:hover { background: #FFE0E8; }
+.cmd-item .cmd-name {
+  font-weight: 700; font-size: 14px; color: var(--pink);
+  font-family: monospace;
+}
+.cmd-item .cmd-desc {
+  font-size: 12px; color: var(--gray); margin-top: 2px;
+}
+
+/* PANIC BUTTON */
+.panic-wrap { text-align: center; margin: 20px 0; }
+.panic-btn {
+  background: none;
+  border: 2px dashed var(--pink-light);
+  color: var(--pink);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.panic-btn:hover {
+  background: var(--pink);
+  color: var(--white);
+  border-color: var(--pink);
+}
+.panic-content {
+  display: none;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-top: 12px;
+  text-align: left;
+  box-shadow: var(--shadow);
+  max-width: 700px;
+  margin-left: auto; margin-right: auto;
+}
+.panic-content.open { display: block; }
+.panic-content p { margin-bottom: 12px; font-size: 15px; }
+.panic-content .cmd-name { color: var(--pink); font-weight: 700; font-family: monospace; }
+
+/* BLOCK HEADER */
+.block-header {
+  background: var(--dark);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 32px 0 16px;
+}
+.block-header .block-num {
+  font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--pink-light); margin-bottom: 4px;
+}
+.block-header h2 { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+.block-header p { font-size: 14px; color: #aaa; }
+
+/* DAY CARD */
+.day-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.day-card.today { box-shadow: 0 0 0 3px var(--pink), var(--shadow); }
+.day-card.completed { opacity: 0.7; }
+.day-card.completed .day-header { background: #F0FFF0; }
+
+.day-header {
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s;
+  user-select: none;
+}
+.day-header:hover { background: var(--pink-bg); }
+
+.day-num {
+  width: 40px; height: 40px;
+  background: var(--pink);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px;
+  flex-shrink: 0;
+}
+.day-card.completed .day-num { background: var(--green); }
+
+.day-meta { flex: 1; }
+.day-date { font-size: 13px; color: var(--gray); }
+.day-title { font-weight: 700; font-size: 15px; }
+
+.day-arrow {
+  font-size: 18px; color: var(--gray); transition: transform 0.3s;
+}
+.day-card.open .day-arrow { transform: rotate(180deg); }
+
+.day-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.day-card.open .day-body { max-height: 2000px; }
+
+.day-content { padding: 0 20px 20px; }
+
+.day-quote {
+  font-style: italic;
+  color: var(--pink);
+  font-size: 14px;
+  padding: 12px 16px;
+  background: var(--pink-bg);
+  border-left: 3px solid var(--pink);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+}
+
+.task-block {
+  margin-bottom: 14px;
+}
+.task-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.task-label.morning { color: #FF9800; }
+.task-label.study { color: #2196F3; }
+.task-label.camera { color: var(--pink); }
+.task-label.sale { color: var(--green); }
+.task-label.tg { color: #9C27B0; }
+.task-label.special { color: var(--red); }
+
+.task-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.task-check input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px; height: 22px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin-top: 1px;
+  transition: all 0.2s;
+  position: relative;
+}
+.task-check input[type="checkbox"]:checked {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+.task-check input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
+.task-check .task-text {
+  font-size: 14px; line-height: 1.5;
+}
+.task-check .task-text a {
+  color: var(--pink);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--pink-light);
+}
+.task-check .task-text a:hover { border-bottom-style: solid; }
+.task-check .task-text .duration {
+  color: var(--gray);
+  font-size: 12px;
+}
+.task-check .task-text .publish-tag {
+  display: inline-block;
+  background: var(--red);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.task-check .task-text .nopublish-tag {
+  display: inline-block;
+  background: #eee;
+  color: var(--gray);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.camera-level {
+  display: inline-block;
+  background: var(--pink-bg);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  color: var(--pink);
+  margin-bottom: 6px;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 40px;
+}
+.footer .phuket {
+  font-size: clamp(18px, 5vw, 28px);
+  font-weight: 900;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.footer .phuket span { color: var(--pink); }
+.footer .tomatoes {
+  font-size: 15px; color: var(--gray); font-style: italic;
+}
+.footer .cosmo {
+  margin-top: 24px; font-size: 14px; color: var(--pink); font-weight: 600;
+}
+
+/* RESULTS CARD */
+.results-card {
+  background: var(--dark);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-top: 32px;
+}
+.results-card h3 { font-size: 18px; margin-bottom: 16px; color: var(--pink-light); }
+.results-card ul { list-style: none; }
+.results-card li {
+  padding: 6px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.results-card li:last-child { border: none; }
+.results-card li span { color: var(--pink-light); font-weight: 700; }
+
+/* CONFETTI */
+.confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+  .cmd-grid { grid-template-columns: 1fr; }
+  .day-header { padding: 14px 16px; }
+  .day-content { padding: 0 16px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-bar-inner">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+    <div class="progress-text" id="progressText">0 / 14</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">personal sprint</div>
+  <h1>IRA SPRINT</h1>
+  <div class="dates">26 февраля — 11 марта 2026</div>
+  <div class="motto"><span>ФАКТЫ</span> > МУД > <span>FOLLOW THE PLAN</span></div>
+  <div class="submotto">"You're not bad at it. You just haven't done it enough times." — Alex Hormozi</div>
+  <div class="loh">КТО НЕ СДЕЛАЛ — ТОТ ЛОХ</div>
+</div>
+
+<div class="container">
+
+<!-- COMMANDS -->
+<div class="section-title">Твои команды Claude</div>
+<div class="commands-card">
+  <h3>Открой Claude Code и скажи:</h3>
+  <div class="cmd-grid">
+    <div class="cmd-item">
+      <div class="cmd-name">бриф</div>
+      <div class="cmd-desc">Утренний бриф: новости, темы, что горит</div>
+    </div>
+    <div class="cmd-item">
+      <div class="cmd-name">зеркало</div>
+      <div class="cmd-desc">Борд: где ты, паттерны, одно действие</div>
+    </div>
+    <div class="cmd-item">
+      <div class="cmd-name">штурман</div>
+      <div class="cmd-desc">Застряла? Не можешь начать? Сюда</div>
+    </div>
+    <div class="cmd-item">
+      <div class="cmd-name">диспетчер</div>
+      <div class="cmd-desc">Карта всех систем, что забыла</div>
+    </div>
+    <div class="cmd-item">
+      <div class="cmd-name">контент</div>
+      <div class="cmd-desc">Контент-пайплайн: что пишем</div>
+    </div>
+    <div class="cmd-item">
+      <div class="cmd-name">тиффани</div>
+      <div class="cmd-desc">Быстрая отправка в @tomorrow_tiff</div>
+    </div>
+  </div>
+</div>
+
+<!-- PANIC BUTTON -->
+<div class="panic-wrap">
+  <button class="panic-btn" onclick="togglePanic()">Хочется всё бросить? Нажми сюда</button>
+  <div class="panic-content" id="panicContent">
+    <p><strong>Ира. Стоп. Дыши.</strong></p>
+    <p>Ты не обязана хотеть. Ты обязана сделать. 30 минут. Потом можешь ныть сколько хочешь.</p>
+    <p>Открой Claude Code, скажи <span class="cmd-name">штурман</span> — он разберётся, какая часть тебя сейчас саботирует и что с ней делать.</p>
+    <p>А потом обними Космо. Причешись. И погнали. Этот Пхукет сам себя не заработает.</p>
+    <p style="color: var(--pink); font-weight: 700; font-style: italic;">"I cannot lose if I do not quit." — Hormozi</p>
+  </div>
+</div>
+
+<!-- ═══════════ БЛОК 1: ПРОДАВАТЬ НЕ СТЫДНО ═══════════ -->
+<div class="block-header">
+  <div class="block-num">Блок 1 // дни 1-5</div>
+  <h2>Продавать не стыдно</h2>
+  <p>Hormozi + Chris Do. Учишься продавать без впаривания</p>
+</div>
+
+<!-- ДЕНЬ 1 -->
+<div class="day-card" data-day="1" data-date="2026-02-26">
+  <div class="day-header" onclick="toggleDay(1)">
+    <div class="day-num">1</div>
+    <div class="day-meta">
+      <div class="day-date">26.02 чт</div>
+      <div class="day-title">Начало. Volume negates luck</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"Volume negates luck." — Объём побеждает удачу. Не один идеальный пост — а много хороших.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d1-morning">
+          <div class="task-text">Открой Claude Code → скажи <strong>бриф</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d1-study1">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=9bji-hkw2Zg" target="_blank">Hormozi: Honest Persuasion</a> <span class="duration">1 мин</span> — продажа через заботу, не давление</div>
+        </div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d1-study2">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=YgFj8OPWu4E" target="_blank">Hormozi: Talk Less Sell More</a> <span class="duration">5 мин</span> — слушай больше, питчи меньше</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: экран + голос</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d1-camera">
+          <div class="task-text">Запиши экран (Canva или Claude). Скажи одно предложение голосом. 15 секунд <span class="nopublish-tag">не публикуй</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Продажа — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d1-sale">
+          <div class="task-text">Выложи 1 сторис в инсту: скриншот отзыва врача + «запись воркшопа на сайте. iraai.ru/workshop-presentations/»</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: чт = вопрос</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d1-tg">
+          <div class="task-text">Скажи Claude <strong>контент</strong> → пост-вопрос по сетке</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 2 -->
+<div class="day-card" data-day="2" data-date="2026-02-27">
+  <div class="day-header" onclick="toggleDay(2)">
+    <div class="day-num">2</div>
+    <div class="day-meta">
+      <div class="day-date">27.02 пт</div>
+      <div class="day-title">Фреймворк продаж без слизи</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"You're not bad at it. You just haven't done it enough times." — Ты не плоха в этом. Ты просто мало пробовала.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d2-morning">
+          <div class="task-text">Claude Code → <strong>зеркало</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 15 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d2-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=Yqm-gx47NmM" target="_blank">Hormozi: AAA Sales Framework</a> <span class="duration">15 мин</span> — Acknowledge, Address, Ask. Структура, не слизь</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: экран + голос</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d2-camera">
+          <div class="task-text">Экран + голос, 30 сек. Покажи как делаешь карусель — скажи одну мысль поверх <span class="nopublish-tag">не публикуй</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Продажа — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d2-sale">
+          <div class="task-text">Ответь 3 людям в директ, которые реагировали на контент. Не продавай — просто ответь</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: пт = закулисье</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d2-tg">
+          <div class="task-text">Claude → <strong>контент</strong> → пост-закулисье</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 3 -->
+<div class="day-card" data-day="3" data-date="2026-02-28">
+  <div class="day-header" onclick="toggleDay(3)">
+    <div class="day-num">3</div>
+    <div class="day-meta">
+      <div class="day-date">28.02 сб</div>
+      <div class="day-title">Продавай видение, не продукт</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"Momentum is more valuable than precision." — Инерция ценнее точности. Не жди идеала — двигайся.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d3-morning">
+          <div class="task-text">Claude Code → <strong>штурман</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d3-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=cHveCGDZfhQ" target="_blank">Chris Do: Stop Selling, Start Closing</a> <span class="duration">10 мин</span> — не питчь, веди разговор о ценности</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: экран + голос</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d3-camera">
+          <div class="task-text">Экран + голос, 45 сек. Покажи что-то из работы <span class="nopublish-tag">не публикуй</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label special">Встреча с Денисом по SaaS!</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d3-denis">
+          <div class="task-text">Фокус: продавай видение бота, не фичи. После встречи — запиши 1 инсайт голосом (для себя)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 4 -->
+<div class="day-card" data-day="4" data-date="2026-03-01">
+  <div class="day-header" onclick="toggleDay(4)">
+    <div class="day-num">4</div>
+    <div class="day-meta">
+      <div class="day-date">01.03 вс</div>
+      <div class="day-title">Лёгкий день. Первый раз от плеч</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"I cannot lose if I do not quit." — Я не могу проиграть, если не сдамся.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d4-morning">
+          <div class="task-text">Claude Code → <strong>бриф</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d4-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=Abi8kwkfZbA" target="_blank">Chris Do: Don't Justify Your Prices</a> <span class="duration">5 мин</span> — не оправдывай цену, переформулируй разговор</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: от плеч, 1 фраза</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d4-camera">
+          <div class="task-text">ВПЕРВЫЕ ОТ ПЛЕЧ. Хороший свет, камера чуть сверху. Скажи одну фразу. Удали если хочешь <span class="nopublish-tag">не публикуй</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Выходной</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d4-rest">
+          <div class="task-text">Погуляй. Отдохни. Фразу — запиши, остальное ждёт до завтра</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 5 -->
+<div class="day-card" data-day="5" data-date="2026-03-02">
+  <div class="day-header" onclick="toggleDay(5)">
+    <div class="day-num">5</div>
+    <div class="day-meta">
+      <div class="day-date">02.03 пн</div>
+      <div class="day-title">Первый продающий пост с мозгом</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"Talented people do more reps. The reps make them talented. The talent doesn't make them do reps." — Талант — это повторения.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d5-morning">
+          <div class="task-text">Claude Code → <strong>зеркало</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d5-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=2sf54bS99D8" target="_blank">Chris Do: 5 Sales Skills</a> <span class="duration">10 мин</span> — 5 ошибок креативов в продажах</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: от плеч, 2 фразы</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d5-camera">
+          <div class="task-text">От плеч, 2 фразы. Расскажи одну мысль из видео <span class="nopublish-tag">не публикуй</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Продажа — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d5-sale">
+          <div class="task-text">Пост-кейс с отзывом ученика. Воронка: кейс → ценность → мягкий CTA</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: пн = кейс</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d5-tg">
+          <div class="task-text">Claude → <strong>контент</strong> → пост-кейс по сетке</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ БЛОК 2: STORYTELLING ═══════════ -->
+<div class="block-header">
+  <div class="block-num">Блок 2 // дни 6-9</div>
+  <h2>Истории, которые продают</h2>
+  <p>StoryBrand + первые публикации рилсов</p>
+</div>
+
+<!-- ДЕНЬ 6 -->
+<div class="day-card" data-day="6" data-date="2026-03-03">
+  <div class="day-header" onclick="toggleDay(6)">
+    <div class="day-num">6</div>
+    <div class="day-meta">
+      <div class="day-date">03.03 вт</div>
+      <div class="day-title">Ты — проводник, не герой</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"You'd be amazed how much better you get after you've done it a hundred more times." — Ещё 100 повторений — и ты удивишься себе.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d6-morning">
+          <div class="task-text">Claude Code → <strong>штурман</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d6-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=YFDJYdMd1wU" target="_blank">Donald Miller: StoryBrand in 7 Minutes</a> <span class="duration">7 мин</span> — клиент = герой, ты = проводник</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: от плеч, 30 сек</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d6-camera">
+          <div class="task-text">От плеч, 30 сек. Расскажи про StoryBrand одним предложением <span class="nopublish-tag">не публикуй</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: вт = прочитала умное</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d6-tg">
+          <div class="task-text">Claude → <strong>контент</strong> → пост про одно из видео, которые зацепили за неделю</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Продажа — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d6-sale">
+          <div class="task-text">Переупакуй 1 отзыв клиента в историю по StoryBrand: проблема → проводник (ты) → результат</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 7 -->
+<div class="day-card" data-day="7" data-date="2026-03-04">
+  <div class="day-header" onclick="toggleDay(7)">
+    <div class="day-num">7</div>
+    <div class="day-meta">
+      <div class="day-date">04.03 ср</div>
+      <div class="day-title">Первый рилс в мир!</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"Resist the urge to change your plan before you've given time, time." — Не меняй план, пока не дала ему шанс.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d7-morning">
+          <div class="task-text">Claude Code → <strong>диспетчер</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d7-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=S8lH_TdQZgs" target="_blank">Donald Miller: Master the StoryBrand</a> <span class="duration">10 мин</span> — полный фреймворк с примерами</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 10 мин</div>
+        <div class="camera-level">уровень: экран + голос → ПУБЛИКАЦИЯ</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d7-camera">
+          <div class="task-text">Из записей дней 1-3 выбери лучший. Подрежь, добавь текст на экран → <span class="publish-tag">ПУБЛИКУЙ</span> первый рилс «экран + голос»</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: ср = визуал</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d7-tg">
+          <div class="task-text">Claude → <strong>контент</strong> → визуальный контент по сетке</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 8 -->
+<div class="day-card" data-day="8" data-date="2026-03-05">
+  <div class="day-header" onclick="toggleDay(8)">
+    <div class="day-num">8</div>
+    <div class="day-meta">
+      <div class="day-date">05.03 чт</div>
+      <div class="day-title">AI reХАБ стартует!</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"You're either gonna do the work, or you're gonna sit around wishing you'd done the work." — Либо делаешь, либо жалеешь что не делала.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d8-morning">
+          <div class="task-text">Claude Code → <strong>бриф</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d8-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=BCPE_HPd_VA" target="_blank">Hormozi: Underrated Sales Tactic</a> <span class="duration">1 мин</span> — быстрый панч</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 10 мин</div>
+        <div class="camera-level">уровень: от плеч, 1 минута</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d8-camera">
+          <div class="task-text">От плеч, 1 минута. Расскажи что узнала за первую неделю <span class="nopublish-tag">не публикуй</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label special">AI reХАБ — СТАРТ!</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d8-rehab">
+          <div class="task-text">Рассылка AI reХАБ стартует! Claude → <strong>контент</strong> → подготовь анонс для TG и инсты</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: чт = вопрос</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d8-tg">
+          <div class="task-text">Анонс рассылки = пост дня</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 9 -->
+<div class="day-card" data-day="9" data-date="2026-03-06">
+  <div class="day-header" onclick="toggleDay(9)">
+    <div class="day-num">9</div>
+    <div class="day-meta">
+      <div class="day-date">06.03 пт</div>
+      <div class="day-title">Рилс #2 летит</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"Volume negates luck." — Снова. Потому что это главное правило.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d9-morning">
+          <div class="task-text">Claude Code → <strong>зеркало</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d9-study">
+          <div class="task-text">Пересмотри лучшее видео из первой недели — то, что зацепило сильнее всего. Запиши 1 мысль</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 10 мин</div>
+        <div class="camera-level">уровень: экран + голос → ПУБЛИКАЦИЯ</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d9-camera">
+          <div class="task-text">Новый рилс «экран + голос». Не из архива — свежий <span class="publish-tag">ПУБЛИКУЙ</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: пт = закулисье</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d9-tg">
+          <div class="task-text">Claude → <strong>контент</strong> → закулисье: покажи рабочий процесс</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ БЛОК 3: КАМЕРА + РОСТ ═══════════ -->
+<div class="block-header">
+  <div class="block-num">Блок 3 // дни 10-14</div>
+  <h2>Камера. Лицо. Рост</h2>
+  <p>Ты уже умеешь. Осталось показать</p>
+</div>
+
+<!-- ДЕНЬ 10 -->
+<div class="day-card" data-day="10" data-date="2026-03-07">
+  <div class="day-header" onclick="toggleDay(10)">
+    <div class="day-num">10</div>
+    <div class="day-meta">
+      <div class="day-date">07.03 сб</div>
+      <div class="day-title">Три дубля. Один — шедевр</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"Momentum is more valuable than precision." — Не жди идеала. Движение важнее.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d10-morning">
+          <div class="task-text">Claude Code → <strong>штурман</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 15 мин</div>
+        <div class="camera-level">уровень: от плеч, 3 дубля</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d10-camera1">
+          <div class="task-text">Запиши 3 варианта одного рилса ОТ ПЛЕЧ. Разные фразы, разная энергия</div>
+        </div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d10-camera2">
+          <div class="task-text">Выбери лучший. Подготовь к публикации — завтра в мир</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Лёгкий день — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d10-sale">
+          <div class="task-text">Проверь директ и комменты. Ответь всем. Это тоже продажа — доверие</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 11 -->
+<div class="day-card" data-day="11" data-date="2026-03-08">
+  <div class="day-header" onclick="toggleDay(11)">
+    <div class="day-num">11</div>
+    <div class="day-meta">
+      <div class="day-date">08.03 вс</div>
+      <div class="day-title">8 марта. Подарок себе</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"I cannot lose if I do not quit." — Лучший подарок на 8 марта — не сдаться.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d11-morning">
+          <div class="task-text">Claude Code → <strong>борд</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: ЛИЦО → ПУБЛИКАЦИЯ!</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d11-camera">
+          <div class="task-text">Тот рилс, что подготовила вчера → <span class="publish-tag">ПУБЛИКУЙ</span> Первый рилс С ЛИЦОМ. Это твой подарок себе</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Праздник — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d11-sale">
+          <div class="task-text">Сторис «с 8 марта» + мягкий линк на воркшоп. 15 минут и свободна. С праздником</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 12 -->
+<div class="day-card" data-day="12" data-date="2026-03-09">
+  <div class="day-header" onclick="toggleDay(12)">
+    <div class="day-num">12</div>
+    <div class="day-meta">
+      <div class="day-date">09.03 пн</div>
+      <div class="day-title">Продающий рилс с лицом</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"The reps make them talented. The talent doesn't make them do reps." — Повторения создают талант, не наоборот.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d12-morning">
+          <div class="task-text">Claude Code → <strong>бриф</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d12-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=oHkxopp7XgA" target="_blank">Chris Do: Pricing Your Design Services</a> <span class="duration">первые 10 мин</span> — ценность, не часы</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 10 мин</div>
+        <div class="camera-level">уровень: лицо, продающий</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d12-camera">
+          <div class="task-text">Рилс С ЛИЦОМ — продающий. «8 инструментов, 3 уровня, от Canva до кода. Запись на сайте» <span class="publish-tag">ПУБЛИКУЙ</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: пн = кейс</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d12-tg">
+          <div class="task-text">Claude → <strong>контент</strong> → пост-кейс. Привяжи к рилсу — одна тема, два канала</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 13 -->
+<div class="day-card" data-day="13" data-date="2026-03-10">
+  <div class="day-header" onclick="toggleDay(13)">
+    <div class="day-num">13</div>
+    <div class="day-meta">
+      <div class="day-date">10.03 вт</div>
+      <div class="day-title">Рилс-история</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"You already know what to do... Just take your own advice." — Ты уже знаешь что делать. Просто послушай себя.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d13-morning">
+          <div class="task-text">Claude Code → <strong>зеркало</strong></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label study">Учёба — 15 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d13-study">
+          <div class="task-text"><a href="https://www.youtube.com/watch?v=JE2_7elAcxM" target="_blank">Hormozi: How to Sell Better than 99%</a> <span class="duration">первые 15 мин</span> — глубокое погружение</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 5 мин</div>
+        <div class="camera-level">уровень: лицо, storytelling</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d13-camera">
+          <div class="task-text">Рилс-история: расскажи историю клиента (проблема → ты → результат) <span class="publish-tag">ПУБЛИКУЙ</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: вт = прочитала умное</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d13-tg">
+          <div class="task-text">Claude → <strong>контент</strong> → пост про инсайт из Hormozi или StoryBrand</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ДЕНЬ 14 -->
+<div class="day-card" data-day="14" data-date="2026-03-11">
+  <div class="day-header" onclick="toggleDay(14)">
+    <div class="day-num">14</div>
+    <div class="day-meta">
+      <div class="day-date">11.03 ср</div>
+      <div class="day-title">ФИНАЛ. Ты это сделала</div>
+    </div>
+    <div class="day-arrow">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="day-content">
+      <div class="day-quote">"You'd be amazed how much better you get after you've done it a hundred more times. If you want to win, do it again." — Хочешь победить? Сделай ещё раз.</div>
+
+      <div class="task-block">
+        <div class="task-label morning">Утро — 5 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d14-morning">
+          <div class="task-text">Claude Code → <strong>диспетчер</strong> — посмотри на всю карту. Что изменилось за 2 недели</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label camera">Камера — 15 мин</div>
+        <div class="camera-level">уровень: лицо, рефлексия</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d14-camera">
+          <div class="task-text">Рилс «Я 2 недели снимала каждый день. Вот что поняла» — честный, без глянца <span class="publish-tag">ПУБЛИКУЙ</span></div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label sale">Продажа — 10 мин</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d14-sale">
+          <div class="task-text">Итоговый продающий пост: что случилось за 2 недели + CTA на воркшоп</div>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <div class="task-label tg">Telegram — сетка: ср = визуал</div>
+        <div class="task-check">
+          <input type="checkbox" data-id="d14-tg">
+          <div class="task-text">Claude → <strong>контент</strong> + план на следующие 2 недели</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-card">
+  <h3>Что ты получишь за 14 дней</h3>
+  <ul>
+    <li><span>4</span> опубликованных рилса «экран + голос»</li>
+    <li><span>4</span> опубликованных рилса с лицом</li>
+    <li><span>14</span> дней контента по сетке (TG + Instagram)</li>
+    <li><span>8</span> видео от Hormozi, Chris Do, StoryBrand — в голове</li>
+    <li><span>AI reХАБ</span> рассылка запущена</li>
+    <li><span>Встреча с Денисом</span> по SaaS проведена</li>
+    <li><span>Привычка</span> камеры — каждый день</li>
+    <li><span>Пхукет</span> ближе на 2 недели</li>
+  </ul>
+</div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="phuket">Закат на <span>Пхукете</span><br>или помидоры на грядке?</div>
+  <div class="tomatoes">Выбор делается не однажды. Он делается каждое утро в 7:00, когда ты открываешь эту страницу.</div>
+  <div class="cosmo">Обними Космо. Причешись. Погнали.</div>
+</div>
+
+<script>
+const STORAGE_KEY = 'ira-sprint-2026';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// Init checkboxes
+function initCheckboxes() {
+  const state = loadState();
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    const id = cb.dataset.id;
+    if (state[id]) cb.checked = true;
+    cb.addEventListener('change', () => {
+      const s = loadState();
+      s[id] = cb.checked;
+      saveState(s);
+      updateProgress();
+      checkDayCompletion();
+    });
+  });
+}
+
+// Progress
+function updateProgress() {
+  const total = document.querySelectorAll('input[type="checkbox"]').length;
+  const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+  const pct = Math.round((checked / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  // Count completed days
+  let completedDays = 0;
+  for (let d = 1; d <= 14; d++) {
+    const dayChecks = document.querySelectorAll(`.day-card[data-day="${d}"] input[type="checkbox"]`);
+    const dayChecked = document.querySelectorAll(`.day-card[data-day="${d}"] input[type="checkbox"]:checked`);
+    if (dayChecks.length > 0 && dayChecks.length === dayChecked.length) completedDays++;
+  }
+  document.getElementById('progressText').textContent = completedDays + ' / 14 дней';
+
+  if (completedDays === 14) celebrate();
+}
+
+function checkDayCompletion() {
+  for (let d = 1; d <= 14; d++) {
+    const card = document.querySelector(`.day-card[data-day="${d}"]`);
+    const checks = card.querySelectorAll('input[type="checkbox"]');
+    const checked = card.querySelectorAll('input[type="checkbox"]:checked');
+    if (checks.length > 0 && checks.length === checked.length) {
+      card.classList.add('completed');
+    } else {
+      card.classList.remove('completed');
+    }
+  }
+}
+
+// Accordion
+function toggleDay(n) {
+  const card = document.querySelector(`.day-card[data-day="${n}"]`);
+  card.classList.toggle('open');
+}
+
+// Panic
+function togglePanic() {
+  document.getElementById('panicContent').classList.toggle('open');
+}
+
+// Highlight today
+function highlightToday() {
+  const today = new Date().toISOString().slice(0, 10);
+  document.querySelectorAll('.day-card').forEach(card => {
+    if (card.dataset.date === today) {
+      card.classList.add('today');
+      card.classList.add('open');
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+    }
+  });
+}
+
+// Celebrate
+function celebrate() {
+  const colors = ['#E91E63', '#FF6B9D', '#FF1744', '#FFD700', '#00C853'];
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const conf = document.createElement('div');
+      conf.style.cssText = `
+        position: fixed; top: -10px;
+        left: ${Math.random() * 100}vw;
+        width: 8px; height: 8px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        border-radius: 50%;
+        z-index: 999;
+        pointer-events: none;
+        animation: fall ${2 + Math.random() * 2}s ease-out forwards;
+      `;
+      document.body.appendChild(conf);
+      setTimeout(() => conf.remove(), 4000);
+    }, i * 50);
+  }
+
+  const style = document.createElement('style');
+  style.textContent = `@keyframes fall { to { transform: translateY(100vh) rotate(${360 + Math.random() * 360}deg); opacity: 0; } }`;
+  document.head.appendChild(style);
+}
+
+// Init
+initCheckboxes();
+updateProgress();
+checkDayCompletion();
+highlightToday();
+</script>
+</body>
+</html>
