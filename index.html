@@ -1345,10 +1345,8 @@ function toggleSubmit(checkbox) {
     btn.disabled = !checkbox.checked;
 }
 
-// Email form handler — calls subscribe proxy (API key is server-side)
-// TODO: replace with your Cloudflare Worker URL after deploy (see subscribe-worker.js)
-var SUBSCRIBE_WORKER_URL = 'https://subscribe.iraai.ru/';
-
+// Email form handler — calls Unisender API
+// TODO: migrate to Cloudflare Worker proxy (see subscribe-worker.js)
 function handleSubscribe(form) {
     const input = form.querySelector('input[name="email"]');
     const email = input.value.trim();
@@ -1359,11 +1357,14 @@ function handleSubscribe(form) {
     btn.textContent = '...';
     btn.disabled = true;
 
-    fetch(SUBSCRIBE_WORKER_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-    })
+    const url = 'https://api.unisender.com/ru/api/subscribe?format=json'
+        + '&api_key=6969h5yp3ohwypfirjiw8hcunh1j8ykguo9657fo'
+        + '&list_ids=1'
+        + '&fields[email]=' + encodeURIComponent(email)
+        + '&double_optin=3'
+        + '&overwrite=2';
+
+    fetch(url, { mode: 'no-cors' })
         .then(() => {
             input.value = '';
             input.style.display = 'none';
