@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carousel Bot v4 — Opinionated Bot + Retention Engine</title>
+<title>Carousel Bot -- Техническая спецификация</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,92 +16,37 @@
     max-width: 940px;
     margin: 0 auto;
   }
-  h1 {
-    font-size: 2.4rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 8px;
-  }
-  .subtitle {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 48px;
-    font-weight: 400;
-  }
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 56px;
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-  h3 {
-    font-size: 1.15rem;
-    font-weight: 600;
-    margin-top: 32px;
-    margin-bottom: 12px;
-  }
+  h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .subtitle { font-size: 1.1rem; color: #666; margin-bottom: 48px; font-weight: 400; }
+  h2 { font-size: 1.5rem; font-weight: 700; margin-top: 56px; margin-bottom: 16px; letter-spacing: -0.02em; }
+  h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; }
   p { margin-bottom: 16px; }
 
   .schema {
-    background: #f8f8f8;
-    border-radius: 16px;
-    padding: 32px;
-    margin: 32px 0;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.82rem;
-    line-height: 1.8;
-    white-space: pre;
-    overflow-x: auto;
+    background: #f8f8f8; border-radius: 16px; padding: 32px; margin: 32px 0;
+    font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.8;
+    white-space: pre; overflow-x: auto;
   }
-
   .prompt-block {
-    background: #fafafa;
-    border-left: 4px solid #1a1a1a;
-    border-radius: 0 12px 12px 0;
-    padding: 24px 28px;
-    margin: 20px 0;
-    font-size: 0.92rem;
-    line-height: 1.8;
+    background: #fafafa; border-left: 4px solid #1a1a1a; border-radius: 0 12px 12px 0;
+    padding: 24px 28px; margin: 20px 0; font-size: 0.92rem; line-height: 1.8;
   }
   .prompt-block .label {
-    font-weight: 700;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #999;
-    margin-bottom: 12px;
+    font-weight: 700; font-size: 0.78rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #999; margin-bottom: 12px;
   }
   .prompt-block code {
-    display: block;
-    white-space: pre-wrap;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.85rem;
-    color: #333;
+    display: block; white-space: pre-wrap; font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.85rem; color: #333;
   }
-
   .card {
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 24px;
-    margin: 16px 0;
+    border: 1px solid #e0e0e0; border-radius: 12px; padding: 24px; margin: 16px 0;
   }
-  .card h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
+  .card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
   .card .tag {
-    display: inline-block;
-    background: #1a1a1a;
-    color: #fff;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 12px;
+    display: inline-block; background: #1a1a1a; color: #fff; font-size: 0.72rem;
+    font-weight: 600; padding: 3px 10px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
   }
   .card .tag.blue { background: #2563eb; }
   .card .tag.green { background: #16a34a; }
@@ -110,445 +55,166 @@
   .card .tag.red { background: #dc2626; }
   .card .tag.yellow { background: #ca8a04; }
 
-  .steps {
-    counter-reset: step;
-    list-style: none;
-    padding: 0;
-  }
+  .steps { counter-reset: step; list-style: none; padding: 0; }
   .steps li {
-    counter-increment: step;
-    padding: 16px 0 16px 56px;
-    position: relative;
+    counter-increment: step; padding: 16px 0 16px 56px; position: relative;
     border-bottom: 1px solid #f0f0f0;
   }
   .steps li:last-child { border-bottom: none; }
   .steps li::before {
-    content: counter(step);
-    position: absolute;
-    left: 0;
-    top: 16px;
-    width: 36px;
-    height: 36px;
-    background: #1a1a1a;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.85rem;
+    content: counter(step); position: absolute; left: 0; top: 16px;
+    width: 36px; height: 36px; background: #1a1a1a; color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;
   }
   .steps li strong { font-weight: 600; }
 
-  .highlight {
-    background: #fffbe6;
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin: 24px 0;
-    font-size: 0.92rem;
-  }
+  .highlight { background: #fffbe6; border-radius: 12px; padding: 20px 24px; margin: 24px 0; font-size: 0.92rem; }
   .highlight.pink { background: #fef2f2; }
   .highlight.blue { background: #eff6ff; }
   .highlight.green { background: #f0fdf4; }
   .highlight.purple { background: #f5f3ff; }
 
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 24px 0;
-  }
-  .grid-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    margin: 24px 0;
-  }
-  .grid-item {
-    background: #f8f8f8;
-    border-radius: 12px;
-    padding: 20px;
-  }
-  .grid-item h4 {
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .grid-item p {
-    font-size: 0.85rem;
-    color: #555;
-    margin-bottom: 0;
-  }
-
-  .tech-stack {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin: 16px 0;
-  }
-  .tech-tag {
-    background: #f0f0f0;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-weight: 500;
-  }
-
-  hr {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 48px 0;
-  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .grid-item { background: #f8f8f8; border-radius: 12px; padding: 20px; }
+  .grid-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .grid-item p { font-size: 0.85rem; color: #555; margin-bottom: 0; }
 
   .phase {
-    border: 2px solid #e0e0e0;
-    border-radius: 16px;
-    padding: 28px;
-    margin: 24px 0;
-    position: relative;
+    border: 2px solid #e0e0e0; border-radius: 16px; padding: 28px; margin: 24px 0; position: relative;
   }
   .phase .phase-num {
-    position: absolute;
-    top: -14px;
-    left: 24px;
-    background: #1a1a1a;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 4px 14px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    position: absolute; top: -14px; left: 24px; background: #1a1a1a; color: #fff;
+    font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.06em;
   }
   .phase h3 { margin-top: 8px; }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 0.88rem;
-  }
-  th {
-    text-align: left;
-    padding: 12px 16px;
-    background: #f8f8f8;
-    font-weight: 600;
-    border-bottom: 2px solid #e0e0e0;
-  }
-  td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #f0f0f0;
-    vertical-align: top;
-  }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88rem; }
+  th { text-align: left; padding: 12px 16px; background: #f8f8f8; font-weight: 600; border-bottom: 2px solid #e0e0e0; }
+  td { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
 
-  .footer {
-    margin-top: 64px;
-    padding-top: 24px;
-    border-top: 1px solid #eee;
-    font-size: 0.82rem;
-    color: #999;
-  }
+  hr { border: none; border-top: 1px solid #eee; margin: 48px 0; }
+  .footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid #eee; font-size: 0.82rem; color: #999; }
 
-  .vs-table {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    margin: 24px 0;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    overflow: hidden;
+  @media (max-width: 768px) {
+    body { padding: 24px 16px; }
+    h1 { font-size: 1.6rem; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .schema { font-size: 0.72rem; padding: 16px; }
   }
-  .vs-col {
-    padding: 24px;
-  }
-  .vs-col:first-child {
-    border-right: 2px solid #e0e0e0;
-  }
-  .vs-col h4 {
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  .vs-col ul {
-    list-style: none;
-    padding: 0;
-  }
-  .vs-col li {
-    font-size: 0.85rem;
-    padding: 4px 0;
-    color: #555;
-  }
-  .vs-col li::before {
-    content: "\2192 ";
-    color: #999;
-  }
-
-  .diff { border-left: 4px solid #16a34a; padding-left: 20px; margin: 24px 0; }
-  .diff-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #16a34a; margin-bottom: 8px; }
 </style>
 </head>
 <body>
 
-<h1>Carousel Bot v4</h1>
-<p class="subtitle">Opinionated Bot + Retention Engine<br>Telegram-бот, который приводит клиентов через Instagram-карусели<br>Платформа AIFromSpace (50/50 с Денисом)<br><span style="color: #666; font-size: 0.9rem;">v4 &mdash; 27 февраля 2026. Обновлено из v3 (25.02)</span></p>
+<h1>Carousel Bot</h1>
+<p class="subtitle">Telegram-бот: Instagram-карусели по маркетинговым формулам<br>Техническая спецификация для сборки на AIFromSpace</p>
 
 <hr>
 
-<h2 style="color: #16a34a;">Что изменилось в v4</h2>
+<h2>Что делает</h2>
+<p>Пользователь приходит в Telegram. Отвечает на 4 вопроса. Через 30 секунд получает готовую карусель: текст по маркетинговой формуле + AI-картинки + подпись. Скачал и постишь.</p>
 
-<div class="diff">
-<div class="diff-label">Новая философия: Opinionated Bot</div>
-<p>v3: бот предлагает 3 варианта, пользователь выбирает, критик проверяет, пользователь утверждает. 5-7 решений на одну карусель.</p>
-<p><strong>v4: бот приносит одно лучшее решение.</strong> Как хороший дизайнер: не спрашивает "синий или красный?", а приносит готовый макет. 2 касания вместо 7.</p>
-</div>
-
-<div class="diff">
-<div class="diff-label">Retention Engine</div>
-<p>v3: бот реактивный. Пользователь приходит сам, когда вспомнит.</p>
-<p><strong>v4: бот проактивный.</strong> Weekly push по вторникам. Обратная связь через 48ч. Streak. Привычка = возвратность = деньги.</p>
-</div>
-
-<div class="diff">
-<div class="diff-label">Тарифы</div>
-<p>v3: Free = 3 карусели/месяц (хватает casual-пользователю навсегда).</p>
-<p><strong>v4: Free = 1 карусель всего.</strong> Хватит увидеть магию. Не хватит пользоваться. Starter $9-15 &mdash; main tier.</p>
-</div>
-
-<div class="diff">
-<div class="diff-label">Под капот</div>
-<p>Критик-агент &mdash; невидим пользователю (был отдельный шаг). 3 варианта текста &mdash; убраны (был паралич выбора). Формула &mdash; подбирается автоматически (была ручная).</p>
-</div>
+<p>16 маркетинговых формул. Автоподбор под цель. Тренды ниши. Адаптация под голос. Встроенный контроль качества. Карусели, которые получают сохранения.</p>
 
 <hr>
 
-<h2>Что делает бот</h2>
-<p>Не "делает карусели". <strong>Приводит клиентов.</strong> Пользователь приходит в Telegram. Через 5 минут уходит с готовыми карусельными картинками, написанными по проверенным маркетинговым формулам, адаптированными под его голос, нишу и аудиторию. Карусели, которые продают, а не просто красиво выглядят.</p>
-
-<div class="highlight">
-<strong>Оффер:</strong> Маркетолог + копирайтер + трендвотчер + AI-дизайнер в одном Telegram-боте. 16 маркетинговых формул. Тренды твоей ниши. Твой голос. Готовые картинки. Клиенты из Instagram, а не лайки.
-</div>
-
-<h3>IP продукта</h3>
-<p>Бот без формул = ещё одна ChatGPT-обёртка. <strong>Формулы, промты, flow</strong> &mdash; вот что делает его ценным. Это интеллектуальная собственность Иры: 16 маркетинговых формул с правилами, промты с few-shot примерами, логика подбора формулы под цель, критик-агент, платформенный интеллект. Денис строит платформу. Ира вкладывает мозги.</p>
-
-<h3>4 встроенные возможности роста</h3>
-
-<div class="card">
-  <span class="tag green">Возможность 1</span>
-  <h4>Weekly Push = привычка = возвратность</h4>
-  <p>Бот сам приходит по вторникам: "3 темы в твоей нише на этой неделе. Какая?" Пользователь не должен помнить про бот &mdash; бот помнит про него. Привычка = регулярное использование = оплата подписки. Без push &mdash; пользователь забудет через неделю.</p>
-</div>
-
-<div class="card">
-  <span class="tag green">Возможность 2</span>
-  <h4>Бот = лид-машина для дорогих услуг</h4>
-  <p>Бот знает голос, стиль, бизнес клиента. Идеальная точка для апселла: "Хотите лендинг в этом же стиле?" &mdash; переход на услугу 50-100K. Upsell заложен в flow: после 10-й карусели бот предлагает "Полную упаковку бренда". Не навязчиво. Как рекомендация от того, кто уже знает твой бизнес.</p>
-</div>
-
-<div class="card">
-  <span class="tag green">Возможность 3</span>
-  <h4>Видимые формулы = выше ценность, ниже отток</h4>
-  <p>Каждую карусель бот выдаёт с пометкой: "Формула: PAS (Боль &rarr; Усиление &rarr; Решение)". Клиент учится, пока пользуется. Perceived value растёт. Отток падает &mdash; люди чувствуют, что растут, а не просто жмут кнопку. Через месяц: "Я знаю 5 формул продающего контента" &mdash; это то, за что платят.</p>
-</div>
-
-<div class="card">
-  <span class="tag green">Возможность 4</span>
-  <h4>Автоматическое социальное доказательство</h4>
-  <p>Каждый клиент бота делает карусели для своего бизнеса. В flow заложено: после 10-й карусели бот спрашивает "Как результаты? Хочешь поделиться?". Автоматический поток кейсов. Без участия Иры. На каждой карусели мелким: "Сделано в @carousel_bot" &mdash; каждая публикация = бесплатная реклама.</p>
-</div>
-
-<hr>
-
-<h2>Два режима визуала</h2>
-<p>Все картинки генерируются AI. Разница в уровне: с текстом на русском или без.</p>
-
-<div class="vs-table">
-  <div class="vs-col">
-    <h4>STANDARD: AI-картинки без текста</h4>
-    <ul>
-      <li>Nano Banana генерирует фон/композицию</li>
-      <li>Текст НЕ на картинке (отдельно)</li>
-      <li>Дешевле в генерации</li>
-      <li>Красивый визуал, уникальный каждый раз</li>
-      <li>Пользователь накладывает текст сам (или в подписи)</li>
-      <li>Хватает для старта</li>
-    </ul>
-  </div>
-  <div class="vs-col">
-    <h4>PRO: AI-картинки с русским текстом</h4>
-    <ul>
-      <li>Текст прямо на картинке (русский)</li>
-      <li>Готовые слайды &mdash; скачал и постишь</li>
-      <li>Промт-инжиниринг под капотом</li>
-      <li>Правила генерации вшиты в бот</li>
-      <li>Уровень, который руками не сделать</li>
-      <li>Дороже, но ценность очевидна</li>
-    </ul>
-  </div>
-</div>
-
-<div class="highlight purple">
-<strong>Upsell логика:</strong> Standard показывает красивый фон + текст отдельно. Тут же превью: "А вот так выглядит с текстом на картинке (Pro)". Разница моментальная. Конверсия в Pro будет высокой, потому что человек уже увидел свой текст на красивой картинке и хочет именно так.
-</div>
-
-<hr>
-
-<h2>Пользовательский путь v4: Opinionated Bot</h2>
-
-<div class="highlight green">
-<strong>Принцип:</strong> Бот приносит одно лучшее решение. Не спрашивает "какой из трёх вариантов?". Не показывает критика. Автоматически подбирает формулу. Пользователь выбирает тему &mdash; получает готовую карусель. Хочет поправить &mdash; может. Но по умолчанию &mdash; одно касание и готово.
-</div>
+<h2>Flow</h2>
 
 <div class="schema">
 ПЕРВЫЙ РАЗ                             ПОВТОРНЫЙ ВИЗИТ
     |                                       |
     v                                       v
-Фаза 1: ОНБОРДИНГ                    Weekly Push (вторник):
+Онбординг                            Weekly Push (вторник):
   4 вопроса (кнопки)                  "3 темы в твоей нише"
-  ~2 минуты                                 |
-    |                                       v
-    v                                  Выбирает тему
-Фаза 2: ПРОФИЛЬ                       (1 касание)
-  Сохраняется навсегда                      |
-    |                                       v
-    v                              ИЛИ: "У меня есть тема"
+  + визуальные референсы                    |
+  ~3 минуты                                 v
+    |                                  Выбирает тему (1 тап)
+    v                                       |
+Профиль сохранён                            v
+    |                               ИЛИ: "У меня есть тема"
     ---|-------------------------------|----
                     |
                     v
-             Фаза 3: ТЕМА
-               Бот адаптирует
+            АГЕНТ 1: Тема
+              Адаптация под профиль
                     |
                     v
-             [ПОД КАПОТОМ]
-             Авто-формула
-             Генерация текста
-             Невидимый критик
-             Финализация
+            АГЕНТ 2: Визуальная метафора
+              Сквозная концепция
                     |
                     v
-             Фаза 4: РЕЗУЛЬТАТ
-               1 готовая карусель
-               + картинки
-               + подпись
+            АГЕНТ 3: Текст карусели
+              Формула + профиль + правила
                     |
                     v
-             [Скачать] [Поправить]
+            АГЕНТ 4: Голос
+              Переписать в тоне пользователя
                     |
                     v
-             Через 48ч: "Как результат?"</div>
+            АГЕНТ 5: Скользкая горка
+              Аудит каждого слайда
+              (если слабо -- перегенер)
+                    |
+                    v
+            АГЕНТ 6: CTA
+              Оптимальный призыв
+                    |
+                    v
+            АГЕНТ 7: Промты для картинок
+              Nano Banana / ImageGen
+                    |
+                    v
+            РЕЗУЛЬТАТ
+              Текст + картинки + подпись
+              + "Формула: PAS"
+                    |
+                    v
+            [Скачать] [Поправить]
+                    |
+                    v
+            Через 48ч: "Как результат?"</div>
 
-<p><strong>Количество решений пользователя:</strong></p>
-
-<div class="vs-table">
-  <div class="vs-col">
-    <h4>v3: 5-7 решений</h4>
-    <ul>
-      <li>Тренды или своя тема?</li>
-      <li>Какая тема из 7-10?</li>
-      <li>Какой угол из 3?</li>
-      <li>Какая цель?</li>
-      <li>Какой вариант из 3?</li>
-      <li>Утвердить критика?</li>
-      <li>Визуальный стиль?</li>
-    </ul>
-  </div>
-  <div class="vs-col">
-    <h4>v4: 1-2 решения</h4>
-    <ul>
-      <li>Какая тема? (1 тап из push)</li>
-      <li>[Скачать] или [Поправить]</li>
-      <li>&nbsp;</li>
-      <li>Всё остальное &mdash; под капотом</li>
-      <li>Формула: авто (по цели + ротация)</li>
-      <li>Критик: невидим</li>
-      <li>Стиль: из профиля</li>
-    </ul>
-  </div>
-</div>
+<p><strong>Пользователь видит:</strong> тему, результат, кнопки. Всё остальное -- под капотом. Один вариант, не три. Формула подбирается автоматически.</p>
 
 <hr>
 
-<h2>Фазы подробно</h2>
+<h2>Pipeline: 7 агентов под капотом</h2>
+<p>Каждый агент -- отдельный вызов через AskAssistantTool или CallLLMTool. Пользователь не видит промежуточные шаги. Весь pipeline за 20-40 секунд.</p>
 
+<!-- АГЕНТ 1: ТЕМА -->
 <div class="phase">
-  <div class="phase-num">Фаза 1</div>
-  <h3>Онбординг: знакомство с пользователем</h3>
-  <p>Один раз. 4 вопроса. Кнопки где можно, свободный текст где нужно. ~2 минуты.</p>
+  <div class="phase-num">Агент 1</div>
+  <h3>Тема: weekly push или своя</h3>
 
-  <table>
-    <tr><th>Вопрос</th><th>Зачем</th><th>Формат</th></tr>
-    <tr><td>Как зовут? Чем занимаешься?</td><td>Ниша, экспертиза</td><td>Свободный текст</td></tr>
-    <tr><td>Кто твои клиенты?</td><td>Целевая аудитория</td><td>Свободный текст</td></tr>
-    <tr><td>Цель Instagram + как общаешься?</td><td>Стратегия + ToV</td><td>Кнопки: Продажи/Экспертность/Охваты + Дерзко/Тепло/Экспертно</td></tr>
-    <tr><td>Визуальный стиль?</td><td>Стиль карусели</td><td>Кнопки + превью: 6 стилей</td></tr>
-  </table>
-
-  <div class="highlight">
-  <strong>Прогресс-бар:</strong> "2 из 4" на каждом шаге. Финальное подтверждение: "Маша, нутрициолог. ЦА: женщины 30+. Тон: тепло. Стиль: минимализм. Верно?" Если нет &mdash; уточняет.
-  </div>
-</div>
-
-<div class="phase">
-  <div class="phase-num">Фаза 2</div>
-  <h3>Профиль пользователя</h3>
-  <p>Сохраняется навсегда. Обогащается с каждым использованием. При повторном визите &mdash; сразу к теме.</p>
-
-  <div class="prompt-block">
-    <div class="label">Структура профиля</div>
-    <code>{
-  "user_id": 123456,
-  "name": "Маша",
-  "niche": "нутрициология",
-  "expertise": "интуитивное питание, РПП",
-  "audience": "женщины 28-40, устали от диет",
-  "goal": "продажи",
-  "tone_of_voice": "на ты, тёплый но прямой, с юмором",
-  "visual_style": "minimal_light",
-  "brand_colors": {"primary": "#1a1a1a", "accent": "#e85d3a"},
-  "plan": "starter",
-  "carousels_made": 0,
-  "streak": 0,
-  "formulas_used": [],
-  "last_carousel_date": null,
-  "created_at": "2026-02-27"
-}</code>
-  </div>
-
-  <div class="highlight blue">
-  <strong>Lock-in:</strong> Чем больше пользуется, тем точнее бот знает стиль. Уйти к конкуренту = заново объяснять кто ты. Профиль = привязка. Плюс: бот ротирует формулы (не повторяет PAS три раза подряд), и для этого нужна история.
-  </div>
-</div>
-
-<div class="phase">
-  <div class="phase-num">Фаза 3</div>
-  <h3>Тема: push или своя</h3>
-
-  <p><strong>Путь A: Weekly Push (основной).</strong> Вторник, 10:00. Бот сам приходит с 3 темами. Пользователь тапает &mdash; карусель генерируется.</p>
+  <p><strong>Путь A: Weekly Push.</strong> Вторник, 10:00. Бот сам приходит с 3 темами.</p>
 
   <div class="prompt-block">
     <div class="label">Промт: weekly push (3 темы)</div>
-    <code>Ты &mdash; трендвотчер для Instagram-контента.
+    <code>Ты -- контент-стратег.
 
-ВВОДНЫЕ:
-- Ниша пользователя: {niche}
-- Его аудитория: {audience}
-- Его цель: {goal}
+ПРОФИЛЬ:
+- Ниша: {niche}
+- ЦА: {audience}, боли: {pains}, желания: {desires}
+- Цель: {goal}
 - Tone of voice: {tone_of_voice}
+- Продукт: {product}
 - Формулы, которые уже использовал: {formulas_used}
-- Последняя тема карусели: {last_topic}
 
 ЗАДАЧА:
-Предложи 3 темы для карусели на этой неделе.
+Сгенерируй 3 темы для каруселей на этой неделе:
+- 1 тема на боль (цепляет за проблему)
+- 1 тема на пользу (хочется сохранить)
+- 1 тема на прогрев (мягкая продажа)
 
 Для каждой:
-- Название (3-5 слов, уже в стиле пользователя)
-- Почему сейчас (1 предложение)
+- Хук (первый слайд, max 8 слов)
+- Почему зацепит эту ЦА (1 предложение)
 - Формула, которую бот применит (из неиспользованных недавно)
 
 Правила:
-- Разные цели: 1 на продажи, 1 на охваты, 1 на экспертность
 - Не повторять темы прошлых 4 недель
-- Конкретно, не абстрактно ("Читинг &mdash; не срыв" вместо "питание")
+- Конкретно ("Читинг -- не срыв" вместо "про питание")
 
 3 темы. Коротко. Без воды.</code>
   </div>
@@ -560,33 +226,18 @@
     <code>Пользователь хочет карусель на тему: "{user_topic}"
 
 ПРОФИЛЬ:
-- Ниша: {niche}
-- Аудитория: {audience}
-- Tone of voice: {tone_of_voice}
-- Цель: {goal}
+- Ниша: {niche}, ЦА: {audience}, ToV: {tone_of_voice}, Цель: {goal}
 
 ЗАДАЧА:
-1. Сформулируй тему как заголовок карусели (в стиле пользователя, max 8 слов)
+1. Сформулируй тему как заголовок карусели (max 8 слов, в стиле пользователя)
 2. Подбери формулу (из неиспользованных недавно, под цель)
 3. Определи количество слайдов (5-10)
 
-Не спрашивай уточнений &mdash; прими лучшее решение сам.
+Не спрашивай уточнений -- прими лучшее решение.
 Выдай: заголовок + формула + кол-во слайдов.</code>
   </div>
-</div>
 
-<div class="phase">
-  <div class="phase-num">Под капотом</div>
-  <h3>Авто-формула + генерация + невидимый критик</h3>
-  <p>Пользователь НЕ видит этот шаг. Бот делает всё сам за 20-40 секунд.</p>
-
-  <ol class="steps">
-    <li><strong>Авто-формула.</strong> Бот подбирает формулу по: (1) цель пользователя, (2) тип темы, (3) ротация &mdash; не повторять последние 3 формулы. Таблица маппинга ниже.</li>
-    <li><strong>Генерация текста.</strong> Один вариант (не три). Промт включает формулу + профиль + платформенные правила. Few-shot пример вшит.</li>
-    <li><strong>Невидимый критик.</strong> Тот же промт критика из v3, но результат НЕ показывается пользователю. Если оценка &lt; 7/10 &mdash; автоматический перегенер. Если &ge; 7 &mdash; выдаётся как готовое.</li>
-    <li><strong>Финализация.</strong> Текст + подпись + формула-тег. Одно сообщение пользователю.</li>
-  </ol>
-
+  <h3>Автоподбор формулы</h3>
   <table>
     <tr><th>Цель (из профиля)</th><th>Основная формула</th><th>Ротация</th></tr>
     <tr><td>Продажи</td><td>PAS</td><td>BAB, AIDA, Case Study, Social Proof, FAB</td></tr>
@@ -595,464 +246,50 @@
     <tr><td>Подписки</td><td>Сторителлинг</td><td>Cliff, Open Loop</td></tr>
     <tr><td>Запуск продукта</td><td>AIDA</td><td>FAB, Countdown</td></tr>
   </table>
-
-  <div class="highlight">
-  <strong>"Поправить" &mdash; режим эксперта.</strong> Если пользователь нажимает "Поправить", открываются опции: поменять формулу, перегенерить конкретный слайд, сменить тон, запросить 3 варианта (как в v3). Но по умолчанию &mdash; одно касание и готово.
-  </div>
+  <p>Ротация: не повторять последние 3 использованные формулы.</p>
 </div>
 
+<!-- АГЕНТ 2: ВИЗУАЛЬНАЯ МЕТАФОРА -->
 <div class="phase">
-  <div class="phase-num">Платформа</div>
-  <h3>Платформенный интеллект (вшит в генерацию)</h3>
-  <p>НЕ отдельная фаза. Вшит в промт генерации как контекст. Обновляется раз в 2 недели.</p>
+  <div class="phase-num">Агент 2</div>
+  <h3>Визуальная метафора</h3>
 
   <div class="prompt-block">
-    <div class="label">База знаний: платформенные правила (обновляется)</div>
-    <code>INSTAGRAM ALGORITHM RULES (обновлено: {date})
+    <div class="label">Промт: сквозная визуальная концепция</div>
+    <code>Ты -- Креативный Директор мирового уровня и мастер визуальных метафор.
+Стиль: минимализм, умный дизайн, неочевидные ассоциации.
 
-ЧТО ПОЛУЧАЕТ PUSH:
-- Карусели: алгоритм показывает непролистанную карусель повторно (второй шанс)
-- Сохранения > лайки > комментарии (по весу для алгоритма)
-- Первые 30 мин после публикации критичны
-- Карусели 7-10 слайдов работают лучше 3-5 (больше время просмотра)
-- Текст на картинке повышает время остановки скролла
-
-ЧТО ВИРУСИТСЯ СЕЙЧАС:
-- Контраст "ожидание vs реальность"
-- Мини-гайды с конкретными шагами
-- Провокационные первые слайды ("Не делай X")
-- Личные истории с неожиданным поворотом
-- Данные/статистика в визуальном формате
-
-ЧТО УБИВАЕТ ОХВАТЫ:
-- Внешние ссылки в тексте
-- Низкая вовлечённость в первый час
-- Стоковые визуалы (алгоритм распознаёт)
-- Слишком частый постинг (больше 1 карусели в день)
-
-ФОРМАТ-РЕКОМЕНДАЦИИ:
-- Первый слайд: максимум 8 слов, крупный шрифт
-- Каждый слайд: 1 мысль, не перегружать
-- CTA: "сохрани" работает лучше "подпишись" для алгоритма
-- Подпись под каруселью: 150-300 слов (не пустая)</code>
-  </div>
-</div>
-
-<div class="phase">
-  <div class="phase-num">Визуал</div>
-  <h3>Генерация картинок</h3>
-
-  <p>Два режима по тарифу. Пользователь не выбирает &mdash; зависит от подписки.</p>
-
-  <h3>Режим STANDARD (Starter): AI-картинки без текста</h3>
-  <ol class="steps">
-    <li><strong>Промт.</strong> Бот генерирует промт для Nano Banana: фон, композиция, настроение. Без текста на картинке.</li>
-    <li><strong>Генерация.</strong> Nano Banana &rarr; уникальное AI-изображение для каждого слайда.</li>
-    <li><strong>Доставка.</strong> Альбом AI-картинок + текст отдельно (для наложения в Canva или как подпись).</li>
-    <li><strong>Upsell.</strong> Тут же превью Pro-версии: "А вот так выглядит с текстом на картинке."</li>
-  </ol>
-
-  <h3>Режим PRO: AI-картинки с русским текстом</h3>
-  <ol class="steps">
-    <li><strong>Промт-инжиниринг.</strong> Бот берёт финальный текст каждого слайда и генерирует промт: текст + фон + композиция + типографика.</li>
-    <li><strong>Генерация.</strong> Модель генерирует картинку с русским текстом прямо на изображении.</li>
-    <li><strong>Consistency.</strong> Первый слайд &rarr; стилевой якорь &rarr; остальные слайды в том же стиле.</li>
-    <li><strong>Доставка.</strong> Альбом готовых слайдов. Скачал &rarr; постишь. Подпись прилагается.</li>
-  </ol>
-
-  <div class="prompt-block">
-    <div class="label">Мета-промт: генерация промта для Nano Banana</div>
-    <code>Ты &mdash; промт-инженер для модели Nano Banana (генерация изображений с текстом).
-
-ЗАДАЧА: Сгенерируй промт для одного слайда карусели.
+ЗАДАЧА:
+Преврати тему в концепцию для Instagram-карусели, основанную на ОДНОЙ сквозной визуальной метафоре. Никаких банальностей.
 
 ВВОДНЫЕ:
-- Номер слайда: {slide_num} из {total_slides}
-- Тип слайда: {slide_type} (hook / content / cta)
-- Текст на слайде: "{slide_text}"
-- Подзаголовок: "{slide_subtitle}"
-- Визуальный стиль пользователя: {visual_style}
-- Цвета бренда: {brand_colors}
-- Настроение слайда: {slide_mood}
-- Тема карусели: {topic}
+- Ниша: {niche}
+- Тема: {topic}
+- Главная мысль: {main_idea}
+- Визуальный стиль: {visual_style}
 
-ПРАВИЛА NANO BANANA:
-{nano_banana_rules}
+ЧТО СДЕЛАТЬ:
+1. Предложи 1 лучшую визуальную метафору (не 3 -- одну).
+2. Распиши покадровый план для {slide_count} слайдов.
 
-ТРЕБОВАНИЯ К ПРОМТУ:
-- Текст на картинке должен быть читаемым (контраст, размер)
-- Фон не должен конфликтовать с текстом
-- Стиль единый для всех слайдов карусели
-- Формат: 1080x1350 (вертикальный, 4:5)
-- Русский текст &mdash; корректное написание
+Для каждого слайда:
+- Что изображено (объект)
+- Как связано с темой (смысл)
+- Настроение / атмосфера
 
-Выдай готовый промт для Nano Banana. Один промт, без комментариев.</code>
-  </div>
-
-  <h3>Визуальные стили (для обоих режимов)</h3>
-
-  <div class="grid-3">
-    <div class="grid-item">
-      <h4>Clean Light</h4>
-      <p>Белый, чёрный текст, минимализм. Эксперты, коучи.</p>
-    </div>
-    <div class="grid-item">
-      <h4>Bold Dark</h4>
-      <p>Чёрный фон, акцентный текст. Бизнес, tech.</p>
-    </div>
-    <div class="grid-item">
-      <h4>Magazine</h4>
-      <p>Журнальная вёрстка. Лайфстайл, фешн.</p>
-    </div>
-    <div class="grid-item">
-      <h4>Gradient Pop</h4>
-      <p>Яркие градиенты, округлые формы. Креативщики.</p>
-    </div>
-    <div class="grid-item">
-      <h4>Soft Pastel</h4>
-      <p>Пастельные тона, мягкость. Психологи, women-бренды.</p>
-    </div>
-    <div class="grid-item">
-      <h4>Editorial</h4>
-      <p>Газетный стиль, serif, контраст. Писатели, журналисты.</p>
-    </div>
+Выдай план. Без воды.</code>
   </div>
 </div>
 
-<hr>
-
-<h2>Retention Engine</h2>
-<p>Три механизма, которые превращают разовое использование в привычку.</p>
-
+<!-- АГЕНТ 3: ТЕКСТ -->
 <div class="phase">
-  <div class="phase-num">Retention 1</div>
-  <h3>Weekly Push: бот приходит сам</h3>
+  <div class="phase-num">Агент 3</div>
+  <h3>Текст карусели</h3>
 
-  <p><strong>Вторник, 10:00.</strong> Бот отправляет 3 темы. Пользователь тапает &mdash; карусель за 30 секунд.</p>
-  <p><strong>Четверг, 10:00.</strong> Если не зашёл: "Тема #1 набирает обороты. Карусель за 2 минуты?"</p>
-  <p><strong>Пятница, 18:00.</strong> Если не зашёл: тишина. Не спамим. Одно напоминание в неделю, не больше.</p>
-
-  <div class="highlight">
-  <strong>Только платные тарифы.</strong> Weekly push &mdash; фича Starter и Pro. Free-пользователи не получают. Это дополнительный стимул платить: push = привычка = рост аккаунта. Без push = забудешь.
-  </div>
-</div>
-
-<div class="phase">
-  <div class="phase-num">Retention 2</div>
-  <h3>Обратная связь: 48 часов после карусели</h3>
-
-  <p>Через 48 часов после генерации:</p>
-
-  <div class="schema">
-БОТ:
-  "Маша, как карусель про читинг?
-   Сколько сохранений? Комментарии?
-
-   [Круто, 50+ сохранений]
-   [Нормально, 10-50]
-   [Плохо, меньше 10]
-   [Не постила ещё]"</div>
-
-  <p><strong>Зачем:</strong> (1) Обогащает профиль &mdash; бот узнаёт, какие формулы работают для этого пользователя. (2) Возвращает в бот. (3) Если "Круто" &mdash; предложить поделиться кейсом. Если "Плохо" &mdash; предложить другую формулу.</p>
-
-  <div class="highlight blue">
-  <strong>Без API Instagram.</strong> Просто спрашиваем. Данные субъективные, но достаточные для обучения бота и retention. API Instagram для аналитики &mdash; v3, если будет нужно.
-  </div>
-</div>
-
-<div class="phase">
-  <div class="phase-num">Retention 3</div>
-  <h3>Streak + прогресс</h3>
-
-  <p>Тонкая геймификация. Без наград &mdash; просто факт.</p>
-
-  <div class="schema">
-После каждой карусели:
-  "Карусель #7. Формула: Контраст.
-   Ты использовала 5 из 16 формул.
-   Серия: 3 недели подряд."
-
-После 4 недель подряд:
-  "Маша, 4 недели подряд!
-   Эксперты, которые постят каждую неделю,
-   растут в 3 раза быстрее.
-   Следующая формула, которую стоит попробовать:
-   Скользкая горка (экспертность)."
-
-После 10 каруселей:
-  "10 каруселей! Ты освоила 6 формул.
-   Как результаты? Хочешь поделиться?"
-   → автоматический сбор кейсов</div>
-</div>
-
-<hr>
-
-<h2>Библиотека формул (16 штук)</h2>
-<p>Ядро продукта. Каждая формула: структура слайдов, правила переходов, пример, типичные ошибки. IP Иры.</p>
-
-<!-- ФОРМУЛА 1: PAS -->
-<div class="card">
-  <span class="tag red">Продажи</span>
-  <h4>1. PAS &mdash; Problem &rarr; Agitate &rarr; Solution</h4>
-  <p>Классика прямых продаж. Давление через боль, усиление, спасение.</p>
-  <p><strong>Структура (10 слайдов):</strong></p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Провокационное утверждение о проблеме. Max 8 слов. "Ты постишь каждый день. Клиентов &mdash; ноль."</td></tr>
-    <tr><td>2</td><td><strong>PROBLEM</strong></td><td>Конкретная боль. Не абстрактная &mdash; с деталями. "Ты пишешь посты. Лайки ставят мама и подруга."</td></tr>
-    <tr><td>3</td><td><strong>PROBLEM+</strong></td><td>Углубление: почему это больно. "А коллега в той же нише &mdash; 200 сохранений на каждый пост."</td></tr>
-    <tr><td>4</td><td><strong>AGITATE</strong></td><td>Усиление: последствия бездействия. "Через полгода ты устанешь и бросишь."</td></tr>
-    <tr><td>5</td><td><strong>AGITATE+</strong></td><td>Эмоциональный пик: страх/стыд/злость. "А деньги на рекламу, курсы, фотосессии &mdash; уже потрачены."</td></tr>
-    <tr><td>6</td><td><strong>PIVOT</strong></td><td>Поворот: "Но есть кое-что, что работает." Без подробностей &mdash; интрига.</td></tr>
-    <tr><td>7</td><td><strong>SOLUTION</strong></td><td>Решение: что именно. Конкретно.</td></tr>
-    <tr><td>8</td><td><strong>PROOF</strong></td><td>Доказательство: цифра, кейс, факт.</td></tr>
-    <tr><td>9</td><td><strong>HOW</strong></td><td>Как получить решение. Просто.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани и попробуй. Ссылка в шапке."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> Слайды 2-5 нарастают по интенсивности. Слайд 6 &mdash; резкий слом ритма. Нельзя давать решение раньше слайда 7.</p>
-  <p><strong>Ошибки:</strong> Слишком мягкая боль. Решение на слайде 3 (рано). CTA "подпишись" вместо "сохрани".</p>
-</div>
-
-<!-- ФОРМУЛА 2: BAB -->
-<div class="card">
-  <span class="tag red">Продажи</span>
-  <h4>2. BAB &mdash; Before &rarr; After &rarr; Bridge</h4>
-  <p>Трансформация. Мир "до" и "после", потом мост.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Контраст в одной фразе. "3 месяца назад я плакала в туалете офиса. Сейчас у меня 40 клиентов."</td></tr>
-    <tr><td>2-3</td><td><strong>BEFORE</strong></td><td>Подробное "до": детали, эмоции, цифры.</td></tr>
-    <tr><td>4</td><td><strong>TURNING</strong></td><td>Момент перелома.</td></tr>
-    <tr><td>5-6</td><td><strong>AFTER</strong></td><td>Подробное "после": те же метрики, другие цифры.</td></tr>
-    <tr><td>7-8</td><td><strong>BRIDGE</strong></td><td>Что конкретно изменилось. Максимум 3 шага.</td></tr>
-    <tr><td>9</td><td><strong>TAKEAWAY</strong></td><td>Главный вывод.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани, если узнала себя в 'до'."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> "До" болезненно конкретным. "После" реалистичный. Мост &mdash; максимум 3 шага.</p>
-  <p><strong>Ошибки:</strong> "До" абстрактно. "После" нереалистично. Мост = реклама.</p>
-</div>
-
-<!-- ФОРМУЛА 3: AIDA -->
-<div class="card">
-  <span class="tag orange">Запуски</span>
-  <h4>3. AIDA &mdash; Attention &rarr; Interest &rarr; Desire &rarr; Action</h4>
-  <p>Воронка внимания. Для запусков и анонсов.</p>
-  <table>
-    <tr><td>1</td><td><strong>ATTENTION</strong></td><td>Шок, неожиданность, цифра.</td></tr>
-    <tr><td>2-3</td><td><strong>INTEREST</strong></td><td>Почему важно именно тебе. Факты.</td></tr>
-    <tr><td>4-5</td><td><strong>DESIRE</strong></td><td>Картинка: как будет. Сенсорные детали.</td></tr>
-    <tr><td>6-7</td><td><strong>PROOF</strong></td><td>Соцдоказательство.</td></tr>
-    <tr><td>8</td><td><strong>OFFER</strong></td><td>Что предлагается.</td></tr>
-    <tr><td>9</td><td><strong>URGENCY</strong></td><td>Почему сейчас.</td></tr>
-    <tr><td>10</td><td><strong>ACTION</strong></td><td>Одно действие.</td></tr>
-  </table>
-  <p><strong>Правила:</strong> Attention &ne; кликбейт. Desire через ощущения. Action &mdash; одно действие, не три.</p>
-</div>
-
-<!-- ФОРМУЛА 4: Скользкая горка -->
-<div class="card">
-  <span class="tag purple">Экспертность</span>
-  <h4>4. Скользкая горка (Шугерман)</h4>
-  <p>Каждый слайд тянет к следующему. Нет слайда, на котором можно остановиться.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Обещание + интрига.</td></tr>
-    <tr><td>2</td><td><strong>SETUP</strong></td><td>Контекст. Заканчивается обрывом.</td></tr>
-    <tr><td>3-7</td><td><strong>SLIDE</strong></td><td>Каждый обрывается на полумысли.</td></tr>
-    <tr><td>8-9</td><td><strong>PAYOFF</strong></td><td>Кульминация: раскрытие.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани &mdash; перечитаешь."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> КАЖДЫЙ слайд &mdash; незавершённая мысль. Обязательно. Техники: многоточие, "но...", вопрос.</p>
-</div>
-
-<!-- ФОРМУЛА 5: Open Loop -->
-<div class="card">
-  <span class="tag blue">Охваты</span>
-  <h4>5. Open Loop &mdash; Незакрытая петля</h4>
-  <p>Обещание на первом слайде. Отдача на последнем. Убийца сохранений.</p>
-  <table>
-    <tr><td>1</td><td><strong>PROMISE</strong></td><td>Конкретное обещание.</td></tr>
-    <tr><td>2-4</td><td><strong>CONTEXT</strong></td><td>Почему важно. НЕ раскрывает обещание.</td></tr>
-    <tr><td>5-7</td><td><strong>BUILD</strong></td><td>Приближение к ответу.</td></tr>
-    <tr><td>8-9</td><td><strong>REVEAL</strong></td><td>Раскрытие. Конкретно.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани &mdash; эту формулу ты будешь использовать."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> Обещание ДОЛЖНО быть выполнено. Каждый слайд между обещанием и раскрытием даёт самостоятельную ценность.</p>
-</div>
-
-<!-- ФОРМУЛА 6: Контраст -->
-<div class="card">
-  <span class="tag blue">Охваты</span>
-  <h4>6. Контраст &mdash; Миф vs Реальность</h4>
-  <p>Попарные противопоставления. Провокация + разрушение мифов = вирусность.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>"5 вещей, которые тебе врали про [тему]."</td></tr>
-    <tr><td>2-3</td><td><strong>ПАРА 1</strong></td><td>Миф &rarr; Реальность.</td></tr>
-    <tr><td>4-5</td><td><strong>ПАРА 2</strong></td><td>Миф &rarr; Реальность. Острее.</td></tr>
-    <tr><td>6-7</td><td><strong>ПАРА 3</strong></td><td>Самый сильный контраст.</td></tr>
-    <tr><td>8-9</td><td><strong>ВЫВОД</strong></td><td>Что делать.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Перешли подруге, которая верит в [миф]."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> Пары нарастают по остроте. Реальность &mdash; с доказательством.</p>
-</div>
-
-<!-- ФОРМУЛА 7: Сторителлинг -->
-<div class="card">
-  <span class="tag purple">Подписки</span>
-  <h4>7. Сторителлинг &mdash; Герой &rarr; Проблема &rarr; Путь &rarr; Результат</h4>
-  <p>Личная история или кейс. Эмоция = подписки.</p>
-  <table>
-    <tr><td>1</td><td><strong>IN MEDIAS RES</strong></td><td>Начать с середины.</td></tr>
-    <tr><td>2</td><td><strong>BACKSTORY</strong></td><td>Кто герой. Контекст.</td></tr>
-    <tr><td>3-4</td><td><strong>CHALLENGE</strong></td><td>Проблема с деталями.</td></tr>
-    <tr><td>5</td><td><strong>ATTEMPT</strong></td><td>Что не работало.</td></tr>
-    <tr><td>6</td><td><strong>TURNING POINT</strong></td><td>Что изменилось.</td></tr>
-    <tr><td>7-8</td><td><strong>ACTION</strong></td><td>Что конкретно сделала.</td></tr>
-    <tr><td>9</td><td><strong>RESULT</strong></td><td>Цифры. До и после.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Если узнала себя &mdash; сохрани."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> In medias res обязательно. Детали: имена, цифры, места. Один поворотный момент.</p>
-</div>
-
-<!-- ФОРМУЛА 8: How-To -->
-<div class="card">
-  <span class="tag purple">Экспертность</span>
-  <h4>8. How-To / Listicle</h4>
-  <p>Пошаговый гайд или список. Чистая ценность.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Чёткое обещание с цифрой.</td></tr>
-    <tr><td>2-9</td><td><strong>ШАГИ</strong></td><td>По одному на слайд. Заголовок жирным + пояснение.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани как чеклист."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> Каждый шаг &mdash; одно действие. Конкретные (можно выполнить за 15 минут).</p>
-</div>
-
-<!-- ФОРМУЛА 9: FAB -->
-<div class="card">
-  <span class="tag orange">Запуски</span>
-  <h4>9. FAB &mdash; Feature &rarr; Advantage &rarr; Benefit</h4>
-  <p>Продуктовая формула. Свойство &rarr; преимущество &rarr; польза.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Результат продукта.</td></tr>
-    <tr><td>2-3</td><td><strong>FAB 1</strong></td><td>Фича &rarr; Преимущество &rarr; Польза.</td></tr>
-    <tr><td>4-5</td><td><strong>FAB 2</strong></td><td>Другой аспект.</td></tr>
-    <tr><td>6-7</td><td><strong>FAB 3</strong></td><td>Killer feature.</td></tr>
-    <tr><td>8</td><td><strong>SOCIAL PROOF</strong></td><td>Кто уже использует.</td></tr>
-    <tr><td>9</td><td><strong>OFFER</strong></td><td>Что входит, сколько стоит.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>Одно действие.</td></tr>
-  </table>
-  <p><strong>Правила:</strong> Benefit всегда про пользователя, не про продукт.</p>
-</div>
-
-<!-- ФОРМУЛА 10: Провокация -->
-<div class="card">
-  <span class="tag blue">Охваты</span>
-  <h4>10. Провокация &mdash; "Перестань делать X"</h4>
-  <p>Самый вирусный формат.</p>
-  <table>
-    <tr><td>1</td><td><strong>УДАР</strong></td><td>Категоричное утверждение.</td></tr>
-    <tr><td>2</td><td><strong>УТОЧНЕНИЕ</strong></td><td>Усиливаем, добавляем контекст.</td></tr>
-    <tr><td>3-7</td><td><strong>АРГУМЕНТЫ</strong></td><td>По одному на слайд. Факты, нарастание.</td></tr>
-    <tr><td>8</td><td><strong>АЛЬТЕРНАТИВА</strong></td><td>Что делать вместо.</td></tr>
-    <tr><td>9</td><td><strong>ИТОГ</strong></td><td>Резюме.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Согласна? Пиши в комментариях." (дискуссия = охваты).</td></tr>
-  </table>
-  <p><strong>Правила:</strong> Аргументы &mdash; факты, не мнения. Альтернатива обязательна.</p>
-</div>
-
-<!-- ФОРМУЛА 11: Cliff -->
-<div class="card">
-  <span class="tag blue">Охваты</span>
-  <h4>11. Cliff / Cliffhanger</h4>
-  <p>Каждый слайд обрывается на полуслове.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Начало фразы, которая обрывается.</td></tr>
-    <tr><td>2-8</td><td><strong>CHAIN</strong></td><td>Каждый слайд продолжает предыдущий И обрывается.</td></tr>
-    <tr><td>9</td><td><strong>PAYOFF</strong></td><td>Финальное раскрытие.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани, чтобы перечитать."</td></tr>
-  </table>
-  <p><strong>Правила:</strong> КАЖДЫЙ слайд обрывается. Без исключений.</p>
-</div>
-
-<!-- ФОРМУЛА 12: Social Proof -->
-<div class="card">
-  <span class="tag red">Продажи</span>
-  <h4>12. Social Proof &mdash; Доказательства</h4>
-  <p>Факты, отзывы, кейсы. Для доверия и продаж.</p>
-  <table>
-    <tr><td>1</td><td><strong>CLAIM</strong></td><td>Сильное утверждение с цифрой.</td></tr>
-    <tr><td>2-4</td><td><strong>TESTIMONIALS</strong></td><td>3 отзыва: имя + ниша + результат + цитата.</td></tr>
-    <tr><td>5-6</td><td><strong>DATA</strong></td><td>Цифры: до/после.</td></tr>
-    <tr><td>7</td><td><strong>AUTHORITY</strong></td><td>Экспертность.</td></tr>
-    <tr><td>8</td><td><strong>PATTERN</strong></td><td>Что общего у кейсов.</td></tr>
-    <tr><td>9</td><td><strong>YOUR TURN</strong></td><td>"Теперь твоя очередь."</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>Конкретное действие.</td></tr>
-  </table>
-</div>
-
-<!-- ФОРМУЛА 13: Пирамида -->
-<div class="card">
-  <span class="tag purple">Экспертность</span>
-  <h4>13. Пирамида &mdash; от простого к сложному</h4>
-  <p>3 уровня глубины. Экспертиза + ценность на каждом уровне.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>"3 уровня [темы]. Большинство застревает на первом."</td></tr>
-    <tr><td>2-4</td><td><strong>УРОВЕНЬ 1</strong></td><td>Базовый.</td></tr>
-    <tr><td>5-7</td><td><strong>УРОВЕНЬ 2</strong></td><td>Продвинутый.</td></tr>
-    <tr><td>8-9</td><td><strong>УРОВЕНЬ 3</strong></td><td>Экспертный. Инсайт за пределами Google.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"На каком ты уровне?"</td></tr>
-  </table>
-</div>
-
-<!-- ФОРМУЛА 14: Countdown -->
-<div class="card">
-  <span class="tag orange">Запуски</span>
-  <h4>14. Countdown &mdash; Обратный отсчёт</h4>
-  <p>5... 4... 3... 2... 1. Нарастание + кульминация.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Обещание с цифрой.</td></tr>
-    <tr><td>2-3</td><td><strong>5-4</strong></td><td>Менее значимые причины. Разогрев.</td></tr>
-    <tr><td>4-5</td><td><strong>3-2</strong></td><td>Более сильные. Нарастание.</td></tr>
-    <tr><td>6-7</td><td><strong>1</strong></td><td>Самый мощный. Развёрнуто.</td></tr>
-    <tr><td>8</td><td><strong>REVEAL</strong></td><td>Оффер или вывод.</td></tr>
-    <tr><td>9</td><td><strong>URGENCY</strong></td><td>Почему сейчас.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>Действие с дедлайном.</td></tr>
-  </table>
-</div>
-
-<!-- ФОРМУЛА 15: Case Study -->
-<div class="card">
-  <span class="tag red">Продажи</span>
-  <h4>15. Case Study &mdash; Было &rarr; Сделали &rarr; Стало</h4>
-  <p>Конкретный кейс с цифрами.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>Результат в цифрах.</td></tr>
-    <tr><td>2</td><td><strong>КТО</strong></td><td>Клиент: имя, ниша, контекст.</td></tr>
-    <tr><td>3-4</td><td><strong>БЫЛО</strong></td><td>Проблема с цифрами.</td></tr>
-    <tr><td>5-7</td><td><strong>СДЕЛАЛИ</strong></td><td>Конкретные шаги.</td></tr>
-    <tr><td>8-9</td><td><strong>СТАЛО</strong></td><td>Результат с теми же метриками.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Хочешь так же?"</td></tr>
-  </table>
-</div>
-
-<!-- ФОРМУЛА 16: Q&A -->
-<div class="card">
-  <span class="tag purple">Экспертность</span>
-  <h4>16. Q&amp;A / FAQ</h4>
-  <p>Частые вопросы. Снятие возражений.</p>
-  <table>
-    <tr><td>1</td><td><strong>HOOK</strong></td><td>"7 вопросов, на которые устала отвечать в директе."</td></tr>
-    <tr><td>2-9</td><td><strong>Q&amp;A</strong></td><td>Один вопрос + ответ на слайд. Конкретный.</td></tr>
-    <tr><td>10</td><td><strong>CTA</strong></td><td>"Какой вопрос не закрыла? Пиши." (вовлечение + контент-идеи).</td></tr>
-  </table>
-</div>
-
-<hr>
-
-<h2>Промты</h2>
-
-<div class="prompt-block">
-  <div class="label">Промт: генерация текста карусели (единый вариант v4)</div>
-  <code>Ты &mdash; копирайтер-маркетолог, мастер Instagram-каруселей. Твои карусели получают сохранения, потому что ты знаешь формулы и пишешь конкретно.
-
-ЗАДАЧА: Напиши текст карусели. ОДИН лучший вариант.
+  <div class="prompt-block">
+    <div class="label">Промт: генерация текста</div>
+    <code>Ты -- Главный Редактор вирального медиа. Ты ненавидишь "воду" и банальности.
+Задача -- создать сценарий Instagram-карусели, которую невозможно пролистнуть.
 
 ВВОДНЫЕ:
 - Тема: {topic}
@@ -1060,6 +297,7 @@
 - Цель: {goal}
 - Формула: {formula_name}
 - Количество слайдов: {slide_count}
+- Визуальная метафора: {visual_concept}
 
 ПРАВИЛА ФОРМУЛЫ "{formula_name}":
 {formula_rules}
@@ -1069,47 +307,52 @@
 - Аудитория: {audience}
 - Tone of voice: {tone_of_voice}
 
+СТРОГИЕ ТРЕБОВАНИЯ К СТИЛЮ:
+- Плотность: 1 слайд = 1 законченная мысль. Никаких лишних слов
+- Полярность: спорно, любопытно или ломает стереотипы
+- ЗАГОЛОВОК: строго до 40 символов (жирно)
+- ТЕКСТ: строго до 160 символов (1-3 предложения)
+- Каждый слайд заканчивается так, что хочется листнуть
+- ЗАПРЕЩЕНО: "в современном мире", "каждый из нас", "не секрет что",
+  "давайте разберёмся", "простыми словами", "важно понимать",
+  "уникальный", "качественный", "является"
+
 ПЛАТФОРМЕННЫЕ ПРАВИЛА:
 {platform_rules}
 
 СТРУКТУРА:
-- Слайд 1: HOOK. Останавливает скролл. Максимум 8 слов.
-- Слайды 2-9: КОНТЕНТ по формуле. 1 мысль = 1 слайд. 15-40 слов на слайд.
-- Последний слайд: CTA (сохранить / директ / комментарий).
-
-ТРЕБОВАНИЯ:
-- Пиши в tone of voice автора
-- Каждый слайд заканчивается так, что хочется листнуть дальше
-- ЗАПРЕЩЕНО: "в современном мире", "каждый из нас", "не секрет что", "давайте разберёмся", "на самом деле" (без контекста), "простыми словами"
-- Конкретика: цифры, примеры, имена, детали
-- Подзаголовок на каждом слайде: 2-5 слов, жирным
-- CTA: "сохрани" работает лучше "подпишись" для алгоритма
-- Укажи: &ldquo;Формула: {formula_name}&rdquo;
+- Слайд 1: HOOK. Удар по боли или провокация. Max 8 слов
+- Слайды 2-N: КОНТЕНТ по формуле. 1 мысль = 1 слайд. 15-40 слов
+- Последний: CTA ("сохрани" > "подпишись" для алгоритма)
 
 ВЫХОД:
-- Все слайды с текстом (номер + подзаголовок + текст)
+- Все слайды: номер + подзаголовок (жирный, 2-5 слов) + текст
 - Подпись под карусель (150-300 слов, с хештегами)
+- Укажи: "Формула: {formula_name}"
 
-=== ПРИМЕР ХОРОШЕГО ВЫВОДА ===
+=== ПРИМЕР ===
 
-Тема: Читинг. Ниша: нутрициология. ToV: тепло, на ты. Формула: PAS. Цель: продажи.
+Тема: Читинг. Ниша: нутрициология. ToV: тепло, на ты.
+Формула: PAS. Цель: продажи.
 
-&ldquo;Формула: PAS (Боль &rarr; Усиление &rarr; Решение)&rdquo;
+"Формула: PAS (Боль > Усиление > Решение)"
 
 [1] HOOK
 Ты не сорвалась. Ты поела.
 
 [2] БОЛЬ
 **Знакомое чувство?**
-Вечер. Холодильник. "Только один кусочек." А потом стыд. Вина. "С понедельника точно..."
+Вечер. Холодильник. "Только один кусочек."
+А потом стыд. Вина. "С понедельника точно..."
 
 [3] БОЛЬ+
 **Калькулятор в голове**
-Ты считаешь каждый грамм. Банан &mdash; 90 ккал. Шоколадка &mdash; всё, день провален.
+Ты считаешь каждый грамм. Банан -- 90 ккал.
+Шоколадка -- всё, день провален.
 
 [4] УСИЛЕНИЕ
 **Тебе 30. Ты считаешь еду как бухгалтер.**
-И при этом чувствуешь себя виноватой за ужин. Виноватой. За ужин.
+И чувствуешь себя виноватой за ужин. Виноватой. За ужин.
 
 [5] УСИЛЕНИЕ+
 **А коллега ест пасту и не толстеет.**
@@ -1117,282 +360,603 @@
 
 [6] ПОВОРОТ
 **Я работаю с РПП 5 лет.**
-И вижу одно: проблема не в еде. Проблема в том, что тебя научили бояться еды.
+Проблема не в еде. Проблема в том,
+что тебя научили бояться еды.
 
 [7] РЕШЕНИЕ
-**Интуитивное питание &mdash; не про "ешь что хочешь".**
-Это система: 4 маркера. Когда знаешь их &mdash; калькулятор выключается.
+**Интуитивное питание -- не про "ешь что хочешь".**
+Система: 4 маркера. Когда знаешь их -- калькулятор выключается.
 
 [8] PROOF
 **Маша, 34 года.**
-"За 2 месяца перестала считать. Похудела на 4 кг. Не диета &mdash; перестала заедать стресс."
+"За 2 месяца перестала считать. Похудела на 4 кг.
+Не диета -- перестала заедать стресс."
 
 [9] КАК
 **Один воркшоп. 2 часа. 4 маркера голода.**
-Без диет, без подсчётов, без вины. Не волшебство &mdash; физиология.
+Без диет, без подсчётов, без вины.
 
 [10] CTA
-**Воркшоп "Еда без вины" &mdash; 14 марта.**
+**Воркшоп "Еда без вины" -- 14 марта.**
 Напиши ЕДА в директ. Мест 20.
 
 === КОНЕЦ ПРИМЕРА ===</code>
+  </div>
 </div>
 
-<div class="prompt-block">
-  <div class="label">Промт: невидимый критик (под капотом, пользователь не видит)</div>
-  <code>Ты &mdash; жёсткий редактор Instagram-каруселей. 500+ каруселей за карьеру.
+<!-- АГЕНТ 4: ГОЛОС -->
+<div class="phase">
+  <div class="phase-num">Агент 4</div>
+  <h3>Адаптация голоса</h3>
 
-Текст карусели:
+  <div class="prompt-block">
+    <div class="label">Промт: переписать в тоне пользователя</div>
+    <code>Ты -- редактор, который превращает сухие тексты в живую речь.
+
+ПРОФИЛЬ АВТОРА:
+- Кто: {niche}, {expertise}
+- ЦА: {audience}
+- Голос: {tone_of_voice}
+- Запретные слова: {banned_words}
+
+ТЕКСТ КАРУСЕЛИ:
+{carousel_text}
+
+ЗАДАЧА:
+Перепиши так, чтобы:
+- Звучало как автор говорит подруге за кофе
+- Каждый слайд -- максимум 15 слов заголовок, 160 символов текст
+- Убрана вода, оставлено мясо
+- Сохранён стиль автора
+- Структура формулы НЕ нарушена
+
+Один вариант. В тоне "{tone_of_voice}".
+Выдай полный текст всех слайдов.</code>
+  </div>
+</div>
+
+<!-- АГЕНТ 5: СКОЛЬЗКАЯ ГОРКА -->
+<div class="phase">
+  <div class="phase-num">Агент 5</div>
+  <h3>Скользкая горка (невидимый критик)</h3>
+  <p>Пользователь НЕ видит этот шаг. Если оценка &lt; 7/10 -- автоматический перегенер через Агента 3.</p>
+
+  <div class="prompt-block">
+    <div class="label">Промт: аудит "скользкая горка"</div>
+    <code>Ты -- копирайтер уровня Шугермана + архитектор внимания.
+500+ каруселей за карьеру.
+
+Задача: превратить карусель в "скользкую горку" --
+чтобы человек физически не мог остановиться.
+
+ПРИНЦИП: Каждый слайд = незавершённый гештальт.
+Мозг ОБЯЗАН листать дальше.
+
+ТЕКСТ КАРУСЕЛИ:
 {carousel_text}
 
 Формула: {formula_name}
-Профиль: ниша={niche}, тон={tone_of_voice}, аудитория={audience}
+Профиль: ниша={niche}, тон={tone_of_voice}, ЦА={audience}
 Цель: {goal}
 
-ЧЕКЛИСТ (оцени 1-10):
+СДЕЛАЙ:
 
-1. HOOK: Остановит скролл? Max 8 слов?
-2. КАЖДЫЙ СЛАЙД: Хочется листнуть? 1 мысль? 15-40 слов?
-3. ФОРМУЛА: Структура соответствует?
-4. CTA: Одно действие? "Сохрани" > "подпишись"?
-5. TONE OF VOICE: Соответствует профилю?
-6. АНТИБАНАЛЬНОСТЬ: Стоп-слова?
-7. ВИРУСНОСТЬ: Захочется переслать?
+1. АУДИТ ДЫРЫ
+Найди места, где человек может уйти.
+
+2. ПЕРЕХОДНЫЕ КРЮЧКИ
+Для каждого слайда -- "мост" в следующий:
+- Незаконченная мысль ("Но это не главное...")
+- Открытый вопрос ("А что если...?")
+- Обещание ("Дальше -- то, что изменит всё")
+- Конфликт ("Но тут я облажалась")
+
+3. ЧЕКЛИСТ (оцени 1-10):
+- HOOK: остановит скролл? Max 8 слов?
+- КАЖДЫЙ СЛАЙД: хочется листнуть? 1 мысль? 15-40 слов?
+- ФОРМУЛА: структура соответствует?
+- CTA: одно действие? "Сохрани" > "подпишись"?
+- TONE OF VOICE: соответствует профилю?
+- АНТИБАНАЛЬНОСТЬ: стоп-слова?
+- ВИРУСНОСТЬ: захочется переслать?
+- ПРОВЕРКА "3 СЕКУНДЫ": каждый слайд --
+  увидит на 3 секунды -- листнёт? Если нет -- переделай.
 
 Общая оценка: X/10
 
-Если X &lt; 7: выдай конкретные правки по слабым слайдам.
-Если X &ge; 7: "Готово к визуалу."
+Если X < 7: выдай исправленную версию всех слайдов.
+Если X >= 7: "ОК"
 
-Формат: оценка + слабые места с конкретными заменами.</code>
+Формат: оценка + таблица
+| Слайд | Было | Стало | Крючок | Сила тяги 1-10 |</code>
+  </div>
+</div>
+
+<!-- АГЕНТ 6: CTA -->
+<div class="phase">
+  <div class="phase-num">Агент 6</div>
+  <h3>CTA-оптимизатор</h3>
+
+  <div class="prompt-block">
+    <div class="label">Промт: оптимальный призыв к действию</div>
+    <code>Ты -- копирайтер. Огилви завидовал бы. Твои CTA не впаривают, а приглашают.
+
+ПРОФИЛЬ: {niche}, ЦА: {audience}
+ЦЕЛЬ КАРУСЕЛИ: {goal}
+ТЕКСТ КАРУСЕЛИ: {carousel_text}
+
+ЗАДАЧА:
+Напиши лучший последний слайд. Один вариант.
+Выбери подход под цель:
+
+- Продажи: конкретный (с цифрой или дедлайном)
+- Охваты: вопросом (вовлекает в коммент)
+- Экспертность: мягкий (без давления, "сохрани")
+- Подписки: социальное доказательство
+- Запуск: с дедлайном и ограничением
+
+Правило: "сохрани" работает лучше "подпишись" для алгоритма.
+
+Выдай: текст последнего слайда + почему этот подход.</code>
+  </div>
+</div>
+
+<!-- АГЕНТ 7: КАРТИНКИ -->
+<div class="phase">
+  <div class="phase-num">Агент 7</div>
+  <h3>Промты для картинок</h3>
+
+  <p>Два режима по тарифу: Standard (картинки без текста) и Pro (текст на картинке).</p>
+
+  <div class="prompt-block">
+    <div class="label">Промт: генерация промта для ImageGen</div>
+    <code>Ты -- промт-инженер для модели генерации изображений.
+
+ЗАДАЧА: Сгенерируй промт для одного слайда карусели.
+
+ВВОДНЫЕ:
+- Номер слайда: {slide_num} из {total_slides}
+- Тип слайда: {slide_type} (hook / content / cta)
+- Текст на слайде: "{slide_text}"
+- Подзаголовок: "{slide_subtitle}"
+- Визуальный стиль: {visual_style}
+- Визуальная метафора: {visual_concept}
+- Цвета бренда: {brand_colors}
+- Style DNA: {style_dna}
+
+РЕЖИМ: {mode} (standard / pro)
+
+Если standard:
+- Фон/композиция/настроение. Текст НЕ на картинке.
+
+Если pro:
+- Текст прямо на картинке
+- CONTENT LOCK: текст должен остаться exactly as written.
+  Do not rewrite, paraphrase, enhance, or correct it.
+
+ТРЕБОВАНИЯ:
+- Формат: 1080x1350 (4:5)
+- Стиль единый для всех слайдов (первый = якорь)
+- Текст читаемый (контраст, размер)
+- Фон не конфликтует с текстом
+
+Выдай готовый промт. Один. Без комментариев.</code>
+  </div>
 </div>
 
 <hr>
 
-<h2>Платформа: AIFromSpace (Денис)</h2>
+<h2>Онбординг</h2>
+<p>Один раз. 5 шагов. Кнопки где можно, свободный текст где нужно. ~3 минуты.</p>
 
 <table>
-  <tr><th>Что нужно боту</th><th>Инструмент</th><th>Заметки</th></tr>
-  <tr><td>LLM (тексты)</td><td>CallLLMTool (OpenRouter)</td><td>Все модели</td></tr>
-  <tr><td>Профиль пользователя</td><td>ManageConstantMemoryTool</td><td>Per-user, навсегда</td></tr>
-  <tr><td>Формулы + правила</td><td>ManageConstantMemoryTool</td><td>База знаний бота</td></tr>
-  <tr><td>Тренды (weekly push)</td><td>WebSearchTool (Perplexity)</td><td>Для v2</td></tr>
-  <tr><td>Критик-агент</td><td>AskAssistantTool</td><td>Отдельный ассистент, невидим пользователю</td></tr>
-  <tr><td>Генерация картинок</td><td>ImageGenTool (Replicate/KieAI)</td><td>Nano Banana</td></tr>
-  <tr><td>Подписки</td><td>Stars + Tinkoff</td><td>Встроено</td></tr>
-  <tr><td>Weekly Push</td><td>TaskTool (cron)</td><td>Вторник 10:00, четверг 10:00</td></tr>
-  <tr><td>Обратная связь 48ч</td><td>TaskTool (cron)</td><td>Через 48ч после генерации</td></tr>
+  <tr><th>#</th><th>Вопрос</th><th>Зачем</th><th>Формат</th></tr>
+  <tr><td>1</td><td>Как зовут? Чем занимаешься?</td><td>Ниша, экспертиза</td><td>Свободный текст</td></tr>
+  <tr><td>2</td><td>Кто твои клиенты? Что у них болит?</td><td>ЦА + боли + желания</td><td>Свободный текст</td></tr>
+  <tr><td>3</td><td>Цель Instagram + как общаешься?</td><td>Стратегия + ToV</td><td>Кнопки: Продажи / Экспертность / Охваты + Дерзко / Тепло / Экспертно</td></tr>
+  <tr><td>4</td><td>Визуальный стиль?</td><td>Стиль карусели</td><td>Кнопки + превью: 6 стилей</td></tr>
+  <tr><td>5</td><td>Загрузи 1-3 картинки, которые нравятся</td><td>Style DNA</td><td>Фото / скриншоты</td></tr>
 </table>
 
-<hr>
+<p><strong>Прогресс-бар:</strong> "2 из 5" на каждом шаге. Финальное подтверждение: "Маша, нутрициолог. ЦА: женщины 30+. Тон: тепло. Стиль: минимализм. Верно?"</p>
 
-<h2>SaaS: тарифы v4</h2>
+<h3>Style DNA: извлечение визуального стиля из референсов</h3>
 
-<table>
-  <tr><th></th><th>Free</th><th>Starter ($9-15/мес)</th><th>Pro ($29-49/мес)</th></tr>
-  <tr><td><strong>Каруселей</strong></td><td>1 всего (не в месяц)</td><td>12/мес (3/нед)</td><td>Безлимит</td></tr>
-  <tr><td><strong>Визуал</strong></td><td>Standard (без текста)</td><td>Standard (без текста)</td><td>Pro (с русским текстом)</td></tr>
-  <tr><td><strong>Weekly Push</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
-  <tr><td><strong>Обратная связь 48ч</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
-  <tr><td><strong>Формулы</strong></td><td>3 (PAS, How-To, Контраст)</td><td>Все 16</td><td>Все 16</td></tr>
-  <tr><td><strong>Невидимый критик</strong></td><td>Нет</td><td>Да</td><td>Да + детальный отчёт</td></tr>
-  <tr><td><strong>Видимые формулы</strong></td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td><strong>Подпись под карусель</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
-  <tr><td><strong>Стиль-донор</strong></td><td>Нет</td><td>Нет</td><td>3 анализа/мес</td></tr>
-  <tr><td><strong>Batch (5 каруселей)</strong></td><td>Нет</td><td>Нет</td><td>Да</td></tr>
-  <tr><td><strong>Streak + прогресс</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
-</table>
+<div class="prompt-block">
+  <div class="label">Промт: Style DNA (вшит в онбординг, шаг 5)</div>
+  <code>You are an art director with 15 years of experience in fashion and advertising.
 
-<div class="highlight">
-<strong>Логика:</strong> Free = 1 карусель. Достаточно, чтобы увидеть магию формул и качество. Недостаточно, чтобы пользоваться. Starter = основной тариф: 3 карусели в неделю + weekly push + все формулы. Это привычка. Pro = готовые слайды с текстом + стиль-донор + batch. Upsell Starter&rarr;Pro: превью Pro-визуала при каждой генерации.
+Analyze the uploaded image(s). Extract the visual DNA.
+
+COLOR:
+- Main palette (3-4 colors, hex codes)
+- Warm/cold, High contrast or muted, Accent color
+
+LIGHT:
+- Direction (side, top, back, diffused)
+- Soft or hard, Natural or studio
+- Shadow type and intensity
+
+COMPOSITION:
+- Focal point, Symmetry or asymmetry
+- Negative space, Object placement
+
+TEXTURE:
+- Smooth or grainy, Matte or glossy, Film effect
+
+MOOD:
+- What emotion does it evoke
+- One word to describe it: ______
+
+OUTPUT IN 2 FORMATS:
+1. RECIPE FOR SERIES (copy to every new prompt)
+2. ONE-LINE TAGS (comma-separated, English)
+
+Save as style_dna in user profile.</code>
+</div>
+
+<h3>Профиль пользователя</h3>
+
+<div class="prompt-block">
+  <div class="label">Структура профиля (ManageConstantMemoryTool)</div>
+  <code>{
+  "user_id": 123456,
+  "name": "Маша",
+  "niche": "нутрициология",
+  "expertise": "интуитивное питание, РПП",
+  "product": "воркшоп 'Еда без вины'",
+  "audience": "женщины 28-40, устали от диет",
+  "pains": ["считают калории", "чувство вины за еду", "срывы"],
+  "desires": ["есть спокойно", "похудеть без диет"],
+  "goal": "продажи",
+  "tone_of_voice": "на ты, тёплый но прямой, с юмором",
+  "banned_words": ["уникальный", "качественный"],
+  "visual_style": "minimal_light",
+  "brand_colors": {"primary": "#1a1a1a", "accent": "#e85d3a"},
+  "style_dna": "warm, soft light, matte, minimal, earthy tones",
+  "plan": "starter",
+  "carousels_made": 0,
+  "streak": 0,
+  "formulas_used": [],
+  "last_carousel_date": null,
+  "topics_history": []
+}</code>
 </div>
 
 <div class="highlight blue">
-<strong>Цены &mdash; обсудить с Денисом.</strong> Зависят от себестоимости API. Unit economics после 20-30 тестовых каруселей. Модель 50/50.
-</div>
-
-<div class="highlight green">
-<strong>Вирусная петля:</strong> На Free &mdash; мелкий водяной знак "Сделано в @carousel_bot". На платных &mdash; нет. Каждая публикация = бесплатная реклама. Плюс: после 10-й карусели бот предлагает поделиться кейсом.
+<strong>Lock-in:</strong> Чем больше пользуется, тем точнее бот знает стиль. Уйти к конкуренту = заново объяснять кто ты. Профиль = привязка.
 </div>
 
 <hr>
 
-<h2>Диалог v4: как выглядит для пользователя</h2>
+<h2>Визуальные стили (онбординг, шаг 4)</h2>
 
-<div class="schema">
-ПОЛЬЗОВАТЕЛЬ                          БОТ
+<div class="grid-3">
+  <div class="grid-item"><h4>Clean Light</h4><p>Белый, чёрный текст, минимализм. Эксперты, коучи.</p></div>
+  <div class="grid-item"><h4>Bold Dark</h4><p>Чёрный фон, акцентный текст. Бизнес, tech.</p></div>
+  <div class="grid-item"><h4>Magazine</h4><p>Журнальная вёрстка. Лайфстайл, фешн.</p></div>
+  <div class="grid-item"><h4>Gradient Pop</h4><p>Яркие градиенты, округлые формы. Креативщики.</p></div>
+  <div class="grid-item"><h4>Soft Pastel</h4><p>Пастельные тона, мягкость. Психологи, women-бренды.</p></div>
+  <div class="grid-item"><h4>Editorial</h4><p>Газетный стиль, serif, контраст. Писатели, журналисты.</p></div>
+</div>
 
-/start
-                                      "Привет! Я делаю Instagram-карусели.
-                                       За 5 минут &mdash; готовые картинки.
-
-                                       Давай познакомимся (1 из 4).
-                                       Как зовут? Чем занимаешься?"
-
-"Маша, нутрициолог.
- Интуитивное питание."
-                                      "Маша, супер. (2 из 4)
-                                       Кто твои клиенты?"
-
-"Женщины 30+, устали от диет."
-                                      "(3 из 4) Цель и стиль общения?"
-
-                                       [Продажи] [Экспертность]
-                                       [Охваты]  [Комьюнити]
-
-                [Продажи]
-                                       [Дерзко] [Тепло] [Экспертно]
-
-             [Тепло, на ты]
-                                      "(4 из 4) Визуальный стиль?"
-
-                                       [Минимализм] [Журнальный]
-                                       [Тёмный]     [Пастель]
-
-              [Минимализм]
-                                      "Готово!
-                                       Маша &middot; нутрициолог
-                                       ЦА: женщины 30+
-                                       Стиль: тепло + минимализм
-
-                                       Что делаем?"
-
-                                       [У меня есть тема]
-
-"Читинг &mdash; это не срыв"
-                                      "Генерирую... 30 сек
-
-                                       Готово!
-                                       &ldquo;Формула: PAS
-                                       (Боль &rarr; Усиление &rarr; Решение)&rdquo;
-
-                                       [1] Ты не сорвалась. Ты поела.
-                                       [2] Знакомое чувство?...
-                                       ...
-                                       [10] Воркшоп &ldquo;Еда без вины&rdquo;
-
-                                       [альбом 10 AI-картинок]
-
-                                       + Подпись для поста готова
-
-                                       [Скачать всё] [Поправить]
-
-                                       Превью Pro:
-                                       [картинка с текстом на слайде]
-                                       Хочешь так? &rarr; Pro"</div>
-
-<h3>Повторный визит (через неделю)</h3>
-
-<div class="schema">
-                    ВТОРНИК, 10:00
-
-                                      "Маша, 3 темы на этой неделе:
-
-                                       1. Голод vs аппетит &mdash; 4 маркера
-                                       2. 5 продуктов, которые зря демонизируют
-                                       3. Почему диеты не работают (цифры)
-
-                                       Какая?"
-
-               [1]
-                                      "Генерирую... 30 сек
-
-                                       &ldquo;Формула: Скользкая горка&rdquo;
-
-                                       [1] 4 сигнала тела,
-                                           которые ты не слышишь...
-                                       ...
-
-                                       [Скачать всё] [Поправить]
-
-                                       Карусель #2. Серия: 2 недели.
-                                       Использовала 2 из 16 формул."
-
-               [Скачать всё]
-
-                    ЧЕРЕЗ 48 ЧАСОВ
-
-                                      "Маша, как карусель про голод?
-
-                                       [50+ сохранений]
-                                       [10-50]
-                                       [Меньше 10]
-                                       [Не постила]"
-
-            [50+ сохранений]
-                                      "Огонь! Скользкая горка &mdash;
-                                       запомню, что работает для тебя.
-
-                                       Хочешь поделиться результатом?
-                                       (Это помогает другим)"</div>
+<p>Standard (Starter): AI-картинки без текста. Pro: картинки с русским текстом на слайде.</p>
 
 <hr>
 
-<h2>Стиль-донор (Pro, v2+)</h2>
-<p>Пользователь кидает ссылку на чужой аккаунт, бот "снимает" визуальный стиль: палитру, типографику, композицию, настроение.</p>
+<h2>Retention Engine</h2>
+<p>Три механизма, которые превращают разовое использование в привычку.</p>
 
-<div class="highlight purple">
-<strong>Как работает:</strong> "Хочу как у @designerX" &rarr; бот парсит 5-10 каруселей &rarr; vision-модель анализирует стиль &rarr; style profile (JSON) &rarr; используется для Nano Banana. Не копирование, а перенятие визуального языка.
+<div class="phase">
+  <div class="phase-num">1</div>
+  <h3>Weekly Push: бот приходит сам</h3>
+  <p><strong>Вторник, 10:00.</strong> 3 темы. Тап -- карусель за 30 сек.</p>
+  <p><strong>Четверг, 10:00.</strong> Если не зашёл: "Тема #1 набирает обороты. Карусель за 2 минуты?"</p>
+  <p>Одно напоминание в неделю, не больше. Только платные тарифы.</p>
 </div>
+
+<div class="phase">
+  <div class="phase-num">2</div>
+  <h3>Обратная связь: 48 часов после карусели</h3>
+
+  <div class="schema">
+БОТ:
+  "Маша, как карусель про читинг?
+   [50+ сохранений]
+   [10-50]
+   [Меньше 10]
+   [Не постила ещё]"</div>
+
+  <p>Обогащает профиль: бот узнаёт, какие формулы работают. Возвращает в бот. "Круто" -- предложить поделиться. "Плохо" -- предложить другую формулу.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-num">3</div>
+  <h3>Streak + прогресс</h3>
+
+  <div class="schema">
+После каждой карусели:
+  "Карусель #7. Формула: Контраст.
+   Ты использовала 5 из 16 формул.
+   Серия: 3 недели подряд."
+
+После 10 каруселей:
+  "10 каруселей! Ты освоила 6 формул.
+   Как результаты? Хочешь поделиться?"
+   --> автоматический сбор кейсов</div>
+</div>
+
+<hr>
+
+<h2>Платформенный интеллект</h2>
+<p>Вшит в промт генерации как контекст. Обновляется раз в 2 недели.</p>
+
+<div class="prompt-block">
+  <div class="label">База знаний: правила Instagram (обновляемая)</div>
+  <code>INSTAGRAM ALGORITHM RULES (обновлено: {date})
+
+ЧТО ПОЛУЧАЕТ PUSH:
+- Карусели: алгоритм показывает непролистанную повторно (второй шанс)
+- Сохранения > лайки > комментарии (по весу)
+- Первые 30 мин критичны
+- 7-10 слайдов лучше 3-5 (больше время просмотра)
+- Текст на картинке повышает время остановки скролла
+
+ЧТО ВИРУСИТСЯ:
+- Контраст "ожидание vs реальность"
+- Мини-гайды с конкретными шагами
+- Провокационные первые слайды ("Не делай X")
+- Данные/статистика в визуале
+
+ЧТО УБИВАЕТ ОХВАТЫ:
+- Внешние ссылки в тексте
+- Стоковые визуалы (алгоритм распознаёт)
+- Больше 1 карусели в день
+
+ФОРМАТ:
+- Первый слайд: max 8 слов, крупный шрифт
+- Каждый слайд: 1 мысль
+- CTA: "сохрани" > "подпишись"
+- Подпись: 150-300 слов</code>
+</div>
+
+<hr>
+
+<h2>16 формул</h2>
+<p>Ядро продукта. Каждая: структура слайдов, правила переходов, пример, ошибки.</p>
+
+<!-- ФОРМУЛА 1: PAS -->
+<div class="card">
+  <span class="tag red">Продажи</span>
+  <h4>1. PAS -- Problem > Agitate > Solution</h4>
+  <p>Классика прямых продаж. Давление через боль, усиление, спасение.</p>
+  <table>
+    <tr><td>1</td><td><strong>HOOK</strong></td><td>Провокационное утверждение. Max 8 слов.</td></tr>
+    <tr><td>2</td><td><strong>PROBLEM</strong></td><td>Конкретная боль с деталями.</td></tr>
+    <tr><td>3</td><td><strong>PROBLEM+</strong></td><td>Углубление: почему это больно.</td></tr>
+    <tr><td>4</td><td><strong>AGITATE</strong></td><td>Последствия бездействия.</td></tr>
+    <tr><td>5</td><td><strong>AGITATE+</strong></td><td>Эмоциональный пик.</td></tr>
+    <tr><td>6</td><td><strong>PIVOT</strong></td><td>"Но есть кое-что, что работает." Интрига.</td></tr>
+    <tr><td>7</td><td><strong>SOLUTION</strong></td><td>Решение: что именно. Конкретно.</td></tr>
+    <tr><td>8</td><td><strong>PROOF</strong></td><td>Цифра, кейс, факт.</td></tr>
+    <tr><td>9</td><td><strong>HOW</strong></td><td>Как получить решение.</td></tr>
+    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани и попробуй."</td></tr>
+  </table>
+  <p><strong>Правила:</strong> Слайды 2-5 нарастают. Слайд 6 -- резкий слом. Решение не раньше 7.</p>
+  <p><strong>Ошибки:</strong> Мягкая боль. Решение на слайде 3. CTA "подпишись" вместо "сохрани".</p>
+</div>
+
+<!-- ФОРМУЛА 2: BAB -->
+<div class="card">
+  <span class="tag red">Продажи</span>
+  <h4>2. BAB -- Before > After > Bridge</h4>
+  <table>
+    <tr><td>1</td><td><strong>HOOK</strong></td><td>Контраст в одной фразе.</td></tr>
+    <tr><td>2-3</td><td><strong>BEFORE</strong></td><td>Подробное "до": детали, эмоции, цифры.</td></tr>
+    <tr><td>4</td><td><strong>TURNING</strong></td><td>Момент перелома.</td></tr>
+    <tr><td>5-6</td><td><strong>AFTER</strong></td><td>"После": те же метрики, другие цифры.</td></tr>
+    <tr><td>7-8</td><td><strong>BRIDGE</strong></td><td>Что изменилось. Max 3 шага.</td></tr>
+    <tr><td>9</td><td><strong>TAKEAWAY</strong></td><td>Главный вывод.</td></tr>
+    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани, если узнала себя в 'до'."</td></tr>
+  </table>
+  <p><strong>Правила:</strong> "До" болезненно конкретным. "После" реалистичный. Мост -- max 3 шага.</p>
+</div>
+
+<!-- ФОРМУЛА 3: AIDA -->
+<div class="card">
+  <span class="tag orange">Запуски</span>
+  <h4>3. AIDA -- Attention > Interest > Desire > Action</h4>
+  <table>
+    <tr><td>1</td><td><strong>ATTENTION</strong></td><td>Шок, неожиданность, цифра.</td></tr>
+    <tr><td>2-3</td><td><strong>INTEREST</strong></td><td>Почему важно именно тебе.</td></tr>
+    <tr><td>4-5</td><td><strong>DESIRE</strong></td><td>Как будет. Сенсорные детали.</td></tr>
+    <tr><td>6-7</td><td><strong>PROOF</strong></td><td>Соцдоказательство.</td></tr>
+    <tr><td>8</td><td><strong>OFFER</strong></td><td>Что предлагается.</td></tr>
+    <tr><td>9</td><td><strong>URGENCY</strong></td><td>Почему сейчас.</td></tr>
+    <tr><td>10</td><td><strong>ACTION</strong></td><td>Одно действие.</td></tr>
+  </table>
+</div>
+
+<!-- ФОРМУЛА 4: Скользкая горка -->
+<div class="card">
+  <span class="tag purple">Экспертность</span>
+  <h4>4. Скользкая горка (Шугерман)</h4>
+  <table>
+    <tr><td>1</td><td><strong>HOOK</strong></td><td>Обещание + интрига.</td></tr>
+    <tr><td>2</td><td><strong>SETUP</strong></td><td>Контекст. Обрыв.</td></tr>
+    <tr><td>3-7</td><td><strong>SLIDE</strong></td><td>Каждый обрывается на полумысли.</td></tr>
+    <tr><td>8-9</td><td><strong>PAYOFF</strong></td><td>Кульминация.</td></tr>
+    <tr><td>10</td><td><strong>CTA</strong></td><td>"Сохрани -- перечитаешь."</td></tr>
+  </table>
+  <p><strong>Правила:</strong> КАЖДЫЙ слайд -- незавершённая мысль. Многоточие, "но...", вопрос.</p>
+</div>
+
+<!-- ФОРМУЛА 5-16: компактно -->
+<div class="card">
+  <span class="tag blue">Охваты</span>
+  <h4>5. Open Loop -- Незакрытая петля</h4>
+  <p>Обещание на первом слайде. Отдача на последнем. 1: PROMISE > 2-4: CONTEXT (не раскрывает) > 5-7: BUILD > 8-9: REVEAL > 10: CTA. Обещание ДОЛЖНО быть выполнено.</p>
+</div>
+
+<div class="card">
+  <span class="tag blue">Охваты</span>
+  <h4>6. Контраст -- Миф vs Реальность</h4>
+  <p>1: HOOK ("5 вещей, которые врали") > 2-7: 3 пары Миф > Реальность (нарастают по остроте) > 8-9: ВЫВОД > 10: CTA ("Перешли подруге").</p>
+</div>
+
+<div class="card">
+  <span class="tag purple">Подписки</span>
+  <h4>7. Сторителлинг</h4>
+  <p>1: IN MEDIAS RES > 2: BACKSTORY > 3-4: CHALLENGE > 5: ATTEMPT > 6: TURNING POINT > 7-8: ACTION > 9: RESULT (цифры) > 10: CTA. Обязательно in medias res. Детали: имена, цифры, места.</p>
+</div>
+
+<div class="card">
+  <span class="tag purple">Экспертность</span>
+  <h4>8. How-To / Listicle</h4>
+  <p>1: HOOK (обещание с цифрой) > 2-9: по шагу на слайд (1 действие, можно за 15 мин) > 10: CTA ("Сохрани как чеклист").</p>
+</div>
+
+<div class="card">
+  <span class="tag orange">Запуски</span>
+  <h4>9. FAB -- Feature > Advantage > Benefit</h4>
+  <p>1: HOOK (результат) > 2-7: 3 пары FAB > 8: SOCIAL PROOF > 9: OFFER > 10: CTA. Benefit всегда про пользователя.</p>
+</div>
+
+<div class="card">
+  <span class="tag blue">Охваты</span>
+  <h4>10. Провокация -- "Перестань делать X"</h4>
+  <p>1: УДАР > 2: УТОЧНЕНИЕ > 3-7: АРГУМЕНТЫ (факты, нарастание) > 8: АЛЬТЕРНАТИВА > 9: ИТОГ > 10: CTA ("Согласна? Пиши"). Альтернатива обязательна.</p>
+</div>
+
+<div class="card">
+  <span class="tag blue">Охваты</span>
+  <h4>11. Cliff / Cliffhanger</h4>
+  <p>1: HOOK (обрыв) > 2-8: CHAIN (каждый продолжает И обрывается) > 9: PAYOFF > 10: CTA. КАЖДЫЙ слайд обрывается. Без исключений.</p>
+</div>
+
+<div class="card">
+  <span class="tag red">Продажи</span>
+  <h4>12. Social Proof</h4>
+  <p>1: CLAIM (цифра) > 2-4: TESTIMONIALS (имя + ниша + результат) > 5-6: DATA (до/после) > 7: AUTHORITY > 8: PATTERN > 9: YOUR TURN > 10: CTA.</p>
+</div>
+
+<div class="card">
+  <span class="tag purple">Экспертность</span>
+  <h4>13. Пирамида -- от простого к сложному</h4>
+  <p>1: HOOK ("3 уровня. Большинство на первом") > 2-4: УРОВЕНЬ 1 > 5-7: УРОВЕНЬ 2 > 8-9: УРОВЕНЬ 3 (за пределами Google) > 10: CTA ("На каком ты?").</p>
+</div>
+
+<div class="card">
+  <span class="tag orange">Запуски</span>
+  <h4>14. Countdown -- Обратный отсчёт</h4>
+  <p>1: HOOK > 2-3: 5-4 (разогрев) > 4-5: 3-2 (нарастание) > 6-7: 1 (самый мощный) > 8: REVEAL > 9: URGENCY > 10: CTA (с дедлайном).</p>
+</div>
+
+<div class="card">
+  <span class="tag red">Продажи</span>
+  <h4>15. Case Study -- Было > Сделали > Стало</h4>
+  <p>1: HOOK (результат в цифрах) > 2: КТО > 3-4: БЫЛО (с цифрами) > 5-7: СДЕЛАЛИ > 8-9: СТАЛО (те же метрики) > 10: CTA.</p>
+</div>
+
+<div class="card">
+  <span class="tag purple">Экспертность</span>
+  <h4>16. Q&A / FAQ</h4>
+  <p>1: HOOK ("7 вопросов, на которые устала отвечать") > 2-9: Q&A по одному на слайд > 10: CTA ("Какой не закрыла? Пиши").</p>
+</div>
+
+<hr>
+
+<h2>Тарифы</h2>
+
+<table>
+  <tr><th></th><th>Free</th><th>Starter ($9-15/мес)</th><th>Pro ($29-49/мес)</th></tr>
+  <tr><td><strong>Каруселей</strong></td><td>1 всего</td><td>12/мес (3/нед)</td><td>Безлимит</td></tr>
+  <tr><td><strong>Визуал</strong></td><td>Standard (без текста)</td><td>Standard</td><td>Pro (текст на картинке)</td></tr>
+  <tr><td><strong>Weekly Push</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
+  <tr><td><strong>Обратная связь 48ч</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
+  <tr><td><strong>Формулы</strong></td><td>3 (PAS, How-To, Контраст)</td><td>Все 16</td><td>Все 16</td></tr>
+  <tr><td><strong>Невидимый критик</strong></td><td>Нет</td><td>Да</td><td>Да + отчёт</td></tr>
+  <tr><td><strong>Подпись</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
+  <tr><td><strong>Style DNA</strong></td><td>Нет</td><td>Да</td><td>Да + стиль-донор</td></tr>
+  <tr><td><strong>Batch (5 каруселей)</strong></td><td>Нет</td><td>Нет</td><td>Да</td></tr>
+  <tr><td><strong>Streak</strong></td><td>Нет</td><td>Да</td><td>Да</td></tr>
+  <tr><td><strong>Водяной знак</strong></td><td>Да</td><td>Нет</td><td>Нет</td></tr>
+</table>
+
+<div class="highlight">
+<strong>Free = 1 карусель.</strong> Достаточно увидеть магию. Недостаточно пользоваться. Starter = основной тариф. Pro = готовые слайды с текстом.
+</div>
+
+<hr>
+
+<h2>Стиль-донор (Pro)</h2>
+<p>Пользователь кидает ссылку на чужой аккаунт. Бот "снимает" визуальный стиль: палитру, типографику, композицию.</p>
 
 <div class="prompt-block">
   <div class="label">Промт: анализ визуального стиля донора</div>
-  <code>Ты &mdash; визуальный аналитик. Тебе дают изображения каруселей.
+  <code>You are an art director with 15 years of experience.
 
-ЗАДАЧА: Извлеки визуальный стиль. НЕ контент &mdash; только визуальный язык.
+I'm uploading carousel images from a reference account.
+Analyze the visual DNA. NOT content -- only visual language.
 
-1. ПАЛИТРА: фон (HEX), текст (HEX), акцент (HEX), тип (тёплая/холодная/контрастная)
-2. ТИПОГРАФИКА: тип шрифта, начертание, размер, капс
-3. КОМПОЗИЦИЯ: расположение текста, плотность, пространство
-4. ФОН: тип + описание
-5. НАСТРОЕНИЕ: одно слово + описание
+COLOR: Main palette (hex), Warm/cold, Contrast, Accent
+LIGHT: Direction, Soft/hard, Shadow
+COMPOSITION: Focal point, Symmetry, Negative space
+TEXTURE: Smooth/grainy, Matte/glossy, Film effect
+MOOD: Emotion, One word: ______
 
-ФОРМАТ: JSON для сохранения в профиль.</code>
+OUTPUT:
+1. RECIPE FOR SERIES (copy to every new prompt)
+2. ONE-LINE TAGS (comma-separated)
+3. JSON for style_dna profile field
+
+Not copying -- extracting visual language.</code>
 </div>
 
 <hr>
 
-<h2>Риски</h2>
+<h2>Tech stack: AIFromSpace</h2>
 
 <table>
-  <tr><th>Риск</th><th>Вероятность</th><th>Решение</th></tr>
-  <tr><td>Nano Banana нестабильна / дорожает</td><td>Средняя</td><td>Fallback на другую модель. Абстракция в коде.</td></tr>
-  <tr><td>LLM генерит банальности</td><td>Высокая</td><td>Невидимый критик + антибанальный фильтр + few-shot примеры</td></tr>
-  <tr><td>Consistency 10 слайдов</td><td>Средняя</td><td>Жёсткие константы в промте (HEX, layout). Тест на 5 каруселях.</td></tr>
-  <tr><td>Бросают на онбординге</td><td>Высокая</td><td>4 вопроса (было 6), кнопки, прогресс-бар. Ретаргет через 24ч.</td></tr>
-  <tr><td>Free не конвертятся</td><td>Средняя</td><td>Free = 1 карусель всего (было 3/мес). Превью Pro при генерации.</td></tr>
-  <tr><td>Пользователь забывает про бот</td><td>Высокая</td><td><strong>Weekly push + обратная связь 48ч + streak.</strong> Retention Engine.</td></tr>
-  <tr><td>Водяной знак удаляют</td><td>Высокая</td><td>Только на Free. На платных &mdash; нет. Стимул платить.</td></tr>
-  <tr><td>Один вариант &mdash; не нравится</td><td>Средняя</td><td>Кнопка "Поправить" открывает режим эксперта (3 варианта, смена формулы).</td></tr>
+  <tr><th>Что</th><th>Инструмент</th><th>Заметки</th></tr>
+  <tr><td>LLM (тексты, агенты 1-6)</td><td>CallLLMTool (OpenRouter)</td><td>7 вызовов на 1 карусель</td></tr>
+  <tr><td>Профиль</td><td>ManageConstantMemoryTool</td><td>Per-user, навсегда</td></tr>
+  <tr><td>Формулы + правила</td><td>ManageConstantMemoryTool</td><td>База знаний бота</td></tr>
+  <tr><td>Критик-агент</td><td>AskAssistantTool</td><td>Отдельный ассистент</td></tr>
+  <tr><td>Картинки</td><td>ImageGenTool</td><td>Nano Banana / Replicate</td></tr>
+  <tr><td>Тренды (weekly push)</td><td>WebSearchTool (Perplexity)</td><td>Для v2</td></tr>
+  <tr><td>Подписки</td><td>Stars + Tinkoff</td><td>Встроено</td></tr>
+  <tr><td>Weekly Push</td><td>TaskTool (cron)</td><td>Вт 10:00, Чт 10:00</td></tr>
+  <tr><td>Feedback 48ч</td><td>TaskTool (cron)</td><td>+48ч после генерации</td></tr>
+  <tr><td>Style DNA (vision)</td><td>CallLLMTool (vision)</td><td>Анализ загруженных картинок</td></tr>
 </table>
 
 <hr>
 
-<h2>Roadmap v4</h2>
+<h2>Roadmap</h2>
 
-<h3>MVP (Денис строит, Ира даёт мозги)</h3>
 <div class="card">
   <span class="tag red">MVP</span>
   <h4>Минимум для первых пользователей</h4>
-  <p>Онбординг (4 вопроса) &rarr; своя тема &rarr; 1 вариант текста (авто-формула из 3 базовых + невидимый критик) &rarr; AI-картинки (Standard). Весь путь за 5 минут.</p>
-  <p><strong>Ира:</strong> 3 формулы (PAS, Контраст, How-To) + промты + платформенный интеллект v1.</p>
-  <p><strong>Денис:</strong> Бот на платформе, ImageGen, memory для профилей.</p>
-  <p><strong>Без:</strong> трендов, Pro-визуала, подписок, weekly push, стиль-донора.</p>
+  <p>Онбординг (4 вопроса, без Style DNA) > своя тема > 7 агентов (3 базовые формулы) > AI-картинки Standard.</p>
+  <p><strong>Готово от меня:</strong> 3 формулы (PAS, Контраст, How-To) + все промты + платформенный интеллект + few-shot пример.</p>
+  <p><strong>Нужно от тебя:</strong> бот на платформе, ImageGen, memory для профилей, pipeline 7 агентов.</p>
+  <p><strong>Без:</strong> трендов, Pro-визуала, подписок, weekly push, Style DNA, стиль-донора.</p>
 </div>
 
-<h3>v1: все формулы + монетизация</h3>
+<h3>v1: монетизация</h3>
 <ul style="padding-left: 20px; margin: 12px 0;">
   <li>Все 16 формул</li>
-  <li>Подписки (Stars + Tinkoff): Free / Starter / Pro</li>
+  <li>Подписки: Free / Starter / Pro</li>
   <li>Pro-визуал: картинки с текстом</li>
-  <li>Upsell: превью Pro при каждой Standard генерации</li>
   <li>Подпись под карусель</li>
+  <li>Style DNA в онбординге</li>
 </ul>
 
-<h3>v2: Retention Engine</h3>
+<h3>v2: retention</h3>
 <ul style="padding-left: 20px; margin: 12px 0;">
-  <li>Weekly Push (вторник 10:00 + четверг напоминание)</li>
-  <li>Обратная связь через 48 часов</li>
+  <li>Weekly Push (cron)</li>
+  <li>Обратная связь 48ч</li>
   <li>Streak + прогресс</li>
   <li>Тренды ниши (WebSearch)</li>
   <li>Стиль-донор (Pro)</li>
@@ -1401,75 +965,154 @@
 <h3>v3: рост</h3>
 <ul style="padding-left: 20px; margin: 12px 0;">
   <li>Batch: "5 каруселей на неделю"</li>
-  <li>Upsell на дорогие услуги (лендинг, упаковка бренда)</li>
-  <li>Автоматический сбор кейсов (после 10-й карусели)</li>
   <li>Контент-календарь</li>
+  <li>Автосбор кейсов (после 10-й карусели)</li>
   <li>Реферальная программа</li>
 </ul>
 
 <hr>
 
-<h2 style="color: #dc2626;">Что ещё доработать</h2>
+<h2>Вопросы к тебе, Денис</h2>
 
 <div class="card" style="border-color: #dc2626;">
-  <span class="tag red">Открыто</span>
-  <h4>Тестирование Nano Banana &mdash; промты для картинок</h4>
-  <p>Промт теоретический. Нужна сессия: 30-50 промтов &rarr; правила &rarr; nano_banana_rules. Без этого визуал нестабильный.</p>
-  <p><strong>Действие:</strong> 2-3 часа тестирования. Результат: база знаний для бота.</p>
+  <span class="tag red">Критично для MVP</span>
+  <h4>1. ImageGenTool + Nano Banana</h4>
+  <p>Работает через Replicate/KieAI? Формат 1080x1350? Consistency между 10 слайдами?</p>
 </div>
 
 <div class="card" style="border-color: #dc2626;">
-  <span class="tag red">Открыто</span>
-  <h4>Consistency: единый стиль 10 слайдов</h4>
-  <p>Каждый вызов &mdash; независимый. Решение: стилевой якорь. Протестировать на 5 каруселях.</p>
+  <span class="tag red">Критично для MVP</span>
+  <h4>2. Pipeline 7 агентов</h4>
+  <p>AskAssistantTool -- можно цепочкой? Или лучше один ассистент с длинным промтом? Время ответа?</p>
 </div>
 
 <div class="card" style="border-color: #ea580c;">
-  <span class="tag orange">Обсудить с Денисом</span>
-  <h4>Unit economics</h4>
-  <p>Себестоимость после 20-30 тестовых каруселей. Модель 50/50.</p>
+  <span class="tag orange">Для v1</span>
+  <h4>3. TaskTool (cron)</h4>
+  <p>Поддерживает расписание? Вт 10:00 push + 48ч после генерации feedback. Возможности?</p>
 </div>
 
 <div class="card" style="border-color: #ea580c;">
-  <span class="tag orange">Обсудить с Денисом</span>
-  <h4>Cron для Weekly Push и обратной связи</h4>
-  <p>TaskTool поддерживает cron? Нужно: вторник 10:00 (push), +48ч после генерации (feedback). Проверить возможности платформы.</p>
+  <span class="tag orange">Для v1</span>
+  <h4>4. Vision для Style DNA</h4>
+  <p>Пользователь загружает картинки. CallLLMTool с vision-моделью -- работает? Какая модель?</p>
 </div>
 
-<div class="card" style="border-color: #ca8a04;">
-  <span class="tag yellow">Решено в v4</span>
-  <h4>Pipeline слишком длинный &rarr; Opinionated Bot</h4>
-  <p>Было: 5-7 решений. Стало: 1-2. Критик под капотом. Один вариант. Авто-формула.</p>
-</div>
-
-<div class="card" style="border-color: #ca8a04;">
-  <span class="tag yellow">Решено в v4</span>
-  <h4>Нет retention &rarr; Retention Engine</h4>
-  <p>Было: бот реактивный. Стало: weekly push + feedback 48ч + streak.</p>
-</div>
-
-<div class="card" style="border-color: #ca8a04;">
-  <span class="tag yellow">Решено в v4</span>
-  <h4>Free = 3/мес (слишком щедро) &rarr; Free = 1 всего</h4>
-  <p>Было: casual-пользователь никогда не платит. Стало: 1 карусель = "вау", но недостаточно.</p>
+<div class="card" style="border-color: #ea580c;">
+  <span class="tag orange">Обсудить</span>
+  <h4>5. Unit economics</h4>
+  <p>7 LLM-вызовов + 5-10 картинок на карусель. Себестоимость? Определит финальные цены.</p>
 </div>
 
 <hr>
 
-<h2>Итого: что нести Денису</h2>
+<h2>Диалог: как выглядит для пользователя</h2>
 
-<ol class="steps">
-  <li><strong>Этот документ.</strong> v4: Opinionated Bot (1-2 решения вместо 7) + Retention Engine (push + feedback + streak) + новые тарифы (Free=1, Starter=$9-15, Pro=$29-49). Все 16 формул + промты с few-shot готовы.</li>
-  <li><strong>Три вопроса к Денису:</strong> (1) Nano Banana через ImageGenTool &mdash; работает? (2) TaskTool поддерживает cron для weekly push и 48ч feedback? (3) WebSearchTool достаточно для трендов ниши?</li>
-  <li><strong>Тестирование визуала (после встречи).</strong> 30-50 промтов. Записать правила. Проверить consistency. ~2-3 часа.</li>
-  <li><strong>Unit economics (после тестов).</strong> Реальная себестоимость &rarr; финальные цены.</li>
-  <li><strong>Ира: пройтись по формулам.</strong> Заменить примеры на реальные кейсы. Добавить few-shot из лучших каруселей.</li>
-</ol>
+<div class="schema">
+ПОЛЬЗОВАТЕЛЬ                          БОТ
+
+/start
+                                      "Привет! Я делаю Instagram-карусели
+                                       по маркетинговым формулам.
+                                       За 5 минут -- готовые картинки.
+
+                                       Давай познакомимся (1 из 5).
+                                       Как зовут? Чем занимаешься?"
+
+"Маша, нутрициолог.
+ Интуитивное питание."
+                                      "(2 из 5) Кто твои клиенты?
+                                       Что у них болит?"
+
+"Женщины 30+, устали от диет,
+ считают калории, срываются."
+                                      "(3 из 5) Цель и стиль?"
+
+                                       [Продажи] [Экспертность]
+                                       [Охваты]  [Подписки]
+
+            [Продажи]
+                                       [Дерзко] [Тепло] [Экспертно]
+
+            [Тепло]
+                                      "(4 из 5) Визуальный стиль?"
+
+                                       [Clean Light] [Bold Dark]
+                                       [Magazine]    [Soft Pastel]
+
+            [Soft Pastel]
+                                      "(5 из 5) Скинь 1-3 картинки,
+                                       которые нравятся по стилю."
+
+         [фото]
+                                      "Готово!
+                                       Маша, нутрициолог
+                                       ЦА: женщины 30+, диеты
+                                       Стиль: тепло + пастель
+                                       Верно?"
+
+            [Да]
+                                       "О чём карусель?"
+
+"Читинг -- это не срыв"
+                                      "Генерирую... 30 сек
+
+                                       Готово!
+                                       Формула: PAS
+                                       (Боль > Усиление > Решение)
+
+                                       [1] Ты не сорвалась. Ты поела.
+                                       [2] Знакомое чувство?...
+                                       ...
+                                       [10] Воркшоп 'Еда без вины'
+
+                                       [альбом 10 AI-картинок]
+                                       + Подпись для поста
+
+                                       [Скачать всё] [Поправить]"</div>
+
+<h3>Повторный визит</h3>
+
+<div class="schema">
+                   ВТОРНИК, 10:00
+
+                                      "Маша, 3 темы на этой неделе:
+
+                                       1. Голод vs аппетит -- 4 маркера
+                                       2. 5 продуктов, которые зря
+                                          демонизируют
+                                       3. Почему диеты не работают
+                                          (цифры)
+
+                                       Какая?"
+
+            [1]
+                                      "Генерирую...
+
+                                       Формула: Скользкая горка
+
+                                       [1] 4 сигнала тела,
+                                           которые ты не слышишь...
+                                       ...
+
+                                       [Скачать всё] [Поправить]
+
+                                       Карусель #2. Серия: 2 недели.
+                                       2 из 16 формул."
+
+                   ЧЕРЕЗ 48 ЧАСОВ
+
+                                      "Маша, как карусель про голод?
+
+                                       [50+ сохранений]
+                                       [10-50]
+                                       [Меньше 10]
+                                       [Не постила]"</div>
 
 <div class="footer">
-  Carousel Bot v4 &mdash; Opinionated Bot + Retention Engine<br>
-  50/50 с Денисом. Платформа AIFromSpace.<br>
-  v4: 27 февраля 2026. Обновлено из v3 (25.02).
+  Carousel Bot -- техническая спецификация<br>
+  Платформа AIFromSpace<br>
+  Февраль 2026
 </div>
 
 </body>
