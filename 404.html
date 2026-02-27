@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Ира Буян</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #FFFFFF;
+            color: #1A1A1A;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 24px;
+            max-width: 480px;
+        }
+
+        .code {
+            font-size: clamp(96px, 20vw, 160px);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: #C4654E;
+            margin-bottom: 24px;
+        }
+
+        .message {
+            font-size: clamp(18px, 3vw, 22px);
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 40px;
+            color: #1A1A1A;
+        }
+
+        .links {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .link {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .link-primary {
+            background: #C4654E;
+            color: #FFFFFF;
+        }
+        .link-primary:hover {
+            background: #E8917A;
+            transform: translateY(-1px);
+        }
+
+        .link-secondary {
+            background: #FFFFFF;
+            color: #1A1A1A;
+            border: 2px solid #E8E5E0;
+        }
+        .link-secondary:hover {
+            border-color: #B0ACA6;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 480px) {
+            .links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="code">404</div>
+    <p class="message">Такой страницы нет. Но есть кое-что получше.</p>
+    <div class="links">
+        <a href="/" class="link link-primary">На главную &rarr;</a>
+        <a href="https://t.me/ira_and_ai" class="link link-secondary" target="_blank">В Telegram &rarr;</a>
+    </div>
+</div>
+
+</body>
+</html>

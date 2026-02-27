@@ -68,6 +68,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -163,6 +164,34 @@
 
         .nav-links a:hover {
             color: var(--text);
+        }
+
+        /* Burger button — hidden on desktop */
+        .burger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 101;
+        }
+        .burger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .burger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .burger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .burger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
         }
 
         /* ===================== HERO ===================== */
@@ -919,7 +948,32 @@
 
         /* ===================== RESPONSIVE ===================== */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
+            .burger { display: block; }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 32px;
+                z-index: 100;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-links a {
+                font-size: 20px;
+                font-weight: 600;
+                color: var(--text);
+            }
 
             .hero { padding: 100px 20px 60px; min-height: auto; padding-top: 140px; }
 
@@ -1012,12 +1066,15 @@
 <nav id="nav">
     <div class="nav-inner">
         <a href="#" class="nav-logo">Ира Буян <span style="color:var(--mid-gray);font-weight:400;font-size:14px">(ira&amp;ai)</span></a>
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <li><a href="#products">Курсы</a></li>
             <li><a href="/services/">Услуги</a></li>
             <li><a href="#rehab">AI реХАБ</a></li>
             <li><a href="#about">Обо мне</a></li>
         </ul>
+        <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
     </div>
 </nav>
 
@@ -1061,7 +1118,7 @@
             </a>
 
             <!-- Card 1: Carousels -->
-            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card fallable">
+            <a href="/carousel-lead-magnet/" class="product-card fallable">
                 <div class="product-tag live">Доступен в записи</div>
                 <h3>Карусели с AI</h3>
                 <p>За 3 дня вы начнёте делать карусели для Instagram, которые собирают сохранения. 15 готовых промптов — вставил и работает.</p>
@@ -1268,6 +1325,19 @@ window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
+// Mobile burger menu
+function toggleMenu() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('navLinks').classList.toggle('open');
+}
+// Close menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.getElementById('burger').classList.remove('open');
+        document.getElementById('navLinks').classList.remove('open');
+    });
+});
+
 // Consent checkbox — enable/disable submit button
 function toggleSubmit(checkbox) {
     const form = checkbox.closest('form');
@@ -1275,7 +1345,10 @@ function toggleSubmit(checkbox) {
     btn.disabled = !checkbox.checked;
 }
 
-// Email form handler — calls Unisender API directly
+// Email form handler — calls subscribe proxy (API key is server-side)
+// TODO: replace with your Cloudflare Worker URL after deploy (see subscribe-worker.js)
+var SUBSCRIBE_WORKER_URL = 'https://subscribe.iraai.ru/';
+
 function handleSubscribe(form) {
     const input = form.querySelector('input[name="email"]');
     const email = input.value.trim();
@@ -1286,14 +1359,11 @@ function handleSubscribe(form) {
     btn.textContent = '...';
     btn.disabled = true;
 
-    const url = 'https://api.unisender.com/ru/api/subscribe?format=json'
-        + '&api_key=6969h5yp3ohwypfirjiw8hcunh1j8ykguo9657fo'
-        + '&list_ids=1'
-        + '&fields[email]=' + encodeURIComponent(email)
-        + '&double_optin=3'
-        + '&overwrite=2';
-
-    fetch(url, { mode: 'no-cors' })
+    fetch(SUBSCRIBE_WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+    })
         .then(() => {
             input.value = '';
             input.style.display = 'none';

@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carousel Constructor — Ira & AI</title>
 <meta name="robots" content="noindex, nofollow">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -323,6 +329,19 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 .btn-primary:hover { background: #c62d38; }
 .btn-secondary { background: #333; color: #fff; }
 .btn-secondary:hover { background: #444; }
+.btn-warn { background: #E63946; color: #fff; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+/* === SLIDE DOWNLOAD BUTTONS === */
+.dl-slide-btn {
+    display: inline-block; margin-left: 12px; padding: 2px 10px;
+    background: #E63946; color: #fff; font-size: 10px; border-radius: 3px;
+    cursor: pointer; font-family: 'Roboto Mono', monospace; letter-spacing: 0.05em;
+    opacity: 0; transition: opacity 0.2s; vertical-align: middle;
+}
+.phone-wrap:hover .dl-slide-btn { opacity: 1; }
+.dl-slide-btn:hover { background: #c62d38; }
+.dl-slide-btn.busy { background: #555; pointer-events: none; }
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
@@ -527,12 +546,14 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 </div><!-- slides-wrap -->
 
 <div class="bottombar">
-    <button class="btn-secondary" onclick="downloadInfo()">СКАЧАТЬ (PNG)</button>
-    <button class="btn-primary" onclick="fullscreen()">НА ВЕСЬ ЭКРАН</button>
+    <button class="btn-secondary" onclick="saveHTML()">СОХРАНИТЬ HTML</button>
+    <button class="btn-primary" onclick="downloadAllSlides()" id="btn-dl-all">СКАЧАТЬ ВСЕ PNG</button>
+    <button class="btn-secondary" onclick="fullscreen()">НА ВЕСЬ ЭКРАН</button>
 </div>
 
 </div><!-- app -->
 
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 // === PASSWORD ===
 const PASS_HASH = 'e34f6dec12c4f4599eba078f31ae8139420d21b1bd2d7ced7d22b09c2074fb48';
@@ -721,8 +742,48 @@ function applyScale() {
 }
 
 // === ACTIONS ===
-function downloadInfo() {
-    alert('Для скриншота слайда:\n\n1. Поставьте масштаб на 100% (в Settings)\n2. Cmd + Shift + 4 (Mac) или Win + Shift + S (Windows)\n3. Выделите слайд\n\nКаждый слайд = 1080 x 1350px (Instagram)');
+function saveHTML() {
+    const clone = document.documentElement.cloneNode(true);
+    const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = document.title.replace(/ — .*/, '') + '.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+async function downloadSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    if (!slides[index]) return;
+    const slide = slides[index];
+    const btn = slide.closest('.phone-wrap').querySelector('.dl-slide-btn');
+    if (btn) { btn.textContent = '...'; btn.classList.add('busy'); }
+    try {
+        const canvas = await html2canvas(slide, {
+            width: 1080, height: 1350, scale: 1,
+            useCORS: true, allowTaint: true,
+            backgroundColor: null, logging: false
+        });
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
+        const num = String(index + 1).padStart(2, '0');
+        a.download = 'slide-' + num + '.png';
+        a.click();
+    } catch(e) { alert('Ошибка: ' + e.message); }
+    if (btn) { btn.textContent = 'PNG'; btn.classList.remove('busy'); }
+}
+
+async function downloadAllSlides() {
+    const btn = document.getElementById('btn-dl-all');
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    btn.textContent = '0 / ' + total;
+    for (let i = 0; i < total; i++) {
+        btn.textContent = (i + 1) + ' / ' + total;
+        await downloadSlide(i);
+        await new Promise(r => setTimeout(r, 600));
+    }
+    btn.textContent = 'СКАЧАТЬ ВСЕ PNG';
 }
 
 function fullscreen() {
@@ -733,8 +794,17 @@ function fullscreen() {
     window.scrollTo(0, 0);
 }
 
-// Init
+// === INIT ===
 setStyle('nike');
+
+// Add per-slide PNG download buttons
+document.querySelectorAll('.slide-label').forEach((label, i) => {
+    const btn = document.createElement('span');
+    btn.className = 'dl-slide-btn';
+    btn.textContent = 'PNG';
+    btn.onclick = (e) => { e.stopPropagation(); downloadSlide(i); };
+    label.appendChild(btn);
+});
 </script>
 </body>
 </html>
