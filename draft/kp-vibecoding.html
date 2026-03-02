@@ -212,7 +212,7 @@
   /* Pricing */
   .pricing-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 16px;
     margin-top: 48px;
   }
@@ -401,8 +401,11 @@
     transform: translateY(0);
   }
 
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 640px) {
-    .what-grid, .pricing-grid { grid-template-columns: 1fr; }
+    .what-grid { grid-template-columns: 1fr; }
     .what-item:first-child, .what-item:nth-child(2),
     .what-item:nth-child(3), .what-item:last-child { border-radius: 0; }
     .what-item:first-child { border-radius: 16px 16px 0 0; }
@@ -530,6 +533,22 @@
           <li>Собирает контакты заинтересованных</li>
           <li>2 раунда правок</li>
           <li>Поддержка 2 недели после запуска</li>
+        </ul>
+        <a href="https://t.me/ira_and_ai" target="_blank" class="plan-cta">Обсудить</a>
+      </div>
+
+      <div class="plan">
+        <p class="plan-tag">Максимум</p>
+        <div class="plan-price">150 000 ₽</div>
+        <p class="plan-price-note">Сайт + AI + Backend · срок 4–6 недель</p>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><strong>Всё из тарифа Рекомендую</strong></li>
+          <li>Многостраничный сайт (каталог, разделы, контакты)</li>
+          <li>Backend: формы заявок, CRM-интеграция, админка</li>
+          <li>Telegram-бот: сбор запросов, рекомендации по продукту</li>
+          <li>AI-агенты по функциям (продажи, поддержка, квалификация)</li>
+          <li>Деплой + техподдержка 1 месяц</li>
         </ul>
         <a href="https://t.me/ira_and_ai" target="_blank" class="plan-cta">Обсудить</a>
       </div>
