@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бренд года в России — Набор инструментов</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#fafafa;color:#222;line-height:1.6;padding:40px 20px}
+.container{max-width:800px;margin:0 auto}
+h1{font-size:2rem;margin-bottom:10px;font-weight:700}
+.subtitle{color:#666;margin-bottom:8px;font-size:0.95rem}
+.meta{color:#999;font-size:0.85rem;margin-bottom:40px}
+.setup{background:#fff;border:2px solid #000;padding:20px;margin-bottom:30px;border-radius:8px}
+.setup strong{display:block;margin-bottom:8px}
+.setup ol{padding-left:20px}
+.setup li{margin:4px 0;font-size:0.9rem}
+.step{background:#fff;border:1px solid #ddd;border-radius:8px;padding:25px;margin-bottom:20px}
+.step-num{display:inline-block;width:28px;height:28px;background:#000;color:#fff;border-radius:50%;text-align:center;line-height:28px;font-weight:700;font-size:0.9rem;margin-right:10px}
+.step-title{font-size:1.1rem;font-weight:600;margin-bottom:6px}
+.when{font-size:0.85rem;color:#666;margin-bottom:15px;padding-left:38px}
+.prompt{background:#f5f5f5;border-left:3px solid #000;padding:15px;margin:15px 0;font-family:monospace;font-size:0.82rem;white-space:pre-wrap;position:relative;padding-right:80px}
+.copy{position:absolute;top:10px;right:10px;background:#000;color:#fff;border:none;padding:4px 10px;font-size:0.7rem;cursor:pointer;border-radius:4px}
+.copy:hover{background:#333}
+.checklist{margin:20px 0}
+.checklist label{display:flex;align-items:center;gap:10px;padding:9px 0;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:0.95rem}
+.checklist label:last-child{border-bottom:none}
+.checklist input{width:18px;height:18px;flex-shrink:0;cursor:pointer;accent-color:#000}
+.checklist label.done{text-decoration:line-through;color:#aaa}
+.progress{font-size:0.9rem;color:#555;margin-bottom:20px}
+.progress span{font-weight:700;color:#000}
+.faq{margin-top:50px;border-top:2px solid #ddd;padding-top:30px}
+.faq h2{margin-bottom:20px}
+.faq-item{margin-bottom:20px}
+.faq-item h4{font-size:0.95rem;margin-bottom:5px;font-weight:600}
+.faq-item p{font-size:0.9rem;color:#555}
+.kpi-table{width:100%;border-collapse:collapse;margin:15px 0;font-size:0.9rem}
+.kpi-table th,.kpi-table td{border:1px solid #ddd;padding:10px 14px;text-align:left}
+.kpi-table th{background:#f0f0f0;font-weight:600}
+.kpi-table td:last-child{font-weight:600}
+.impl-steps{padding-left:20px;margin:10px 0}
+.impl-steps li{margin:6px 0;font-size:0.9rem}
+.impl-steps h4{margin:16px 0 6px;font-size:0.95rem;font-weight:600;list-style:none}
+footer{margin-top:60px;padding-top:30px;border-top:1px solid #ddd;text-align:center;color:#999;font-size:0.85rem}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Премия «Бренд года в России»</h1>
+<p class="subtitle">Набор инструментов для привлечения участников</p>
+<p class="meta">Дата: 02.03.2026 · Версия 1.0 · Для отдела развития и аналитики · Цель: 300 → 600–750 участников к ноябрю 2026</p>
+
+<div class="setup">
+<strong>Как использовать</strong>
+<ol>
+<li>Скопировать нужный промпт (кнопка «Copy»)</li>
+<li>Заменить данные в <strong>[квадратных скобках]</strong> на реальные</li>
+<li>Вставить в <strong>Perplexity</strong> (для поиска) или <strong>Perplexity Deep Research</strong> (для поиска людей)</li>
+<li>Получить результат за 3–5 минут вместо 1–2 часов</li>
+</ol>
+</div>
+
+<div class="progress">Выполнено: <span id="done-count">0</span> из 7 инструментов</div>
+
+<!-- ИНСТРУМЕНТ 1 -->
+<div class="step">
+<div class="step-title"><span class="step-num">1</span>Быстрая проверка компании</div>
+<div class="when">Perplexity · Есть название или ИНН — нужно за 3 минуты понять: подходит или нет</div>
+<div class="prompt"><button class="copy" onclick="copyPrompt(this)">Copy</button>Ты — эксперт по анализу брендов и корпоративной разведке для национальной премии «Бренд года в России».
+Задача: Проверить компанию и определить, подходит ли она для участия в премии.
+
+ДАННЫЕ КОМПАНИИ:
+- Название: [НАЗВАНИЕ КОМПАНИИ]
+- ИНН: [НОМЕР] (если известен)
+- Регион: [ГОРОД/РЕГИОН]
+
+КРИТЕРИИ ПРОВЕРКИ:
+1. География: ведёт деятельность на территории РФ (обязательно)
+2. Статус бренда: успешный, активно развивающийся бренд
+3. Период достижений: заметная активность в 2024–2025 гг.
+4. Размер: любой (Высшая лига — крупные, Первая лига — малые/средние)
+5. Отрасль: любая (у премии более 100 номинаций)
+6. Репутация: нет банкротства, крупных скандалов, долгов
+
+ФОРМАТ ОТВЕТА:
+1. ОСНОВНАЯ ИНФОРМАЦИЯ — название, ИНН, сайт, ОКВЭД, сфера
+2. АНАЛИЗ БРЕНДА (2024–2025) — достижения, PR-присутствие
+3. КЛАССИФИКАЦИЯ — B2B/B2C, рекомендуемая лига, потенциальные номинации
+4. ОЦЕНКА: ✅ ПОДХОДИТ / ⚠ ЧАСТИЧНО / ❌ НЕ ПОДХОДИТ + обоснование
+5. РЕКОМЕНДАЦИЯ — приоритет (ВЫСОКИЙ/СРЕДНИЙ/НИЗКИЙ) + следующий шаг
+
+Используй данные за последние 12 месяцев. Укажи источники.</div>
+</div>
+
+<!-- ИНСТРУМЕНТ 2 -->
+<div class="step">
+<div class="step-title"><span class="step-num">2</span>Поиск ЛПР</div>
+<div class="when">Perplexity Deep Research · Компания подходит — нужно найти директора по маркетингу, PR или CEO</div>
+<div class="prompt"><button class="copy" onclick="copyPrompt(this)">Copy</button>Ты — специалист по поиску ЛПР (лиц, принимающих решения) в российском бизнесе.
+КОМПАНИЯ: [НАЗВАНИЕ КОМПАНИИ]
+РЕГИОН: [ГОРОД]
+САЙТ: [URL]
+
+ЦЕЛЕВЫЕ ПОЗИЦИИ:
+- Директор по маркетингу (CMO) / Руководитель отдела маркетинга
+- PR-директор / Руководитель пресс-службы
+- Бренд-менеджер
+- Генеральный директор (CEO) — для малых брендов (Первая лига)
+
+АЛГОРИТМ ПОИСКА:
+1. ЕГРЮЛ — ФИО гендиректора
+2. Сайт — разделы «О нас», «Команда», «Контакты», «Пресс-центр»
+3. TenChat, ВКонтакте — поиск по названию компании + должность
+4. СМИ — интервью в Sostav, AdIndex, РБК за 2024–2025 гг.
+5. Конференции — списки спикеров маркетинговых форумов
+
+ФОРМАТ РЕЗУЛЬТАТА:
+Для каждого ЛПР:
+### [ФИО]
+- Должность: [точное название]
+- Контакты: [email / телефон / ссылка на профиль]
+- Источник: [ссылка]
+- Влияние на решение по премии: ВЫСОКОЕ / СРЕДНЕЕ
+- Актуальность: ✅ подтверждено из 2+ источников / ⚠ требует проверки
+
+РЕКОМЕНДАЦИИ ПО КОНТАКТУ:
+- О чём говорить: [упомянуть конкретный проект бренда за 2024 год]
+- Канал: [где человек наиболее активен]</div>
+</div>
+
+<!-- ИНСТРУМЕНТ 3 -->
+<div class="step">
+<div class="step-title"><span class="step-num">3</span>Поиск похожих брендов</div>
+<div class="when">Perplexity · Нашли идеального участника — нужно найти ещё 10–15 таких же</div>
+<div class="prompt"><button class="copy" onclick="copyPrompt(this)">Copy</button>Ты — эксперт по анализу рынка B2B и B2C в России.
+ЗАДАЧА: Найти компании, похожие на [НАЗВАНИЕ ЭТАЛОННОЙ КОМПАНИИ], для приглашения в премию «Бренд года в России».
+
+ЭТАЛОН: [НАЗВАНИЕ], Отрасль: [ОТРАСЛЬ], Регион: [ГОРОД]
+
+КРИТЕРИИ ПОИСКА:
+1. Тот же или соседний регион РФ
+2. Похожий масштаб (та же лига — Высшая/Первая)
+3. Активный брендинг и присутствие в инфополе в 2024–2025 гг.
+4. Работа в номинациях, где сейчас не хватает участников (кроме «Дом и быт»)
+
+ИСТОЧНИКИ:
+- Участники отраслевых выставок 2024–2025
+- Рейтинги быстрорастущих компаний (РБК, Эксперт)
+- Победители региональных конкурсов
+- Отраслевые каталоги
+
+ФОРМАТ — таблица:
+| № | Название | ИНН | Регион | Отрасль | Почему подходит | Сайт |
+
+Дай 15 компаний с высоким приоритетом для прозвона.</div>
+</div>
+
+<!-- ИНСТРУМЕНТ 4 -->
+<div class="step">
+<div class="step-title"><span class="step-num">4</span>Массовый поиск по отраслевым номинациям</div>
+<div class="when">Perplexity · Нужно закрыть «пустые» номинации — IT, Медицина, Образование и др.</div>
+<div class="prompt"><button class="copy" onclick="copyPrompt(this)">Copy</button>Ты — аналитик рынка. Найди по 5 сильных кандидатов для следующих номинаций премии «Бренд года в России»:
+НОМИНАЦИИ: [СПИСОК, например: IT-технологии, Фармацевтика, Образовательные услуги]
+
+КРИТЕРИИ ДЛЯ КАЖДОГО КАНДИДАТА:
+1. Штаб-квартира или основная деятельность в РФ
+2. Яркая рекламная кампания или запуск нового продукта в 2024–2025 гг.
+3. Бренд узнаваем в своей нише
+4. Не является участником прошлых лет (если возможно проверить)
+
+ФОРМАТ:
+Для каждой номинации:
+- Список из 5 компаний (Название, Сайт, краткое достижение за 2024 год)
+- Обоснование, почему этот бренд достоин награды именно сейчас</div>
+</div>
+
+<!-- ИНСТРУМЕНТ 5 -->
+<div class="step">
+<div class="step-title"><span class="step-num">5</span>Анализ «болей» бренда перед звонком</div>
+<div class="when">Perplexity · Перед звонком ЛПР — подготовить персонализированный аргумент</div>
+<div class="prompt"><button class="copy" onclick="copyPrompt(this)">Copy</button>Проанализируй текущее положение бренда [НАЗВАНИЕ КОМПАНИИ] на рынке РФ за 2024–2025 гг.
+Найди 3 «боли» или задачи, которые премия «Бренд года в России» поможет им решить.
+
+ПРИМЕРЫ БОЛЕЙ:
+- Нужно отстроиться от конкурентов-дискаунтеров
+- Выход на новый рынок/регион (нужна федеральная узнаваемость)
+- Подтвердить статус «надёжного бренда» после ребрендинга
+- Поиск инвесторов или крупных партнёров (нужен статус победителя)
+
+СФОРМУЛИРУЙ:
+1. Тезис для звонка: «Мы заметили, что вы сейчас активно развиваете [ПРОЕКТ]...»
+2. Как статус номинанта/победителя усилит этот проект
+3. Рекомендация по номинации (Высшая или Первая лига)</div>
+</div>
+
+<!-- ИНСТРУМЕНТ 6 -->
+<div class="step">
+<div class="step-title"><span class="step-num">6</span>Поиск по базам выставок и ассоциаций</div>
+<div class="when">Perplexity · Нужны компании, которые уже проявляют активность — выставляются, состоят в союзах</div>
+<div class="prompt"><button class="copy" onclick="copyPrompt(this)">Copy</button>Найди список участников крупнейших отраслевых выставок в России за 2024–2025 годы в сфере [ОТРАСЛЬ, например: Сельское хозяйство / Текстиль].
+Отфильтруй компании, которые:
+1. Имеют собственный бренд (не просто дилеры)
+2. Заявляли о расширении производства или импортозамещении
+3. Соответствуют критериям «Первой лиги» (средний бизнес)
+
+Выдай список из 20 компаний с указанием сайта и ФИО руководителей, если они упоминались в пресс-релизах выставок.</div>
+</div>
+
+<!-- ИНСТРУМЕНТ 7 -->
+<div class="step">
+<div class="step-title"><span class="step-num">7</span>Анализ конкурентов прошлых победителей</div>
+<div class="when">Perplexity · Сыграть на конкуренции — «ваш конкурент уже победил, а вы?»</div>
+<div class="prompt"><button class="copy" onclick="copyPrompt(this)">Copy</button>В 2023–2024 годах в премии «Бренд года в России» в номинации [НОМИНАЦИЯ] победил бренд [ИМЯ ПОБЕДИТЕЛЯ].
+Найди 5 его прямых конкурентов на рынке РФ, которые:
+1. Не менее успешны, но ещё не участвовали в премии
+2. Активно инвестируют в маркетинг в 2025 году
+3. Находятся в фазе активного роста
+
+Для каждой компании напиши аргумент:
+«Ваш конкурент [ИМЯ ПОБЕДИТЕЛЯ] уже получил признание экспертов премии — это отличный момент, чтобы показать ваше лидерство в 2026 году».</div>
+</div>
+
+<!-- ЧЕКЛИСТ -->
+<div class="step">
+<div class="step-title">Чеклист выполнения</div>
+<div class="checklist">
+<label id="lbl1"><input type="checkbox" onchange="updateProgress(this, 'lbl1')"> Инструмент 1: Проверил компанию на соответствие</label>
+<label id="lbl2"><input type="checkbox" onchange="updateProgress(this, 'lbl2')"> Инструмент 2: Нашёл ЛПР (маркетинг / PR / CEO)</label>
+<label id="lbl3"><input type="checkbox" onchange="updateProgress(this, 'lbl3')"> Инструмент 3: Нашёл 15 похожих брендов</label>
+<label id="lbl4"><input type="checkbox" onchange="updateProgress(this, 'lbl4')"> Инструмент 4: Закрыл пустые номинации</label>
+<label id="lbl5"><input type="checkbox" onchange="updateProgress(this, 'lbl5')"> Инструмент 5: Подготовил «боли» перед звонком</label>
+<label id="lbl6"><input type="checkbox" onchange="updateProgress(this, 'lbl6')"> Инструмент 6: Нашёл компании через выставки</label>
+<label id="lbl7"><input type="checkbox" onchange="updateProgress(this, 'lbl7')"> Инструмент 7: Нашёл конкурентов победителей</label>
+</div>
+</div>
+
+<!-- КАК ВНЕДРИТЬ -->
+<div class="step">
+<div class="step-title">Как внедрить завтра</div>
+<ul class="impl-steps">
+<h4>Шаг 1 — Подготовка (20 минут)</h4>
+<li>Открыть эту страницу для всех 5 менеджеров</li>
+<li>Создать в CRM или Google Таблицах поля: «Лига», «Приоритет», «Боли бренда», «Источник»</li>
+<li>Оплатить подписку Perplexity Pro (Deep Research критически важен для поиска ЛПР)</li>
+<h4>Шаг 2 — Обучение (40 минут)</h4>
+<li>Показать, как копировать промпт и вставлять название компании</li>
+<li>Объяснить разницу: Perplexity — быстрый поиск фактов, Deep Research — глубокий поиск людей</li>
+<li>Сделать 3 тестовых проверки в реальном времени</li>
+<h4>Шаг 3 — Пилотный запуск (День 1)</h4>
+<li>Каждый менеджер: 10 новых компаний в «пустых» номинациях (Инструмент 4)</li>
+<li>Найти ЛПР для этих 10 компаний (Инструмент 2)</li>
+<li>Подготовить «зацепку» для звонка (Инструмент 5)</li>
+<li><strong>Итого: 50 новых качественных лидов за день на отдел</strong></li>
+<h4>Рабочий цикл менеджера (со второй недели)</h4>
+<li>09:00–10:30 — массовый сбор лидов по отраслям (Perplexity)</li>
+<li>10:30–12:00 — поиск ЛПР и контактов</li>
+<li>12:00–17:00 — звонки с персональными аргументами</li>
+<li>17:00–18:00 — заполнение базы и планирование на завтра</li>
+</ul>
+</div>
+
+<!-- KPI -->
+<div class="step">
+<div class="step-title">KPI</div>
+<table class="kpi-table">
+<tr><th>Показатель</th><th>Было (вручную)</th><th>Стало (с промптами)</th><th>Эффект</th></tr>
+<tr><td>Новых компаний в день на менеджера</td><td>3–5</td><td>15–20</td><td>4x рост</td></tr>
+<tr><td>Качество контакта (знание болей)</td><td>Низкое (холодный звонок)</td><td>Высокое (экспертный подход)</td><td>+50% к конверсии</td></tr>
+<tr><td>Время на подготовку к звонку</td><td>40 минут</td><td>5 минут</td><td>8x ускорение</td></tr>
+</table>
+<p style="font-size:0.9rem;margin-top:10px">Цель: к маю 2026 — база из 1500+ квалифицированных кандидатов, к ноябрю — 600–750 заявок.</p>
+</div>
+
+<!-- FAQ -->
+<div class="faq">
+<h2>Частые вопросы</h2>
+<div class="faq-item">
+<h4>Perplexity выдаёт старые данные?</h4>
+<p>Добавьте в промпт: «Используй данные за последние 12 месяцев» и проверяйте ссылки на источники в ответе.</p>
+</div>
+<div class="faq-item">
+<h4>ЛПР не находится?</h4>
+<p>Используйте Инструмент 6 (выставки). В пост-релизах часто есть цитаты конкретных директоров — это прямой выход на них.</p>
+</div>
+<div class="faq-item">
+<h4>Как проверить, не участвовала ли компания раньше?</h4>
+<p>Добавьте в промпт: «Проверь, упоминалась ли компания в списках номинантов или победителей премии «Бренд года в России» в 2023–2025 гг.»</p>
+</div>
+</div>
+
+<footer>
+<p>© 2026 Бренд года в России · Система поиска участников</p>
+<p style="margin-top:6px">Цель: 750+ заявок · Период: март–ноябрь 2026</p>
+</footer>
+
+</div>
+
+<script>
+function copyPrompt(btn) {
+  const text = btn.parentElement.textContent.replace('Copy','').trim();
+  navigator.clipboard.writeText(text);
+  const old = btn.textContent;
+  btn.textContent = '✓';
+  setTimeout(() => btn.textContent = old, 2000);
+}
+function updateProgress(cb, lblId) {
+  const lbl = document.getElementById(lblId);
+  if (cb.checked) lbl.classList.add('done');
+  else lbl.classList.remove('done');
+  const total = document.querySelectorAll('.checklist input').length;
+  const done = document.querySelectorAll('.checklist input:checked').length;
+  document.getElementById('done-count').textContent = done;
+}
+</script>
+</body>
+</html>
