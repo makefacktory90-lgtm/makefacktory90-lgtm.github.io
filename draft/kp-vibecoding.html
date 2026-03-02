@@ -58,6 +58,23 @@
     border-color: var(--accent);
   }
 
+  /* Growing line */
+  #growth-svg {
+    position: fixed;
+    right: 40px;
+    top: 0;
+    height: 100vh;
+    width: 60px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.25;
+  }
+  #growth-path {
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    transition: stroke-dashoffset 0.1s linear;
+  }
+
   /* Grain overlay */
   body::after {
     content: '';
@@ -420,6 +437,12 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
+<!-- Growing SVG line -->
+<svg id="growth-svg" viewBox="0 0 60 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path id="growth-path" d="M30 800 C30 800 50 650 20 500 C-10 350 50 200 30 0" stroke="#c8ff00" stroke-width="1.5"/>
+  <circle id="growth-dot" cx="30" cy="0" r="3" fill="#c8ff00" opacity="0"/>
+</svg>
+
 <!-- HERO -->
 <section class="hero">
   <div class="container">
@@ -642,6 +665,23 @@
   }, { threshold: 0.15 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Growing line on scroll
+  const growthPath = document.getElementById('growth-path');
+  const growthDot = document.getElementById('growth-dot');
+  const totalLength = 1200;
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    const drawn = totalLength * scrolled;
+    growthPath.style.strokeDashoffset = totalLength - drawn;
+
+    // Move dot along path tip
+    const progress = 1 - scrolled;
+    const svgH = document.getElementById('growth-svg').clientHeight;
+    growthDot.setAttribute('cy', progress * 800);
+    growthDot.setAttribute('opacity', scrolled > 0.05 ? '0.8' : '0');
+  });
 </script>
 </body>
 </html>
