@@ -5,431 +5,140 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>КП — Вайб-кодинг / Ира Буян</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0a0a0a;--white:#f5f5f0;--accent:#c8ff00;
+  --gray:#1a1a1a;--gray2:#2a2a2a;--muted:#666;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;cursor:none;overflow-x:hidden}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* cursor */
+#cursor{width:12px;height:12px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+#cursor-ring{width:36px;height:36px;border:1px solid rgba(200,255,0,0.4);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:transform 0.4s ease,width 0.3s,height 0.3s,border-color 0.3s}
+body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:56px;height:56px;border-color:var(--accent)}
 
-  :root {
-    --black: #0a0a0a;
-    --white: #f5f5f0;
-    --accent: #c8ff00;
-    --gray: #1a1a1a;
-    --gray2: #2a2a2a;
-    --muted: #666;
-  }
+/* grain */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:0.5}
 
-  html { scroll-behavior: smooth; }
+/* flowers bg */
+.flowers-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.plant{position:absolute}
+.plant .stem{stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 2.5s ease-out}
+.plant .petal{transform:scale(0);transform-origin:center;transition:transform 0.5s cubic-bezier(0.175,0.885,0.32,1.275)}
+.plant.is-active .stem{stroke-dashoffset:0}
+.plant.is-active .p1{transform:scale(1);transition-delay:1.8s}
+.plant.is-active .p2{transform:scale(1);transition-delay:2.1s}
+.plant.is-active .p3{transform:scale(1);transition-delay:2.4s}
+.plant.is-active .p4{transform:scale(1);transition-delay:2.7s}
+.plant.is-active .p5{transform:scale(1);transition-delay:3.0s}
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    cursor: none;
-    overflow-x: hidden;
-  }
+/* layout */
+.container{max-width:900px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
+section{padding:100px 0;position:relative;z-index:1}
 
-  /* Custom cursor */
-  #cursor {
-    width: 12px; height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.15s ease;
-    mix-blend-mode: difference;
-  }
-  #cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(200,255,0,0.4);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.4s ease, width 0.3s, height 0.3s, border-color 0.3s;
-  }
-  body:has(a:hover) #cursor-ring,
-  body:has(button:hover) #cursor-ring {
-    width: 56px; height: 56px;
-    border-color: var(--accent);
-  }
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px;position:relative;overflow:hidden}
+.hero-tag{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:32px}
+.hero h1{font-size:clamp(48px,8vw,96px);font-weight:900;line-height:0.95;letter-spacing:-0.03em;margin-bottom:40px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:18px;color:#999;max-width:520px;line-height:1.7;margin-bottom:60px}
+.hero-demo{display:inline-flex;align-items:center;gap:12px;font-size:13px;color:var(--muted);border:1px solid var(--gray2);padding:12px 20px;border-radius:100px}
+.hero-demo span{color:var(--accent)}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;animation:bounce 2s infinite}
+.scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(to bottom,var(--muted),transparent)}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 
-  /* Growing line */
-  #growth-svg {
-    position: fixed;
-    right: 40px;
-    top: 0;
-    height: 100vh;
-    width: 60px;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.25;
-  }
-  #growth-path {
-    stroke-dasharray: 1200;
-    stroke-dashoffset: 1200;
-    transition: stroke-dashoffset 0.1s linear;
-  }
+/* section label */
+.section-label{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:48px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--gray2)}
 
-  /* Grain overlay */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9000;
-    opacity: 0.5;
-  }
+/* what grid */
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px}
+.what-item{background:var(--gray);padding:40px;transition:background 0.3s}
+.what-item:hover{background:var(--gray2)}
+.what-item:first-child{border-radius:16px 0 0 0}.what-item:nth-child(2){border-radius:0 16px 0 0}
+.what-item:nth-child(3){border-radius:0 0 0 16px}.what-item:last-child{border-radius:0 0 16px 0}
+.what-icon{font-size:28px;margin-bottom:16px}
+.what-item h3{font-size:18px;font-weight:600;margin-bottom:8px}
+.what-item p{font-size:14px;color:#888;line-height:1.6}
 
-  /* Layout */
-  .container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+/* why */
+.why-list{margin-top:48px}
+.why-item{display:grid;grid-template-columns:48px 1fr;gap:24px;padding:32px 0;border-bottom:1px solid var(--gray2);align-items:start}
+.why-item:first-child{border-top:1px solid var(--gray2)}
+.why-num{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.1em;padding-top:4px}
+.why-item h3{font-size:17px;font-weight:600;margin-bottom:6px}
+.why-item p{font-size:14px;color:#888;line-height:1.6}
 
-  /* Hero */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 80px 0 60px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-tag {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 32px;
-  }
-  .hero h1 {
-    font-size: clamp(48px, 8vw, 96px);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    margin-bottom: 40px;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-  .hero-sub {
-    font-size: 18px;
-    color: #999;
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: 60px;
-  }
-  .hero-demo {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 13px;
-    color: var(--muted);
-    border: 1px solid var(--gray2);
-    padding: 12px 20px;
-    border-radius: 100px;
-  }
-  .hero-demo span { color: var(--accent); }
+/* pricing */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:48px}
+.plan{background:var(--gray);border-radius:20px;padding:36px;position:relative;transition:transform 0.3s ease}
+.plan:hover{transform:translateY(-4px)}
+.plan.featured{background:var(--white);color:var(--black)}
+.plan-tag{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:block}
+.plan.featured .plan-tag{color:#666}
+.plan-tag.hot{color:var(--accent);background:rgba(200,255,0,0.1);padding:4px 10px;border-radius:100px}
+.plan.featured .plan-tag.hot{background:rgba(0,0,0,0.08);color:#333}
 
-  /* Scroll indicator */
-  .scroll-hint {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    animation: bounce 2s infinite;
-  }
-  .scroll-hint::after {
-    content: '';
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--muted), transparent);
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
-  }
+/* price display */
+.plan-price-wrap{margin-bottom:8px}
+.plan-price{font-size:42px;font-weight:900;letter-spacing:-0.03em;line-height:1;display:block}
+.plan-price-alt{font-size:13px;color:#666;margin-top:6px;padding:6px 10px;background:rgba(255,255,255,0.06);border-radius:8px;display:inline-block}
+.plan.featured .plan-price-alt{background:rgba(0,0,0,0.06);color:#555}
+.plan-price-note{font-size:13px;color:var(--muted);margin-bottom:28px;margin-top:4px}
+.plan.featured .plan-price-note{color:#666}
 
-  /* Section */
-  section { padding: 100px 0; }
-  .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 48px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--gray2);
-  }
+.plan-divider{height:1px;background:var(--gray2);margin-bottom:24px}
+.plan.featured .plan-divider{background:#ddd}
+.plan-features{list-style:none}
+.plan-features li{font-size:13px;padding:7px 0;display:flex;align-items:flex-start;gap:10px;color:#aaa;border-bottom:1px solid rgba(255,255,255,0.04)}
+.plan.featured .plan-features li{color:#444;border-bottom-color:rgba(0,0,0,0.05)}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:1px}
+.plan.featured .plan-features li::before{color:#333}
+.plan-features li strong{color:var(--white)}
+.plan.featured .plan-features li strong{color:var(--black)}
+.plan-cta{display:block;margin-top:28px;padding:14px 24px;border-radius:100px;font-size:14px;font-weight:600;text-align:center;text-decoration:none;transition:all 0.2s;cursor:none}
+.plan .plan-cta{background:var(--gray2);color:var(--white);border:1px solid #333}
+.plan .plan-cta:hover{background:#333}
+.plan.featured .plan-cta{background:var(--black);color:var(--white)}
+.plan.featured .plan-cta:hover{background:#222}
 
-  /* What is it */
-  .what-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    margin-top: 48px;
-  }
-  .what-item {
-    background: var(--gray);
-    padding: 40px;
-    transition: background 0.3s;
-  }
-  .what-item:hover { background: var(--gray2); }
-  .what-item:first-child { border-radius: 16px 0 0 0; }
-  .what-item:nth-child(2) { border-radius: 0 16px 0 0; }
-  .what-item:nth-child(3) { border-radius: 0 0 0 16px; }
-  .what-item:last-child { border-radius: 0 0 16px 0; }
-  .what-icon { font-size: 28px; margin-bottom: 16px; }
-  .what-item h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-  .what-item p { font-size: 14px; color: #888; line-height: 1.6; }
+/* process */
+.process-steps{margin-top:48px;display:flex;flex-direction:column;gap:2px}
+.step{display:grid;grid-template-columns:80px 1fr;gap:32px;background:var(--gray);padding:32px 40px;align-items:center;transition:background 0.2s}
+.step:hover{background:var(--gray2)}
+.step:first-child{border-radius:16px 16px 0 0}.step:last-child{border-radius:0 0 16px 16px}
+.step-num{font-size:40px;font-weight:900;color:var(--gray2);line-height:1}
+.step:hover .step-num{color:var(--accent)}
+.step h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.step p{font-size:13px;color:#777}
 
-  /* Why not cheaper */
-  .why-list { margin-top: 48px; }
-  .why-item {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    gap: 24px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--gray2);
-    align-items: start;
-  }
-  .why-item:first-child { border-top: 1px solid var(--gray2); }
-  .why-num {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    padding-top: 4px;
-  }
-  .why-item h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-  .why-item p { font-size: 14px; color: #888; line-height: 1.6; }
+/* cta */
+.cta-section{text-align:center;padding:120px 0}
+.cta-section h2{font-size:clamp(36px,6vw,72px);font-weight:900;letter-spacing:-0.03em;line-height:1;margin-bottom:24px}
+.cta-section h2 em{font-style:normal;color:var(--accent)}
+.cta-section p{font-size:16px;color:#777;margin-bottom:48px}
+.cta-btn{display:inline-block;background:var(--accent);color:var(--black);font-size:15px;font-weight:700;padding:18px 48px;border-radius:100px;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;cursor:none}
+.cta-btn:hover{transform:scale(1.04);box-shadow:0 0 40px rgba(200,255,0,0.3)}
 
-  /* Pricing */
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    margin-top: 48px;
-  }
-  .plan {
-    background: var(--gray);
-    border-radius: 20px;
-    padding: 40px;
-    position: relative;
-    transition: transform 0.3s ease;
-  }
-  .plan:hover { transform: translateY(-4px); }
-  .plan.featured {
-    background: var(--white);
-    color: var(--black);
-  }
-  .plan-tag {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-  .plan.featured .plan-tag { color: #666; }
-  .plan-tag.hot {
-    color: var(--accent);
-    background: rgba(200,255,0,0.1);
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 100px;
-  }
-  .plan.featured .plan-tag.hot {
-    background: rgba(0,0,0,0.08);
-    color: #333;
-  }
-  .plan-price {
-    font-size: 52px;
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .plan-price-note {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 32px;
-  }
-  .plan.featured .plan-price-note { color: #666; }
-  .plan-divider {
-    height: 1px;
-    background: var(--gray2);
-    margin-bottom: 28px;
-  }
-  .plan.featured .plan-divider { background: #ddd; }
-  .plan-features { list-style: none; }
-  .plan-features li {
-    font-size: 14px;
-    padding: 8px 0;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    color: #aaa;
-  }
-  .plan.featured .plan-features li { color: #444; }
-  .plan-features li::before {
-    content: '→';
-    color: var(--accent);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .plan.featured .plan-features li::before { color: #333; }
-  .plan-features li strong { color: var(--white); }
-  .plan.featured .plan-features li strong { color: var(--black); }
-  .plan-cta {
-    display: block;
-    margin-top: 36px;
-    padding: 14px 24px;
-    border-radius: 100px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.2s;
-    cursor: none;
-  }
-  .plan .plan-cta {
-    background: var(--gray2);
-    color: var(--white);
-    border: 1px solid #333;
-  }
-  .plan .plan-cta:hover { background: #333; }
-  .plan.featured .plan-cta {
-    background: var(--black);
-    color: var(--white);
-  }
-  .plan.featured .plan-cta:hover { background: #222; }
+footer{border-top:1px solid var(--gray2);padding:40px 0}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--white)}
 
-  /* Process */
-  .process-steps {
-    margin-top: 48px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .step {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 32px;
-    background: var(--gray);
-    padding: 32px 40px;
-    align-items: center;
-    transition: background 0.2s;
-  }
-  .step:hover { background: var(--gray2); }
-  .step:first-child { border-radius: 16px 16px 0 0; }
-  .step:last-child { border-radius: 0 0 16px 16px; }
-  .step-num {
-    font-size: 40px;
-    font-weight: 900;
-    color: var(--gray2);
-    line-height: 1;
-  }
-  .step:hover .step-num { color: var(--accent); }
-  .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-  .step p { font-size: 13px; color: #777; }
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
 
-  /* CTA section */
-  .cta-section {
-    text-align: center;
-    padding: 120px 0;
-  }
-  .cta-section h2 {
-    font-size: clamp(36px, 6vw, 72px);
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 24px;
-  }
-  .cta-section h2 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-  .cta-section p {
-    font-size: 16px;
-    color: #777;
-    margin-bottom: 48px;
-  }
-  .cta-btn {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--black);
-    font-size: 15px;
-    font-weight: 700;
-    padding: 18px 48px;
-    border-radius: 100px;
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: none;
-  }
-  .cta-btn:hover {
-    transform: scale(1.04);
-    box-shadow: 0 0 40px rgba(200,255,0,0.3);
-  }
-
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--gray2);
-    padding: 40px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    color: var(--muted);
-  }
-  footer a { color: var(--muted); text-decoration: none; }
-  footer a:hover { color: var(--white); }
-
-  /* Fade-in animation */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 900px) {
-    .pricing-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 640px) {
-    .what-grid { grid-template-columns: 1fr; }
-    .what-item:first-child, .what-item:nth-child(2),
-    .what-item:nth-child(3), .what-item:last-child { border-radius: 0; }
-    .what-item:first-child { border-radius: 16px 16px 0 0; }
-    .what-item:last-child { border-radius: 0 0 16px 16px; }
-    .step { grid-template-columns: 48px 1fr; gap: 16px; padding: 24px; }
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-  }
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .what-grid{grid-template-columns:1fr}
+  .what-item{border-radius:0!important}
+  .what-item:first-child{border-radius:16px 16px 0 0!important}
+  .what-item:last-child{border-radius:0 0 16px 16px!important}
+  .step{grid-template-columns:48px 1fr;gap:16px;padding:24px}
+}
 </style>
 </head>
 <body>
@@ -437,11 +146,36 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
-<!-- Growing SVG line -->
-<svg id="growth-svg" viewBox="0 0 60 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-  <path id="growth-path" d="M30 800 C30 800 50 650 20 500 C-10 350 50 200 30 0" stroke="#c8ff00" stroke-width="1.5"/>
-  <circle id="growth-dot" cx="30" cy="0" r="3" fill="#c8ff00" opacity="0"/>
-</svg>
+<!-- Flowers background -->
+<div class="flowers-bg">
+  <!-- Plant 1: bottom-left -->
+  <div class="plant" id="plant1" style="bottom:0;left:3%;width:160px;height:420px">
+    <svg viewBox="0 0 100 250" fill="none" width="100%" height="100%">
+      <path class="stem" d="M50 250 Q65 180 45 120 Q30 60 50 10" stroke="#c8ff00" stroke-width="1.5"/>
+      <!-- petals -->
+      <ellipse class="petal p1" cx="50" cy="10" rx="12" ry="7" fill="#c8ff00" opacity="0.7" transform="rotate(-30 50 10)"/>
+      <ellipse class="petal p2" cx="50" cy="10" rx="12" ry="7" fill="#c8ff00" opacity="0.7" transform="rotate(30 50 10)"/>
+      <ellipse class="petal p3" cx="50" cy="10" rx="12" ry="7" fill="#c8ff00" opacity="0.5" transform="rotate(90 50 10)"/>
+      <ellipse class="petal p4" cx="50" cy="10" rx="12" ry="7" fill="#c8ff00" opacity="0.5" transform="rotate(150 50 10)"/>
+      <ellipse class="petal p5" cx="50" cy="10" rx="12" ry="7" fill="#c8ff00" opacity="0.5" transform="rotate(210 50 10)"/>
+      <circle class="petal p1" cx="50" cy="10" r="5" fill="#fff" opacity="0.9"/>
+      <!-- side leaf -->
+      <ellipse class="petal p2" cx="35" cy="120" rx="14" ry="7" fill="#c8ff00" opacity="0.3" transform="rotate(-40 35 120)"/>
+    </svg>
+  </div>
+  <!-- Plant 2: top-right, flipped -->
+  <div class="plant" id="plant2" style="top:0;right:4%;width:120px;height:320px;transform:rotate(180deg)">
+    <svg viewBox="0 0 100 250" fill="none" width="100%" height="100%">
+      <path class="stem" d="M50 250 Q35 170 55 100 Q70 40 50 10" stroke="#c8ff00" stroke-width="1.2"/>
+      <ellipse class="petal p1" cx="50" cy="10" rx="10" ry="6" fill="#c8ff00" opacity="0.6" transform="rotate(0 50 10)"/>
+      <ellipse class="petal p2" cx="50" cy="10" rx="10" ry="6" fill="#c8ff00" opacity="0.6" transform="rotate(60 50 10)"/>
+      <ellipse class="petal p3" cx="50" cy="10" rx="10" ry="6" fill="#c8ff00" opacity="0.4" transform="rotate(120 50 10)"/>
+      <ellipse class="petal p4" cx="50" cy="10" rx="10" ry="6" fill="#c8ff00" opacity="0.4" transform="rotate(180 50 10)"/>
+      <ellipse class="petal p5" cx="50" cy="10" rx="10" ry="6" fill="#c8ff00" opacity="0.4" transform="rotate(240 50 10)"/>
+      <circle class="petal p1" cx="50" cy="10" r="4" fill="#fff" opacity="0.8"/>
+    </svg>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -479,13 +213,13 @@
       <div class="what-item">
         <div class="what-icon">🤖</div>
         <h3>AI-ассистент</h3>
-        <p>Опционально: встроенный чат-агент, который знает о вашем продукте и отвечает на вопросы клиентов.</p>
+        <p>Telegram-бот или чат на сайте. Работает на любой LLM: GPT, Claude, Gemini. Знает ваш продукт, отвечает клиентам 24/7.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHY NOT CHEAPER -->
+<!-- WHY -->
 <section>
   <div class="container">
     <p class="section-label fade-in">Почему не дешевле 50 000 ₽</p>
@@ -508,14 +242,14 @@
         <div class="why-num">03</div>
         <div>
           <h3>Скорость — это тоже стоимость</h3>
-          <p>На рынке такое делают 2–4 недели и от 80 000 ₽. Я делаю за 3–5 дней, пока готовлю хаб по вайб-кодингу — вы получаете результат по нормальной цене.</p>
+          <p>На рынке такое делают 2–4 недели и от 80 000 ₽. Я делаю за 3–5 дней — вы получаете результат по нормальной цене.</p>
         </div>
       </div>
       <div class="why-item">
         <div class="why-num">04</div>
         <div>
           <h3>Это работает</h3>
-          <p>Черновик клиники — за 1 час. Кликайте на карточки, двигайте мышкой: <a href="https://iraai.ru/draft/clinic/" target="_blank" style="color: var(--accent);">iraai.ru/draft/clinic</a></p>
+          <p>Черновик клиники — за 1 час. Кликайте на карточки, двигайте мышкой: <a href="https://iraai.ru/draft/clinic/" target="_blank" style="color:var(--accent)">iraai.ru/draft/clinic</a></p>
         </div>
       </div>
     </div>
@@ -529,9 +263,12 @@
     <div class="pricing-grid fade-in">
 
       <div class="plan">
-        <p class="plan-tag">Лендинг</p>
-        <div class="plan-price">50 000 ₽</div>
-        <p class="plan-price-note">Контент готов · срок 3–5 дней</p>
+        <span class="plan-tag">Лендинг</span>
+        <div class="plan-price-wrap">
+          <span class="plan-price">50 000 ₽</span>
+          <div class="plan-price-alt">+ 30 000 ₽ если нужны картинки</div>
+        </div>
+        <p class="plan-price-note">Контент готов · 3–5 дней</p>
         <div class="plan-divider"></div>
         <ul class="plan-features">
           <li><strong>Одностраничный лендинг</strong></li>
@@ -541,39 +278,42 @@
           <li>Работает без интернета</li>
           <li>1 раунд правок</li>
         </ul>
-        <p style="font-size:12px; color:#666; margin-top:16px;">Нужна генерация картинок — <strong style="color:#aaa">80 000 ₽</strong></p>
         <a href="https://t.me/ira_and_ai" target="_blank" class="plan-cta">Обсудить</a>
       </div>
 
       <div class="plan featured">
-        <p class="plan-tag hot">Рекомендую</p>
-        <div class="plan-price">80 000 ₽</div>
-        <p class="plan-price-note">Лендинг + AI-ассистент · база знаний готова</p>
+        <span class="plan-tag hot">Рекомендую</span>
+        <div class="plan-price-wrap">
+          <span class="plan-price">80 000 ₽</span>
+          <div class="plan-price-alt">+ 30 000 ₽ если нужна база знаний</div>
+        </div>
+        <p class="plan-price-note">Лендинг + AI-ассистент · 5–7 дней</p>
         <div class="plan-divider"></div>
         <ul class="plan-features">
           <li><strong>Лендинг с анимациями</strong></li>
-          <li>AI-агент на сайте: отвечает на вопросы 24/7</li>
+          <li>AI-агент в Telegram или на сайте</li>
+          <li>Работает на GPT / Claude / Gemini — на ваш выбор</li>
           <li>Обучен на вашей базе знаний</li>
           <li>Собирает контакты заинтересованных</li>
-          <li>2 раунда правок</li>
-          <li>Поддержка 2 недели после запуска</li>
+          <li>2 раунда правок + поддержка 2 недели</li>
         </ul>
-        <p style="font-size:12px; color:#555; margin-top:16px;">Нужно создать базу знаний — <strong style="color:#333">110 000 ₽</strong></p>
         <a href="https://t.me/ira_and_ai" target="_blank" class="plan-cta">Обсудить</a>
       </div>
 
       <div class="plan">
-        <p class="plan-tag">Полная система</p>
-        <div class="plan-price">от 300 000 ₽</div>
+        <span class="plan-tag">Полная система</span>
+        <div class="plan-price-wrap">
+          <span class="plan-price">от 300 000 ₽</span>
+          <div class="plan-price-alt">финальная цена — после ТЗ</div>
+        </div>
         <p class="plan-price-note">Сайт + AI + Backend · Ира + Денис</p>
         <div class="plan-divider"></div>
         <ul class="plan-features">
           <li><strong>Многостраничный сайт</strong></li>
           <li>Backend: CRM, формы заявок, админка</li>
-          <li>Telegram/WhatsApp боты</li>
-          <li>AI-агенты по функциям (продажи, поддержка, квалификация)</li>
+          <li>Telegram + WhatsApp боты</li>
+          <li>AI-агенты по функциям</li>
           <li>Деплой + техподдержка 1 месяц</li>
-          <li>Финальная цена — после детального ТЗ</li>
         </ul>
         <a href="https://t.me/ira_and_ai" target="_blank" class="plan-cta">Обсудить</a>
       </div>
@@ -589,31 +329,19 @@
     <div class="process-steps fade-in">
       <div class="step">
         <div class="step-num">01</div>
-        <div>
-          <h3>Бриф — 30 минут</h3>
-          <p>Созвон или переписка: цель, контент, стиль, что должен делать сайт.</p>
-        </div>
+        <div><h3>Бриф — 30 минут</h3><p>Созвон или переписка: цель, контент, стиль, что должен делать сайт.</p></div>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <div>
-          <h3>Черновик — день 1–2</h3>
-          <p>Первая версия с анимациями и структурой. Смотрите, даёте обратную связь.</p>
-        </div>
+        <div><h3>Черновик — день 1–2</h3><p>Первая версия с анимациями и структурой. Смотрите, даёте обратную связь.</p></div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <div>
-          <h3>Правки — день 3–4</h3>
-          <p>Вносим корректировки по тексту, цветам, деталям.</p>
-        </div>
+        <div><h3>Правки — день 3–4</h3><p>Вносим корректировки по тексту, цветам, деталям.</p></div>
       </div>
       <div class="step">
         <div class="step-num">04</div>
-        <div>
-          <h3>Готово — день 5</h3>
-          <p>Получаете файл. Открывается с любого устройства, работает без интернета.</p>
-        </div>
+        <div><h3>Готово — день 5</h3><p>Получаете файл. Открывается с любого устройства, работает без интернета.</p></div>
       </div>
     </div>
   </div>
@@ -629,59 +357,28 @@
 </section>
 
 <footer>
-  <div class="container" style="display:flex; justify-content:space-between; width:100%; align-items:center;">
-    <span>Ира Буян · AI + вайб-кодинг</span>
+  <div class="container" style="display:flex;justify-content:space-between;width:100%;align-items:center">
+    <span style="color:var(--muted)">Ира Буян · AI + вайб-кодинг</span>
     <a href="https://t.me/ira_and_ai" target="_blank">@ira_and_ai</a>
   </div>
 </footer>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+// cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.transform=`translate(${mx-6}px,${my-6}px)`});
+(function animRing(){rx+=(mx-rx-18)*0.12;ry+=(my-ry-18)*0.12;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(animRing)})();
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
-  });
+// fade-in
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.15});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 
-  function animateRing() {
-    rx += (mx - rx - 18) * 0.12;
-    ry += (my - ry - 18) * 0.12;
-    ring.style.transform = `translate(${rx}px, ${ry}px)`;
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  // Fade-in on scroll
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // Growing line on scroll
-  const growthPath = document.getElementById('growth-path');
-  const growthDot = document.getElementById('growth-dot');
-  const totalLength = 1200;
-
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-    const drawn = totalLength * scrolled;
-    growthPath.style.strokeDashoffset = totalLength - drawn;
-
-    // Move dot along path tip
-    const progress = 1 - scrolled;
-    const svgH = document.getElementById('growth-svg').clientHeight;
-    growthDot.setAttribute('cy', progress * 800);
-    growthDot.setAttribute('opacity', scrolled > 0.05 ? '0.8' : '0');
-  });
+// flowers — activate on load after short delay
+setTimeout(()=>{
+  document.getElementById('plant1').classList.add('is-active');
+  document.getElementById('plant2').classList.add('is-active');
+},400);
 </script>
 </body>
 </html>
