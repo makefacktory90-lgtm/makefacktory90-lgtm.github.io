@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 секунд Голливуда — Carousel Constructor</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: #111; border-bottom: 1px solid #333; padding: 10px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.topbar-section { display: flex; gap: 6px; align-items: center; }
+.topbar-label { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 2px; }
+.topbar button { padding: 6px 12px; border: 1.5px solid #444; background: transparent; color: #999; font-family: 'Roboto Mono', monospace; font-size: 10px; letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase; transition: all 0.2s; border-radius: 4px; white-space: nowrap; }
+.topbar button:hover { border-color: #888; color: #fff; }
+.topbar button.active { border-color: #E63946; color: #fff; background: #E63946; }
+.topbar .spacer { width: 1px; height: 24px; background: #333; margin: 0 4px; }
+.topbar .brand { margin-left: auto; font-size: 10px; color: #444; font-family: 'Roboto Mono', monospace; letter-spacing: 0.05em; }
+.slides-wrap { padding: 64px 0 100px; display: flex; flex-direction: column; align-items: center; gap: 32px; --scale: 0.42; }
+.phone-wrap { transform: scale(var(--scale)); transform-origin: top center; margin-bottom: calc(-1350px * (1 - var(--scale))); }
+.slide { width: 1080px; height: 1350px; position: relative; overflow: hidden; flex-shrink: 0; }
+.slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+.slide-overlay { position: absolute; inset: 0; z-index: 1; }
+.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number):not(.slide-brand) { position: relative; z-index: 2; }
+.slide-label { position: absolute; top: -28px; left: 4px; font-family: 'Roboto Mono', monospace; font-size: 11px; color: #999; z-index: 5; }
+.slide-brand { position: absolute; bottom: 40px; left: 50px; font-family: 'Roboto Mono', monospace; font-size: 17px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.55; z-index: 3; font-weight: 500; }
+.slide-number { position: absolute; bottom: 40px; right: 50px; font-family: 'Roboto Mono', monospace; font-size: 14px; opacity: 0.3; z-index: 3; }
+[contenteditable] { outline: none; cursor: text; border-radius: 4px; transition: box-shadow 0.2s; }
+[contenteditable]:hover { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.2); }
+[contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.5); }
+
+/* NIKE PRO */
+.style-nike .slide { background: #000; color: #fff; }
+.style-nike .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 80px; }
+.style-nike .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 18px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 32px; text-transform: uppercase; }
+.style-nike .slide-cover h1 { font-size: 96px; font-weight: 900; line-height: 0.95; text-transform: uppercase; letter-spacing: -0.03em; }
+.style-nike .slide-cover h1 .accent { color: var(--accent, #E63946); }
+.style-nike .slide-cover .sub { font-size: 24px; color: #888; margin-top: 40px; line-height: 1.4; }
+.style-nike .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #555; margin-top: 60px; letter-spacing: 0.15em; }
+.style-nike .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 14px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-nike .slide-content h2 { font-size: 64px; font-weight: 900; text-transform: uppercase; line-height: 1.05; margin-bottom: 40px; letter-spacing: -0.02em; }
+.style-nike .slide-content p { font-size: 28px; line-height: 1.6; color: #ccc; margin-bottom: 24px; }
+.style-nike .slide-content .highlight { background: var(--accent, #E63946); color: #fff; padding: 4px 12px; font-weight: 700; }
+.style-nike .slide-content .dim { color: #666; font-size: 22px; }
+.style-nike .slide-quote { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-quote blockquote { font-size: 48px; font-weight: 700; line-height: 1.3; border-left: 6px solid var(--accent, #E63946); padding-left: 40px; }
+.style-nike .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 18px; color: #666; margin-top: 40px; padding-left: 46px; }
+.style-nike .slide-list { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 14px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-nike .slide-list h2 { font-size: 56px; font-weight: 900; text-transform: uppercase; margin-bottom: 48px; line-height: 1.05; }
+.style-nike .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 32px; align-items: baseline; }
+.style-nike .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 48px; font-weight: 700; color: var(--accent, #E63946); flex-shrink: 0; width: 80px; }
+.style-nike .slide-list .list-text { font-size: 28px; line-height: 1.4; color: #ccc; }
+.style-nike .slide-list .list-text strong { color: #fff; }
+.style-nike .slide-cta { padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-nike .slide-cta .cta-keyword { font-size: 120px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1; margin-bottom: 40px; }
+.style-nike .slide-cta .cta-keyword .accent { color: var(--accent, #E63946); }
+.style-nike .slide-cta .cta-desc { font-size: 32px; color: #999; line-height: 1.5; max-width: 800px; }
+.style-nike .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
+.style-nike .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #444; margin-top: 60px; letter-spacing: 0.15em; }
+
+/* CLEAN LIGHT */
+.style-light .slide { background: #FAFAFA; color: #1a1a1a; }
+.style-light .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 100px; }
+.style-light .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 15px; letter-spacing: 0.3em; color: #999; margin-bottom: 32px; text-transform: uppercase; }
+.style-light .slide-cover h1 { font-size: 82px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.style-light .slide-cover h1 .accent { color: var(--accent, #E63946); }
+.style-light .slide-cover .sub { font-size: 26px; color: #888; margin-top: 40px; line-height: 1.5; }
+.style-light .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #bbb; margin-top: 60px; letter-spacing: 0.15em; }
+.style-light .slide-cover .bar { width: 80px; height: 3px; background: var(--accent, #E63946); margin-top: 40px; }
+.style-light .slide-content { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-content h2 { font-size: 58px; font-weight: 900; line-height: 1.1; margin-bottom: 40px; }
+.style-light .slide-content p { font-size: 28px; line-height: 1.7; color: #666; margin-bottom: 24px; }
+.style-light .slide-content .highlight { background: var(--accent, #E63946); color: #fff; padding: 4px 12px; font-weight: 700; border-radius: 4px; }
+.style-light .slide-content .dim { color: #aaa; font-size: 22px; }
+.style-light .slide-quote { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-quote blockquote { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: 700; line-height: 1.4; border-left: 5px solid var(--accent, #E63946); padding-left: 40px; font-style: italic; }
+.style-light .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #aaa; margin-top: 40px; padding-left: 45px; }
+.style-light .slide-list { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-list h2 { font-size: 52px; font-weight: 900; margin-bottom: 48px; line-height: 1.1; }
+.style-light .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 28px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #e8e8e8; }
+.style-light .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 42px; font-weight: 700; color: var(--accent, #E63946); flex-shrink: 0; width: 70px; }
+.style-light .slide-list .list-text { font-size: 26px; line-height: 1.5; color: #666; }
+.style-light .slide-list .list-text strong { color: #1a1a1a; }
+.style-light .slide-cta { padding: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-light .slide-cta .cta-keyword { font-size: 100px; font-weight: 900; line-height: 1; margin-bottom: 40px; color: #1a1a1a; }
+.style-light .slide-cta .cta-keyword .accent { color: var(--accent, #E63946); }
+.style-light .slide-cta .cta-desc { font-size: 30px; color: #888; line-height: 1.5; max-width: 800px; }
+.style-light .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
+.style-light .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #ccc; margin-top: 60px; letter-spacing: 0.15em; }
+
+.bottombar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%); padding: 32px 24px 20px; display: flex; justify-content: center; gap: 12px; }
+.bottombar button { padding: 12px 24px; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: #E63946; color: #fff; }
+.btn-primary:hover { background: #c62d38; }
+@media (max-width: 768px) { .slides-wrap { --scale: 0.3; } .phone-wrap { margin-bottom: calc(-1350px * (1 - 0.3)); } }
+</style>
+</head>
+<body>
+<div id="app">
+<div class="topbar">
+    <div class="topbar-section">
+        <span class="topbar-label">Style</span>
+        <button onclick="setStyle('nike')" class="active" id="btn-nike">NIKE PRO</button>
+        <button onclick="setStyle('light')" id="btn-light">CLEAN LIGHT</button>
+    </div>
+    <div class="spacer"></div>
+    <span class="brand">SEEDANCE 2.0 // @IRA.AND.AI</span>
+</div>
+
+<div class="slides-wrap" id="slides-wrap">
+
+<!-- SLIDE 01: ОБЛОЖКА -->
+<div class="phone-wrap"><div class="slide slide-cover">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 01 / ОБЛОЖКА</div>
+    <div class="tag" contenteditable="true">AI-ВИДЕО // ФЕВРАЛЬ 2026</div>
+    <h1 contenteditable="true">15 СЕКУНД,<br>КОТОРЫЕ<br><span class="accent">НАПУГАЛИ<br>ГОЛЛИВУД</span></h1>
+    <div class="sub" contenteditable="true">ByteDance выпустил Seedance 2.0 -- модель, которая генерирует видео с реальными актёрами. Ролик «Питт vs Круз» набрал миллионы просмотров за 48 часов. Маск прокомментировал. Hollywood требует расследования.</div>
+    <div class="author" contenteditable="true">REUTERS НАЗВАЛ ЭТО «ВТОРЫМ DEEPSEEK-МОМЕНТОМ» →</div>
+    <div class="bar"></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">1/9</div>
+</div></div>
+
+<!-- SLIDE 02: ЧТО ПРОИЗОШЛО -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 02 / ЧТО ПРОИЗОШЛО</div>
+    <div class="section-tag" contenteditable="true">// SEEDANCE 2.0</div>
+    <h2 contenteditable="true">ВИДЕО ИЗ ТЕКСТА. НО ТЕПЕРЬ -- С ЛИЦАМИ</h2>
+    <p contenteditable="true">12 февраля ByteDance -- компания, которой принадлежит TikTok -- выпустила Seedance 2.0. Это text-to-video модель нового поколения: вы пишете текст, она генерирует видео. Но не абстрактные сцены -- а гиперреалистичные ролики с узнаваемыми лицами, движениями и освещением.</p>
+    <p contenteditable="true">Видео «Том Круз vs Брэд Питт» -- 15-секундная сцена боя -- стало вирусным за часы. <span class="highlight">Десятки миллионов просмотров</span>. Качество мимики и физики -- уровня, которого не было ни у Sora, ни у Runway.</p>
+    <p class="dim" contenteditable="true">И это только начало →</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">2/9</div>
+</div></div>
+
+<!-- SLIDE 03: ЦИТАТА REUTERS -->
+<div class="phone-wrap"><div class="slide slide-quote">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 03 / ЦИТАТА</div>
+    <blockquote contenteditable="true">Это второй DeepSeek-момент: китайская AI-модель снова удивила мир качеством, которого от неё не ждали.</blockquote>
+    <div class="quote-author" contenteditable="true">Reuters, 12 февраля 2026</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">3/9</div>
+</div></div>
+
+<!-- SLIDE 04: ПОЧЕМУ ЭТО ДРУГОЕ -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 04 / ОТЛИЧИЯ</div>
+    <div class="section-tag" contenteditable="true">// ЧТО НОВОГО</div>
+    <h2 contenteditable="true">3 ВЕЩИ, КОТОРЫХ НЕ БЫЛО</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Лица реальных людей.</strong> Узнаваемые, с мимикой. Не «похоже на» -- а вы видите конкретного человека.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Физика движений.</strong> Не «плавает» и не «дёргается» -- двигается как человек. Мускулы, инерция, вес.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Голливудское освещение.</strong> Тени, блики, глубина -- на уровне студийного продакшна. Не мультик.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">4/9</div>
+</div></div>
+
+<!-- SLIDE 05: РЕАКЦИЯ -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 05 / РЕАКЦИЯ</div>
+    <div class="section-tag" contenteditable="true">// ГОЛЛИВУД В ШОКЕ</div>
+    <h2 contenteditable="true">MPA ТРЕБУЕТ РАССЛЕДОВАНИЯ</h2>
+    <p contenteditable="true">Motion Picture Association уже требует расследования. Актёрский профсоюз SAG-AFTRA назвал это «прямой угрозой интеллектуальной собственности». Главный вопрос: имеет ли AI-модель право генерировать лицо живого человека без согласия?</p>
+    <p contenteditable="true">Илон Маск прокомментировал одним словом: <span class="highlight">«Impressive.»</span> Одно слово, которое сказало всё.</p>
+    <p class="dim" contenteditable="true">Голливуд 20 лет боролся с пиратством. Теперь пираты генерируют самих актёров.</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">5/9</div>
+</div></div>
+
+<!-- SLIDE 06: ЧТО ЗНАЧИТ ДЛЯ ВАС -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 06 / ДЛЯ ВАС</div>
+    <div class="section-tag" contenteditable="true">// ДЛЯ КОНТЕНТ-МЕЙКЕРОВ</div>
+    <h2 contenteditable="true">ЧТО ЭТО МЕНЯЕТ</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Видеоконтент = текстовый промт.</strong> Больше не нужно снимать, монтировать, искать актёров. Вы пишете сценарий -- AI снимает.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Авторские права -- серая зона.</strong> Использовать реальных людей нельзя. Но генерировать «похожих» персонажей -- уже можно.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Конкуренция меняется.</strong> Тот, кто раньше конкурировал бюджетом (студия, свет, оператор) -- теперь конкурирует идеями.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">6/9</div>
+</div></div>
+
+<!-- SLIDE 07: МНЕНИЕ ИРЫ -->
+<div class="phone-wrap"><div class="slide slide-quote">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 07 / МОЙ УГОЛ</div>
+    <blockquote contenteditable="true">С изображениями мы это уже прошли. Midjourney, DALL-E -- сначала «игрушка», потом «угроза», потом все используют. С видео будет так же, только быстрее. Инфраструктура ожиданий уже есть. Люди готовы.</blockquote>
+    <div class="quote-author" contenteditable="true">@ira.and.ai</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">7/9</div>
+</div></div>
+
+<!-- SLIDE 08: ЧТО ДЕЛАТЬ -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 08 / ДЕЙСТВИЕ</div>
+    <div class="section-tag" contenteditable="true">// ЧТО ДЕЛАТЬ</div>
+    <h2 contenteditable="true">3 ДЕЙСТВИЯ ПРЯМО СЕЙЧАС</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Попробуйте сами.</strong> Seedance 2.0 доступна для тестирования. Сгенерируйте одно видео для своего контента -- чтобы понять масштаб.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Следите за законами.</strong> Закон об AI идёт в Госдуму весной 2026. Маркировка AI-контента может стать обязательной. Лучше знать заранее.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Учитесь промтить.</strong> Кто умеет промтить текст -- научится промтить видео за день. Навык промтинга = новая грамотность.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">8/9</div>
+</div></div>
+
+<!-- SLIDE 09: CTA -->
+<div class="phone-wrap"><div class="slide slide-cta">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 09 / CTA</div>
+    <div class="cta-keyword" contenteditable="true">AI<br><span class="accent">reХАБ</span></div>
+    <div class="cta-desc" contenteditable="true">Интерактивные разборы AI-трендов каждый четверг. Промты, инструменты, кейсы -- в формате, который можно сразу применить.</div>
+    <div class="cta-how" contenteditable="true">ЗАПИСАТЬСЯ → IRAAI.RU</div>
+    <div class="cta-handle" contenteditable="true">СТАРТ 5 МАРТА // @IRA.AND.AI</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">9/9</div>
+</div></div>
+
+</div>
+
+<div class="bottombar">
+    <button class="btn-primary" onclick="fullscreen()">FULL SIZE</button>
+</div>
+</div>
+
+<script>
+let currentStyle = 'nike';
+const styleDefaults = { nike: { accent: '#E63946', bg: '#000000', text: '#ffffff' }, light: { accent: '#E63946', bg: '#FAFAFA', text: '#1a1a1a' } };
+function setStyle(style) { currentStyle = style; const wrap = document.getElementById('slides-wrap'); wrap.className = 'slides-wrap style-' + style; document.querySelectorAll('.topbar button[id^="btn-"]').forEach(b => b.classList.remove('active')); document.getElementById('btn-' + style).classList.add('active'); }
+function fullscreen() { document.querySelector('.slides-wrap').style.setProperty('--scale', '1'); document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = '0'); window.scrollTo(0, 0); }
+setStyle('nike');
+</script>
+</body>
+</html>

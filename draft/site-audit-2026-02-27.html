@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сводный аудит: iraai.ru vs 3 конкурента</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #fff;
+            color: #1A1A1A;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 60px 32px 120px;
+        }
+        .date {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #C4654E;
+            margin-bottom: 8px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        .subtitle {
+            font-size: 17px;
+            color: #5C5856;
+            margin-bottom: 48px;
+            line-height: 1.6;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-top: 56px;
+            margin-bottom: 20px;
+            padding-top: 32px;
+            border-top: 2px solid #F0EDEA;
+        }
+        h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 28px;
+            margin-bottom: 8px;
+        }
+        p { margin-bottom: 12px; font-size: 15px; }
+        ul, ol { margin-bottom: 16px; padding-left: 20px; font-size: 15px; }
+        li { margin-bottom: 6px; }
+
+        .alert {
+            background: #FFF0F0;
+            border-left: 4px solid #E53935;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .alert strong { color: #C62828; }
+
+        .win {
+            background: #F0F7F1;
+            border-left: 4px solid #43A047;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .win strong { color: #2E7D32; }
+
+        .neutral {
+            background: #FFF8E1;
+            border-left: 4px solid #FFA000;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 24px;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+        .compare-table th {
+            text-align: left;
+            padding: 10px 12px;
+            background: #F5F3F0;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            border-bottom: 2px solid #E8E5E0;
+            white-space: nowrap;
+        }
+        .compare-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #F0EDEA;
+            vertical-align: top;
+        }
+        .compare-table tr:last-child td { border-bottom: none; }
+        .compare-table .bad { color: #C62828; font-weight: 600; }
+        .compare-table .good { color: #2E7D32; font-weight: 600; }
+        .compare-table .meh { color: #E65100; font-weight: 500; }
+
+        .priority-card {
+            background: #FAFAF8;
+            border: 1px solid #E8E5E0;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 12px 0;
+        }
+        .priority-card .num {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #C4654E;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        .priority-card .title {
+            font-weight: 800;
+            font-size: 16px;
+            display: inline;
+        }
+        .priority-card .desc {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #5C5856;
+        }
+        .priority-card .effort {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .effort-quick { background: #E8F5E9; color: #2E7D32; }
+        .effort-medium { background: #FFF3E0; color: #E65100; }
+        .effort-big { background: #FFF0F0; color: #C62828; }
+
+        .section-divider {
+            text-align: center;
+            margin: 48px 0;
+            font-size: 24px;
+            color: #E8E5E0;
+        }
+
+        code {
+            background: #F5F3F0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .competitor-card {
+            background: #FAFAF8;
+            border: 1px solid #E8E5E0;
+            border-radius: 16px;
+            padding: 28px 28px 20px;
+            margin: 24px 0;
+        }
+        .competitor-card .name {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .competitor-card .meta {
+            font-size: 13px;
+            color: #B0ACA6;
+            margin-bottom: 16px;
+        }
+        .competitor-card .takeaway {
+            background: #fff;
+            border: 1px solid #E8E5E0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        .competitor-card .takeaway strong {
+            color: #C4654E;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+        .tag-steal { background: #E8F5E9; color: #2E7D32; }
+        .tag-skip { background: #FFF0F0; color: #C62828; }
+        .tag-idea { background: #E3F2FD; color: #1565C0; }
+
+        .fixed-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            background: #43A047;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<div class="date">Сводный аудит &middot; 27 февраля 2026</div>
+<h1>iraai.ru vs 3 конкурента</h1>
+<p class="subtitle">Корзун, Замесин, AURA. Что они делают лучше, что хуже, и что забрать для iraai.ru.</p>
+
+<!-- ============================================ -->
+<h2>1. Три конкурента: кто есть кто</h2>
+
+<div class="competitor-card">
+    <div class="name">Алекс Корзун</div>
+    <div class="meta">alexkorzun.ru &middot; @lazyproducer &middot; 28K Telegram &middot; консультация 100K₽</div>
+    <p><strong>Ниша:</strong> продюсирование экспертов. Помогает упаковать экспертность и выйти на доход. Прямой конкурент Иры по аудитории (эксперты, не технари).</p>
+    <p><strong>Продуктовая лестница:</strong> бесплатный email-курс &rarr; гайды 990-3990₽ &rarr; консультация 100K &rarr; продюсирование 300K-1M₽.</p>
+    <p><strong>Суперсила:</strong> кейсы с конкретными числами. «Саша, психолог. Продал на 2.5 млн за 3 месяца». Якорное число «500 млн рублей» в шапке. CTA от лица клиента: «Хочу так же &rarr;».</p>
+    <div class="takeaway">
+        <span class="tag tag-steal">Забрать</span> Кейсы с цифрами, CTA от лица клиента, якорное число, обещание результата в email-курсе<br>
+        <span class="tag tag-skip">Не копировать</span> Агрессивные продажи, фейковый дефицит, длинные лендинги на каждый гайд
+    </div>
+</div>
+
+<div class="competitor-card">
+    <div class="name">Иван Замесин</div>
+    <div class="meta">fos22-zamesin.netlify.app &middot; @zamesin &middot; 48K Telegram &middot; 11K выпускников</div>
+    <p><strong>Ниша:</strong> продуктовое мышление + вайбкодинг. Учит продактов и фаундеров строить продукты с AI. Аудитория технарей (не Ирина ЦА).</p>
+    <p><strong>Продуктовая лестница:</strong> бесплатный контент (TG, подкасты) &rarr; BOOST 29-79K₽ (интенсив 1 неделя) &rarr; AJTBD курс &euro;990-1490 &rarr; AURA платформа &rarr; Мейкеры (закрытый клуб).</p>
+    <p><strong>Суперсила:</strong> идеологический вход в воронку. Сначала меняет картину мира («код стал бесплатным», «CTO за 350К/мес vs Claude за $420»), потом продаёт продукт как логичное следствие. Кейсы операциональные: «воспроизвёл SaaS за неделю», «3000 строк кода в день».</p>
+    <div class="takeaway">
+        <span class="tag tag-steal">Забрать</span> Сравнение стоимости как CTA (AI-стратег на 3ч vs штатный маркетолог на месяц), рыночные якоря, идеологический блок на сайте<br>
+        <span class="tag tag-steal">Забрать</span> Закрытый клуб как верхний уровень лестницы<br>
+        <span class="tag tag-skip">Не копировать</span> Технический язык (PRD, деплой, вайбкодинг), масштаб B2B-метафор ($1B потерь), отсутствие срочности (у него 48K, он может)
+    </div>
+</div>
+
+<div class="competitor-card">
+    <div class="name">AURA Framework</div>
+    <div class="meta">aura-framework.ru &middot; SaaS-платформа Замесина &middot; подписка от 3990₽/мес</div>
+    <p><strong>Ниша:</strong> AI-платформа для продуктовиков. SaaS с набором инструментов (генератор PRD, анализ рынка, сегментация). Это продукт, не личный бренд.</p>
+    <p><strong>Продуктовая лестница:</strong> Free (заморожен) &rarr; Maker 3990₽/мес &rarr; Founder 19900₽/мес (недоступен). Кредитная система (как ChatGPT).</p>
+    <p><strong>Суперсила:</strong> тарифы с именами (Maker/Founder создают идентичность), реферальная программа, живые созвоны как retention.</p>
+    <p><strong>Слабость:</strong> лендинг фактически не работает. Главная страница пустая, всё за логином. Нет кейсов, нет отзывов, нет объяснения ценности для нового посетителя.</p>
+    <div class="takeaway">
+        <span class="tag tag-idea">Идея</span> Тарифы с именами, реферальная программа «пригласи &rarr; бонус», живые созвоны как продукт<br>
+        <span class="tag tag-skip">Не копировать</span> Пустой лендинг, закрытость без обоснования, SaaS-язык в CTA, кредитная система (сложно для аудитории Иры)
+    </div>
+</div>
+
+<!-- ============================================ -->
+<h2>2. Сводная таблица: все vs iraai.ru</h2>
+
+<div style="overflow-x: auto;">
+<table class="compare-table">
+    <tr>
+        <th style="width:18%">Элемент</th>
+        <th style="width:20%">Корзун</th>
+        <th style="width:20%">Замесин</th>
+        <th style="width:20%">AURA</th>
+        <th style="width:22%">iraai.ru</th>
+    </tr>
+    <tr>
+        <td><strong>Аудитория</strong></td>
+        <td>Эксперты</td>
+        <td>Продакты, фаундеры</td>
+        <td>Продуктовики</td>
+        <td>Эксперты</td>
+    </tr>
+    <tr>
+        <td><strong>TG подписчики</strong></td>
+        <td>28K</td>
+        <td>48K</td>
+        <td>N/A (SaaS)</td>
+        <td>3.2K</td>
+    </tr>
+    <tr>
+        <td><strong>Якорное число</strong></td>
+        <td class="good">500 млн ₽</td>
+        <td class="good">$1B потерь SaaS, 11K выпускников</td>
+        <td class="bad">Нет</td>
+        <td class="bad">Нет</td>
+    </tr>
+    <tr>
+        <td><strong>Кейсы / отзывы</strong></td>
+        <td class="good">5-8, с именами и ₽</td>
+        <td class="good">4-5, с именами и результатами</td>
+        <td class="bad">0 (всё за логином)</td>
+        <td class="bad">0</td>
+    </tr>
+    <tr>
+        <td><strong>Бесплатный вход</strong></td>
+        <td class="good">Email-курс (5 дней + результат)</td>
+        <td class="good">TG + подкасты + эфиры</td>
+        <td class="meh">Free tier заморожен</td>
+        <td class="meh">AI реХАБ (без обещания результата)</td>
+    </tr>
+    <tr>
+        <td><strong>Дешёвый продукт</strong></td>
+        <td class="good">Гайды 990-3990₽</td>
+        <td class="good">BOOST 29-79K₽</td>
+        <td>Maker 3990₽/мес</td>
+        <td>Карусели 3900₽</td>
+    </tr>
+    <tr>
+        <td><strong>Дорогой продукт</strong></td>
+        <td class="good">Продюсирование 1M₽</td>
+        <td class="good">AJTBD &euro;1490 + закрытый клуб</td>
+        <td>Founder 19900₽/мес</td>
+        <td>Услуги от 50K₽</td>
+    </tr>
+    <tr>
+        <td><strong>Дефицит</strong></td>
+        <td class="good">«3 места в марте»</td>
+        <td>Нет (не нужен при 48K)</td>
+        <td class="meh">Тарифы «недоступны»</td>
+        <td class="bad">«Идёт набор» без дедлайна</td>
+    </tr>
+    <tr>
+        <td><strong>CTA</strong></td>
+        <td class="good">«Хочу так же &rarr;»</td>
+        <td class="good">Результат в названии продукта</td>
+        <td class="bad">«Оформить подписку»</td>
+        <td class="meh">«Курсы от 3900₽»</td>
+    </tr>
+    <tr>
+        <td><strong>Путь к оплате</strong></td>
+        <td class="good">Кнопка &rarr; форма &rarr; оплата</td>
+        <td class="good">Идеология &rarr; продукт &rarr; оплата</td>
+        <td class="meh">Логин &rarr; кредиты &rarr; оплата</td>
+        <td class="bad">SpaceHub: тупик без оплаты</td>
+    </tr>
+    <tr>
+        <td><strong>Лендинг</strong></td>
+        <td class="good">Продающий, с воронкой</td>
+        <td class="meh">Нет классического (контент-маркетинг)</td>
+        <td class="bad">Пустой, требует логин</td>
+        <td class="good">Красивый, но не продаёт</td>
+    </tr>
+    <tr>
+        <td><strong>Идеология</strong></td>
+        <td class="meh">Слабая (больше тактика)</td>
+        <td class="good">Сильная: «код бесплатен, гуманитарии выигрывают»</td>
+        <td class="bad">Нет (SaaS)</td>
+        <td class="meh">Есть задатки, но не на сайте</td>
+    </tr>
+    <tr>
+        <td><strong>Мобильная навигация</strong></td>
+        <td class="good">Бургер</td>
+        <td class="good">Sidebar</td>
+        <td class="good">Sidebar</td>
+        <td class="good">Бургер <span class="fixed-badge">FIXED</span></td>
+    </tr>
+    <tr>
+        <td><strong>SEO</strong></td>
+        <td>Базовый</td>
+        <td>N/A (Netlify app)</td>
+        <td>Базовый</td>
+        <td class="good">Продвинутый (schema, OG, hreflang)</td>
+    </tr>
+    <tr>
+        <td><strong>Дизайн</strong></td>
+        <td class="good">Профессиональный</td>
+        <td class="good">Техно-минимализм</td>
+        <td>Минимализм, безличный</td>
+        <td class="good">Профессиональный + анимации</td>
+    </tr>
+</table>
+</div>
+
+<!-- ============================================ -->
+<h2>3. Технический аудит iraai.ru</h2>
+
+<div class="win">
+    <strong>Починено сегодня (задеплоено)</strong><br>
+    <span class="fixed-badge">FIXED</span> Бургер-меню на мобилке (было: навигация полностью скрыта)<br>
+    <span class="fixed-badge">FIXED</span> Ссылка каруселей: github.io &rarr; /carousel-lead-magnet/<br>
+    <span class="fixed-badge">FIXED</span> Favicon на всех продуктовых страницах + manifest.json + 404 страница
+</div>
+
+<div class="neutral">
+    <strong>Припарковано: API-ключ Unisender</strong><br>
+    Ключ в открытом JS. Worker-прокси написан (<code>subscribe-worker.js</code>), деплой отдельной задачей. Риск умеренный: ключ может только добавлять подписчиков.
+    <br><a href="https://github.com/makefacktory90-lgtm/makefacktory90-lgtm.github.io/issues/2" style="color:#C4654E;font-weight:600;">Issue #2 на доске</a>
+</div>
+
+<div class="alert">
+    <strong>SpaceHub: «Идёт набор» без воронки</strong><br>
+    Карточка за 19 900₽ ведёт на /spacehub/, но нет формы оплаты, записи, контакта. Посетитель не может ничего сделать.
+    <br><a href="https://github.com/makefacktory90-lgtm/makefacktory90-lgtm.github.io/issues/5" style="color:#C4654E;font-weight:600;">Issue #5 на доске</a>
+</div>
+
+<!-- ============================================ -->
+<h2>4. Главные выводы из трёх анализов</h2>
+
+<h3>Что есть у ВСЕХ трёх конкурентов, чего нет у iraai.ru</h3>
+<ul>
+    <li><strong>Кейсы и результаты клиентов</strong> Корзун: «продал на 2.5 млн». Замесин: «воспроизвёл SaaS за неделю». Даже AURA имеет кейсы внутри продукта. У Иры: 0.</li>
+    <li><strong>Якорные числа</strong> Корзун: 500 млн ₽. Замесин: 11K выпускников, $420 vs 350K/мес. У Иры: цифры только внизу (16K IG, 100+ выпускников), не работают как якорь.</li>
+    <li><strong>Чёткий путь к оплате</strong> У всех трёх: кнопка &rarr; понятный следующий шаг. У Иры: SpaceHub в тупике.</li>
+</ul>
+
+<h3>В чём iraai.ru УЖЕ лучше</h3>
+<ul>
+    <li><strong>Дизайн и UX</strong> Лучше, чем у AURA (пустой лендинг) и не хуже Корзуна. Анимации, воксель, курсор-глоу интересный визуал.</li>
+    <li><strong>SEO</strong> Единственная из четырёх с полным набором: schema, OG, hreflang, structured data.</li>
+    <li><strong>Личный голос</strong> Ни Корзун, ни AURA не имеют такого живого голоса. Замесин ближе, но для другой аудитории.</li>
+    <li><strong>Продуктовая широта</strong> Курсы + услуги + рассылка + конструктор каруселей разнообразнее, чем у Корзуна (только продюсирование).</li>
+</ul>
+
+<!-- ============================================ -->
+<h2>5. Что забрать у каждого (конкретно)</h2>
+
+<h3>У Корзуна (приоритет: высокий, та же аудитория)</h3>
+<ol>
+    <li><strong>Кейсы с цифрами</strong> собрать 3-5 историй клиентов с именами, нишами, результатами</li>
+    <li><strong>CTA от лица клиента</strong> «Хочу делать контент сама» вместо «Курсы от 3900₽»</li>
+    <li><strong>Обещание результата в AI реХАБ</strong> не «коктейль из лайфхаков», а «За 4 письма научитесь делать X»</li>
+    <li><strong>Ступенька за 990₽</strong> маленький гайд/чеклист для снижения барьера входа</li>
+</ol>
+
+<h3>У Замесина (приоритет: средний, другая аудитория но сильные приёмы)</h3>
+<ol>
+    <li><strong>Сравнение стоимости как CTA</strong> «AI-стратег на 3 часа = 20K₽. Штатный маркетолог на месяц = 80K₽»</li>
+    <li><strong>Идеологический блок на сайте</strong> «Почему экспертам нужна AI-упаковка сейчас» с цифрами рынка</li>
+    <li><strong>Закрытый клуб</strong> как верхний уровень лестницы (после SpaceHub)</li>
+    <li><strong>Демонстрация компетентности через артефакт</strong> конструктор каруселей уже есть, показать на сайте как демо</li>
+</ol>
+
+<h3>У AURA (приоритет: низкий, другой формат, но есть идеи)</h3>
+<ol>
+    <li><strong>Тарифы с именами</strong> «Исследователь / Строитель / Основатель» вместо «Тариф 1 / 2»</li>
+    <li><strong>Реферальная программа</strong> «Пригласи &rarr; получи бонус» (при 16K IG хороший потенциал)</li>
+    <li><strong>Живые созвоны как retention-продукт</strong> легко реализуемо, не нужно записывать курс</li>
+</ol>
+
+<!-- ============================================ -->
+<h2>6. Что НЕ копировать (у всех трёх)</h2>
+
+<ul>
+    <li><strong>Агрессивные продажи Корзуна.</strong> «Срочно», «Последний шанс». Не голос Иры.</li>
+    <li><strong>Технический язык Замесина.</strong> PRD, деплой, SaaSpocalypse. Аудитория Иры это не поймёт.</li>
+    <li><strong>Пустой лендинг AURA.</strong> Закрытость без обоснования. Ире нужен открытый, продающий сайт.</li>
+    <li><strong>Фейковые дедлайны.</strong> Если мест реально не ограничено не врать. «Набор до [дата]» с реальной датой.</li>
+    <li><strong>Масштаб B2B-метафор.</strong> «$1B потерь» не резонирует для психологов и нутрициологов. Нужны личные числа: «сколько часов уходит на рутину», «во сколько обходится один клиент без автоматизации».</li>
+    <li><strong>Кредитная система AURA.</strong> Слишком сложно для аудитории Иры. Лучше понятные пакеты.</li>
+</ul>
+
+<!-- ============================================ -->
+<h2>7. План действий (обновлённый, с issues)</h2>
+
+<p>Баги починены. Осталось 8 маркетинговых задач. Все на канбан-доске.</p>
+
+<div class="priority-card">
+    <span class="num">1</span>
+    <div class="title">Кейсы и отзывы клиентов</div>
+    <div class="desc">Собрать 3-5 историй: имя, ниша, было &rarr; стало, цифра. Блок после Products. Это №1 по влиянию на конверсию все три конкурента это имеют, у нас ноль.</div>
+    <span class="effort effort-medium">2-4 часа</span>
+    <br><a href="https://github.com/makefacktory90-lgtm/makefacktory90-lgtm.github.io/issues/3" style="color:#C4654E;font-size:13px;font-weight:600;">Issue #3</a>
+</div>
+
+<div class="priority-card">
+    <span class="num">2</span>
+    <div class="title">Переписать CTA на язык клиента</div>
+    <div class="desc">«Курсы от 3900₽» &rarr; «Хочу делать контент сама». «Подписаться» &rarr; «Получить промпты бесплатно». Приём Корзуна, но в голосе Иры.</div>
+    <span class="effort effort-quick">20 минут</span>
+    <br><a href="https://github.com/makefacktory90-lgtm/makefacktory90-lgtm.github.io/issues/4" style="color:#C4654E;font-size:13px;font-weight:600;">Issue #4</a>
+</div>
+
+<div class="priority-card">
+    <span class="num">3</span>
+    <div class="title">SpaceHub: воронка оплаты</div>
+    <div class="desc">«Идёт набор» ведёт в тупик. Минимум: кнопка &rarr; Telegram. Лучше: дедлайн + количество мест + форма.</div>
+    <span class="effort effort-medium">1-2 часа</span>
+    <br><a href="https://github.com/makefacktory90-lgtm/makefacktory90-lgtm.github.io/issues/5" style="color:#C4654E;font-size:13px;font-weight:600;">Issue #5</a>
+</div>
+
+<div class="priority-card">
+    <span class="num">4</span>
+    <div class="title">Якорное число в hero</div>
+    <div class="desc">Приём Корзуна (500 млн) и Замесина (11K выпускников). Варианты для Иры: «100+ выпускников», «500+ каруселей», «выпускники из 12 ниш». Одна строка под заголовком.</div>
+    <span class="effort effort-quick">10 минут</span>
+    <br><a href="https://github.com/makefacktory90-lgtm/makefacktory90-lgtm.github.io/issues/6" style="color:#C4654E;font-size:13px;font-weight:600;">Issue #6</a>
+</div>
+
+<div class="priority-card">
+    <span class="num">5</span>
+    <div class="title">AI реХАБ: обещание результата</div>
+    <div class="desc">Приём Корзуна (5 писем &rarr; результат). Сейчас: описание формата. Нужно: «За 4 письма научитесь делать X. Бесплатно.»</div>
+    <span class="effort effort-quick">15 минут</span>
+    <br><a href="https://github.com/makefacktory90-lgtm/makefacktory90-lgtm.github.io/issues/7" style="color:#C4654E;font-size:13px;font-weight:600;">Issue #7</a>
+</div>
+
+<div class="priority-card">
+    <span class="num">6</span>
+    <div class="title">Сравнение стоимости (приём Замесина)</div>
+    <div class="desc">Блок на сайте: «AI-стратег на 3 часа = 20K₽. Штатный маркетолог на месяц = 80K₽. Дизайнер на карусель = 15K₽. Конструктор каруселей навсегда = 3900₽.» Убийственный якорь.</div>
+    <span class="effort effort-quick">30 минут</span>
+</div>
+
+<div class="priority-card">
+    <span class="num">7</span>
+    <div class="title">Идеологический блок</div>
+    <div class="desc">Приём Замесина: сначала картина мира, потом продукт. Блок «Почему экспертам нужна AI-упаковка сейчас» с 2-3 рыночными цифрами перед секцией Products.</div>
+    <span class="effort effort-medium">1 час</span>
+</div>
+
+<div class="priority-card">
+    <span class="num">8</span>
+    <div class="title">Ступенька за 990₽</div>
+    <div class="desc">Приём Корзуна: маленький продукт между бесплатным и 3900₽. Чеклист, гайд, набор промптов. Снижает барьер входа: 0 &rarr; 990₽ &rarr; 3900₽ вместо 0 &rarr; 3900₽.</div>
+    <span class="effort effort-medium">2-3 часа (контент + лендинг)</span>
+</div>
+
+<div class="section-divider">&bull; &bull; &bull;</div>
+
+<p style="font-size: 16px; font-weight: 700; color: #1A1A1A; margin-bottom: 8px;">Итог</p>
+<p style="font-size: 15px; color: #5C5856;">Дизайн и SEO iraai.ru не хуже (и даже лучше AURA). Проблема не в обёртке, а в содержании: нет социального доказательства, CTA описывают продукт вместо желания клиента, и самый дорогой продукт (SpaceHub) ведёт в тупик. Кейсы (#1) это единственная вещь, которую нужно собрать руками. Остальные 7 пунктов это текст + вёрстка, можно сделать за 1 сессию.</p>
+
+<p style="margin-top: 24px; font-size: 13px; color: #B0ACA6;">Все задачи на канбан-доске: <a href="https://github.com/users/makefacktory90-lgtm/projects/1" style="color:#C4654E;">GitHub Projects</a></p>
+
+</div>
+</body>
+</html>

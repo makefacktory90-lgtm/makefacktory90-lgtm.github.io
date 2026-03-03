@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Урок 3 — Генерация контента, навыки и монетизация | SpaceHub</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="SpaceHub: собираем AI-агентов — Урок 3">
+<meta property="og:description" content="Запись занятия с таймкодами и конспектом">
+<meta property="og:image" content="https://img.youtube.com/vi/A2nj-1T5wF0/maxresdefault.jpg">
+<meta property="og:url" content="https://makefacktory90-lgtm.github.io/spacehub-lessons/lesson-04.html">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --card: #1a1a28;
+  --text: #e8e6f0;
+  --text-dim: #8a87a0;
+  --accent-1: #ff3cac;
+  --accent-2: #00f5d4;
+  --accent-3: #fee440;
+  --accent-4: #7b61ff;
+  --gradient-hot: linear-gradient(135deg, #ff3cac, #ff6b35, #fee440);
+  --gradient-cool: linear-gradient(135deg, #7b61ff, #00f5d4);
+  --gradient-mesh: radial-gradient(ellipse at 20% 50%, rgba(123,97,255,0.15) 0%, transparent 50%),
+                   radial-gradient(ellipse at 80% 20%, rgba(255,60,172,0.12) 0%, transparent 50%),
+                   radial-gradient(ellipse at 60% 80%, rgba(0,245,212,0.1) 0%, transparent 50%);
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --correct: #00f5d4;
+  --wrong: #ff3cac;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ====== NAV ====== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.2rem 2.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  backdrop-filter: blur(20px);
+  background: rgba(10,10,15,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.logo {
+  font-family: var(--font-display); font-weight: 900; font-size: 1.2rem;
+  background: var(--gradient-hot);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-dim); text-decoration: none; font-size: 0.85rem;
+  font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--accent-2); }
+
+.nav-lesson {
+  font-size: 0.8rem; color: var(--text-dim);
+  padding: 0.4rem 1rem; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+}
+
+.hamburger { display: none; background: none; border: none; cursor: pointer; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--text); margin: 5px 0; transition: 0.3s; }
+
+/* ====== HERO ====== */
+.hero {
+  min-height: 70vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 8rem 2.5rem 4rem;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--gradient-mesh); z-index: 0;
+}
+
+.hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); animation: float 8s ease-in-out infinite; }
+.hero-orb--1 { width: 500px; height: 500px; background: rgba(255,60,172,0.15); top: -10%; right: -5%; }
+.hero-orb--2 { width: 400px; height: 400px; background: rgba(0,245,212,0.1); bottom: -15%; left: 10%; animation-delay: -3s; }
+.hero-orb--3 { width: 300px; height: 300px; background: rgba(123,97,255,0.12); top: 30%; left: 40%; animation-delay: -5s; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(0,245,212,0.3); border-radius: 100px;
+  font-size: 0.8rem; font-weight: 600; color: var(--accent-2);
+  margin-bottom: 2rem; letter-spacing: 0.08em; text-transform: uppercase;
+  animation: fadeInUp 0.8s ease-out;
+}
+.hero-tag::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--accent-2); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.hero h1 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.1; margin-bottom: 1.5rem;
+  animation: fadeInUp 0.8s ease-out 0.15s both;
+}
+.hero h1 .highlight {
+  background: var(--gradient-hot);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.15rem; color: var(--text-dim); max-width: 600px;
+  line-height: 1.7; margin-bottom: 2rem;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.hero-meta {
+  display: flex; gap: 2rem; flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease-out 0.45s both;
+}
+.hero-meta-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  color: var(--text-dim); font-size: 0.9rem;
+}
+.hero-meta-item svg { opacity: 0.6; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== SECTIONS ====== */
+section { padding: 5rem 2.5rem; position: relative; }
+
+.section-label {
+  display: inline-block; font-family: var(--font-display);
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-1); margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 900; line-height: 1.15; margin-bottom: 1.5rem;
+}
+
+.content-wrap { max-width: 900px; margin: 0 auto; }
+
+/* ====== TOC ====== */
+.toc-grid {
+  display: flex; flex-direction: column; gap: 0.5rem; margin-top: 2rem;
+}
+.toc-item {
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  text-decoration: none; color: var(--text);
+  transition: transform 0.3s, border-color 0.3s, background 0.3s;
+}
+.toc-item:hover {
+  transform: translateX(6px);
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+}
+.toc-number {
+  font-family: var(--font-display); font-weight: 900; font-size: 1.3rem;
+  background: var(--gradient-cool);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  min-width: 40px;
+}
+.toc-text { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
+.toc-title { font-weight: 600; font-size: 1rem; }
+.toc-time { font-size: 0.78rem; color: var(--text-dim); }
+.toc-item svg { color: var(--text-dim); transition: transform 0.3s; }
+.toc-item:hover svg { transform: translateX(4px); color: var(--accent-2); }
+
+/* ====== TIMESTAMPS ====== */
+.ts-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0.6rem; margin-top: 2rem;
+}
+.ts-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  transition: border-color 0.3s;
+}
+.ts-item:hover { border-color: rgba(0,245,212,0.2); }
+.ts-time {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
+  color: var(--accent-2);
+  background: rgba(0,245,212,0.08);
+  border: 1px solid rgba(0,245,212,0.15);
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer; white-space: nowrap;
+  transition: background 0.3s;
+}
+.ts-time:hover { background: rgba(0,245,212,0.15); }
+.ts-label { font-size: 0.9rem; color: var(--text-dim); }
+
+/* ====== TOPIC SECTIONS ====== */
+.topic-section { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.topic-inner { max-width: 900px; margin: 0 auto; }
+.topic-header {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem;
+}
+.topic-number {
+  font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.35rem 1rem; border-radius: 100px;
+}
+.topic-number.accent-1 { color: var(--accent-1); background: rgba(255,60,172,0.1); }
+.topic-number.accent-2 { color: var(--accent-2); background: rgba(0,245,212,0.1); }
+.topic-number.accent-3 { color: var(--accent-3); background: rgba(254,228,64,0.1); }
+.topic-number.accent-4 { color: var(--accent-4); background: rgba(123,97,255,0.1); }
+
+.topic-ts {
+  font-family: var(--font-display); font-size: 0.75rem;
+  color: var(--text-dim); opacity: 0.7;
+}
+
+.topic-desc {
+  color: var(--text-dim); font-size: 1.05rem; line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.key-points {
+  list-style: none; display: flex; flex-direction: column; gap: 0.7rem;
+}
+.key-points li {
+  position: relative; padding-left: 1.5rem;
+  color: var(--text); font-size: 0.95rem; line-height: 1.6;
+}
+.key-points li::before {
+  content: '';
+  position: absolute; left: 0; top: 0.55rem;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gradient-cool);
+}
+
+/* ====== QUIZ ====== */
+.quiz-grid {
+  display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;
+}
+.quiz-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 20px; overflow: hidden;
+  transition: border-color 0.3s;
+}
+.quiz-card:hover { border-color: rgba(255,255,255,0.1); }
+
+.quiz-q-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.5rem 1.8rem; cursor: pointer;
+  transition: background 0.3s;
+}
+.quiz-q-header:hover { background: rgba(255,255,255,0.02); }
+
+.quiz-q-num {
+  font-family: var(--font-display); font-weight: 900; font-size: 1.1rem;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px;
+  background: rgba(123,97,255,0.12); color: var(--accent-4);
+  flex-shrink: 0;
+}
+.quiz-q-text { flex: 1; font-weight: 600; font-size: 1rem; }
+.quiz-chevron {
+  color: var(--text-dim); transition: transform 0.3s; flex-shrink: 0;
+}
+.quiz-card.open .quiz-chevron { transform: rotate(180deg); }
+
+.quiz-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.quiz-card.open .quiz-body { max-height: 600px; }
+
+.quiz-options {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  padding: 0 1.8rem 1.5rem;
+}
+.quiz-option {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.9rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  color: var(--text); font-family: var(--font-body); font-size: 0.92rem;
+  cursor: pointer; text-align: left; width: 100%;
+  transition: all 0.3s;
+}
+.quiz-option:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); }
+
+.quiz-option-letter {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.8rem;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; background: rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+
+.quiz-option.correct {
+  border-color: var(--correct); background: rgba(0,245,212,0.08);
+}
+.quiz-option.correct .quiz-option-letter { background: var(--correct); color: #0a0a0f; }
+
+.quiz-option.wrong {
+  border-color: var(--wrong); background: rgba(255,60,172,0.08);
+}
+.quiz-option.wrong .quiz-option-letter { background: var(--wrong); color: #0a0a0f; }
+
+.quiz-option.disabled { pointer-events: none; opacity: 0.6; }
+.quiz-option.correct.disabled { opacity: 1; }
+
+.quiz-explanation {
+  margin: 0 1.8rem 1.5rem;
+  padding: 1rem 1.2rem;
+  background: rgba(123,97,255,0.08);
+  border-left: 3px solid var(--accent-4);
+  border-radius: 0 12px 12px 0;
+  font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;
+}
+
+/* ====== GLOSSARY ====== */
+.glossary-table {
+  width: 100%; margin-top: 2rem;
+  border-collapse: separate; border-spacing: 0 0.5rem;
+}
+.glossary-table tr {
+  background: var(--card);
+  transition: transform 0.3s;
+}
+.glossary-table tr:hover { transform: translateX(4px); }
+
+.glossary-table td {
+  padding: 1.2rem 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.95rem;
+}
+.glossary-table td:first-child {
+  border-radius: 14px 0 0 14px;
+  border-right: none;
+}
+.glossary-table td:last-child {
+  border-radius: 0 14px 14px 0;
+  border-left: none;
+}
+
+.gl-term {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.95rem;
+  color: var(--accent-2); white-space: nowrap; width: 200px;
+}
+.gl-def { color: var(--text-dim); line-height: 1.6; }
+
+/* ====== VIDEO PLAYER ====== */
+.video-section {
+  padding: 0 2.5rem 3rem;
+  position: relative;
+}
+.video-wrap {
+  max-width: 900px; margin: 0 auto;
+  border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--card);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.video-container {
+  position: relative; width: 100%; padding-bottom: 56.25%; height: 0;
+}
+.video-container iframe {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+}
+
+/* ====== HOMEWORK ====== */
+.hw-grid {
+  display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem;
+}
+.hw-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 2rem 2rem;
+  transition: border-color 0.3s;
+}
+.hw-card:hover { border-color: rgba(0,245,212,0.15); }
+.hw-card-header {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1rem;
+}
+.hw-num {
+  font-family: var(--font-display); font-weight: 900; font-size: 1.1rem;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; flex-shrink: 0;
+}
+.hw-num.n1 { background: rgba(255,60,172,0.12); color: var(--accent-1); }
+.hw-num.n2 { background: rgba(0,245,212,0.12); color: var(--accent-2); }
+.hw-num.n3 { background: rgba(254,228,64,0.12); color: var(--accent-3); }
+.hw-num.n4 { background: rgba(123,97,255,0.12); color: var(--accent-4); }
+.hw-title { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+.hw-desc {
+  color: var(--text-dim); font-size: 0.95rem; line-height: 1.8;
+}
+.hw-check {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-top: 1rem; padding: 0.7rem 1rem;
+  background: rgba(0,245,212,0.05);
+  border: 1px solid rgba(0,245,212,0.1);
+  border-radius: 10px;
+  font-size: 0.85rem; color: var(--accent-2);
+  cursor: pointer; transition: background 0.3s;
+}
+.hw-check:hover { background: rgba(0,245,212,0.1); }
+.hw-check input[type="checkbox"] { accent-color: var(--accent-2); width: 16px; height: 16px; }
+
+
+/* ====== FOOTER ====== */
+footer {
+  max-width: 900px; margin: 0 auto; padding: 3rem 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer-left { display: flex; flex-direction: column; gap: 0.5rem; }
+.footer-brand {
+  font-family: var(--font-display); font-weight: 900; font-size: 1rem;
+  background: var(--gradient-hot);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.footer-tagline { font-size: 0.85rem; color: var(--text-dim); font-style: italic; }
+.footer-nav { display: flex; gap: 1.5rem; }
+.footer-nav a {
+  font-size: 0.85rem; color: var(--text-dim); text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-nav a:hover { color: var(--accent-2); }
+
+/* ====== SCROLL ANIMATIONS ====== */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  section { padding: 3.5rem 1.5rem; }
+  .ts-grid { grid-template-columns: 1fr; }
+  .gl-term { white-space: normal; width: auto; }
+  .glossary-table td { display: block; border-radius: 0; border: none; }
+  .glossary-table td:first-child { padding-bottom: 0.3rem; border-radius: 14px 14px 0 0; }
+  .glossary-table td:last-child { padding-top: 0; border-radius: 0 0 14px 14px; }
+  .glossary-table tr { display: block; border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.5rem; }
+  footer { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 7rem 1.5rem 3rem; }
+  .hero-meta { gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="https://iraai.ru/spacehub/#cockpit">&larr; SPACEHUB</a>
+  <ul class="nav-links">
+    <li><a href="#toc">Содержание</a></li>
+    <li><a href="#timestamps">Таймкоды</a></li>
+    <li><a href="#quiz">Квиз</a></li>
+    <li><a href="#glossary">Глоссарий</a></li>
+    <li><a href="#homework">Домашка</a></li>
+  </ul>
+  <span class="nav-lesson">Урок 3 / 4</span>
+  <button class="hamburger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb hero-orb--1"></div>
+  <div class="hero-orb hero-orb--2"></div>
+  <div class="hero-orb hero-orb--3"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Урок 3 из 4</div>
+    <h1>Генерация контента, <span class="highlight">навыки</span> и монетизация</h1>
+    <p class="hero-sub">Подключаем генерацию изображений и видео, разбираем навыки (Skills) для экономии токенов, настраиваем подписки с монетизацией и учимся работать с ролями.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        19.02.2026
+      </div>
+      <div class="hero-meta-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        7 тем
+      </div>
+      <div class="hero-meta-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        SpaceHub: собираем AI-агентов
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO PLAYER -->
+<section class="video-section">
+  <div class="video-wrap reveal">
+    <div class="video-container">
+      <div id="yt-player"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TOC -->
+<section id="toc">
+  <div class="content-wrap">
+    <span class="section-label reveal">Содержание</span>
+    <h2 class="section-title reveal">О чём этот урок</h2>
+    <div class="toc-grid">
+      <a href="#topic-0" class="toc-item reveal">
+        <span class="toc-number">01</span>
+        <span class="toc-text">
+          <span class="toc-title">Генерация изображений: Nano Banana, GPT Image</span>
+          <span class="toc-time">00:00</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a href="#topic-1" class="toc-item reveal">
+        <span class="toc-number">02</span>
+        <span class="toc-text">
+          <span class="toc-title">Генерация видео: Veo, первый и последний кадр</span>
+          <span class="toc-time">10:10</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a href="#topic-2" class="toc-item reveal">
+        <span class="toc-number">03</span>
+        <span class="toc-text">
+          <span class="toc-title">Несколько генераторов в одном боте</span>
+          <span class="toc-time">21:12</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a href="#topic-3" class="toc-item reveal">
+        <span class="toc-number">04</span>
+        <span class="toc-text">
+          <span class="toc-title">Навыки (Skills): экономия токенов и цепочки</span>
+          <span class="toc-time">29:26</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a href="#topic-4" class="toc-item reveal">
+        <span class="toc-number">05</span>
+        <span class="toc-text">
+          <span class="toc-title">Подписки и монетизация бота</span>
+          <span class="toc-time">45:25</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a href="#topic-5" class="toc-item reveal">
+        <span class="toc-number">06</span>
+        <span class="toc-text">
+          <span class="toc-title">Роли: admin, user и наследование</span>
+          <span class="toc-time">1:05:17</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a href="#topic-6" class="toc-item reveal">
+        <span class="toc-number">07</span>
+        <span class="toc-text">
+          <span class="toc-title">Q&A: вопросы участников</span>
+          <span class="toc-time">1:18:27</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TIMESTAMPS -->
+<section id="timestamps">
+  <div class="content-wrap">
+    <span class="section-label reveal">Таймкоды</span>
+    <h2 class="section-title reveal">Навигация по уроку</h2>
+    <div class="ts-grid">
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="0">00:00</button>
+        <span class="ts-label">Вступление: план урока и темы дня</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="120">02:00</button>
+        <span class="ts-label">Денис: инструмент генерации изображений</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="228">03:48</button>
+        <span class="ts-label">Стиль в промпте: ускорение каруселей</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="335">05:35</button>
+        <span class="ts-label">Стоимость моделей: 50 кредитов за Nano Banana Pro</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="425">07:05</button>
+        <span class="ts-label">Генерация с изменением: Hello Kitty мрачнеет</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="610">10:10</button>
+        <span class="ts-label">Генерация видео: Veo и первый/последний кадр</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="750">12:30</button>
+        <span class="ts-label">Стоимость видео: 150 кредитов (~30 руб.)</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="1092">18:12</button>
+        <span class="ts-label">Ира: про профессионалов и тысячи генераций</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="1272">21:12</button>
+        <span class="ts-label">Обновления интерфейса: чаты и треды</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="1500">25:00</button>
+        <span class="ts-label">Несколько генераторов и выбор словами</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="1766">29:26</button>
+        <span class="ts-label">Навыки (Skills): зачем и как работают</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="1920">32:00</button>
+        <span class="ts-label">Создание навыка: правила для Veo 3</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="2175">36:15</button>
+        <span class="ts-label">Context rot: почему меньше токенов = лучше</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="2460">41:00</button>
+        <span class="ts-label">Всегда включен vs по требованию</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="2555">42:35</button>
+        <span class="ts-label">Цепочки навыков: последовательный workflow</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="2725">45:25</button>
+        <span class="ts-label">Подписки: создание тарифного плана</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="2880">48:00</button>
+        <span class="ts-label">Цена в звёздах и рублях, автопродление</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="3130">52:10</button>
+        <span class="ts-label">Расчёт маржи: 5000 кредитов за 1000 руб.</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="3350">55:50</button>
+        <span class="ts-label">Покупка подписки через Telegram</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="3780">63:00</button>
+        <span class="ts-label">Мультиязычность платформы</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="3917">1:05:17</button>
+        <span class="ts-label">Роли: admin и user, наследование настроек</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="4200">1:10:00</button>
+        <span class="ts-label">Роли + подписки: переопределение при покупке</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="4707">1:18:27</button>
+        <span class="ts-label">Q&A: передача ассистентов, экспорт, базы знаний</span>
+      </div>
+      <div class="ts-item reveal">
+        <button class="ts-time" data-seconds="4920">1:22:00</button>
+        <span class="ts-label">Анонс субботы: глубокое погружение в память</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOPICS -->
+
+<section id="topic-0" class="topic-section">
+  <div class="topic-inner reveal">
+    <div class="topic-header">
+      <span class="topic-number accent-1">Тема 01</span>
+      <span class="topic-ts">00:00</span>
+    </div>
+    <h2 class="section-title">Генерация изображений: Nano Banana, GPT Image</h2>
+    <p class="topic-desc">Денис показывает, как подключить инструмент генерации изображений к ассистенту. Разбираются доступные модели (Nano Banana, Nano Banana Pro, GPT Image, SiDream 4.5), стоимость каждой, работа с русским текстом. Ира объясняет, как фирменный стиль в промпте ускоряет создание каруселей.</p>
+    <ul class="key-points">
+      <li>Nano Banana Pro: лучшее качество на русском, стоимость 50 кредитов за картинку</li>
+      <li>GPT Image: хорош для общих задач, но хуже с русским текстом</li>
+      <li>Стиль в промпте инструмента = все картинки бота в едином визуале</li>
+      <li>Голосовые команды тоже работают: говорите боту что нарисовать, картинка летит в Telegram</li>
+      <li>Генерация стоит ~2 рубля за картинку на Nano Banana</li>
+    </ul>
+  </div>
+</section>
+
+<section id="topic-1" class="topic-section">
+  <div class="topic-inner reveal">
+    <div class="topic-header">
+      <span class="topic-number accent-2">Тема 02</span>
+      <span class="topic-ts">10:10</span>
+    </div>
+    <h2 class="section-title">Генерация видео: Veo, первый и последний кадр</h2>
+    <p class="topic-desc">Подключение инструмента генерации видео. Обзор моделей: Veo (Google), SiDream. Функция первого и последнего кадра позволяет создавать переходы между двумя изображениями. Обсуждение стоимости и реалистичных ожиданий от генерации.</p>
+    <ul class="key-points">
+      <li>Veo (Google): дешёвая и быстрая модель для видео, поддерживает вертикальный и горизонтальный формат</li>
+      <li>Первый и последний кадр: задаёте два изображения, модель генерирует переход</li>
+      <li>Стоимость видео: ~150 кредитов (~30 руб.) за 5 секунд</li>
+      <li>Ира: профессионалы делают тысячи генераций для хорошего кадра, это нормально</li>
+      <li>Формат (горизонтальный/вертикальный) указывается в промпте</li>
+    </ul>
+  </div>
+</section>
+
+<section id="topic-2" class="topic-section">
+  <div class="topic-inner reveal">
+    <div class="topic-header">
+      <span class="topic-number accent-3">Тема 03</span>
+      <span class="topic-ts">21:12</span>
+    </div>
+    <h2 class="section-title">Несколько генераторов в одном боте</h2>
+    <p class="topic-desc">Как подключить несколько инструментов генерации к одному ассистенту и переключаться между ними словами. Обновления интерфейса: появились чаты с тредами внутри AI from Space. Агентная система помнит контекст предыдущих запросов.</p>
+    <ul class="key-points">
+      <li>В одном боте могут быть Nano Banana + GPT Image + Veo одновременно</li>
+      <li>Ассистент сам выбирает нужный инструмент по вашей просьбе: &laquo;сделай с помощью Nano Banana&raquo;</li>
+      <li>Это не оркестратор: просто несколько инструментов у одного ассистента</li>
+      <li>Агентная система: бот помнит, что только что делал, можно просить доработать</li>
+      <li>Новый ChatGPT-like интерфейс: треды, история, удобнее для работы</li>
+    </ul>
+  </div>
+</section>
+
+<section id="topic-3" class="topic-section">
+  <div class="topic-inner reveal">
+    <div class="topic-header">
+      <span class="topic-number accent-4">Тема 04</span>
+      <span class="topic-ts">29:26</span>
+    </div>
+    <h2 class="section-title">Навыки (Skills): экономия токенов и цепочки</h2>
+    <p class="topic-desc">Новая функция, вдохновлённая Claude Code. Навык &mdash; это мини-программа с инструкциями, которая подгружается только когда нужна. Два режима: &laquo;по требованию&raquo; (экономит токены) и &laquo;всегда включен&raquo; (как постоянная память). Можно строить последовательные цепочки навыков.</p>
+    <ul class="key-points">
+      <li>Навык = инструкция, которая подгружается по требованию, а не висит постоянно</li>
+      <li>Экономия: вместо 10 000 токенов в памяти &mdash; одно предложение-описание</li>
+      <li>Context rot: чем больше токенов у модели, тем хуже она соображает</li>
+      <li>Цепочки: навыки можно выстраивать последовательно (поиск &rarr; анализ &rarr; текст &rarr; проверка)</li>
+      <li>Два режима: &laquo;по требованию&raquo; (90% случаев) и &laquo;всегда включен&raquo; (как факты)</li>
+      <li>Ира: это путь к полной автоматизации &mdash; робот идёт по чёткому маршруту</li>
+    </ul>
+  </div>
+</section>
+
+<section id="topic-4" class="topic-section">
+  <div class="topic-inner reveal">
+    <div class="topic-header">
+      <span class="topic-number accent-1">Тема 05</span>
+      <span class="topic-ts">45:25</span>
+    </div>
+    <h2 class="section-title">Подписки и монетизация бота</h2>
+    <p class="topic-desc">Полный разбор системы подписок: создание тарифных планов, оплата звёздами Telegram или рублями, расчёт маржинальности, автопродление. Как определить цену подписки исходя из стоимости кредитов.</p>
+    <ul class="key-points">
+      <li>Оплата: звёзды Telegram (сразу к вам) или рубли (через Дениса, раз в месяц)</li>
+      <li>Расчёт маржи: 1000 руб. = 5000 кредитов. Хотите x5 &rarr; даёте 1000 кредитов за 1000 руб.</li>
+      <li>Для 100 руб./мес: ~100 кредитов пользователю (маржа x5)</li>
+      <li>Несколько ассистентов на одну подписку &mdash; можно продавать пакетом</li>
+      <li>Автопродление работает только для месячных подписок</li>
+      <li>Промпт при покупке: бот сам здоровается с новым подписчиком</li>
+      <li>Лимиты: переопределяют дефолтные по сообщениям и/или кредитам</li>
+    </ul>
+  </div>
+</section>
+
+<section id="topic-5" class="topic-section">
+  <div class="topic-inner reveal">
+    <div class="topic-header">
+      <span class="topic-number accent-2">Тема 06</span>
+      <span class="topic-ts">1:05:17</span>
+    </div>
+    <h2 class="section-title">Роли: admin, user и наследование</h2>
+    <p class="topic-desc">Система ролей позволяет ассистенту вести себя по-разному с разными людьми. Роль admin наследует от user, но может переопределять настройки, память и инструменты. Можно ограничить функции для бесплатных пользователей и расширить для платных.</p>
+    <ul class="key-points">
+      <li>User &mdash; роль по умолчанию для всех. Не удалять!</li>
+      <li>Admin наследует от User, но может переопределять: настройки, память, инструменты</li>
+      <li>Память по ролям: User видит &laquo;ты работаешь на Дениса&raquo;, Admin видит &laquo;я тебя создал&raquo;</li>
+      <li>Инструменты по ролям: бесплатным &mdash; базовые, платным &mdash; все генераторы</li>
+      <li>Подписка может переопределять роль: купил &rarr; стал Admin с расширенными правами</li>
+      <li>Это основа для администратора: бот отвечает клиентам, а вам пишет уведомления</li>
+    </ul>
+  </div>
+</section>
+
+<section id="topic-6" class="topic-section">
+  <div class="topic-inner reveal">
+    <div class="topic-header">
+      <span class="topic-number accent-3">Тема 07</span>
+      <span class="topic-ts">1:18:27</span>
+    </div>
+    <h2 class="section-title">Q&A: вопросы участников</h2>
+    <p class="topic-desc">Разбор вопросов: передача ассистентов между аккаунтами, экспорт в PDF через Code Interpreter, работа с большими базами знаний (100+ курсов), белорусские карты и международные платежи. Анонс субботы: глубокое погружение в память.</p>
+    <ul class="key-points">
+      <li>Передача ассистента: написать Денису, он перенесёт. Скоро &mdash; через интерфейс</li>
+      <li>Кнопка &laquo;Скопировать ассистента&raquo; &mdash; дублирует все настройки, память, инструменты</li>
+      <li>Экспорт в PDF: включить Code Interpreter, попросить ассистента сгенерировать файл</li>
+      <li>Большие базы знаний: информации может быть сколько угодно, вызывается по необходимости</li>
+      <li>Международные платежи (евро/доллары): в разработке, скоро</li>
+      <li>Суббота: детальный разбор памяти &mdash; стейджинг, загрузка файлов, отображение</li>
+    </ul>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="content-wrap">
+    <span class="section-label reveal">Проверь себя</span>
+    <h2 class="section-title reveal">Квиз по уроку</h2>
+    <div class="quiz-grid">
+
+      <div class="quiz-card reveal">
+        <div class="quiz-q-header" onclick="toggleQuiz(this)">
+          <span class="quiz-q-num">1</span>
+          <span class="quiz-q-text">Какая модель лучше всего генерирует картинки с русским текстом?</span>
+          <svg class="quiz-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">A</span> GPT Image
+            </button>
+            <button class="quiz-option" data-correct="true" onclick="selectOption(this)">
+              <span class="quiz-option-letter">B</span> Nano Banana Pro
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">C</span> SiDream 4.5
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">D</span> Veo 3
+            </button>
+          </div>
+          <div class="quiz-explanation" style="display:none">
+            <p>Nano Banana Pro лучше всех работает с русским текстом на изображениях. GPT Image тоже неплох, но по русскому тексту уступает. Стоимость Nano Banana Pro &mdash; 50 кредитов за картинку.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-card reveal">
+        <div class="quiz-q-header" onclick="toggleQuiz(this)">
+          <span class="quiz-q-num">2</span>
+          <span class="quiz-q-text">Что такое навык (Skill) в AI from Space?</span>
+          <svg class="quiz-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">A</span> Другое название для инструмента генерации
+            </button>
+            <button class="quiz-option" data-correct="true" onclick="selectOption(this)">
+              <span class="quiz-option-letter">B</span> Инструкция, которая подгружается по требованию для экономии токенов
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">C</span> Постоянная память с фактами об ассистенте
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">D</span> Шаблон для создания нового ассистента
+            </button>
+          </div>
+          <div class="quiz-explanation" style="display:none">
+            <p>Навык &mdash; это набор инструкций, который подгружается только когда нужен. Вместо огромного промпта в постоянной памяти (тратит токены всегда), навык активируется по триггеру. Это экономит токены и борется с context rot.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-card reveal">
+        <div class="quiz-q-header" onclick="toggleQuiz(this)">
+          <span class="quiz-q-num">3</span>
+          <span class="quiz-q-text">Что такое context rot?</span>
+          <svg class="quiz-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">A</span> Утечка данных из памяти ассистента
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">B</span> Автоматическое удаление старых сообщений
+            </button>
+            <button class="quiz-option" data-correct="true" onclick="selectOption(this)">
+              <span class="quiz-option-letter">C</span> Ухудшение работы модели при слишком большом контексте
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">D</span> Ошибка при генерации изображений
+            </button>
+          </div>
+          <div class="quiz-explanation" style="display:none">
+            <p>Context rot &mdash; &laquo;гниение контекста&raquo;. Чем больше токенов модель обрабатывает одновременно, тем хуже она соображает. Как если бы вы перед экзаменом за 5 минут прочитали всю книжку &mdash; ничего не запомните. Навыки решают эту проблему.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-card reveal">
+        <div class="quiz-q-header" onclick="toggleQuiz(this)">
+          <span class="quiz-q-num">4</span>
+          <span class="quiz-q-text">Как рассчитать маржинальность подписки на бота?</span>
+          <svg class="quiz-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">A</span> Поставить любую цену и надеяться на лучшее
+            </button>
+            <button class="quiz-option" data-correct="true" onclick="selectOption(this)">
+              <span class="quiz-option-letter">B</span> Посчитать стоимость кредитов за цену подписки, дать пользователю меньше кредитов (маржа x5)
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">C</span> Дать пользователю безлимитные кредиты за фиксированную сумму
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">D</span> Списывать плату за каждое сообщение отдельно
+            </button>
+          </div>
+          <div class="quiz-explanation" style="display:none">
+            <p>Пример: 1000 руб. = 5000 кредитов по себестоимости. Хотите маржу x5? Даёте пользователю 1000 кредитов за 1000 руб. Для подписки 100 руб./мес &mdash; это ~100 кредитов. Чем больше пакет, тем дешевле кредит для пользователя.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-card reveal">
+        <div class="quiz-q-header" onclick="toggleQuiz(this)">
+          <span class="quiz-q-num">5</span>
+          <span class="quiz-q-text">Что произойдёт, если подписка переопределяет роль?</span>
+          <svg class="quiz-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="true" onclick="selectOption(this)">
+              <span class="quiz-option-letter">A</span> Пользователь получает расширенные права, инструменты и лимиты новой роли
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">B</span> Пользователь теряет доступ к базовым функциям
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">C</span> Ничего не меняется, роль только косметическая
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">D</span> Нужно перезагрузить бота для применения
+            </button>
+          </div>
+          <div class="quiz-explanation" style="display:none">
+            <p>При покупке подписки с переопределением роли пользователь автоматически получает все настройки новой роли: расширенные инструменты, больше лимитов, другой уровень размышления модели, дополнительную память. Пример: бесплатный user &rarr; купил подписку &rarr; стал admin с доступом к Nano Banana Pro и Veo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-card reveal">
+        <div class="quiz-q-header" onclick="toggleQuiz(this)">
+          <span class="quiz-q-num">6</span>
+          <span class="quiz-q-text">Зачем нужны два режима активации навыка?</span>
+          <svg class="quiz-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-options">
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">A</span> Один для текста, другой для картинок
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">B</span> Один для бесплатных, другой для платных пользователей
+            </button>
+            <button class="quiz-option" data-correct="true" onclick="selectOption(this)">
+              <span class="quiz-option-letter">C</span> &laquo;По требованию&raquo; экономит токены, &laquo;всегда включен&raquo; для постоянных правил поведения
+            </button>
+            <button class="quiz-option" data-correct="false" onclick="selectOption(this)">
+              <span class="quiz-option-letter">D</span> Разницы нет, это дублирующие настройки
+            </button>
+          </div>
+          <div class="quiz-explanation" style="display:none">
+            <p>&laquo;По требованию&raquo; подгружает инструкцию только когда нужно (90% случаев). &laquo;Всегда включен&raquo; работает как постоянная память &mdash; для правил поведения, которые нужны практически в каждом разговоре. Разница между &laquo;всегда включённым&raquo; навыком и постоянной памятью: в памяти факты, в навыке &mdash; алгоритмы работы.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOSSARY -->
+<section id="glossary">
+  <div class="content-wrap">
+    <span class="section-label reveal">Словарь</span>
+    <h2 class="section-title reveal">Глоссарий</h2>
+    <table class="glossary-table">
+      <tr class="reveal">
+        <td class="gl-term">Nano Banana Pro</td>
+        <td class="gl-def">Модель генерации изображений от Google (Gemini). Лучшая для русского текста, стоимость 50 кредитов за картинку</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Veo</td>
+        <td class="gl-def">Модель генерации видео от Google. Поддерживает горизонтальный и вертикальный формат, первый и последний кадр</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Навык (Skill)</td>
+        <td class="gl-def">Набор инструкций, подгружаемый по требованию. Экономит токены и повышает качество ответов за счёт борьбы с context rot</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Context rot</td>
+        <td class="gl-def">&laquo;Гниение контекста&raquo; &mdash; ухудшение работы LLM при слишком большом количестве токенов в контексте</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Подписка</td>
+        <td class="gl-def">Тарифный план для монетизации бота. Оплата звёздами Telegram или рублями, с лимитами и автопродлением</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Звёзды Telegram</td>
+        <td class="gl-def">Внутренняя валюта Telegram. Деньги идут напрямую создателю бота, минуя AI from Space</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Роль</td>
+        <td class="gl-def">Набор прав и настроек для группы пользователей. User (по умолчанию) &rarr; Admin &rarr; и другие. Наследуют друг от друга</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Наследование ролей</td>
+        <td class="gl-def">Дочерняя роль берёт все настройки родительской, но может переопределять отдельные параметры</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Лимиты</td>
+        <td class="gl-def">Ограничения по сообщениям и/или кредитам. Устанавливаются для роли или подписки, переопределяют дефолтные</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Кредиты</td>
+        <td class="gl-def">Единица расчёта в AI from Space. 1000 руб. = ~5000 кредитов. Расходуются на генерацию текста, картинок и видео</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">SiDream 4.5</td>
+        <td class="gl-def">Модель генерации изображений. Поддерживает 4K разрешение, конкурирует с Nano Banana Pro по качеству</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Code Interpreter</td>
+        <td class="gl-def">Инструмент исполнения кода: позволяет ассистенту генерировать PDF, Excel, графики и другие файлы</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Автопродление</td>
+        <td class="gl-def">Автоматическое списание за подписку каждый месяц. Работает только для месячных тарифов</td>
+      </tr>
+      <tr class="reveal">
+        <td class="gl-term">Маржинальность</td>
+        <td class="gl-def">Разница между себестоимостью кредитов и ценой подписки. Рекомендация: маржа x5 (даёте пользователю в 5 раз меньше кредитов, чем покупаете)</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- HOMEWORK -->
+<section id="homework">
+  <div class="content-wrap">
+    <span class="section-label reveal">Практика</span>
+    <h2 class="section-title reveal">Домашнее задание</h2>
+    <div class="hw-grid">
+
+      <div class="hw-card reveal">
+        <div class="hw-card-header">
+          <span class="hw-num n1">1</span>
+          <span class="hw-title">Подключите генерацию изображений</span>
+        </div>
+        <p class="hw-desc">Откройте вашего ассистента в AI from Space. Добавьте инструмент генерации изображений, выберите модель <strong>Nano Banana</strong> (для экономии) или <strong>Nano Banana Pro</strong> (для качества). В промпт инструмента добавьте свой визуальный стиль. Попросите бота сгенерировать 3 картинки в этом стиле и убедитесь, что результат стабильный.</p>
+        <label class="hw-check"><input type="checkbox"> Сделано</label>
+      </div>
+
+      <div class="hw-card reveal">
+        <div class="hw-card-header">
+          <span class="hw-num n2">2</span>
+          <span class="hw-title">Создайте навык (Skill)</span>
+        </div>
+        <p class="hw-desc">Зайдите в раздел навыков ассистента. Создайте навык <strong>&laquo;по требованию&raquo;</strong> для задачи, которую вы делаете периодически: например, генерация видео с определёнными параметрами, или создание текста по шаблону. Напишите чёткое описание навыка (одно предложение) и инструкции внутри. Протестируйте: попросите бота выполнить задачу и проверьте, что навык подгрузился.</p>
+        <label class="hw-check"><input type="checkbox"> Сделано</label>
+      </div>
+
+      <div class="hw-card reveal">
+        <div class="hw-card-header">
+          <span class="hw-num n3">3</span>
+          <span class="hw-title">Создайте подписку и посчитайте маржу</span>
+        </div>
+        <p class="hw-desc">Зайдите в раздел &laquo;Подписки&raquo; вашего ассистента. Создайте тестовую подписку: (а) придумайте название, (б) поставьте цену в 1 звезду или 100 рублей, (в) рассчитайте лимит кредитов с маржой x5, (г) добавьте ассистента. Попробуйте купить свою подписку через Telegram и проверьте, что лимиты работают.</p>
+        <label class="hw-check"><input type="checkbox"> Сделано</label>
+      </div>
+
+      <div class="hw-card reveal">
+        <div class="hw-card-header">
+          <span class="hw-num n4">4</span>
+          <span class="hw-title">Настройте роль Admin</span>
+        </div>
+        <p class="hw-desc">Создайте роль <strong>Admin</strong> (наследник User). Назначьте себя админом через раздел &laquo;Чаты по ролям&raquo;. Для роли Admin: (а) добавьте память &laquo;я тебя создал&raquo;, (б) повысьте уровень размышления до High, (в) включите инструмент &laquo;Написать человеку&raquo;. Для User &mdash; выключите этот инструмент. Проверьте, что при общении от имени Admin вы получаете расширенный функционал.</p>
+        <label class="hw-check"><input type="checkbox"> Сделано</label>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-brand">SPACEHUB</div>
+    <div class="footer-tagline">Собираем AI-агентов</div>
+  </div>
+  <div class="footer-nav">
+    <a href="#toc">Содержание</a>
+    <a href="#quiz">Квиз</a>
+    <a href="#glossary">Глоссарий</a>
+    <a href="#homework">Домашка</a>
+  </div>
+</footer>
+
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// YouTube Player
+var player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt-player', {
+    videoId: 'A2nj-1T5wF0',
+    playerVars: {
+      rel: 0,
+      modestbranding: 1,
+      color: 'white'
+    }
+  });
+}
+
+function seekTo(seconds) {
+  if (player && player.seekTo) {
+    player.seekTo(seconds, true);
+    player.playVideo();
+    document.querySelector('.video-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
+
+// Timestamp clicks -> seek video
+document.querySelectorAll('.ts-time[data-seconds]').forEach(btn => {
+  btn.addEventListener('click', () => seekTo(parseInt(btn.dataset.seconds)));
+});
+
+// TOC timestamp clicks -> seek video
+document.querySelectorAll('.toc-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    const timeText = item.querySelector('.toc-time')?.textContent;
+    if (timeText) {
+      const parts = timeText.split(':');
+      let seconds;
+      if (parts.length === 3) {
+        seconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+      } else {
+        seconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+      }
+      seekTo(seconds);
+      e.preventDefault();
+    }
+  });
+});
+
+// Topic timestamp clicks -> seek video
+document.querySelectorAll('.topic-ts').forEach(ts => {
+  ts.style.cursor = 'pointer';
+  ts.addEventListener('click', () => {
+    const parts = ts.textContent.split(':');
+    let seconds;
+    if (parts.length === 3) {
+      seconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+    } else {
+      seconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    }
+    seekTo(seconds);
+  });
+});
+
+// Quiz toggle
+function toggleQuiz(header) {
+  const card = header.closest('.quiz-card');
+  card.classList.toggle('open');
+}
+
+// Quiz answer select
+function selectOption(btn) {
+  const card = btn.closest('.quiz-card');
+  const options = card.querySelectorAll('.quiz-option');
+  const explanation = card.querySelector('.quiz-explanation');
+
+  if (card.dataset.answered) return;
+  card.dataset.answered = 'true';
+
+  const isCorrect = btn.dataset.correct === 'true';
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  options.forEach(o => {
+    if (o !== btn) o.classList.add('disabled');
+    if (o.dataset.correct === 'true' && !isCorrect) o.classList.add('correct');
+  });
+
+  if (explanation) explanation.style.display = 'block';
+}
+
+// Mobile menu
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+hamburger.addEventListener('click', () => {
+  const open = navLinks.style.display === 'flex';
+  navLinks.style.display = open ? 'none' : 'flex';
+  navLinks.style.flexDirection = 'column';
+  navLinks.style.position = 'absolute';
+  navLinks.style.top = '100%';
+  navLinks.style.left = '0';
+  navLinks.style.right = '0';
+  navLinks.style.background = 'rgba(10,10,15,0.95)';
+  navLinks.style.padding = '1.5rem';
+  navLinks.style.gap = '1.2rem';
+  navLinks.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+});
+</script>
+
+</body>
+</html>

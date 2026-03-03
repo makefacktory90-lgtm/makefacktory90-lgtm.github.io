@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Утренний бриф — 26 февраля 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    line-height: 1.6;
+    padding: 40px 20px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .header {
+    border-bottom: 3px solid #1a1a1a;
+    padding-bottom: 16px;
+    margin-bottom: 32px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .header .date {
+    font-size: 14px;
+    color: #666;
+    margin-top: 4px;
+  }
+  .header .grid-note {
+    font-size: 13px;
+    color: #fff;
+    background: #e74c3c;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #999;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+  }
+  .section-label.viral { color: #e74c3c; border-bottom-color: #e74c3c; }
+  .section-label.hot { color: #e67e22; border-bottom-color: #e67e22; }
+  .section-label.interesting { color: #f1c40f; border-bottom-color: #f1c40f; }
+  .section-label.tool { color: #3498db; border-bottom-color: #3498db; }
+  .section-label.case { color: #2ecc71; border-bottom-color: #2ecc71; }
+  .section-label.prompt { color: #9b59b6; border-bottom-color: #9b59b6; }
+
+  .item {
+    margin-bottom: 28px;
+    padding-left: 16px;
+    border-left: 3px solid #eee;
+  }
+  .item.viral { border-left-color: #e74c3c; }
+  .item.hot { border-left-color: #e67e22; }
+  .item.interesting { border-left-color: #f1c40f; }
+  .item.tool { border-left-color: #3498db; }
+  .item.case { border-left-color: #2ecc71; }
+  .item.prompt { border-left-color: #9b59b6; }
+
+  .item-number {
+    font-size: 12px;
+    font-weight: 700;
+    color: #999;
+  }
+  .item h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 2px 0 8px;
+    line-height: 1.3;
+  }
+  .item p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .angle {
+    background: #f8f8f8;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .angle strong {
+    color: #1a1a1a;
+  }
+  .angle .channel {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+  }
+  .links {
+    margin-top: 6px;
+  }
+  .links a {
+    font-size: 12px;
+    color: #3498db;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 2px;
+    word-break: break-all;
+  }
+  .links a:hover { text-decoration: underline; }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge.first { background: #e8f5e9; color: #2e7d32; }
+
+  .recommendation {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    margin-top: 40px;
+  }
+  .recommendation h2 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .recommendation p {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.5;
+  }
+  .recommendation .pick {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .table-wrap {
+    margin-top: 32px;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    text-align: left;
+    font-weight: 700;
+    padding: 8px 10px;
+    border-bottom: 2px solid #1a1a1a;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+  }
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  .heat { font-size: 16px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Утренний бриф</h1>
+  <div class="date">26 февраля 2026, четверг</div>
+  <div class="grid-note">Сетка: ЧТ = вопрос</div>
+</div>
+
+<!-- ВИРУСНОЕ -->
+<div class="section">
+  <div class="section-label viral">Вирусное</div>
+
+  <div class="item viral">
+    <div class="item-number">#1</div>
+    <h3>Matt Shumer "Something Big is Happening" — 80M+ просмотров на X</h3>
+    <p>Основатель OthersideAI написал эссе о том, что AI перешёл качественный порог: модели 2026 года автономно пишут, тестируют и итерируют приложения без человека. Dario Amodei цитируется: "К 2027 — страна из 50 млн граждан, каждый умнее нобелевского лауреата." Allie K. Miller обсуждает, Gary Marcus жёстко разносит за хайп. Поляризация = идеальное топливо для поста.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "80 миллионов человек прочитали одно эссе про AI. Вот что там на самом деле — и что из этого правда"
+      <div class="channel">Канал: TG (длинный разбор) + Threads</div>
+    </div>
+    <div class="links">
+      <a href="https://garymarcus.substack.com/p/about-that-matt-shumer-post-that">Gary Marcus: критический разбор</a>
+      <a href="https://www.linkedin.com/posts/alliekmiller_i-talk-about-matt-shumers-something-big-activity-7429609606970109952-ShyY">Allie K. Miller: видео-обзор</a>
+    </div>
+  </div>
+
+  <div class="item viral">
+    <div class="item-number">#2</div>
+    <h3>Seedance 2.0 (ByteDance) — AI-видео неотличимо от Голливуда</h3>
+    <p>ByteDance выпустил Seedance 2.0. Ирландский режиссёр написал 2 строчки промпта — получил 15 секунд драки Брэда Питта и Тома Круза на крыше. Видео стало вирусным. Disney прислал cease-and-desist за "пиратскую библиотеку" персонажей Marvel/Star Wars. Paramount и Netflix тоже грозят судом. Профессионалы: "Впервые AI-видео неотличимо от продакшена."</p>
+    <div class="angle">
+      <strong>Угол:</strong> "2 строчки текста = голливудский ролик. Что это значит для всех, кто создаёт контент"
+      <div class="channel">Канал: TG + IG (рилс) + Threads</div>
+    </div>
+    <div class="links">
+      <a href="https://www.theverge.com/ai-artificial-intelligence/883615/seedance-bytedance-tom-cruise-brad-pitt-jia-zhangke">The Verge: разбор + видео</a>
+      <a href="https://www.bbc.com/news/articles/c93wq6xqgy1o">BBC: Disney vs ByteDance</a>
+    </div>
+  </div>
+</div>
+
+<!-- ГОРЯЧЕЕ -->
+<div class="section">
+  <div class="section-label hot">Горячее</div>
+
+  <div class="item hot">
+    <div class="item-number">#3</div>
+    <h3>Ruben Hassid: "Почему у тебя нет 1 000 000 подписчиков, если AI такой умный?"</h3>
+    <p>Вчера (25 фев) Ruben опубликовал мощный Substack: вырастил LinkedIn с 8K до 770K за 3 года с помощью AI. +344К за 2025 год. Один аккаунт. Ноль рекламы. Ключевой инсайт: AI убил ценность усилия начать и разумной стратегии. Осталось два навыка: <strong>вкус</strong> и <strong>постоянство</strong>. И у большинства ни того, ни другого.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "AI сделал контент бесплатным. Единственное, что осталось продавать — вкус"
+      <div class="channel">Канал: TG + IG (карусель "5 навыков, которые AI не заменит")</div>
+    </div>
+    <div class="links">
+      <a href="https://ruben.substack.com/p/1000000">Ruben Hassid: 1,000,000</a>
+    </div>
+  </div>
+
+  <div class="item hot">
+    <div class="item-number">#4</div>
+    <h3>Allie K. Miller: "В 2026 AI начнёт промтить тебя" <span class="badge first">свежее: 10ч назад</span></h3>
+    <p>LinkedIn (238 реакций, 70 комментов, растёт). 3 года мы промтили AI — "напиши письмо", "найди работу". Теперь AI начнёт замечать, что твои звонки стали напряжёнными, что ты не отдыхала 6 недель, и скажет: "Я уже нашёл отель в Мэне. Поедешь?" Shift от промтинга к тому, что AI промтит нас. CBS News репортаж.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "Ты промтишь AI — или AI уже промтит тебя? Серьёзный вопрос на сегодня" <br>
+      <em>Идеально для четверга = день вопроса!</em>
+      <div class="channel">Канал: TG (вопрос дня) + Threads</div>
+    </div>
+    <div class="links">
+      <a href="https://www.linkedin.com/posts/alliekmiller_more-ai-users-need-to-hear-this-prompting-activity-7432158989985148928-oebG">Allie K. Miller LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="item hot">
+    <div class="item-number">#5</div>
+    <h3>Anthropic запустил Cowork Connectors — AI-агенты для бизнеса</h3>
+    <p>24 фев. Claude встраивается в рабочие процессы через плагины: Google Workspace, DocuSign, Slack, FactSet, S&P Global, WordPress. Не чат, а role-specific агенты внутри твоего софта. Акции SaaS-компаний обвалились.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "SaaS умирает. AI-агенты, которые делают твою работу внутри твоих инструментов — вот что пришло"
+      <div class="channel">Канал: TG (новость + мнение)</div>
+    </div>
+    <div class="links">
+      <a href="https://techcrunch.com/2026/02/24/anthropic-launches-new-push-for-enterprise-agents-with-plugins-for-finance-engineering-and-design/">TechCrunch</a>
+      <a href="https://thehill.com/policy/technology/5752717-anthropic-claude-cowork-connectors/">The Hill</a>
+    </div>
+  </div>
+
+  <div class="item hot">
+    <div class="item-number">#6</div>
+    <h3>GitHub: 34K звёзд — утечка системных промптов Cursor, Devin, Lovable и 7 AI-тулзов</h3>
+    <p>Репозиторий с полными системными промптами (6,500+ строк) из v0, Cursor, Manus, Same.dev, Lovable, Devin, Replit Agent, Windsurf Agent, VSCode Copilot. Всё извлечено автором лично. Золотая жила для понимания, как устроены топовые AI-продукты изнутри. Доминировал в GitHub Trending.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "Кто-то вытащил секретные инструкции из 10 AI-инструментов. 34K звёзд. Вот главное, что внутри"
+      <div class="channel">Канал: TG (разбор) + IG (карусель)</div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools">GitHub: system-prompts-and-models-of-ai-tools</a>
+    </div>
+  </div>
+
+  <div class="item hot">
+    <div class="item-number">#7</div>
+    <h3>Сбер (Ведяхин): "90% AI-проектов = провал. В гонку больших моделей входить поздно" <span class="badge first">уникальный угол</span></h3>
+    <p>24 фев, Forbes.ru. Первый зампред Сбера прямым текстом: гонка за GenAI — для единиц, 90% корпоративных AI-инициатив проваливаются. Официальное признание крупнейшего российского AI-игрока.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "Зампред Сбера подтвердил: ценность не в создании нейросети, а в умении ей пользоваться. 90% проваливаются. Ты с навыком AI — дороже компании с провалившимся проектом"
+      <div class="channel">Канал: TG (аргумент для продаж)</div>
+    </div>
+    <div class="links">
+      <a href="https://www.forbes.ru/finansy/555872-pervyj-zampred-sbera-aleksandr-vedahin-v-gonku-bol-sih-budzetov-v-genai-vhodit-uze-pozdno">Forbes.ru: интервью Ведяхина</a>
+    </div>
+  </div>
+</div>
+
+<!-- ИНТЕРЕСНОЕ -->
+<div class="section">
+  <div class="section-label interesting">Интересное</div>
+
+  <div class="item interesting">
+    <div class="item-number">#8</div>
+    <h3>Ruben Hassid: Матрица "анти-AI-голика" — 5 правил</h3>
+    <p>23 фев, LinkedIn (270 реакций). Harvard изучил 200 человек, использующих AI 8 месяцев: все чувствовали себя продуктивнее, но все стали более стрессовыми. Ruben предлагает систему: перед промтом пиши, что решаешь; убивай 3 задачи за каждую новую; "последний промт" на 20:00; оценивай — двигает к цели или перформативная?</p>
+    <div class="angle">
+      <strong>Угол:</strong> "Harvard: AI делает тебя продуктивной и несчастной одновременно. 5 правил, чтобы не стать AI-голиком"
+      <div class="channel">Канал: IG (карусель) + Threads</div>
+    </div>
+    <div class="links">
+      <a href="https://www.linkedin.com/posts/ruben-hassid_this-is-my-2026-plan-to-master-ai-without-activity-7431329024133505024-aMSm">Ruben Hassid LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<!-- ИНСТРУМЕНТЫ -->
+<div class="section">
+  <div class="section-label tool">Инструменты</div>
+
+  <div class="item tool">
+    <div class="item-number">#9</div>
+    <h3>Inception Mercury 2 — самая быстрая reasoning-модель в мире <span class="badge first">можно быть первой (рус)</span></h3>
+    <p>24 фев. Стартап из Стэнфорда выпустил Mercury 2 — первую reasoning-модель на основе диффузии (как Midjourney, но для текста). 1000+ токенов/сек — 5-10x быстрее любой модели. $0.25/M input. Генерирует токены параллельно, а не по одному. На русском пока нет ни одного разбора.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "Все нейросети работают как печатная машинка — буква за буквой. Mercury 2 генерирует текст как Midjourney генерирует картинку — целиком. 1000 слов в секунду"
+      <div class="channel">Канал: TG (простым языком)</div>
+    </div>
+    <div class="links">
+      <a href="https://www.businesswire.com/news/home/20260224034496/en/">BusinessWire: пресс-релиз</a>
+      <a href="https://www.theneurondaily.com/p/mercury-2-ai-that-s-10x-faster-than-chatgpt-claude">The Neuron: разбор</a>
+    </div>
+  </div>
+
+  <div class="item tool">
+    <div class="item-number">#10</div>
+    <h3>Google Opal — AI-агент для автоматизации без кода <span class="badge first">можно быть первой (рус)</span></h3>
+    <p>25 фев. Google представил AI-агента на Gemini 3 Flash: создаёшь автоматизации на человеческом языке — как Zapier, но говоришь что делать, а не настраиваешь. Глубокая интеграция с Google Workspace.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "Google показал штуку, которая убьёт Zapier. Говоришь агенту: 'когда приходит письмо — создай задачу, обнови таблицу, отправь ответ'. Он делает. Без кода"
+      <div class="channel">Канал: TG + Threads</div>
+    </div>
+    <div class="links">
+      <a href="https://opentools.ai/news/google-unveils-opals-game-changing-ai-agent-for-effortless-automation">OpenTools: обзор</a>
+    </div>
+  </div>
+</div>
+
+<!-- КЕЙС -->
+<div class="section">
+  <div class="section-label case">Кейс</div>
+
+  <div class="item case">
+    <div class="item-number">#11</div>
+    <h3>Solo-фаундер: от 0 до 5000 юзеров AI-резюме билдер, $600 MRR на автопилоте</h3>
+    <p>23 фев, dev.to. Продуктовый дизайнер построил AI-резюмебилдер один, без команды, без инвестиций. 3 системы автоматизации: программатический SEO, автоматический аутрич к университетам (8-12% response rate), минимальная инфраструктура. Классический one-person business.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "Один человек, один AI, $600/мес на автопилоте. Система из трёх автоматизаций"
+      <div class="channel">Канал: TG</div>
+    </div>
+    <div class="links">
+      <a href="https://dev.to/johnu_marattil_cd4336d0f4/i-used-programmatic-seo-to-grow-my-ai-resume-builder-from-0-to-5000-users-heres-what-actually-3g20">Dev.to: полный кейс</a>
+    </div>
+  </div>
+</div>
+
+<!-- ПРОМТ/СКИЛЛ -->
+<div class="section">
+  <div class="section-label prompt">Промт / Скилл дня</div>
+
+  <div class="item prompt">
+    <div class="item-number">#12</div>
+    <h3>Dan Koe: Viral Ideation Engine с Claude</h3>
+    <p>19 фев, Stormy AI. Workflow: 1 ньюслеттер в неделю, тестируешь как короткие посты на X, если зашло — расширяешь. Claude для "content deconstruction" — не "напиши вирусный твит", а "проанализируй психологические паттерны 5 успешных постов". POV > ниша. Конкретные промты внутри.</p>
+    <div class="angle">
+      <strong>Угол:</strong> Один текст в неделю &rarr; контент для всех платформ. Промпт деконструкции можно адаптировать
+      <div class="channel">Канал: TG + IG (карусель)</div>
+    </div>
+    <div class="links">
+      <a href="https://stormy.ai/blog/dan-koe-ai-workflow-viral-ideation-engine">Stormy AI: разбор workflow</a>
+    </div>
+  </div>
+
+  <div class="item prompt">
+    <div class="item-number">#13</div>
+    <h3>Anthropic AI Fluency Index — первое исследование AI-грамотности</h3>
+    <p>23 фев. Anthropic проанализировал 9,830 разговоров с Claude за 7 дней. 85.7% пользователей итерируют ответы (не берут первый). НО — когда AI выдаёт красиво оформленный результат, люди перестают проверять логику.</p>
+    <div class="angle">
+      <strong>Угол:</strong> "85% людей улучшают ответы AI. Но почти никто не проверяет, когда ответ красиво оформлен"
+      <div class="channel">Канал: TG + Threads</div>
+    </div>
+    <div class="links">
+      <a href="https://www.anthropic.com/research/AI-fluency-index">Anthropic: AI Fluency Index</a>
+    </div>
+  </div>
+</div>
+
+<!-- СВОДНАЯ ТАБЛИЦА -->
+<div class="table-wrap">
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Тема</th>
+      <th>Жар</th>
+      <th>Первая (рус)?</th>
+    </tr>
+    <tr><td>1</td><td>Matt Shumer 80M views</td><td class="heat">💥</td><td>—</td></tr>
+    <tr><td>2</td><td>Seedance 2.0 vs Hollywood</td><td class="heat">💥</td><td>да</td></tr>
+    <tr><td>3</td><td>Ruben Hassid: 770K без рекламы</td><td class="heat">🔴</td><td>да</td></tr>
+    <tr><td>4</td><td>Allie K. Miller: AI промтит тебя</td><td class="heat">🔴</td><td>да</td></tr>
+    <tr><td>5</td><td>Anthropic Cowork Connectors</td><td class="heat">🔴</td><td>да</td></tr>
+    <tr><td>6</td><td>GitHub 34K — утечка промптов</td><td class="heat">🔴</td><td>да</td></tr>
+    <tr><td>7</td><td>Сбер: 90% AI-проектов = провал</td><td class="heat">🔴</td><td>угол</td></tr>
+    <tr><td>8</td><td>Ruben: матрица анти-AI-голика</td><td class="heat">🟡</td><td>—</td></tr>
+    <tr><td>9</td><td>Mercury 2 — fastest LLM</td><td class="heat">🔧</td><td>да</td></tr>
+    <tr><td>10</td><td>Google Opal — убийца Zapier</td><td class="heat">🔧</td><td>да</td></tr>
+    <tr><td>11</td><td>Solo-фаундер $600 MRR</td><td class="heat">📖</td><td>—</td></tr>
+    <tr><td>12</td><td>Dan Koe viral ideation</td><td class="heat">🎯</td><td>—</td></tr>
+    <tr><td>13</td><td>AI Fluency Index</td><td class="heat">🎯</td><td>—</td></tr>
+  </table>
+</div>
+
+<!-- РЕКОМЕНДАЦИЯ -->
+<div class="recommendation">
+  <h2>Рекомендация на сегодня</h2>
+  <p><span class="pick">Тема #4 — Allie K. Miller: "AI начнёт промтить тебя"</span></p>
+  <p>Четверг = день вопроса по сетке. "Ты промтишь AI — или AI уже промтит тебя?" — провокационный вопрос, свежее (10 часов назад), CBS News как proof point, прямо в ядро аудитории.</p>
+  <p style="margin-top: 12px; color: #999; font-size: 12px;">Альтернатива: #2 (Seedance) для визуальной аудитории IG. Или #7 (Сбер) для Threads как аргумент к продажам.</p>
+</div>
+
+<p style="text-align: center; margin-top: 40px; font-size: 12px; color: #bbb;">Бриф сгенерирован Claude &middot; 26.02.2026 &middot; Борд на месте: борд / штурман / диспетчер / бриф</p>
+
+</body>
+</html>

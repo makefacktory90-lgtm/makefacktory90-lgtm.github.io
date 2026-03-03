@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пентагон vs Claude LITE — Carousel Constructor</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: #111; border-bottom: 1px solid #333; padding: 10px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.topbar-section { display: flex; gap: 6px; align-items: center; }
+.topbar-label { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 2px; }
+.topbar button { padding: 6px 12px; border: 1.5px solid #444; background: transparent; color: #999; font-family: 'Roboto Mono', monospace; font-size: 10px; letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase; transition: all 0.2s; border-radius: 4px; white-space: nowrap; }
+.topbar button:hover { border-color: #888; color: #fff; }
+.topbar button.active { border-color: #E63946; color: #fff; background: #E63946; }
+.topbar .spacer { width: 1px; height: 24px; background: #333; margin: 0 4px; }
+.topbar .brand { margin-left: auto; font-size: 10px; color: #444; font-family: 'Roboto Mono', monospace; letter-spacing: 0.05em; }
+.slides-wrap { padding: 64px 0 100px; display: flex; flex-direction: column; align-items: center; gap: 32px; --scale: 0.42; }
+.phone-wrap { transform: scale(var(--scale)); transform-origin: top center; margin-bottom: calc(-1350px * (1 - var(--scale))); }
+.slide { width: 1080px; height: 1350px; position: relative; overflow: hidden; flex-shrink: 0; }
+.slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+.slide-overlay { position: absolute; inset: 0; z-index: 1; }
+.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number):not(.slide-brand) { position: relative; z-index: 2; }
+.slide-label { position: absolute; top: -28px; left: 4px; font-family: 'Roboto Mono', monospace; font-size: 11px; color: #999; z-index: 5; }
+.slide-brand { position: absolute; bottom: 40px; left: 50px; font-family: 'Roboto Mono', monospace; font-size: 17px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.55; z-index: 3; font-weight: 500; }
+.slide-number { position: absolute; bottom: 40px; right: 50px; font-family: 'Roboto Mono', monospace; font-size: 14px; opacity: 0.3; z-index: 3; }
+[contenteditable] { outline: none; cursor: text; border-radius: 4px; transition: box-shadow 0.2s; }
+[contenteditable]:hover { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.2); }
+[contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.5); }
+
+/* CLEAN LIGHT */
+.style-light .slide { background: #FAFAFA; color: #1a1a1a; }
+.style-light .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 100px; }
+.style-light .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 15px; letter-spacing: 0.3em; color: #999; margin-bottom: 32px; text-transform: uppercase; }
+.style-light .slide-cover h1 { font-size: 86px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.style-light .slide-cover h1 .accent { color: var(--accent, #E63946); }
+.style-light .slide-cover .sub { font-size: 28px; color: #888; margin-top: 40px; line-height: 1.5; }
+.style-light .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 14px; color: #bbb; margin-top: 60px; letter-spacing: 0.15em; }
+.style-light .slide-cover .bar { width: 80px; height: 3px; background: var(--accent, #E63946); margin-top: 40px; }
+.style-light .slide-content { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-content h2 { font-size: 64px; font-weight: 900; line-height: 1.1; margin-bottom: 40px; }
+.style-light .slide-content p { font-size: 32px; line-height: 1.6; color: #666; margin-bottom: 24px; }
+.style-light .slide-content .highlight { background: var(--accent, #E63946); color: #fff; padding: 4px 12px; font-weight: 700; border-radius: 4px; }
+.style-light .slide-content .dim { color: #aaa; font-size: 24px; }
+.style-light .slide-quote { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-quote blockquote { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 700; line-height: 1.4; border-left: 5px solid var(--accent, #E63946); padding-left: 40px; font-style: italic; }
+.style-light .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #aaa; margin-top: 40px; padding-left: 45px; }
+.style-light .slide-list { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-list h2 { font-size: 58px; font-weight: 900; margin-bottom: 48px; line-height: 1.1; }
+.style-light .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 36px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #e8e8e8; }
+.style-light .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 42px; font-weight: 700; color: var(--accent, #E63946); flex-shrink: 0; width: 70px; }
+.style-light .slide-list .list-text { font-size: 30px; line-height: 1.5; color: #666; }
+.style-light .slide-list .list-text strong { color: #1a1a1a; }
+.style-light .slide-cta { padding: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-light .slide-cta .cta-keyword { font-size: 100px; font-weight: 900; line-height: 1; margin-bottom: 40px; color: #1a1a1a; }
+.style-light .slide-cta .cta-keyword .accent { color: var(--accent, #E63946); }
+.style-light .slide-cta .cta-desc { font-size: 30px; color: #888; line-height: 1.5; max-width: 800px; }
+.style-light .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
+.style-light .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #ccc; margin-top: 60px; letter-spacing: 0.15em; }
+
+.bottombar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%); padding: 32px 24px 20px; display: flex; justify-content: center; gap: 12px; }
+.bottombar button { padding: 12px 24px; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: #E63946; color: #fff; }
+.btn-primary:hover { background: #c62d38; }
+@media (max-width: 768px) { .slides-wrap { --scale: 0.3; } .phone-wrap { margin-bottom: calc(-1350px * (1 - 0.3)); } }
+</style>
+</head>
+<body>
+<div id="app">
+<div class="topbar">
+    <div class="topbar-section">
+        <span class="topbar-label">LITE</span>
+        <button class="active" id="btn-light">CLEAN LIGHT</button>
+    </div>
+    <div class="spacer"></div>
+    <span class="brand">PENTAGON VS CLAUDE // LITE // @IRA.AND.AI</span>
+</div>
+
+<div class="slides-wrap style-light" id="slides-wrap">
+
+<!-- SLIDE 01: ОБЛОЖКА -->
+<div class="phone-wrap"><div class="slide slide-cover">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 01 / ОБЛОЖКА</div>
+    <div class="tag" contenteditable="true">AI + ОБОРОНКА // ФЕВРАЛЬ 2026</div>
+    <h1 contenteditable="true">ПЕНТАГОН<br>ДАЕТ CLAUDE<br><span class="accent">5 ДНЕЙ</span></h1>
+    <div class="sub" contenteditable="true">Министерство обороны США поставило ультиматум Anthropic. Дедлайн -- пятница.</div>
+    <div class="bar"></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">1/9</div>
+</div></div>
+
+<!-- SLIDE 02 -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 02 / СУТЬ</div>
+    <div class="section-tag" contenteditable="true">// ЧТО СЛУЧИЛОСЬ</div>
+    <h2 contenteditable="true">УЛЬТИМАТУМ</h2>
+    <p contenteditable="true">Anthropic (создатели Claude) отказались работать с военными.</p>
+    <p contenteditable="true">Пентагон ответил: <span class="highlight">у вас 5 дней</span>. Или сотрудничаете -- или мы применяем Defense Production Act.</p>
+    <p class="dim" contenteditable="true">Это закон военного времени →</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">2/9</div>
+</div></div>
+
+<!-- SLIDE 03 -->
+<div class="phone-wrap"><div class="slide slide-quote">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 03 / ЦИТАТА</div>
+    <blockquote contenteditable="true">Мы создали Claude, чтобы он помогал людям. Не чтобы он решал, кому жить.</blockquote>
+    <div class="quote-author" contenteditable="true">Дарио Амодей, CEO Anthropic</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">3/9</div>
+</div></div>
+
+<!-- SLIDE 04 -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 04 / ЗАКОН</div>
+    <div class="section-tag" contenteditable="true">// DEFENSE PRODUCTION ACT</div>
+    <h2 contenteditable="true">ЗАКОН 1950 ГОДА</h2>
+    <p contenteditable="true">Принят во время Корейской войны. Позволяет правительству <span class="highlight">заставить</span> любую компанию работать на оборонку.</p>
+    <p contenteditable="true">Последний раз использовали в COVID для производства масок.</p>
+    <p class="dim" contenteditable="true">Теперь -- для AI →</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">4/9</div>
+</div></div>
+
+<!-- SLIDE 05 -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 05 / ПОЧЕМУ ВАЖНО</div>
+    <div class="section-tag" contenteditable="true">// ПОЧЕМУ ЭТО КАСАЕТСЯ ВСЕХ</div>
+    <h2 contenteditable="true">3 ПРИЧИНЫ СЛЕДИТЬ</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Прецедент.</strong> Если заставят Anthropic -- заставят любую AI-компанию.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Этика AI решается сейчас.</strong> Не через 10 лет. Прямо на этой неделе.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Ваш Claude тоже.</strong> Если Anthropic прогнется -- изменится продукт, которым вы пользуетесь каждый день.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">5/9</div>
+</div></div>
+
+<!-- SLIDE 06 -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 06 / КОНТЕКСТ</div>
+    <div class="section-tag" contenteditable="true">// А ЧТО ОСТАЛЬНЫЕ?</div>
+    <h2 contenteditable="true">OPENAI УЖЕ СОГЛАСИЛСЯ</h2>
+    <p contenteditable="true">OpenAI и Google давно работают с Пентагоном. Anthropic -- <span class="highlight">единственная крупная AI-компания</span>, которая отказалась.</p>
+    <p class="dim" contenteditable="true">Вопрос: надолго ли? →</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">6/9</div>
+</div></div>
+
+<!-- SLIDE 07 -->
+<div class="phone-wrap"><div class="slide slide-quote">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 07 / МОЙ УГОЛ</div>
+    <blockquote contenteditable="true">Мне нравится, что хотя бы одна компания говорит «нет». Не знаю, смогут ли они это удержать. Но сам факт -- важен.</blockquote>
+    <div class="quote-author" contenteditable="true">@ira.and.ai</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">7/9</div>
+</div></div>
+
+<!-- SLIDE 08 -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 08 / ДЕДЛАЙН</div>
+    <div class="section-tag" contenteditable="true">// ДЕДЛАЙН</div>
+    <h2 contenteditable="true">ПЯТНИЦА,<br>28 ФЕВРАЛЯ</h2>
+    <p contenteditable="true">Через 3 дня мы узнаем: AI-компания может сказать «нет» государству?</p>
+    <p contenteditable="true">Или <span class="highlight">Defense Production Act</span> сильнее любых принципов?</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">8/9</div>
+</div></div>
+
+<!-- SLIDE 09: CTA -->
+<div class="phone-wrap"><div class="slide slide-cta">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 09 / CTA</div>
+    <div class="cta-keyword" contenteditable="true">СЛЕДИТЕ ЗА<br><span class="accent">ПЯТНИЦЕЙ</span></div>
+    <div class="cta-desc" contenteditable="true">Разбор итогов -- в Telegram. Подпишитесь, чтобы не пропустить.</div>
+    <div class="cta-how" contenteditable="true">TELEGRAM: @IRA_AND_AI</div>
+    <div class="cta-handle" contenteditable="true">@IRA.AND.AI  //  IRAAI.RU</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">9/9</div>
+</div></div>
+
+</div>
+
+<div class="bottombar">
+    <button class="btn-primary" onclick="fullscreen()">FULL SIZE</button>
+</div>
+</div>
+
+<script>
+function fullscreen() { document.querySelector('.slides-wrap').style.setProperty('--scale', '1'); document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = '0'); window.scrollTo(0, 0); }
+</script>
+</body>
+</html>
