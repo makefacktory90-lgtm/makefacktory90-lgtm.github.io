@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рик Рубин: Вайб-кодинг — это панк-рок от мира софта | Ира Буян, AI reХАБ</title>
+    <meta name="description" content="Разбор лекции Рика Рубина на a16z. Почему AI — это просто инструмент. Почему вайб-кодинг меняет не технологию, а мышление. Интерактивный урок на русском. Ира Буян.">
+    <meta name="author" content="Ира Буян (Ira & AI)">
+    <link rel="canonical" href="https://iraai.ru/masterclass-rubin/">
+    <meta property="og:title" content="Рик Рубин: Вайб-кодинг — это панк-рок">
+    <meta property="og:description" content="Разбор лекции на a16z. AI — не угроза творчеству. Это инструмент. И у вас уже есть главное — точка зрения.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="ru_RU">
+    <style>
+        :root {
+            --bg: #FAFAFA;
+            --bg-card: #F2F2F2;
+            --text: #3A3A3A;
+            --text-bright: #111111;
+            --text-dim: #888888;
+            --accent: #000000;
+            --accent-light: #333333;
+            --border: #E0E0E0;
+            --font-heading: 'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-heading);
+            font-size: 17px;
+            line-height: 1.7;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        #progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 10000; transition: width 0.1s; }
+
+        .protocol-bar {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
+        }
+        .protocol-bar .home-link { color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+        .protocol-bar .home-link:hover { color: var(--accent); }
+        .protocol-bar .live-dot { display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; margin-right: 8px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+        .hero { padding: 80px 0 40px; text-align: center; }
+        .hero-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; color: var(--text-dim); margin-bottom: 24px; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(36px, 8vw, 64px); font-weight: 900; color: var(--text-bright); text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 24px; }
+        .hero-sub { font-size: 18px; color: var(--text-dim); max-width: 520px; margin: 0 auto 40px; line-height: 1.6; }
+
+        .notice {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            margin: 0 0 40px;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+        }
+        .notice a { color: var(--text-dim); text-decoration: underline; }
+
+        .section { padding: 60px 0; border-top: 1px solid var(--border); opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+        .section-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em; color: var(--text-dim); margin-bottom: 16px; text-transform: uppercase; }
+        .section h2 { font-size: clamp(24px, 5vw, 36px); font-weight: 900; color: var(--text-bright); text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 24px; line-height: 1.15; }
+        .section p { margin-bottom: 20px; }
+
+        /* IDEA CARDS — раскрываемые карточки */
+        .idea-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 28px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .idea-card:hover { border-color: var(--accent); }
+        .idea-card.open { border-color: var(--accent); background: #EFEFEF; }
+        .idea-header { display: flex; align-items: baseline; gap: 16px; }
+        .idea-num { font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+        .idea-title { font-size: 18px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.05em; }
+        .idea-oneliner { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); margin-top: 8px; letter-spacing: 0.05em; }
+        .idea-body { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: none; color: var(--text); font-size: 16px; line-height: 1.7; }
+        .idea-card.open .idea-body { display: block; }
+        .idea-toggle { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-left: auto; letter-spacing: 0.1em; }
+
+        .idea-body h4 {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin: 20px 0 8px;
+        }
+        .idea-body h4:first-child { margin-top: 0; }
+
+        /* ЦИТАТА */
+        .quote-block {
+            border-left: 3px solid var(--accent);
+            padding: 4px 0 4px 24px;
+            margin: 24px 0;
+        }
+        .quote-text { font-size: 20px; font-style: italic; color: var(--text-bright); line-height: 1.6; margin-bottom: 10px; }
+        .quote-source { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; }
+
+        /* ПРОМПТ */
+        .prompt-block {
+            background: var(--text-bright);
+            color: #FFFFFF;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            padding: 20px;
+            margin: 16px 0;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            position: relative;
+            overflow-x: auto;
+        }
+        .prompt-block .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #333;
+            color: #CCC;
+            border: 1px solid #555;
+            padding: 4px 10px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .prompt-block .copy-btn:hover { background: #555; color: #FFF; }
+
+        /* ИРА КОММЕНТИРУЕТ */
+        .ira-section {
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            padding: 40px 32px;
+            margin: 40px 0;
+        }
+        .ira-section .ira-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; color: var(--text-dim); margin-bottom: 20px; }
+        .ira-section p { margin-bottom: 16px; }
+
+        /* ВОПРОСЫ ДЛЯ РАЗМЫШЛЕНИЯ */
+        .question-block { border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.3s; }
+        .question-block:hover { border-color: var(--accent); }
+        .question-num { font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+        .question-text { font-size: 18px; color: var(--text-bright); font-weight: 600; line-height: 1.4; }
+        .question-answer { font-size: 15px; color: var(--text); line-height: 1.7; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: none; }
+        .question-block.open .question-answer { display: block; }
+
+        /* HIGHLIGHT */
+        .highlight { background: var(--accent); color: var(--bg); padding: 2px 6px; font-weight: 600; }
+
+        .sep { text-align: center; padding: 32px 0; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.5em; }
+
+        /* FOOTER */
+        .footer { padding: 60px 0; border-top: 1px solid var(--border); text-align: center; }
+        .footer-meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text-dim); line-height: 2; }
+        .footer-brand { color: var(--text); margin-top: 12px; font-size: 14px; }
+        .footer-brand a { color: var(--accent); text-decoration: none; }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* BIG STAT */
+        .big-stat {
+            text-align: center;
+            padding: 40px 0;
+            border: 1px solid var(--border);
+            margin: 32px 0;
+        }
+        .big-stat-num { font-size: clamp(48px, 10vw, 80px); font-weight: 900; color: var(--text-bright); line-height: 1; }
+        .big-stat-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; color: var(--text-dim); text-transform: uppercase; margin-top: 12px; }
+
+        /* СРАВНЕНИЕ */
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin: 24px 0; }
+        .compare-cell { background: var(--bg-card); padding: 20px 24px; }
+        .compare-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; }
+        .compare-item { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 8px; padding-left: 16px; position: relative; }
+        .compare-item::before { content: '—'; position: absolute; left: 0; color: var(--text-dim); }
+
+        @media (max-width: 600px) {
+            body { font-size: 16px; }
+            .container { padding: 0 16px; }
+            .hero { padding: 60px 0 30px; }
+            .section { padding: 40px 0; }
+            .idea-card { padding: 20px; }
+            .ira-section { padding: 28px 20px; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .prompt-block { font-size: 12px; padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress" style="width: 0%"></div>
+
+<div class="protocol-bar">
+    <a href="https://iraai.ru/" class="home-link">&larr; IRAAI.RU</a>
+    <div><span class="live-dot"></span>AI reХАБ // ВЫПУСК 01</div>
+    <div>МАРТ 2026</div>
+</div>
+
+<div class="container">
+
+    <div class="hero">
+        <div class="hero-label">RICK RUBIN &mdash; a16z &mdash; 1 час 18 минут &mdash; меняет всё</div>
+        <h1>ВАЙБ-<br>КОДИНГ —<br>ЭТО ПАНК.</h1>
+        <p class="hero-sub">Легендарный музыкальный продюсер объясняет, почему AI не убивает творчество.<br>И почему у вас уже есть главное.</p>
+    </div>
+
+    <div class="notice">
+        // ЧТО ЭТО<br><br>
+        Рик Рубин — продюсер Johnny Cash, Red Hot Chili Peppers, Beastie Boys, Jay-Z, Adele. В 2025 году он внезапно написал книгу о вайб-кодинге, основанную на 3000-летнем тексте Дао Дэ Цзин. Это произошло после того, как он стал мемом в Silicon Valley. Разбор его лекции на a16z — <a href="https://www.youtube.com/watch?v=7s9C92Pkcc0" target="_blank">смотреть оригинал</a>.
+    </div>
+
+    <!-- ВСТУПЛЕНИЕ -->
+    <div class="section" id="intro">
+        <div class="section-num">// ВСТУПЛЕНИЕ</div>
+        <h2>КТО ТАКОЙ РИК РУБИН<br>И ПРИЧЁМ ЗДЕСЬ АI</h2>
+
+        <p>Рик Рубин не программист. Он никогда не писал код. Он не понимает, как работает AI технически. И именно поэтому его лекция — одна из важнейших вещей, которые вы можете посмотреть про вайб-кодинг.</p>
+
+        <p>Потому что он говорит не о технологии. Он говорит о <strong>природе творческого акта</strong>. О том, что такое инструмент. О том, почему сопротивление новым инструментам — это всегда про страх, а не про качество.</p>
+
+        <p>И в 2025 году, когда все вокруг спорят "убьёт ли AI дизайнеров / писателей / маркетологов", он пришёл на подкаст к основателям a16z и сказал: вы все задаёте не тот вопрос.</p>
+
+        <div class="quote-block">
+            <div class="quote-text">"Tools will come and tools will go. Only the vibe coder remains."</div>
+            <div class="quote-source">— Rick Rubin</div>
+        </div>
+
+        <p>Этот урок — не про то, как научиться вайб-кодить. Это про то, как перестать думать об AI как об угрозе и начать думать как художник.</p>
+    </div>
+
+    <!-- 5 ��ДЕЙ -->
+    <div class="section">
+        <div class="section-num">// 5 ИДЕЙ</div>
+        <h2>ПЯТЬ СДВИГОВ<br>В ГОЛОВЕ.</h2>
+
+        <p>Рик не учит пользоваться инструментами. Он меняет угол. Нажмите на карточку — внутри детали, примеры и вопрос, который стоит задать себе.</p>
+
+        <!-- ИДЕЯ 01 -->
+        <div class="idea-card" onclick="this.classList.toggle('open')">
+            <div class="idea-header">
+                <span class="idea-num">01</span>
+                <span class="idea-title">AI — это гитара. Не гитарист.</span>
+                <span class="idea-toggle">[ + ]</span>
+            </div>
+            <div class="idea-oneliner">Инстру��ент не заменяет точку зрения</div>
+            <div class="idea-body">
+                <h4>Что говорит Рик</h4>
+                <p>Когда появилась электрогитара, классические музыканты были в панике. Когда появились синтезаторы — снова паника. Когда появился семплинг — обвинения в том, что это не настоящая музыка.</p>
+                <p>Каждый раз спор был об одном: <em>это инструмент или это угроза?</em></p>
+                <p>Рик говорит: всё искусство — это ремикс. Никто не создаёт из пустоты. Вы всегда работаете с тем, что уже существует. Электрогитара не убила классику — она создала рок-н-ролл. Семплинг не убил музыку — он создал хип-хоп.</p>
+
+                <h4>Почему это важно сейчас</h4>
+                <p>AI — следующий инструмент. И паника та же. Но у Рубина нет паники — потому что он уже видел этот фильм несколько раз. И он всегда заканчивался одинаково: выигрывали те, кто взял инструмент и сделал что-то своё. Не те, кто ждал разрешения.</p>
+
+                <h4>Вопрос для себя</h4>
+                <p>Вы сопротивляетесь AI потому что он плохой инструмент — или потому что боитесь, что ваша точка зрения больше не нужна? Это разные страхи с разными ответами.</p>
+            </div>
+        </div>
+
+        <!-- ИДЕЯ 02 -->
+        <div class="idea-card" onclick="this.classList.toggle('open')">
+            <div class="idea-header">
+                <span class="idea-num">02</span>
+                <span class="idea-title">Дао Дэ Цзин — это про вайб-кодинг.</span>
+                <span class="idea-toggle">[ + ]</span>
+            </div>
+            <div class="idea-oneliner">3000-летняя мудрость о том, как работать с AI</div>
+            <div class="idea-body">
+                <h4>Откуда взялась «The Way of Code»</h4>
+                <p>Рик начал как мем. Кто-то в твиттере написал про вайб-кодинг, упомяну�� Рика Рубина — и это разошлось по Silicon Valley. Он узнал об этом случайно.</p>
+                <p>Но вместо того, чтобы проигнорировать — он взял Дао Дэ Цзин и переписал его для эпохи AI. Получилась книга «The Way of Code»: не технический гайд и не философский трактат, а что-то третье.</p>
+
+                <h4>Главная идея Дао применительно к AI</h4>
+                <p>У-вэй — это принцип недеяния. Не пассивности, а движения в потоке. Когда вы не давите, не контролируете каждый шаг, не требуете точного результата — а задаёте направление и смотрите, куда это ведёт.</p>
+                <p>Вайб-кодинг — это у-вэй в программировании. Вы не пишете каждую строку. Вы задаёте намерение. Вы чувствуете, куда движется работа. Вы корректируете.</p>
+
+                <div class="quote-block">
+                    <div class="quote-text">"Мы не делали книгу. Мы делали вайб-кодингом сайт, который показывает, что такое вайб-кодинг."</div>
+                    <div class="quote-source">— Rick Rubin, a16z podcast</div>
+                </div>
+
+                <h4>Практически</h4>
+                <p>Перестаньте пытаться контролировать каждый ответ AI идеальным промптом. Начните с намерения, смотрите что получается, двигайтесь итерациями. Это и есть вайб.</p>
+            </div>
+        </div>
+
+        <!-- ИДЕЯ 03 -->
+        <div class="idea-card" onclick="this.classList.toggle('open')">
+            <div class="idea-header">
+                <span class="idea-num">03</span>
+                <span class="idea-title">П��нк-рок был о доступности. Вайб — тоже.</span>
+                <span class="idea-toggle">[ + ]</span>
+            </div>
+            <div class="idea-oneliner">Три аккорда и правда — это не про упрощение</div>
+            <div class="idea-body">
+                <h4>Параллель, которая всё объясняет</h4>
+                <p>Панк появился как реакция на рок, который стал слишком профессиональным, слишком сложным, слишком отдалённым от людей. Студийные альбомы с 40 музыкантами, виртуозные соло, миллионные бюджеты.</p>
+                <p>Панк сказал: три аккорда и правда. Неважно, что ты не умеешь играть идеально. Важно, что тебе есть что сказать.</p>
+                <p>И это изменило индустрию не потому что было проще — а потому что убрало барьер между идеей и исполнением.</p>
+
+                <h4>Вайб-кодинг — тот же сдвиг</h4>
+                <p>Раньше между идеей и продуктом стоял разработчик, ТЗ, спринт, джунира и месяц ожидания. Теперь — промт и час.</p>
+                <p>Это не значит, что код стал хуже. Это значит, что барьер упал. И люди с идеями, но без технического образования впервые могут строить.</p>
+
+                <div class="compare-grid">
+                    <div class="compare-cell">
+                        <div class="compare-label">Панк-рок (1976)</div>
+                        <div class="compare-item">Три аккорда вместо консерватории</div>
+                        <div class="compare-item">Гараж вместо студии</div>
+                        <div class="compare-item">Ярость вместо техники</div>
+                        <div class="compare-item">Прямо сейчас, не "когда-нибудь"</div>
+                    </div>
+                    <div class="compare-cell">
+                        <div class="compare-label">Вайб-кодинг (2025)</div>
+                        <div class="compare-item">Промт вместо программирования</div>
+                        <div class="compare-item">Claude Code вместо разработчика</div>
+                        <div class="compare-item">Идея вместо синтаксиса</div>
+                        <div class="compare-item">Прямо сейчас, не "когда найду CTO"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ИДЕЯ 04 -->
+        <div class="idea-card" onclick="this.classList.toggle('open')">
+            <div class="idea-header">
+                <span class="idea-num">04</span>
+                <span class="idea-title">Кто вы — важнее, чем что вы знаете.</span>
+                <span class="idea-toggle">[ + ]</span>
+            </div>
+            <div class="idea-oneliner">AI не заменит точку зрения — только знания</div>
+            <div class="idea-body">
+                <h4>Что Рик говорит про творчество</h4>
+                <p>Когда все используют один инструмент, единственное, что отличает результаты — это точка зрения автора. В мире, где у каждого есть Claude и ChatGPT, ваш голос становится главным конкурентным преимуществом.</p>
+
+                <p>Рик работал с Johnny Cash в конце его жизни. У Cash не было молодого голоса, не было энергии для гастролей. Был только он сам — его история, его интонации, его опыт. Рик взял это и сделал из этого «American Recordings» — один из самых важных альбомов в истории.</p>
+
+                <h4>Прямой вывод</h4>
+                <p>AI знает больше ��актов, чем любой человек. Но он не знает, что значит быть вами. Ваш клиент. Ваша индустрия. Ваша история. Ваш провал в 2021 году. То, что вы видите иначе, чем все вокруг.</p>
+
+                <p>Это и есть то, что AI не может скопировать. И это то, что нужно вкладывать в работу с AI — не технические знания, а себя.</p>
+
+                <div class="quote-block">
+                    <div class="quote-text">"Компьютеры не делают творческую работу. Они инструменты, которыми художники выражают свою уникальную точку зрения."</div>
+                    <div class="quote-source">— Rick Rubin, a16z podcast</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ИДЕЯ 05 -->
+        <div class="idea-card" onclick="this.classList.toggle('open')">
+            <div class="idea-header">
+                <span class="idea-num">05</span>
+                <span class="idea-title">Принимать ответы AI — не слабость.</span>
+                <span class="idea-toggle">[ + ]</span>
+            </div>
+            <div class="idea-oneliner">Karpathy не читает код. Рубин не читает ноты. Это метод.</div>
+            <div class="idea-body">
+                <h4>Про доверие к процессу</h4>
+                <p>Андрей Карпати писал: он принимает все изменения кода не глядя. Потому что результат — рабочая программа. Ему не нужно понимать каждую строку.</p>
+                <p>Рик делает то же самое в музыке. Он не объясняет музыкантам, как технически сыграть. Он создаёт пространство, где они могут быть собой. Результат важнее процесса.</p>
+
+                <h4>Почему большинство людей застревают</h4>
+                <p>Потому что нас учили: понимать = контролировать. Не знаешь как — значит не имеешь права использовать.</p>
+                <p>Рик говорит противоположное: ваша работа — знать, <em>что</em> вы хотите. Не <em>как</em> это технически устроено.</p>
+
+                <h4>Практически для вайб-кодинга</h4>
+                <p>Вы не обязаны читать код, который написал Claude. Вы обязаны знать, работает ли результат. Это разные вещи. Научитесь оценивать выход — не процесс.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- МНЕНИЕ ИРЫ -->
+    <div class="ira-section">
+        <div class="ira-label">// ИРА БУЯН — МОЙ УГОЛ</div>
+        <p>Когда я впервые посмотрела эту лекцию, мне стало немного грустно. Потому что я провела несколько месяцев, объясняя людям вокруг, почему AI — это инструмент, а не угроза. Пыталась переформулировать, найти правильные слова.</p>
+        <p>А потом вышел Рик Рубин, который ни разу не написал промт, — и сказал это лучше, чем я когда-либо. За 78 минут. Через музыку, Johnny Cash и панк-рок.</p>
+        <p>Вот что я вынесла для себя лично: нет смысла ждать "правильного момента", чтобы начать работать с AI. Момент был. Он называлось февраль 2025. Karpathy написал твит. Рубин стал мемом. The Way of Code вышла.</p>
+        <p>Можно догонять. Можно начать сейчас. Второй вариант всегда лучше.</p>
+        <p>— Ира / <a href="https://t.me/ira_and_ai" target="_blank">@ira_and_ai</a></p>
+    </div>
+
+    <!-- ВОПРОСЫ -->
+    <div class="section">
+        <div class="section-num">// ВОПРОСЫ ДЛЯ РАЗМЫШЛЕНИЯ</div>
+        <h2>ПОДУМАЙТЕ.<br>НЕ ТОРОПИТЕСЬ.</h2>
+
+        <p>Эти вопросы не про технологии. Нажмите — там моя версия ответа. Не правильная. Моя.</p>
+
+        <div class="question-block" onclick="this.classList.toggle('open')">
+            <div class="question-num">Q / 01</div>
+            <div class="question-text">Чего вы на самом деле боитесь, когда думаете об AI в своей работе?</div>
+            <div class="question-answer">Большинство говорят: "что AI сделает мою работу ненужной". Но если копнуть — страх обычно другой: "что окажется, что я сам ничего не умею, и AI это обнажит". Это про самооценку, не про технологии. Рубин говорит: единственное, что AI не может скопировать — это то, кто вы. Если вы это знаете, беспокоиться не о чем.</div>
+        </div>
+
+        <div class="question-block" onclick="this.classList.toggle('open')">
+            <div class="question-num">Q / 02</div>
+            <div class="question-text">Какой инструмент вы уже приняли, который раньше казался угрозой профессии?</div>
+            <div class="question-answer">Гугл "убил" библиотекарей — но библиотеки живы. Фотошоп "убил" дизайнеров — но дизайнеров стало больше. Excel "убил" бухгалтеров — но бухга��теры нужнее, чем когда-либо. Паттерн один: инструмент убивает низшую часть профессии и освобождает место для высшей. Какая высшая часть вашей работы?</div>
+        </div>
+
+        <div class="question-block" onclick="this.classList.toggle('open')">
+            <div class="question-num">Q / 03</div>
+            <div class="question-text">Если бы AI мог взять на себя 80% вашей текущей работы — что бы вы делали с освободившимся временем?</div>
+            <div class="question-answer">Это не гипотетический вопрос — это уже происходит с людьми вокруг. И самый честный ответ, который я слышу: "не знаю". Потому что большинство из нас давно не думали о том, что мы хотим делать — только о том, что нужно делать. Рубин в "The Creative Act" называет это потерей связи с источником. Может, это шанс найти его снова.</div>
+        </div>
+
+        <div class="question-block" onclick="this.classList.toggle('open')">
+            <div class="question-num">Q / 04</div>
+            <div class="question-text">Что в вашей работе невозможно воспроизвести без вас лично?</div>
+            <div class="question-answer">Это и есть ваше настоящее конкурентное преимущество. Не навыки — их можно купить. Не знания — их можно загуглить. Точка зрения. История. Нутро. То, почему клиенты выбирают именно вас, а не более дешёвого конкурента. Если вы не можете ответить на этот вопрос — это первое, что стоит прояснить до того, как продолжать разговор про AI.</div>
+        </div>
+    </div>
+
+    <!-- ПРОМПТ -->
+    <div class="section">
+        <div class="section-num">// ПРОМПТ ДЛЯ ДЕЙСТВИЯ</div>
+        <h2>ВАШ ПЕРВЫЙ<br>ШАГ ПОСЛЕ ЭТОГО УРОКА</h2>
+
+        <p>Рубин написал книгу о вайб-кодинге. Вам не нужно писать книгу. Начните с одной задачи, которую вы откладывали потому что "не знаете как технически". Вот промт:</p>
+
+        <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Я хочу [опишите результат, который хотите получить].
+
+Я не технический специалист. Мне не нужно понимать, как это работает под капотом. Мне нужен работающий результат.
+
+Задай мне 3-5 уточняющих вопроса, чтобы понять мой контекст лучше. Потом предложи конкретный следующий шаг — один, не список.
+
+Действуй как партнёр, а не как исполнитель.</div>
+
+        <p style="color: var(--text-dim); font-size: 15px;">Работает в Claude, ChatGPT, Gemini. Ключевое — "задай уточняющие вопросы". Это заставляет AI работать с вашей реальностью, а не с усреднённой задачей.</p>
+    </div>
+
+    <div class="sep">* * *</div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-meta">
+            AI reХАБ // ВЫПУСК 01 // МАРТ 2026<br>
+            ИНТЕРАКТИВНЫЙ УРОК НА РУССКОМ<br>
+            ИСТОЧНИК: <a href="https://www.youtube.com/watch?v=7s9C92Pkcc0" target="_blank" style="color: var(--text-dim);">A16Z PODCAST — RICK RUBIN</a><br>
+            <span class="blink">_</span>
+        </div>
+        <div class="footer-brand">
+            Разбор: <a href="https://iraai.ru">Ира Буян</a> &nbsp;·&nbsp;
+            <a href="https://t.me/ira_and_ai">@ira_and_ai</a> &nbsp;·&nbsp;
+            <a href="https://iraai.ru">AI reХАБ — рассылка по четвергам</a>
+        </div>
+    </div>
+
+</div><!-- end container -->
+
+<script>
+    // Прогресс-бар
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.body.scrollHeight - window.innerHeight;
+        const pct = (scrollTop / docHeight) * 100;
+        document.getElementById('progress').style.width = pct + '%';
+    });
+
+    // Анимация секций
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('visible');
+        });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+    // Копирование промта
+    function copyPrompt(btn) {
+        const block = btn.parentElement;
+        const text = block.innerText.replace('COPY', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = 'COPIED';
+            setTimeout(() => btn.textContent = 'COPY', 2000);
+        });
+    }
+</script>
+
+</body>
+</html>

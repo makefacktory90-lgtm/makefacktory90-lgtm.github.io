@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вайб-кодинг: что это и зачем тебе нужно | Andrej Karpathy | Ира Буян, AI reХАБ</title>
+    <meta name="description" content="Разбор концепции вайб-кодинга от Andrej Karpathy. Что это, как работает, реальные кейсы, инструменты. Слово года 2025 по версии Collins Dictionary. Автор: Ира Буян (@ira.and.ai).">
+    <meta name="keywords" content="вайб-кодинг, vibe coding, Andrej Karpathy, Андрей Карпати, Claude Code, Cursor, AI для программирования, программирование без кода, AI инструменты 2026, как начать кодить с AI, AI реХАБ, Ира Буян, ira and ai, рассылка AI реХАБ, интерактивный урок AI">
+    <meta name="author" content="Ира Буян (Ira & AI)">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://iraai.ru/masterclass-karpathy/">
+    <link rel="alternate" hreflang="ru" href="https://iraai.ru/masterclass-karpathy/">
+    <link rel="alternate" hreflang="x-default" href="https://iraai.ru/masterclass-karpathy/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Вайб-кодинг: что это и зачем тебе нужно">
+    <meta property="og:description" content="Разбор концепции Andrej Karpathy. Слово года 2025. Реальные кейсы, инструменты, первый промпт. Автор: Ира Буян (@ira.and.ai).">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://iraai.ru/masterclass-karpathy/">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="AI reХАБ | Ира Буян">
+    <meta property="article:published_time" content="2026-03-05">
+    <meta property="article:author" content="https://www.instagram.com/ira.and.ai/">
+    <meta property="article:section" content="AI инструменты">
+    <meta property="article:tag" content="вайб-кодинг">
+    <meta property="article:tag" content="Andrej Karpathy">
+    <meta property="article:tag" content="Claude Code">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Вайб-кодинг: что это и зачем тебе нужно">
+    <meta name="twitter:description" content="Разбор концепции Karpathy. Слово года 2025. Реальные кейсы и инструменты. Автор: Ира Буян.">
+    <meta name="twitter:creator" content="@ira_and_ai">
+
+    <!-- Structured Data: Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Claude — не один инструмент, их шесть. Полный гайд на русском",
+        "alternativeHeadline": "Разбор гайда Ruben Hassid по Claude: Cowork, Opus 4.6, Excel, плагины, артефакты, проекты",
+        "description": "Интерактивный разбор гайда Ruben Hassid «Claude.» на русском языке. 6 инструментов Claude с пошаговой настройкой, промтами и личным опытом автора. Рубрика AI реХАБ.",
+        "author": {
+            "@type": "Person",
+            "name": "Ира Буян",
+            "alternateName": "Ira & AI",
+            "url": "https://iraai.ru",
+            "sameAs": [
+                "https://www.instagram.com/ira.and.ai/",
+                "https://t.me/ira_and_ai"
+            ],
+            "jobTitle": "AI-стратег",
+            "description": "Помогаю экспертам строить личный бренд и автономные системы дохода через AI. Instagram @ira.and.ai, Telegram @ira_and_ai."
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "AI reХАБ",
+            "url": "https://iraai.ru",
+            "description": "Интерактивные уроки по AI на русском языке. Бесплатная рассылка по четвергам."
+        },
+        "datePublished": "2026-02-18",
+        "dateModified": "2026-02-18",
+        "mainEntityOfPage": "https://iraai.ru/masterclass-hassid/",
+        "inLanguage": "ru",
+        "isPartOf": {
+            "@type": "CreativeWorkSeries",
+            "name": "AI реХАБ — интерактивные уроки",
+            "url": "https://iraai.ru"
+        },
+        "keywords": "Claude, Claude на русском, Ruben Hassid, Рубен Хасид, Claude Cowork, Opus 4.6, Claude Excel, Claude плагины, Claude артефакты, Claude проекты, как настроить Claude, AI для бизнеса, AI для контента, Extended Thinking, AI реХАБ, Ира Буян",
+        "about": [
+            {"@type": "Thing", "name": "Claude (AI)", "description": "AI-ассистент от Anthropic"},
+            {"@type": "Thing", "name": "Claude Cowork", "description": "Десктоп-приложение Claude для работы с файлами"},
+            {"@type": "Thing", "name": "Opus 4.6", "description": "Модель Claude, выпущена 5 февраля 2026"}
+        ],
+        "educationalLevel": "Beginner",
+        "learningResourceType": "Interactive guide",
+        "audience": {
+            "@type": "Audience",
+            "audienceType": "Русскоязычные профессионалы, эксперты, предприниматели, использующие AI в работе"
+        }
+    }
+    </script>
+    <!-- Structured Data: FAQ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Что такое Claude Cowork?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Claude Cowork — десктоп-приложение от Anthropic, которое работает с файлами на вашем компьютере. Читает документы, таблицы, код, создаёт новые файлы. Контекстное окно — более 1 млн токенов. Стоимость: $20/месяц (Pro) или $17/месяц при оплате за год. Скачать: claude.com/download. Подробный разбор на русском: iraai.ru/masterclass-hassid/"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Какую модель Claude выбрать в 2026 году?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "На февраль 2026 — Opus 4.6, вышла 5 февраля. Обязательно включите Extended Thinking: настройки модели внизу чата → Opus 4.6 → Extended Thinking ON. Это заставляет Claude думать перед ответом и значительно улучшает качество для текстов, стратегии и анализа."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Можно ли использовать Claude в Excel?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Да. Claude Excel — надстройка для Microsoft Excel, работает внутри таблицы. Видит ячейки, формулы, структуру. Установка через Microsoft Marketplace. Горячая клавиша: Ctrl+Option+C (Mac) или Ctrl+Alt+C (Windows). Умеет: объяснять формулы, чистить данные, строить модели, извлекать данные из PDF. Не умеет: макросы, VBA, Power Query."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Сколько стоит Claude в 2026 году?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Claude Pro стоит $20/месяц или $17/месяц при оплате за год. За эту цену: Cowork (десктоп-приложение), Opus 4.6 с Extended Thinking, Claude в Excel, 11 плагинов, артефакты, проекты и 50+ коннекторов (Slack, Google Drive, Notion, Figma)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Claude или ChatGPT — что лучше в 2026?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "По опыту автора (Ира Буян, @ira.and.ai): для текстов, стратегии, анализа и работы с документами Claude сильнее. ChatGPT лучше для генерации изображений и широкого веб-поиска. Claude не рисует и не генерирует видео. Для новостей и трендов лучше Grok или Perplexity. Подробное сравнение: iraai.ru/masterclass-hassid/"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Кто такой Рубен Хасид (Ruben Hassid)?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ruben Hassid — автор рассылки How to AI (281 000 подписчиков), более миллиона подписчиков в LinkedIn. Три года пишет об AI-инструментах. Его гайды по Claude, Excel и Cowork регулярно становятся вирусными. Рассылка: how-to-ai.guide"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Что такое AI реХАБ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "AI реХАБ — бесплатная рассылка от Иры Буян (@ira.and.ai) с интерактивными уроками по AI на русском языке. Выходит по четвергам с 5 марта 2026. Формат: интерактивные разборы лучших AI-материалов, адаптированные на русский. Подписка: t.me/ira_and_ai. Сайт: iraai.ru"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Есть ли гайд по Claude на русском языке?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Да. Интерактивный разбор гайда Ruben Hassid «Claude.» на русском: iraai.ru/masterclass-hassid/ — все 6 инструментов с пошаговой настройкой, промтами для копирования и личным опытом. Автор адаптации: Ира Буян (@ira.and.ai), рубрика AI реХАБ."
+                }
+            }
+        ]
+    }
+    </script>
+    <!-- Structured Data: Person (Author) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ира Буян",
+        "alternateName": ["Ira & AI", "Ирина Буян", "ira.and.ai"],
+        "url": "https://iraai.ru",
+        "sameAs": [
+            "https://www.instagram.com/ira.and.ai/",
+            "https://t.me/ira_and_ai"
+        ],
+        "jobTitle": "AI-стратег",
+        "description": "Помогаю экспертам строить личный бренд и автономные системы дохода через AI. Автор рассылки AI реХАБ — интерактивные уроки по AI на русском.",
+        "knowsAbout": ["Artificial Intelligence", "Claude", "Personal Branding", "Content Strategy", "AI для бизнеса"]
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #FFFFFF;
+            --bg-card: #F6F6F6;
+            --text: #333333;
+            --text-bright: #000000;
+            --text-dim: #999999;
+            --accent: #000000;
+            --accent-light: #333333;
+            --border: #E0E0E0;
+            --font-heading: 'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-heading);
+            font-size: 17px;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 10000; transition: width 0.1s; }
+
+        .protocol-bar {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
+        }
+        .protocol-bar .home-link { color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+        .protocol-bar .home-link:hover { color: var(--accent); }
+        .protocol-bar .live-dot { display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; margin-right: 8px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+        .hero { padding: 80px 0 40px; text-align: center; }
+        .hero-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; color: var(--text-dim); margin-bottom: 24px; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(36px, 8vw, 64px); font-weight: 900; color: var(--text-bright); text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 24px; }
+        .hero-sub { font-size: 18px; color: var(--text-dim); max-width: 520px; margin: 0 auto 40px; line-height: 1.6; }
+
+        .notice {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            margin: 0 0 40px;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+        }
+        .notice a { color: var(--text-dim); text-decoration: underline; }
+
+        .section { padding: 60px 0; border-top: 1px solid var(--border); opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+        .section-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em; color: var(--text-dim); margin-bottom: 16px; text-transform: uppercase; }
+        .section h2 { font-size: clamp(24px, 5vw, 36px); font-weight: 900; color: var(--text-bright); text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 24px; line-height: 1.15; }
+        .section p { margin-bottom: 20px; }
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 28px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .tool-card:hover { border-color: var(--accent); }
+        .tool-card.open { border-color: var(--accent); background: #EFEFEF; }
+        .tool-header { display: flex; align-items: baseline; gap: 16px; }
+        .tool-num { font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+        .tool-title { font-size: 18px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.05em; }
+        .tool-oneliner { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); margin-top: 8px; letter-spacing: 0.05em; }
+        .tool-body { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: none; color: var(--text); font-size: 16px; line-height: 1.7; }
+        .tool-card.open .tool-body { display: block; }
+        .tool-toggle { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-left: auto; letter-spacing: 0.1em; }
+
+        .tool-body h4 {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin: 20px 0 8px;
+        }
+        .tool-body h4:first-child { margin-top: 0; }
+        .tool-body ul { margin: 8px 0 16px 20px; }
+        .tool-body li { margin-bottom: 6px; font-size: 16px; }
+
+        .prompt-block {
+            background: var(--text-bright);
+            color: #FFFFFF;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            padding: 20px;
+            margin: 16px 0;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            position: relative;
+            overflow-x: auto;
+        }
+        .prompt-block .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #333;
+            color: #CCC;
+            border: 1px solid #555;
+            padding: 4px 10px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .prompt-block .copy-btn:hover { background: #555; color: #FFF; }
+
+        .steps { margin: 16px 0; counter-reset: step; }
+        .step { display: flex; gap: 16px; margin-bottom: 16px; align-items: flex-start; }
+        .step-num {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--bg);
+            background: var(--accent);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .step-text { font-size: 16px; line-height: 1.6; }
+
+        .ira-section {
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            padding: 40px 32px;
+            margin: 40px 0;
+        }
+        .ira-section .ira-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; color: var(--text-dim); margin-bottom: 20px; }
+        .ira-section p { margin-bottom: 16px; }
+
+        .question-block { border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.3s; }
+        .question-block:hover { border-color: var(--accent); }
+        .question-num { font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+        .question-text { font-size: 18px; color: var(--text-bright); font-weight: 600; line-height: 1.4; }
+
+        .footer { padding: 60px 0; border-top: 1px solid var(--border); text-align: center; }
+        .footer-meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text-dim); line-height: 2; }
+        .footer-brand { color: var(--text); margin-top: 12px; font-size: 14px; }
+        .footer-brand a { color: var(--accent); text-decoration: none; }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .highlight { background: var(--accent); color: var(--bg); padding: 2px 6px; font-weight: 600; }
+        .sep { text-align: center; padding: 32px 0; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.5em; }
+
+        .limit-block {
+            border-left: 3px solid var(--border);
+            padding: 12px 20px;
+            margin: 12px 0;
+            color: var(--text-dim);
+            font-size: 15px;
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 0;
+            margin: 24px 0;
+        }
+        .plan-time {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            padding: 16px 0;
+            border-top: 1px solid var(--border);
+        }
+        .plan-action {
+            padding: 16px 0 16px 16px;
+            border-top: 1px solid var(--border);
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body { font-size: 16px; }
+            .container { padding: 0 16px; }
+            .hero { padding: 60px 0 30px; }
+            .section { padding: 40px 0; }
+            .tool-card { padding: 20px; }
+            .ira-section { padding: 28px 20px; }
+            .prompt-block { font-size: 12px; padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress" style="width: 0%"></div>
+
+<div class="protocol-bar">
+    <a href="https://iraai.ru/" class="home-link">&larr; IRAAI.RU</a>
+    <div><span class="live-dot"></span>AI reХАБ // ВЫПУСК 01</div>
+    <div>МАРТ 2026</div>
+</div>
+
+<div class="container">
+
+    <div class="hero">
+        <div class="hero-label">ANDREJ KARPATHY &mdash; СООСНОВАТЕЛЬ OPENAI &mdash; ПРИДУМАЛ ТЕРМИН</div>
+        <h1>ВАЙБ-<br>КОДИНГ</h1>
+        <p class="hero-sub">Слово года 2025 по версии Collins Dictionary.<br>Что это, зачем тебе, и как начать сегодня.</p>
+    </div>
+
+    <div class="notice">
+        // ВАЖНО<br><br>
+        Все знания в этом уроке основаны на публичных материалах Andrej Karpathy, статьях о вайб-кодинге и реальных кейсах. Я собрала это на русском, потому что читать десятки статей на английском — объективно тяжело. Все ссылки на оригиналы внутри. Это бесплатный просветительский проект.
+    </div>
+
+    <!-- ВСТУПЛЕНИЕ -->
+    <div class="section" id="intro">
+        <div class="section-num">// ВСТУПЛЕНИЕ</div>
+        <h2>КТО ТАКОЙ КАРПАТИ<br>И ПОЧЕМУ ЭТО ВАЖНО</h2>
+
+        <p>Andrej Karpathy — сооснователь OpenAI, бывший директор AI в Tesla (тот самый, кто делал автопилот). Когда он говорит про AI — индустрия слушает.</p>
+
+        <p>В феврале 2025 он написал один пост в X про новый способ работы с кодом. Назвал это "вайб-кодинг".</p>
+
+        <p>Через год это стало словом года по версии Collins Dictionary. Поисковые запросы выросли на 6700%.</p>
+
+        <p>Почему? Потому что он описал то, что уже делали тысячи людей, но не знали как это назвать. Ты описываешь что хочешь на обычном языке — AI пишет код — ты смотришь работает ли — говоришь что поменять. Без синтаксиса. Без Stack Overflow. Без "это невозможно".</p>
+
+        <p>Оригинальный пост: <a href="https://x.com/karpathy/status/1753868685170053599" target="_blank">Andrej Karpathy on X</a></p>
+    </div>
+
+    <!-- 6 ИНСТРУМЕНТОВ -->
+    <div class="section">
+        <div class="section-num">// 6 ИНСТРУМЕНТОВ</div>
+        <h2>ВЫ ДУМАЕТЕ, CLAUDE &mdash;<br>ЭТО ЧАТ-БОТ.<br>ВЫ ОШИБАЕТЕСЬ.</h2>
+
+        <p>В 2024 году Claude был чат-бот. Текстовое поле. Вы пишете, он отвечает.</p>
+
+        <p>В 2026 &mdash; это шесть разных штук. Большинство людей используют одну. Максимум две. Про остальные четыре даже не слышали.</p>
+
+        <p>Ниже &mdash; все шесть. От самого полезного к менее очевидному. Нажмите на карточку &mdash; внутри детали и первый промт.</p>
+
+        <!-- TOOL 01: COWORK -->
+        <div class="tool-card" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+                <span class="tool-num">01</span>
+                <span class="tool-title">Cowork</span>
+                <span class="tool-toggle">[ + ]</span>
+            </div>
+            <div class="tool-oneliner">Десктоп-приложение, которое работает с вашими файлами</div>
+            <div class="tool-body">
+                <h4>Что это</h4>
+                <p>Claude Cowork живёт на вашем компьютере. Читает ваши файлы, создаёт документы, строит таблицы. Пишет код, который вы никогда не увидите, чтобы дать вам ответ. И &mdash; внимание &mdash; задаёт <strong>вам</strong> вопросы, когда ему чего-то не хватает. Не угадывает. Спрашивает.</p>
+
+                <p>Рубен называет это &laquo;Claude Code для тех, кто не кодит&raquo;. Контекстное окно &mdash; больше миллиона токенов. За три года в AI он впервые пишет: &laquo;я не чувствовал, что Cowork галлюцинирует&raquo;. Для человека, который тестирует AI каждый день, &mdash; это сильное заявление.</p>
+
+                <h4>Как установить</h4>
+                <div class="steps">
+                    <div class="step"><div class="step-num">1</div><div class="step-text">Перейдите на <a href="https://claude.com/download" target="_blank">claude.com/download</a>. Скачайте приложение.</div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text">Нужен Pro-аккаунт: $20/мес (или $17/мес при оплате за год).</div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text">Откройте приложение. Нажмите вкладку <strong>Cowork</strong> вверху.</div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text">Выберите папку на компьютере &mdash; так Claude получит доступ к вашим файлам.</div></div>
+                </div>
+
+                <h4>Сдвиг мышления</h4>
+                <p>ChatGPT приучил вас писать длинные промты, сохранять их, оттачивать формулировки. У вас где-то папка &laquo;Best Prompts&raquo;, которую вы не открывали неделями. Знакомо? 🤷&lrm;&#x200d;&#x2640;</p>
+                <p>Забудьте.</p>
+                <p>С Cowork игра &mdash; в <strong>текстовых файлах</strong>. Берёте всё, что знаете &mdash; стиль письма, правила бренда, примеры, прошлые работы &mdash; и кладёте в .md или .txt. Бросьте в папку и направьте Claude на неё. Чем больше контекста в файлах, тем меньше нужно объяснять словами. Подруга написала: &laquo;Это точно ты, а не бот?&raquo; По-моему, лучшей оценки не бывает.</p>
+
+                <h4>Ваш первый промт</h4>
+                <div class="prompt-block"><button class="copy-btn" onclick="event.stopPropagation(); copyPrompt(this)">COPY</button>I want to [ВАША ЗАДАЧА] so that [КАК ВЫГЛЯДИТ УСПЕХ].
+
+First, read the uploaded files completely before responding.
+
+DO NOT start executing yet. Instead, ask me clarifying questions so we can refine the approach together step by step.
+
+Only begin work once we've aligned.</div>
+
+                <p>Ключ &mdash; заставить Cowork задавать <strong>вам</strong> вопросы. Он генерирует форму, которая вытягивает нужную информацию. Вам даже не нужно быть точным &mdash; Claude заставит. Как хороший терапевт, только за $20 и без кушетки. 🍸</p>
+
+                <p style="color: var(--text-dim);">Полный гайд Рубена по Cowork: <a href="https://ruben.substack.com/p/quit-chatgpt" target="_blank" style="color: var(--text-dim);">How to quit ChatGPT</a></p>
+            </div>
+        </div>
+
+        <!-- TOOL 02: MODEL -->
+        <div class="tool-card" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+                <span class="tool-num">02</span>
+                <span class="tool-title">Правильная модель</span>
+                <span class="tool-toggle">[ + ]</span>
+            </div>
+            <div class="tool-oneliner">Opus 4.6 + Extended Thinking &mdash; и больше ничего</div>
+            <div class="tool-body">
+                <h4>Какую модель выбрать</h4>
+                <p>Прямо сейчас &mdash; <strong>Opus 4.6</strong>. Вышел 5 февраля 2026. По моему опыту, он перестал &laquo;угождать&raquo;: GPT-4o соглашается с вами, даже когда вы несёте чушь. Opus спорит. Для тех, кому AI нужен для работы, а не для комплиментов, &mdash; это то, что нужно.</p>
+
+                <h4>Как настроить</h4>
+                <div class="steps">
+                    <div class="step"><div class="step-num">1</div><div class="step-text">Откройте любой чат Claude (на claude.ai или в Cowork).</div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text">Нажмите на селектор модели внизу чата.</div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text">Выберите <strong>Opus 4.6</strong>.</div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text">Включите <strong>Extended Thinking</strong>.</div></div>
+                </div>
+
+                <p>Не забудьте Extended Thinking. Без него Claude отвечает быстро, но поверхностно. С ним &mdash; берёт паузу и думает. Как вы, когда вас спрашивают что-то важное и вы не отвечаете первое, что пришло в голову. Разница видна сразу &mdash; особенно в длинных текстах и стратегических задачах.</p>
+
+                <h4>Коннекторы</h4>
+                <p>Claude подключается к вашим инструментам: Slack, Google Drive, Notion, Figma и ещё 50+. Это называется Connectors.</p>
+                <p>Settings &rarr; Connectors &rarr; выбрать нужный &rarr; нажать &laquo;Add&raquo;. Всё. После подключения Claude читает ваш Slack, подтягивает Google Docs, ссылается на Notion-страницы &mdash; прямо в разговоре. Без копипаста. Без скриншотов. Бесплатно на всех планах.</p>
+            </div>
+        </div>
+
+        <!-- TOOL 03: EXCEL -->
+        <div class="tool-card" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+                <span class="tool-num">03</span>
+                <span class="tool-title">Claude в Excel</span>
+                <span class="tool-toggle">[ + ]</span>
+            </div>
+            <div class="tool-oneliner">AI внутри таблицы, который видит каждую ячейку</div>
+            <div class="tool-body">
+                <h4>Почему это важно</h4>
+                <p>Вы загружали Excel в ChatGPT. Формулы исчезали, структура ломалась, он давал советы про ячейку G28, которой не существовало. Если пробовали &mdash; знаете это чувство.</p>
+
+                <p>Claude в Excel &mdash; другое. Он живёт <strong>внутри</strong> таблицы. Видит вкладки, читает формулы, понимает структуру. Не &laquo;скриншот и угадай&raquo;, а реальная работа с данными.</p>
+
+                <h4>Как установить (3 минуты)</h4>
+                <div class="steps">
+                    <div class="step"><div class="step-num">1</div><div class="step-text">Перейдите в <a href="https://appsource.microsoft.com/" target="_blank">Microsoft Marketplace</a>. Найдите Claude.</div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text">Нажмите &laquo;Get it now&raquo; &rarr; установите надстройку.</div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text">Excel &rarr; Tools &rarr; Add-ins (Mac) или Home &rarr; Add-ins (Windows).</div></div>
+                    <div class="step"><div class="step-num">4</div><div class="step-text">Войдите в свой аккаунт Claude.</div></div>
+                </div>
+
+                <p>Горячая клавиша: <strong>Ctrl+Option+C</strong> (Mac) или <strong>Ctrl+Alt+C</strong> (Windows).</p>
+
+                <h4>Что можно делать</h4>
+                <ul>
+                    <li>&laquo;Объясни, что делает эта формула, простым языком&raquo;</li>
+                    <li>&laquo;Найди все ошибки #REF и #VALUE в этой книге&raquo;</li>
+                    <li>&laquo;Приведи все даты к формату YYYY-MM-DD&raquo;</li>
+                    <li>&laquo;Какие тренды видны в 2025 vs 2024?&raquo;</li>
+                    <li>&laquo;Построй финансовую модель с ARR, churn и LTV&raquo;</li>
+                    <li>&laquo;Извлеки таблицу из этого PDF в Excel&raquo;</li>
+                </ul>
+
+                <h4>Чего пока не может</h4>
+                <div class="limit-block">
+                    Нет макросов и VBA. Нет Power Query и Power Pivot. Нет подключения к внешним базам данных.
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TOOL 04: PLUGINS -->
+        <div class="tool-card" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+                <span class="tool-num">04</span>
+                <span class="tool-title">Плагины</span>
+                <span class="tool-toggle">[ + ]</span>
+            </div>
+            <div class="tool-oneliner">Превращают Claude в специалиста именно для вашей работы</div>
+            <div class="tool-body">
+                <h4>Что это</h4>
+                <p>30 января 2026 года Anthropic выпустил 11 open-source плагинов для Cowork. Каждый плагин &mdash; это набор навыков, команд и workflow под конкретную профессию: юрист, финансист, маркетолог, продажник, HR.</p>
+
+                <p>По сути, плагин &mdash; это &laquo;шпаргалка&raquo; для Claude. Он объясняет, как работает ваша индустрия, какие шаги нужны для типовых задач, какие лучшие практики использовать.</p>
+
+                <h4>Как установить</h4>
+                <div class="steps">
+                    <div class="step"><div class="step-num">1</div><div class="step-text">Откройте Cowork. Нажмите <strong>+</strong> &rarr; <strong>Plugins</strong>.</div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-text">Выберите нужный плагин (Legal, Finance, Marketing&hellip;).</div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-text">Нажмите <strong>Install</strong>, затем <strong>Customize</strong> под себя.</div></div>
+                </div>
+
+                <h4>Что произошло на рынке</h4>
+                <p>5&ndash;6 февраля, после выхода Opus 4.6 и плагинов, акции IT-компаний потеряли <strong>$285 миллиардов</strong> капитализации. Юридический софт, финансовый, CRM &mdash; всё просело. Потому что Claude за $20/мес начал делать то, за что бизнес платил сотни тысяч в год. Математика жестокая, но рынок считает быстро.</p>
+
+                <h4>Пример: юридический ревью</h4>
+                <div class="prompt-block"><button class="copy-btn" onclick="event.stopPropagation(); copyPrompt(this)">COPY</button>Review all PDF contracts in this folder.
+
+For each one:
+- Plain-English summary
+- Parties and key dates
+- Flag risky clauses:
+  RED = dangerous
+  YELLOW = worth negotiating
+  GREEN = standard
+
+Focus on: indemnification, liability caps,
+auto-renewal, termination, IP, confidentiality.</div>
+
+                <p style="color: var(--text-dim);">Юрист берёт $500/час за такой ревью. Claude &mdash; $20/месяц.</p>
+            </div>
+        </div>
+
+        <!-- TOOL 05: ARTIFACTS -->
+        <div class="tool-card" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+                <span class="tool-num">05</span>
+                <span class="tool-title">Артефакты</span>
+                <span class="tool-toggle">[ + ]</span>
+            </div>
+            <div class="tool-oneliner">Интерактивные результаты, которые можно использовать</div>
+            <div class="tool-body">
+                <h4>Что это</h4>
+                <p>Обычный чат-бот даёт текст. Артефакты Claude &mdash; это <strong>рабочие документы</strong> в отдельном окне справа. Код, готовый к запуску. Таблицы с редактированием. Диаграммы, которые обновляются. HTML-страницы, работающие прямо в браузере.</p>
+
+
+                <h4>Когда использовать</h4>
+                <ul>
+                    <li>Нужна таблица &mdash; попросите артефакт, не текст</li>
+                    <li>Дашборд? Claude соберёт интерактивный HTML</li>
+                    <li>Код &mdash; можно запустить и протестировать прямо здесь</li>
+                    <li>Данные &mdash; графики появляются в чате, не в отдельном приложении</li>
+                </ul>
+
+                <p>У ChatGPT есть Canvas, но это скорее текстовый редактор. Артефакты Claude &mdash; рабочая среда.</p>
+            </div>
+        </div>
+
+        <!-- TOOL 06: PROJECTS -->
+        <div class="tool-card" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+                <span class="tool-num">06</span>
+                <span class="tool-title">Проекты</span>
+                <span class="tool-toggle">[ + ]</span>
+            </div>
+            <div class="tool-oneliner">Папки с контекстом, которые помнят всё</div>
+            <div class="tool-body">
+                <h4>Что это</h4>
+                <p>Projects &mdash; это папки внутри Claude, которые сохраняют контекст между сессиями. Загружаете файлы, задаёте инструкции &mdash; и Claude помнит их при каждом следующем разговоре.</p>
+
+                <h4>Как использовать</h4>
+                <ul>
+                    <li>Создайте проект под каждого клиента или направление</li>
+                    <li>Загрузите файлы: бриф, стиль, примеры, правила, стоп-слова</li>
+                    <li>Добавьте инструкции: как общаться, что учитывать, чего не делать</li>
+                    <li>Каждый новый чат в проекте &mdash; Claude уже в контексте</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ПЕРВЫЕ 30 МИНУТ -->
+    <div class="section">
+        <div class="section-num">// ПЛАН ДЕЙСТВИЙ</div>
+        <h2>ВАШИ ПЕРВЫЕ<br>30 МИНУТ</h2>
+
+        <p>Рубен предлагает план: выделите 30 минут в ближайшие выходные. Не &laquo;когда-нибудь после отпуска&raquo;. В эту субботу. Кофе, ноутбук, 30 минут. Вот что сделать:</p>
+
+        <div class="plan-grid">
+            <div class="plan-time">0:00</div>
+            <div class="plan-action">Скачайте приложение: <a href="https://claude.com/download" target="_blank">claude.com/download</a>. Оформите Pro ($20/мес). Откройте Cowork.</div>
+
+            <div class="plan-time">0:05</div>
+            <div class="plan-action">Выберите модель <strong>Opus 4.6</strong>. Включите <strong>Extended Thinking</strong>. Это два клика &mdash; и вы уже впереди 90% пользователей.</div>
+
+            <div class="plan-time">0:08</div>
+            <div class="plan-action">Создайте папку на компьютере. Положите туда 3&ndash;5 файлов: ваш стиль, примеры работ, правила бренда. Формат &mdash; .md или .txt.</div>
+
+            <div class="plan-time">0:12</div>
+            <div class="plan-action">Направьте Cowork на эту папку (&laquo;Work in a folder&raquo;). Дайте первую реальную задачу &mdash; не &laquo;напиши мне пост&raquo;, а задачу из вашей работы.</div>
+
+            <div class="plan-time">0:15</div>
+            <div class="plan-action">Подключите коннекторы: Settings &rarr; Connectors. Добавьте Google Drive, Slack, Notion &mdash; что используете.</div>
+
+            <div class="plan-time">0:20</div>
+            <div class="plan-action">Установите Claude в Excel (<a href="https://appsource.microsoft.com/" target="_blank">Microsoft Marketplace</a>). Откройте любую таблицу. Спросите: &laquo;что здесь можно улучшить?&raquo;</div>
+
+            <div class="plan-time">0:25</div>
+            <div class="plan-action">Откройте плагины (+ &rarr; Plugins). Установите один под вашу специальность. Дайте задачу.</div>
+
+            <div class="plan-time">0:30</div>
+            <div class="plan-action">Готово. Claude настроен. Вы в топ-1% пользователей. Серьёзно &mdash; большинство разговаривают с бесплатной версией и никогда не настраивают под себя. 🤷&lrm;&#x200d;&#x2640;</div>
+        </div>
+    </div>
+
+    <!-- ГДЕ НЕ ДОТЯГИВАЕТ -->
+    <div class="section">
+        <div class="section-num">// ОГРАНИЧЕНИЯ</div>
+        <h2>ГДЕ CLAUDE<br>ПОКА НЕ ДОТЯГИВАЕТ</h2>
+
+        <p>Рубен не хайпит AI ради хайпа. Он честно говорит, где Claude пока не работает:</p>
+
+        <div class="limit-block">
+            <strong>Нет генерации изображений.</strong> Claude не рисует. Для картинок и инфографики &mdash; Gemini с Nano-Banana или Midjourney.
+        </div>
+
+        <div class="limit-block">
+            <strong>Нет генерации видео.</strong> Для видео &mdash; Runway, Sora или другие специализированные инструменты.
+        </div>
+
+        <div class="limit-block">
+            <strong>Поиск ограничен.</strong> Claude подключается к вашим инструментам через коннекторы, но веб-поиск пока слабее, чем у Grok или Perplexity. Для новостей и трендов &mdash; не к нему.
+        </div>
+
+        <p>То есть идеального AI по-прежнему нет. Но ожидать идеала от инструмента за $20 &mdash; это примерно как ожидать, что стажёр в первый день заменит весь отдел. Дайте ему папку с документами и конкретную задачу &mdash; и удивитесь. 🍸</p>
+
+        <p>Фраза Рубена: <em>&laquo;It's not because AI does it that it's perfect.&raquo;</em> То, что AI что-то делает, не значит, что делает идеально. Проверяйте и перепроверяйте. Ответственность за всё — на вас.</p>
+
+    </div>
+
+    <!-- ОТ ИРЫ -->
+    <div class="section">
+        <div class="section-num">// ЛИЧНОЕ</div>
+
+        <div class="ira-section">
+            <div class="ira-label">ОТ ИРЫ</div>
+
+            <p>Я впервые за два года не продлила ChatGPT Plus.</p>
+
+            <p>Почему? Если вы работаете в Claude, вы знаете: у него жёсткие лимиты. Работаете плотно &mdash; и вам его постоянно не хватает. &laquo;Дневной лимит закончился. Подождите пять часов.&raquo; &laquo;Недельный лимит закончился.&raquo; Это реально бесит.</p>
+
+            <p>И я стала ловить себя на мысли: я <em>жду</em> окончания этих лимитов. Жду, когда восстановится. С ChatGPT такого не было. А Claude мне реально не хватало.</p>
+
+            <p>Поэтому в январе я сделала переход. Ушла из ChatGPT и купила Claude за $100. Если вы только пишете тексты &mdash; хватит $20. Я просто стала работать с ним серьёзнее. Считаю, что отрабатывает на 200%.</p>
+
+            <p style="margin-bottom: 0;">Выбрать один инструмент всё равно не получается &mdash; нужно подбирать под себя. Если ChatGPT вернёт что-то новое &mdash; посмотрим. Но пока так.</p>
+        </div>
+
+        <div class="ira-section" style="margin-top: 24px; border-color: var(--border);">
+            <div class="ira-label">ЗАЧЕМ Я ДЕЛАЮ ТАКИЕ ИНТЕРАКТИВНЫЕ УРОКИ</div>
+
+            <p>У меня тут две цели, и я буду честна.</p>
+
+            <p><strong>Первая.</strong> Мне не интересно обучать, куда нажимать. Мои продукты &mdash; про мышление, смыслы, стратегию. Если вы придёте ко мне, уже понимая, как работает Claude, мы с вами сможем построить что-то большее. А мне будет интереснее с вами работать.</p>
+
+            <p><strong>Вторая.</strong> С 5 марта такие интерактивные уроки уходят под капот моей рассылки <strong>AI reХАБ</strong>. На сайте они будут появляться с опозданием в полтора месяца. Рассылка пока бесплатная. Выходит по четвергам.</p>
+
+            <p style="margin-bottom: 0;"><strong><a href="https://iraai.ru">Подписаться на AI reХАБ &rarr;</a></strong></p>
+        </div>
+    </div>
+
+    <div class="sep">&middot; &middot; &middot;</div>
+
+    <!-- ССЫЛКИ -->
+    <div class="section" style="padding-bottom: 20px;">
+        <div class="section-num">// ИСТОЧНИКИ</div>
+        <h2>ВСЕ ССЫЛКИ</h2>
+
+        <p><strong>Оригинальный гайд:</strong> <a href="https://ruben.substack.com/p/claude" target="_blank">Claude. &mdash; by Ruben Hassid</a></p>
+        <p><strong>Скачать Claude:</strong> <a href="https://claude.com/download" target="_blank">claude.com/download</a></p>
+    </div>
+
+    <div class="footer">
+        <div class="footer-meta">
+            DESIGNATION: AI_REHAB_ISSUE_03<br>
+            STATUS: ACTIVE // ФЕВРАЛЬ 2026<br>
+            FORMAT: INTERACTIVE_LESSON // LIGHT_THEME<br>
+            SOURCE: RUBEN HASSID &mdash; HOW TO AI
+        </div>
+        <div class="footer-brand">
+            Made by <a href="https://t.me/ira_and_ai">Ira & AI</a><span class="blink">_</span>
+        </div>
+        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-dim); line-height: 1.8; max-width: 560px; margin-left: auto; margin-right: auto;">
+            Проект носит некоммерческий просветительский характер. Все материалы основаны на публичных гайдах Ruben Hassid и официальной документации Anthropic. Полная атрибуция авторам. Если вы являетесь правообладателем и хотите изменить формат присутствия вашего контента, <a href="https://t.me/ira_and_ai" style="color: var(--text-dim); text-decoration: underline;">свяжитесь со мной</a>.
+        </div>
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.8; max-width: 560px; margin-left: auto; margin-right: auto; text-align: center;">
+            Хотите научиться делать такие интерактивные уроки?<br>
+            <a href="https://t.me/ira_alfred_bot" target="_blank" style="color: var(--text-primary); text-decoration: underline;">Напишите Альфреду</a> — он на связи.<br>
+            <span style="opacity: 0.6;">Ира иногда обучает этому индивидуально</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    window.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        document.getElementById('progress').style.width = pct + '%';
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+    document.querySelectorAll('.tool-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const toggle = card.querySelector('.tool-toggle');
+            toggle.textContent = card.classList.contains('open') ? '[ \u2212 ]' : '[ + ]';
+        });
+    });
+
+    function copyPrompt(btn) {
+        const block = btn.parentElement;
+        const text = block.textContent.replace('COPY', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = 'COPIED';
+            setTimeout(() => { btn.textContent = 'COPY'; }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
