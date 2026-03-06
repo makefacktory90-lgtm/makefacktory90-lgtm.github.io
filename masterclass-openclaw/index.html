@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw — что это, как работает, зачем нужен | Lex Fridman #491 разбор на русском</title>
+    <meta name="description" content="OpenClaw простым языком: самомодифицирующийся AI-агент, 180 000 звёзд на GitHub. Интерактивный разбор Lex Fridman Podcast #491 с Peter Steinberger. Квиз, таймкоды, глоссарий. На русском.">
+    <meta name="keywords" content="OpenClaw, open claw, openclaw что это, openclaw ai, lex fridman 491, lex fridman openclaw, peter steinberger, ai agent, самомодифицирующийся ai, openclaw github, codex vs opus, claude code, vibe coding, agentic engineering, openclaw на русском, lex fridman на русском">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://iraai.ru/masterclass-openclaw/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="OpenClaw — что это и зачем? Разбор Lex Fridman #491 на русском">
+    <meta property="og:description" content="180 000 звёзд на GitHub за считанные дни. AI-агент, который пишет сам себя. Интерактивный урок с квизом и таймкодами.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://iraai.ru/masterclass-openclaw/">
+    <meta property="og:image" content="https://iraai.ru/masterclass-openclaw/og-cover.png">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="AI реХАБ — Ира&AI">
+    <meta property="article:published_time" content="2026-02-14">
+    <meta property="article:author" content="Ира Буян">
+    <meta property="article:section" content="AI">
+    <meta property="article:tag" content="OpenClaw">
+    <meta property="article:tag" content="Lex Fridman">
+    <meta property="article:tag" content="AI-агенты">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OpenClaw — что это? Разбор Lex Fridman #491 на русском">
+    <meta name="twitter:description" content="Самый быстрорастущий проект на GitHub. AI, который пишет сам себя. Интерактивный урок с квизом.">
+    <meta name="twitter:image" content="https://iraai.ru/masterclass-openclaw/og-cover.png">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "OpenClaw: что это, как работает и зачем нужен — разбор Lex Fridman #491",
+        "description": "Интерактивный разбор Lex Fridman Podcast #491 с Peter Steinberger. OpenClaw — самомодифицирующийся AI-агент, 180 000 звёзд на GitHub.",
+        "image": "https://iraai.ru/masterclass-openclaw/og-cover.png",
+        "author": {
+            "@type": "Person",
+            "name": "Ира Буян",
+            "url": "https://iraai.ru"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "AI реХАБ",
+            "url": "https://iraai.ru"
+        },
+        "datePublished": "2026-02-14",
+        "dateModified": "2026-02-14",
+        "mainEntityOfPage": "https://iraai.ru/masterclass-openclaw/",
+        "keywords": ["OpenClaw", "Lex Fridman", "Peter Steinberger", "AI agent", "самомодифицирующийся AI", "Codex", "Claude Opus"],
+        "inLanguage": "ru",
+        "isAccessibleForFree": true,
+        "learningResourceType": "interactive lesson",
+        "about": {
+            "@type": "SoftwareApplication",
+            "name": "OpenClaw",
+            "applicationCategory": "AI Agent Framework",
+            "operatingSystem": "Cross-platform"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Что такое OpenClaw?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OpenClaw — это open-source фреймворк для AI-агентов, созданный Peter Steinberger. Набрал 180 000+ звёзд на GitHub, став самым быстрорастущим проектом в истории платформы. Это самомодифицирующийся AI-агент — он может читать и изменять собственный код."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Кто создал OpenClaw?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Peter Steinberger — австрийский разработчик, ранее создатель PSPDFKit. Первый прототип OpenClaw был создан за час путём соединения WhatsApp с Claude Code CLI."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Чем отличается Codex 5.3 от Opus 4.6?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "По словам Steinberger: Codex 5.3 — это «интроверт»: надёжный, автономный, методичный. Opus 4.6 — «экстраверт»: креативный, быстрый, импульсивный. Оба используются в OpenClaw для разных задач."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Что такое Vibe Coding?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Vibe Coding — термин, описывающий интуитивный подход к программированию с AI: разработчик задаёт направление и «вайб», а AI-агент генерирует код. В отличие от Agentic Engineering, не требует чёткого плана."
+                }
+            }
+        ]
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #FFFFFF;
+            --text: #000000;
+            --gray-light: #E5E5E5;
+            --gray-mid: #999999;
+            --gray-dark: #333333;
+            --border: 1px solid #000000;
+            --font-heading: 'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+            --letter-spacing: 0.15em;
+        }
+
+        body {
+            font-family: var(--font-heading);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            cursor: default;
+        }
+
+        .header-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            border-bottom: var(--border);
+            background: var(--bg);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: var(--letter-spacing);
+            text-transform: uppercase;
+        }
+        .header-bar .home-link { color: var(--gray-mid); text-decoration: none; transition: color 0.2s; }
+        .header-bar .home-link:hover { color: var(--text); }
+        .header-bar .protocol { color: var(--gray-mid); }
+        .header-bar .status { color: var(--text); }
+        .header-bar .est { color: var(--gray-mid); }
+
+        /* ATTRIBUTION BANNER */
+        .attribution-banner {
+            margin-top: 50px;
+            padding: 20px 40px;
+            background: #FAFAFA;
+            border-bottom: var(--border);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            line-height: 1.8;
+            color: var(--gray-dark);
+        }
+        .attribution-banner a {
+            color: var(--text);
+            text-decoration: underline;
+        }
+        .attribution-banner strong { color: var(--text); }
+
+        .hero {
+            padding: 80px 40px 80px;
+            border-bottom: var(--border);
+            position: relative;
+        }
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 110px);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            max-width: 900px;
+        }
+        .hero-subtitle {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            color: var(--gray-dark);
+            margin-top: 40px;
+            max-width: 650px;
+            line-height: 1.8;
+        }
+        .hero-meta {
+            display: flex;
+            gap: 60px;
+            margin-top: 60px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: var(--letter-spacing);
+            text-transform: uppercase;
+        }
+        .hero-meta dt { color: var(--gray-mid); margin-bottom: 4px; }
+        .hero-meta dd { color: var(--text); font-weight: 500; }
+
+        .signal-line {
+            width: 100%; height: 40px;
+            border-bottom: var(--border);
+            position: relative; overflow: hidden;
+        }
+        .signal-line canvas { width: 100%; height: 100%; }
+
+        .video-section { padding: 80px 40px; border-bottom: var(--border); }
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-bottom: 40px;
+        }
+        .video-container {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 0; border: var(--border);
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-right: var(--border);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+        .video-sidebar {
+            padding: 20px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        .video-sidebar h3 {
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: var(--border);
+        }
+        .term-ticker { list-style: none; }
+        .term-ticker li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+        }
+        .term-ticker li:hover {
+            background: var(--text);
+            color: var(--bg);
+            padding-left: 8px;
+        }
+
+        .timeline-section { padding: 40px; border-bottom: var(--border); }
+        .timeline {
+            display: flex;
+            position: relative;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 1px;
+            background: var(--text);
+        }
+        .timeline-item {
+            flex: 1; min-width: 130px;
+            position: relative;
+            text-align: center;
+            cursor: crosshair;
+            padding: 0 6px;
+        }
+        .timeline-item::before {
+            content: '';
+            display: block;
+            width: 1px; height: 20px;
+            background: var(--text);
+            margin: 0 auto 8px;
+        }
+        .timeline-code {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            color: var(--gray-mid);
+            margin-bottom: 4px;
+        }
+        .timeline-label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .timeline-item:hover .timeline-label,
+        .timeline-item.active .timeline-label {
+            background: var(--text);
+            color: var(--bg);
+            padding: 4px 8px;
+        }
+        .timeline-item.active::before { width: 3px; }
+
+        .predictions { padding: 0; }
+        .prediction-block {
+            padding: 80px 40px;
+            border-bottom: var(--border);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        .prediction-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .prediction-number {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: var(--gray-mid);
+            margin-bottom: 20px;
+        }
+        .prediction-block h2 {
+            font-size: clamp(26px, 3.5vw, 52px);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        .prediction-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1000px;
+        }
+        .prediction-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--gray-dark);
+        }
+        .prediction-text strong { color: var(--text); }
+        .prediction-data {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        .data-label { color: var(--gray-mid); text-transform: uppercase; font-size: 9px; letter-spacing: 0.2em; }
+        .data-value { font-weight: 500; }
+        .prediction-quote {
+            margin-top: 40px;
+            padding: 24px;
+            border-left: 3px solid var(--text);
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--gray-dark);
+        }
+
+        .progress-indicator {
+            padding: 12px 40px;
+            border-bottom: var(--border);
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .progress-segment {
+            height: 3px; flex: 1;
+            background: var(--gray-light);
+            transition: background 0.3s;
+        }
+        .progress-segment.filled { background: var(--text); }
+        .progress-label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            color: var(--gray-mid);
+            margin-left: 16px;
+            white-space: nowrap;
+        }
+
+        .quiz-section { padding: 80px 40px; border-bottom: var(--border); }
+        .quiz-card {
+            max-width: 700px;
+            margin-bottom: 48px;
+            border: var(--border);
+        }
+        .quiz-question {
+            padding: 24px;
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 600;
+            border-bottom: var(--border);
+        }
+        .quiz-question-number {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            color: var(--gray-mid);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .quiz-options { padding: 0; }
+        .quiz-option {
+            display: block; width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-bottom: 1px solid var(--gray-light);
+            background: var(--bg);
+            font-family: var(--font-heading);
+            font-size: 14px;
+            text-align: left;
+            cursor: crosshair;
+            transition: all 0.15s;
+        }
+        .quiz-option:last-child { border-bottom: none; }
+        .quiz-option:hover { background: var(--text); color: var(--bg); }
+        .quiz-option.correct { background: var(--text); color: var(--bg); font-weight: 600; }
+        .quiz-option.wrong { background: var(--gray-light); color: var(--gray-mid); text-decoration: line-through; }
+        .quiz-option:disabled { cursor: default; }
+        .quiz-explanation {
+            padding: 16px 24px;
+            font-size: 13px;
+            color: var(--gray-dark);
+            background: #FAFAFA;
+            border-top: var(--border);
+            display: none;
+            line-height: 1.6;
+        }
+        .quiz-explanation.show { display: block; }
+
+        .glossary-section { padding: 80px 40px; border-bottom: var(--border); }
+        .glossary-table {
+            max-width: 800px; width: 100%;
+            border-collapse: collapse;
+        }
+        .glossary-table th {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--text);
+            color: var(--gray-mid);
+        }
+        .glossary-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 13px;
+            vertical-align: top;
+        }
+        .glossary-table td:first-child {
+            font-family: var(--font-mono);
+            font-weight: 500;
+            font-size: 12px;
+            white-space: nowrap;
+            width: 200px;
+        }
+        .glossary-table tr:hover td { background: #FAFAFA; }
+
+        .footer {
+            padding: 60px 40px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            line-height: 2.4;
+        }
+        .footer .credits { color: var(--text); font-weight: 500; }
+        .footer a { color: var(--gray-mid); }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* BRAND BAR */
+        .brand-bar {
+            padding: 48px 40px;
+            border-top: 3px solid var(--text);
+            border-bottom: var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .brand-bar-left {}
+        .brand-bar-name {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .brand-bar-tagline {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-top: 6px;
+        }
+        .brand-bar-right {
+            display: flex;
+            gap: 24px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .brand-bar-right a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: var(--border);
+            transition: all 0.15s;
+        }
+        .brand-bar-right a:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+        @media (max-width: 768px) {
+            .brand-bar { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+            .brand-bar-right { flex-direction: column; gap: 12px; }
+        }
+
+        /* RESPECT BLOCK */
+        .respect-block {
+            padding: 60px 40px;
+            border-top: var(--border);
+            border-bottom: var(--border);
+            background: #FAFAFA;
+            max-width: 700px;
+        }
+        .respect-block h3 {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-bottom: 24px;
+        }
+        .respect-block p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--gray-dark);
+            margin-bottom: 12px;
+        }
+        .respect-block a {
+            color: var(--text);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 70px 20px 50px; }
+            .hero h1 { font-size: 32px; }
+            .video-container { grid-template-columns: 1fr; }
+            .video-sidebar { display: none; }
+            .video-wrapper { border-right: none; }
+            .prediction-block { padding: 50px 20px; }
+            .prediction-content { grid-template-columns: 1fr; gap: 30px; }
+            .hero-meta { flex-direction: column; gap: 20px; }
+            .header-bar { padding: 12px 20px; font-size: 8px; }
+            .quiz-section, .glossary-section, .video-section, .timeline-section { padding: 40px 20px; }
+            .attribution-banner { padding: 16px 20px; }
+        }
+
+        button, .timeline-item, .quiz-option { cursor: crosshair; }
+    </style>
+</head>
+<body>
+
+    <header class="header-bar">
+        <a href="https://iraai.ru/" class="home-link">← IRAAI.RU</a>
+        <span class="protocol">AI реХаб от Иры&amp;AI // ВЫПУСК 01</span>
+        <span class="status">СТАТУС: АКТИВЕН</span>
+        <span class="est">2026</span>
+    </header>
+
+    <div class="attribution-banner">
+        <strong>С глубоким уважением к Lex Fridman и Peter Steinberger.</strong>
+        Этот интерактивный урок создан исключительно в образовательных целях. Не является коммерческим продуктом.
+        Оригинальный контент: <a href="https://www.youtube.com/watch?v=YFjfBk8HI5o" target="_blank">Lex Fridman Podcast #491 — OpenClaw: The Viral AI Agent that Broke the Internet</a>.
+        Транскрипт: <a href="https://lexfridman.com/peter-steinberger-transcript/" target="_blank">lexfridman.com</a>
+    </div>
+
+    <section class="hero">
+        <div class="hero-label">AI реХаб от Иры&amp;AI // Эпизод 01</div>
+        <h1>OPENCLAW:<br>AI-АГЕНТ,<br>КОТОРЫЙ ВЗОРВАЛ<br>ИНТЕРНЕТ</h1>
+        <p class="hero-subtitle">
+            Peter Steinberger — создатель PSPDFKit (1&nbsp;млрд устройств), теперь создатель OpenClaw — самого быстрорастущего open-source проекта в истории GitHub (180,000+ звёзд). Lex Fridman разбирает, как один человек с AI-агентами изменил правила игры.
+        </p>
+        <dl class="hero-meta">
+            <div><dt>Гость</dt><dd>Peter Steinberger</dd></div>
+            <div><dt>Хост</dt><dd>Lex Fridman</dd></div>
+            <div><dt>Источник</dt><dd>Lex Fridman Podcast #491</dd></div>
+            <div><dt>Длительность</dt><dd>3:14:00</dd></div>
+            <div><dt>Дата</dt><dd>Февраль 2026</dd></div>
+        </dl>
+    </section>
+
+    <div class="signal-line"><canvas id="signalCanvas"></canvas></div>
+
+    <section class="video-section">
+        <div class="section-label">Видео // Полный выпуск</div>
+        <div class="video-container">
+            <div class="video-wrapper"><div id="player"></div></div>
+            <div class="video-sidebar">
+                <h3>Ключевые термины</h3>
+                <ul class="term-ticker">
+                    <li>OpenClaw</li>
+                    <li>AI-агент</li>
+                    <li>Самомодификация AI</li>
+                    <li>Claude Code</li>
+                    <li>Codex 5.3</li>
+                    <li>Opus 4.6</li>
+                    <li>Vibe Coding</li>
+                    <li>Agentic Engineering</li>
+                    <li>Soul.md</li>
+                    <li>Prompt Injection</li>
+                    <li>Смерть приложений</li>
+                    <li>Open Source</li>
+                    <li>WhatsApp + AI</li>
+                    <li>MCP</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <div class="section-label">Таймлайн // Навигация</div>
+        <div class="timeline">
+            <div class="timeline-item" onclick="seekTo(0)">
+                <div class="timeline-code">00:00</div>
+                <div class="timeline-label">Начало</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(336)">
+                <div class="timeline-code">05:36</div>
+                <div class="timeline-label">Origin Story</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(535)">
+                <div class="timeline-code">08:55</div>
+                <div class="timeline-label">Момент шока</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(1339)">
+                <div class="timeline-code">22:19</div>
+                <div class="timeline-label">Самомод. AI</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(3154)">
+                <div class="timeline-code">52:34</div>
+                <div class="timeline-label">Безопасность</div>
+            </div>
+            <div class="timeline-item active" onclick="seekTo(3674)">
+                <div class="timeline-code">1:01:14</div>
+                <div class="timeline-label">Кодинг с AI</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(5932)">
+                <div class="timeline-code">1:38:52</div>
+                <div class="timeline-label">Codex vs Opus</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(8269)">
+                <div class="timeline-code">2:17:49</div>
+                <div class="timeline-label">OpenAI &amp; Meta</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(10340)">
+                <div class="timeline-code">2:52:20</div>
+                <div class="timeline-label">80% приложений</div>
+            </div>
+            <div class="timeline-item" onclick="seekTo(10857)">
+                <div class="timeline-code">3:00:57</div>
+                <div class="timeline-label">AI vs программисты</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="progress-indicator">
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <span class="progress-label">ТЕМА 1 ИЗ 6</span>
+    </div>
+
+    <div class="predictions">
+
+        <section class="prediction-block" id="pred1">
+            <div class="prediction-number">Тема 01 // 05:36</div>
+            <h2>ОТ ПРОТОТИПА ДО 180,000 ЗВЁЗД: РОЖДЕНИЕ OPENCLAW</h2>
+            <div class="prediction-content">
+                <div class="prediction-text">
+                    <p>Peter Steinberger продал PSPDFKit (работал на 1&nbsp;млрд устройств) после 13 лет, «ушёл на пенсию» — и тут же влюбился в AI-агентов. <strong>Ждал полгода, что лаборатории создадут AI-ассистента</strong>, — никто не сделал. Надоело ждать, собрал сам.</p>
+                    <p style="margin-top:16px"><strong>Прототип за час:</strong> соединил WhatsApp с Claude Code CLI. Сообщение приходит, AI отвечает — всё. Из часового эксперимента выросли 300,000 строк кода.</p>
+                    <div class="prediction-quote">«Я хотел AI-ассистента с апреля 2025. Ждал полгода, что лаборатории сделают сами. Никто не сделал — я разозлился и собрал сам.»</div>
+                </div>
+                <div class="prediction-data">
+                    <div class="data-row"><span class="data-label">Прототип</span><span class="data-value">1 час</span></div>
+                    <div class="data-row"><span class="data-label">Сейчас</span><span class="data-value">300K строк кода</span></div>
+                    <div class="data-row"><span class="data-label">GitHub звёзды</span><span class="data-value">180,000+</span></div>
+                    <div class="data-row"><span class="data-label">Коммиты</span><span class="data-value">6,600 / месяц</span></div>
+                    <div class="data-row"><span class="data-label">Стек</span><span class="data-value">WhatsApp + Claude CLI</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="prediction-block" id="pred2">
+            <div class="prediction-number">Тема 02 // 22:19</div>
+            <h2>САМОМОДИФИЦИРУЮЩИЙСЯ AI-АГЕНТ</h2>
+            <div class="prediction-content">
+                <div class="prediction-text">
+                    <p>Steinberger сделал ключевую вещь: <strong>дал агенту полное знание о себе — свой код, документацию,&#8201;среду выполнения</strong>. Самомодификация — не план, а побочный эффект. Когда AI «осознаёт» свою структуру, он начинает — сам себя улучшать.</p>
+                    <p style="margin-top:16px">Момент прозрения: Peter случайно отправил аудио агенту. <strong>Агент сам определил формат (opus), нашёл ffmpeg, достал OpenAI API-ключ, транскрибировал через Curl</strong>. Ни одна из этих инструкций не была запрограммирована.</p>
+                    <div class="prediction-quote">«Люди говорят о самомодифицирующемся софте. Я просто взял и построил его. Даже не планировал особо — оно просто случилось.»</div>
+                </div>
+                <div class="prediction-data">
+                    <div class="data-row"><span class="data-label">Концепция</span><span class="data-value">Самомодификация кода</span></div>
+                    <div class="data-row"><span class="data-label">Механизм</span><span class="data-value">AI знает свой исходный код</span></div>
+                    <div class="data-row"><span class="data-label">Результат</span><span class="data-value">Автономное решение задач</span></div>
+                    <div class="data-row"><span class="data-label">Инсайт</span><span class="data-value">«Мировое знание» AI</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="prediction-block" id="pred3">
+            <div class="prediction-number">Тема 03 // 1:01:14</div>
+            <h2>КАК КОДИТЬ С AI-АГЕНТАМИ</h2>
+            <div class="prediction-content">
+                <div class="prediction-text">
+                    <p>Steinberger перестроил процесс: <strong>не читает скучный код, фокусируется на логике</strong>. Рутина — перекладывание данных из формата в формат — автоматизирована. Мышление стало главной работой.</p>
+                    <p style="margin-top:16px">Главный сдвиг: <strong>промпты важнее кода</strong>. Когда приходит pull request, Steinberger читает промпты, а не код. Языки программирования больше не важны — важно системное мышление.</p>
+                    <div class="prediction-quote">«Вся рутина написания кода автоматизирована, я двигаюсь намного быстрее. Но думать приходится намного больше. Это ментально ещё более выматывающе.»</div>
+                </div>
+                <div class="prediction-data">
+                    <div class="data-row"><span class="data-label">Подход</span><span class="data-value">Терминал &gt; IDE</span></div>
+                    <div class="data-row"><span class="data-label">Пиковая нагрузка</span><span class="data-value">7 Claude Code подписок</span></div>
+                    <div class="data-row"><span class="data-label">В Pull Request</span><span class="data-value">Промпты &gt; Код</span></div>
+                    <div class="data-row"><span class="data-label">После 3 ночи</span><span class="data-value">Vibe coding (с сожалением)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="prediction-block" id="pred4">
+            <div class="prediction-number">Тема 04 // 1:38:52</div>
+            <h2>CODEX 5.3 VS OPUS 4.6: БИТВА МОДЕЛЕЙ</h2>
+            <div class="prediction-content">
+                <div class="prediction-text">
+                    <p><strong>Codex 5.3:</strong> «Это как тот странный парень в углу, с которым не хочется разговаривать, — но он надёжный и делает работу». Много читает код, сухой стиль — идеален для автономных задач.</p>
+                    <p style="margin-top:16px"><strong>Opus 4.6:</strong> «Немного глупый, но очень смешной коллега». Быстрый, интерактивный, креативный — идеален для живой работы. Но более импульсивен.</p>
+                    <p style="margin-top:16px"><strong>Штайнбергер использует оба:</strong> задача определяет инструмент. Он и Цукерберг устроили «10-минутный спор, что лучше — Claude Code или Codex».</p>
+                    <div class="prediction-quote">«Я, наверное, самая большая бесплатная реклама Codex. Но Claude Code я использую каждый день. У нас с Цукербергом был 10-минутный спор: что лучше — Claude Code или Codex?»</div>
+                </div>
+                <div class="prediction-data">
+                    <div class="data-row"><span class="data-label">Codex 5.3</span><span class="data-value">Надёжный, автономный, сухой</span></div>
+                    <div class="data-row"><span class="data-label">Opus 4.6</span><span class="data-value">Креативный, быстрый, импульсивный</span></div>
+                    <div class="data-row"><span class="data-label">Вердикт</span><span class="data-value">Оба нужны</span></div>
+                    <div class="data-row"><span class="data-label">Формула успеха</span><span class="data-value">Интроверт + экстраверт = результат</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="prediction-block" id="pred5">
+            <div class="prediction-number">Тема 05 // 2:52:20</div>
+            <h2>AI-АГЕНТЫ ЗАМЕНЯТ 80% ПРИЛОЖЕНИЙ</h2>
+            <div class="prediction-content">
+                <div class="prediction-text">
+                    <p>Steinberger утверждает: <strong>80% приложений на телефоне станут ненужными</strong>, когда AI получит доступ к API. MyFitnessPal, списки задач, трекеры рейсов, шоппинг-приложения — всё это функции, которые AI-агент может выполнить через один интерфейс.</p>
+                    <p style="margin-top:16px">Ключевая мысль: <strong>приложения должны стать API, хотят они этого или нет</strong>. UI-слой становится самим агентом. Переход от «скачай приложение для каждой задачи» к «скажи агенту, что тебе нужно».</p>
+                    <div class="prediction-quote">«Если подумать, эта штука может заменить 80% приложений на вашем телефоне. Это не "когда-нибудь в будущем" — это происходит прямо сейчас. Приложения должны стать API, хотят они этого или нет.»</div>
+                </div>
+                <div class="prediction-data">
+                    <div class="data-row"><span class="data-label">Масштаб</span><span class="data-value">80% приложений &rarr; API</span></div>
+                    <div class="data-row"><span class="data-label">Новый UI</span><span class="data-value">AI-агент = интерфейс</span></div>
+                    <div class="data-row"><span class="data-label">Статус</span><span class="data-value">Происходит сейчас</span></div>
+                    <div class="data-row"><span class="data-label">Выживут</span><span class="data-value">Сложный UX + железо</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="prediction-block" id="pred6">
+            <div class="prediction-number">Тема 06 // 3:00:57</div>
+            <h2>ЗАМЕНИТ ЛИ AI ПРОГРАММИСТОВ?</h2>
+            <div class="prediction-content">
+                <div class="prediction-text">
+                    <p>Steinberger даёт нюансированный ответ: AI <strong>не уничтожит программистов</strong>, но радикально изменит, что значит «программировать». Написание кода автоматизируется — остаётся проектирование систем, вкус, архитектура. Код становится ремеслом.</p>
+                    <p style="margin-top:16px">Ключевое разделение: <strong>«строители», которые мыслят системами — выиграют</strong>, а «кодеры», которые мыслят синтаксисом — проиграют. Программирование станет «как вязание свитера» — личное и творческое, не профессиональное узкое место.</p>
+                    <div class="prediction-quote">«Программирование станет как вязание свитера. Системное мышление, архитектура, вкус и понимание зависимостей — вот что по-настоящему важно, и теперь эти навыки легко переносятся в любую область.»</div>
+                </div>
+                <div class="prediction-data">
+                    <div class="data-row"><span class="data-label">Сдвиг</span><span class="data-value">Код &rarr; Дизайн систем</span></div>
+                    <div class="data-row"><span class="data-label">В зоне риска</span><span class="data-value">Алгоритмисты-кодеры</span></div>
+                    <div class="data-row"><span class="data-label">Выиграют</span><span class="data-value">Продуктовые строители</span></div>
+                    <div class="data-row"><span class="data-label">Главное</span><span class="data-value">Вкус, система, архитектура</span></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="quiz-section">
+        <div class="section-label">Проверка // Тест на понимание</div>
+        <h2 style="font-size:36px;font-weight:900;text-transform:uppercase;margin-bottom:48px">ТЕСТ</h2>
+
+        <div class="quiz-card" id="q1">
+            <div class="quiz-question">
+                <span class="quiz-question-number">Вопрос 01 из 05</span>
+                Как появился прототип OpenClaw?
+            </div>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="answer(this,false,'q1')">Команда инженеров разрабатывала его год</button>
+                <button class="quiz-option" onclick="answer(this,true,'q1')">Peter соединил WhatsApp с Claude Code CLI за один час</button>
+                <button class="quiz-option" onclick="answer(this,false,'q1')">Это был внутренний проект OpenAI</button>
+                <button class="quiz-option" onclick="answer(this,false,'q1')">Steinberger форкнул GitHub Copilot</button>
+            </div>
+            <div class="quiz-explanation" id="q1-exp">Peter ждал AI-ассистента с апреля 2025, но лаборатории ничего не выпустили. Он соединил WhatsApp с Claude Code CLI — прототип заработал за час.</div>
+        </div>
+
+        <div class="quiz-card" id="q2">
+            <div class="quiz-question">
+                <span class="quiz-question-number">Вопрос 02 из 05</span>
+                Что Steinberger называет «мировым знанием AI»?
+            </div>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="answer(this,false,'q2')">AI знает все языки программирования</button>
+                <button class="quiz-option" onclick="answer(this,false,'q2')">AI подключён к интернету в реальном времени</button>
+                <button class="quiz-option" onclick="answer(this,true,'q2')">AI способен комбинировать разные знания для решения задач, которым его не учили</button>
+                <button class="quiz-option" onclick="answer(this,false,'q2')">AI хранит копию Википедии</button>
+            </div>
+            <div class="quiz-explanation" id="q2-exp">Агент самостоятельно определил формат аудио, нашёл ffmpeg, достал API-ключ и транскрибировал — без единой инструкции. AI «знает» о мире достаточно, чтобы творчески комбинировать решения.</div>
+        </div>
+
+        <div class="quiz-card" id="q3">
+            <div class="quiz-question">
+                <span class="quiz-question-number">Вопрос 03 из 05</span>
+                Как Steinberger сравнивает Codex 5.3 и Opus 4.6?
+            </div>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="answer(this,false,'q3')">Codex лучше всегда, Opus устарел</button>
+                <button class="quiz-option" onclick="answer(this,false,'q3')">Opus лучше всегда, Codex переоценён</button>
+                <button class="quiz-option" onclick="answer(this,true,'q3')">Codex — надёжный интроверт, Opus — креативный экстраверт. Использует оба под разные задачи</button>
+                <button class="quiz-option" onclick="answer(this,false,'q3')">Они одинаковые — разницы нет</button>
+            </div>
+            <div class="quiz-explanation" id="q3-exp">Codex 5.3 — «странный парень в углу, но надёжный». Opus 4.6 — «глупый, но смешной коллега». Steinberger использует оба: выбор зависит от задачи.</div>
+        </div>
+
+        <div class="quiz-card" id="q4">
+            <div class="quiz-question">
+                <span class="quiz-question-number">Вопрос 04 из 05</span>
+                Почему 80% приложений станут ненужными, по мнению Steinberger?
+            </div>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="answer(this,true,'q4')">Когда AI-агент получит доступ к API, отдельные интерфейсы станут лишними</button>
+                <button class="quiz-option" onclick="answer(this,false,'q4')">Люди перестанут пользоваться смартфонами</button>
+                <button class="quiz-option" onclick="answer(this,false,'q4')">Все приложения объединятся в одно супер-приложение</button>
+                <button class="quiz-option" onclick="answer(this,false,'q4')">Правительства запретят лишние приложения</button>
+            </div>
+            <div class="quiz-explanation" id="q4-exp">Steinberger: «Приложения должны стать API, хотят они этого или нет». AI-агент становится единым UI-слоем: трекеры, списки задач, шоппинг — всё через одного агента.</div>
+        </div>
+
+        <div class="quiz-card" id="q5">
+            <div class="quiz-question">
+                <span class="quiz-question-number">Вопрос 05 из 05</span>
+                Какой главный навык выживет у программистов, по мнению Steinberger?
+            </div>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="answer(this,false,'q5')">Знание максимального количества языков</button>
+                <button class="quiz-option" onclick="answer(this,false,'q5')">Скорость написания кода руками</button>
+                <button class="quiz-option" onclick="answer(this,true,'q5')">Системное мышление — архитектура, вкус, понимание зависимостей. «Строители» вместо «кодеров»</button>
+                <button class="quiz-option" onclick="answer(this,false,'q5')">Умение обходить AI и писать всё вручную</button>
+            </div>
+            <div class="quiz-explanation" id="q5-exp">«Системное мышление, архитектура, вкус и понимание зависимостей — вот что по-настоящему важно.» Код станет как вязание — личное и творческое занятие.</div>
+        </div>
+    </section>
+
+    <section class="glossary-section">
+        <div class="section-label">Справочник // Глоссарий</div>
+        <h2 style="font-size:36px;font-weight:900;text-transform:uppercase;margin-bottom:48px">ГЛОССАРИЙ</h2>
+        <table class="glossary-table">
+            <thead><tr><th>Термин</th><th>Определение</th></tr></thead>
+            <tbody>
+                <tr><td>OpenClaw</td><td>Open-source фреймворк AI-агентов от Peter Steinberger. Самый быстрорастущий проект в истории GitHub (180K+ звёзд). Превращает AI-модели в персональных ассистентов через WhatsApp, Telegram, Discord.</td></tr>
+                <tr><td>AI-агент</td><td>AI-система, способная автономно планировать, выполнять многошаговые задачи и принимать решения. В отличие от чат-бота, агент действует без постоянного руководства.</td></tr>
+                <tr><td>Самомодификация</td><td>Способность AI изменять свой собственный исходный код. В OpenClaw возникла как побочный эффект: агенту дали полный контекст о себе — он начал себя улучшать.</td></tr>
+                <tr><td>Agentic Engineering</td><td>Профессиональный подход к работе с AI-агентами. Термин Steinberger для отличия от «vibe coding». Включает проектирование промптов, систем и архитектуры.</td></tr>
+                <tr><td>Vibe Coding</td><td>Написание кода с AI на интуиции, без чёткого плана. По мнению Steinberger: «Я занимаюсь agentic engineering, а после 3 ночи перехожу на vibe coding — и потом жалею».</td></tr>
+                <tr><td>Soul.md</td><td>Файл конфигурации в OpenClaw, определяющий «личность» AI-агента. Вдохновлён Constitutional AI: задаёт границы, тон и поведение.</td></tr>
+                <tr><td>Prompt Injection</td><td>Атака на AI через вредоносные промпты, заставляющие агента выполнить нежелательные действия. По Steinberger: «Проблема не решена. Не используйте дешёвые модели — они наивные».</td></tr>
+                <tr><td>Codex 5.3</td><td>Модель OpenAI для кодинга. По Steinberger: «Странный парень в углу, с которым не хочется разговаривать, — но он надёжный и делает работу».</td></tr>
+                <tr><td>Opus 4.6</td><td>Модель Anthropic из семейства Claude. По Steinberger: «Немного глупый, но очень смешной коллега». Быстрый, креативный, интерактивный.</td></tr>
+                <tr><td>MCP</td><td>Model Context Protocol — стандарт, позволяющий AI-агентам взаимодействовать с внешними сервисами и инструментами. Своего рода API для AI-мира.</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="respect-block">
+        <h3>Об этом материале</h3>
+        <p>Этот интерактивный урок создан с глубоким уважением к <strong>Lex Fridman</strong> и <strong>Peter Steinberger</strong>. Мы не претендуем на авторство оригинальных идей. Наша цель — помочь лучшим идеям распространяться дальше, преодолевая языковые и форматные барьеры.</p>
+        <p>Это <strong>не коммерческий продукт</strong>. Здесь нет рекламы, подписок и платных функций. Только образование.</p>
+        <p>Оригинальный контент: <a href="https://www.youtube.com/watch?v=YFjfBk8HI5o" target="_blank">Lex Fridman Podcast #491 — OpenClaw: The Viral AI Agent that Broke the Internet</a></p>
+        <p>Транскрипт: <a href="https://lexfridman.com/peter-steinberger-transcript/" target="_blank">lexfridman.com</a></p>
+        <p>OpenClaw: <a href="https://openclaw.ai" target="_blank">openclaw.ai</a> | <a href="https://github.com/openclaw/openclaw" target="_blank">GitHub</a></p>
+        <p>Peter Steinberger: <a href="https://x.com/steipete" target="_blank">@steipete</a> | <a href="https://steipete.com" target="_blank">steipete.com</a></p>
+    </section>
+
+    <div class="brand-bar">
+        <div class="brand-bar-left">
+            <div class="brand-bar-name">Упаковано и трансформировано: Ира&amp;AI</div>
+            <div class="brand-bar-tagline">Новый взгляд на контент // AI реХаб</div>
+        </div>
+        <div class="brand-bar-right">
+            <a href="https://t.me/ira_and_ai" target="_blank">Telegram</a>
+            <a href="https://iraai.ru" target="_blank">iraai.ru</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        ОБОЗНАЧЕНИЕ: AI_реХаб_от_Иры&amp;AI_ВЫПУСК_01<br>
+        ИСТОЧНИК: LEX FRIDMAN PODCAST #491 // PETER STEINBERGER // OPENCLAW<br>
+        <span class="credits">СОЗДАНО: ИРА &amp; AI<span class="blink">_</span></span><br>
+        ДОСТУП: ОТКРЫТОЕ_ОБРАЗОВАНИЕ<br>
+    </footer>
+
+    <div style="text-align:center; padding:40px 20px 24px; font-family:'Roboto Mono',monospace; font-size:12px; color:#666; line-height:1.8; max-width:500px; margin:0 auto;">
+        Хотите научиться делать такие интерактивные уроки?<br>
+        <a href="https://t.me/ira_alfred_bot" target="_blank" style="color:#000; text-decoration:underline;">Напишите Альфреду</a> — он на связи.<br>
+        <span style="color:#999;">Ира иногда обучает этому индивидуально</span>
+    </div>
+
+    <script>
+        var tag=document.createElement('script');
+        tag.src="https://www.youtube.com/iframe_api";
+        document.getElementsByTagName('script')[0].parentNode.insertBefore(tag,document.getElementsByTagName('script')[0]);
+        var player;
+        function onYouTubeIframeAPIReady(){
+            player=new YT.Player('player',{videoId:'YFjfBk8HI5o',playerVars:{modestbranding:1,rel:0,color:'white'}});
+        }
+        function seekTo(s){
+            if(player&&player.seekTo){player.seekTo(s,true);player.playVideo();}
+            document.querySelectorAll('.timeline-item').forEach(i=>i.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+        var c=document.getElementById('signalCanvas'),ctx=c.getContext('2d');
+        function rc(){c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;ctx.scale(2,2);}
+        rc();window.addEventListener('resize',rc);
+        var ph=0;
+        function ds(){
+            var w=c.offsetWidth,h=c.offsetHeight;
+            ctx.clearRect(0,0,w,h);ctx.strokeStyle='#000';ctx.lineWidth=0.5;ctx.beginPath();
+            for(var x=0;x<w;x++){var y=h/2+Math.sin((x+ph)*0.02)*8+Math.sin((x+ph)*0.05)*4;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+            ctx.stroke();ph+=1.5;requestAnimationFrame(ds);
+        }
+        ds();
+        var obs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.classList.add('visible');});},{threshold:0.1});
+        document.querySelectorAll('.prediction-block').forEach(function(b){obs.observe(b);});
+        var pbs=document.querySelectorAll('.prediction-block'),ps=document.querySelectorAll('.progress-segment'),pl=document.querySelector('.progress-label');
+        var po=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){var i=Array.from(pbs).indexOf(en.target);ps.forEach(function(s,j){s.classList.toggle('filled',j<=i);});pl.textContent='\u0422\u0415\u041c\u0410 '+(i+1)+' \u0418\u0417 6';}});},{threshold:0.5});
+        pbs.forEach(function(b){po.observe(b);});
+        function answer(btn,correct,qId){
+            var card=document.getElementById(qId),opts=card.querySelectorAll('.quiz-option');
+            opts.forEach(function(o){o.disabled=true;if(o===btn)o.classList.add(correct?'correct':'wrong');});
+            if(!correct)opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true')!==-1)o.classList.add('correct');});
+            document.getElementById(qId+'-exp').classList.add('show');
+        }
+    </script>
+</body>
+</html>
