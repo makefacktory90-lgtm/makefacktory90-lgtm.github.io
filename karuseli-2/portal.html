@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КАРУСЕЛИ 2.0 // ВХОД</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #E8E6E1;
+            --device-body: #D1CEC7;
+            --screen-bg: #1A1C1E;
+            --accent: #FF0000;
+            --text-dark: #000;
+            --text-light: #FFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: crosshair; }
+        body { background: var(--bg-light); color: var(--text-dark); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        body.dark-mode { background: #000; --text-dark: #FFF; --bg-light: #000; }
+
+        .login-box {
+            width: 90%;
+            max-width: 500px;
+            background: var(--device-body);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 20px 20px 60px #bebab3, -20px -20px 60px #ffffff;
+            text-align: center;
+        }
+
+        h1 { font-size: 36px; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; }
+        p { margin-bottom: 30px; opacity: 0.8; font-size: 14px; }
+
+        input {
+            width: 100%;
+            padding: 20px;
+            background: #000;
+            border: 2px solid #FFF;
+            color: #FFF;
+            outline: none;
+            text-align: center;
+            font-family: monospace;
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        input::placeholder { color: #FFF; opacity: 0.5; }
+
+        .btn {
+            width: 100%;
+            padding: 20px;
+            background: #D32F2F;
+            border: none;
+            color: #fff;
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #8B1F1F;
+            transition: all 0.1s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 6px 6px 0px #8B1F1F; }
+        .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #8B1F1F; }
+
+        .error { color: var(--accent); font-size: 12px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>КАРУСЕЛИ 2.0</h1>
+        <p>Введите код доступа из письма</p>
+
+        <input type="password" id="access-code" placeholder="КОД ДОСТУПА" onkeypress="if(event.key==='Enter')checkAccess()">
+        <button class="btn" onclick="checkAccess()">ВОЙТИ</button>
+
+        <p class="error" id="error-msg">Неверный код. Проверьте письмо.</p>
+    </div>
+
+    <script>
+        function checkAccess() {
+            const code = document.getElementById('access-code').value.trim();
+            if(code === '16100') {
+                playSuccess();
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 500);
+            } else {
+                playError();
+                document.getElementById('error-msg').style.display = 'block';
+                document.getElementById('access-code').value = '';
+            }
+        }
+
+        function playSuccess() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            [800, 1000, 1200].forEach((freq, i) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+                gain.gain.setValueAtTime(0.1, ctx.currentTime + i * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.1 + 0.1);
+                osc.start(ctx.currentTime + i * 0.1);
+                osc.stop(ctx.currentTime + i * 0.1 + 0.1);
+            });
+        }
+
+        function playError() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.frequency.setValueAtTime(200, ctx.currentTime);
+            gain.gain.setValueAtTime(0.15, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+            osc.start(); osc.stop(ctx.currentTime + 0.2);
+        }
+    </script>
+</body>
+</html>
