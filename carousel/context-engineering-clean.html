@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Engineering — IRA & AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #C0C0C0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 40px;
+    justify-content: center;
+}
+
+.slide {
+    width: 1080px;
+    height: 1350px;
+    background: #FAFAFA;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+    padding: 72px 64px 80px 64px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* === COVER === */
+.slide-cover {
+    justify-content: center;
+}
+.slide-cover .tag {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 27px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #E63946;
+    margin-bottom: 24px;
+}
+.slide-cover h1 {
+    font-size: 117px;
+    font-weight: 900;
+    line-height: 1.0;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+.slide-cover .sub {
+    font-size: 39px;
+    font-weight: 400;
+    color: #888;
+    line-height: 1.4;
+    margin-bottom: 40px;
+}
+.slide-cover .author {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    color: #bbb;
+    letter-spacing: 0.15em;
+    margin-top: 60px;
+}
+.slide-cover .bar {
+    width: 60px;
+    height: 4px;
+    background: #E63946;
+    margin-top: 20px;
+}
+
+/* === CONTENT === */
+.slide-content .section-tag {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 27px;
+    font-weight: 600;
+    color: #E63946;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+}
+.slide-content h2 {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+.slide-content p {
+    font-size: 39px;
+    font-weight: 400;
+    line-height: 1.45;
+    margin-bottom: 20px;
+}
+.slide-content .highlight {
+    background: #E63946;
+    color: #fff;
+    padding: 2px 8px;
+}
+.slide-content .dim {
+    color: #999;
+}
+
+/* === QUOTE === */
+.slide-quote {
+    justify-content: center;
+    padding-left: 80px;
+}
+.slide-quote .accent-bar {
+    position: absolute;
+    left: 64px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 300px;
+    background: #E63946;
+}
+.slide-quote blockquote {
+    font-size: 53px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 32px;
+}
+.slide-quote .quote-author {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 27px;
+    font-weight: 500;
+    color: #888;
+}
+
+/* === LIST === */
+.slide-list .section-tag {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 27px;
+    font-weight: 600;
+    color: #E63946;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+}
+.slide-list h2 {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+.slide-list .list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+.slide-list .list-num {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 55px;
+    font-weight: 700;
+    color: #E63946;
+    flex-shrink: 0;
+    line-height: 1;
+    min-width: 60px;
+}
+.slide-list .list-text {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.5;
+    padding-top: 8px;
+}
+.slide-list .list-text strong {
+    font-weight: 700;
+}
+
+/* === CTA === */
+.slide-cta {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.slide-cta .cta-keyword {
+    font-size: 132px;
+    font-weight: 900;
+    line-height: 1.0;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+.slide-cta .accent {
+    color: #E63946;
+}
+.slide-cta .cta-desc {
+    font-size: 32px;
+    font-weight: 400;
+    color: #888;
+    line-height: 1.4;
+    margin-bottom: 40px;
+}
+.slide-cta .cta-how {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+.slide-cta .cta-handle {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 32px;
+    font-weight: 400;
+    color: #E63946;
+}
+
+/* === BRAND + NUMBER === */
+.slide-brand {
+    position: absolute;
+    bottom: 48px;
+    left: 64px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.35;
+}
+.slide-number {
+    position: absolute;
+    bottom: 48px;
+    right: 64px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 18px;
+    opacity: 0.3;
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide slide-cover">
+    <div class="tag">НАВЫК 2026</div>
+    <h1>ПОЧЕМУ ВАШ<br>CHATGPT ВЫДАЁТ<br>ЕРУНДУ</h1>
+    <div class="sub">Дело не в промпте.<br>Дело в context engineering.</div>
+    <div class="author">@IRA.AND.AI</div>
+    <div class="bar"></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">1/9</div>
+</div>
+
+<!-- SLIDE 2: PROBLEM -->
+<div class="slide slide-content">
+    <div class="section-tag">// 01 ПРОБЛЕМА</div>
+    <h2>ВЫ НАПИСАЛИ ИДЕАЛЬНЫЙ ПРОМПТ</h2>
+    <p>Подробный. Структурированный. С примерами. AI выдал... <span class="highlight">гениальный мусор</span>. Формально правильный. Но ни о чём.</p>
+    <p class="dim">Текст, который мог написать кто угодно о чём угодно. Читали такое, да?</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">2/9</div>
+</div>
+
+<!-- SLIDE 3: QUOTE -->
+<div class="slide slide-quote">
+    <div class="accent-bar"></div>
+    <blockquote>Промпт без контекста это как прийти к врачу и сказать «мне плохо». Без анализов. Без истории.<br>И дальше торжественно молчать.</blockquote>
+    <div class="quote-author">Промпт — это вопрос. Контекст — это всё остальное.</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">3/9</div>
+</div>
+
+<!-- SLIDE 4: DEFINITION -->
+<div class="slide slide-content">
+    <div class="section-tag">// 02 ЧТО ЭТО</div>
+    <h2>НЕ НОВЫЙ ПРОМПТ. ДРУГОЙ ПОДХОД.</h2>
+    <p>Context engineering — когда AI знает <span class="highlight">кто вы, для кого пишете, что продаёте</span> и что вам категорически нельзя.</p>
+    <p>Не один запрос. Система из документов + правил, которая накапливает знания.</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">4/9</div>
+</div>
+
+<!-- SLIDE 5: COMPARE -->
+<div class="slide slide-list">
+    <div class="section-tag">// 03 РАЗНИЦА</div>
+    <h2>PROMPT VS CONTEXT</h2>
+    <div class="list-item"><span class="list-num">P</span><span class="list-text"><strong>«Напиши пост про AI»</strong> — каждый раз с нуля, результат лотерея.</span></div>
+    <div class="list-item"><span class="list-num">C</span><span class="list-text"><strong>AI знает ваш голос, аудиторию, продукт.</strong><br>Результат предсказуемый.</span></div>
+    <div class="list-item"><span class="list-num">P</span><span class="list-text"><strong>Один запрос - один ответ.</strong> И завтра всё заново.</span></div>
+    <div class="list-item"><span class="list-num">C</span><span class="list-text"><strong>Система из файлов.</strong> Чем больше работаете - тем точнее.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">5/9</div>
+</div>
+
+<!-- SLIDE 6: MY CASE -->
+<div class="slide slide-content">
+    <div class="section-tag">// 04 МОЙ ОПЫТ</div>
+    <h2>15 МИНУТ ВМЕСТО<br>3х ЧАСОВ</h2>
+    <p>Не потому что AI стал умнее. А потому что я дала ему <span class="highlight">контекст</span>: мой голос, стратегию, правила, примеры лучших постов.</p>
+    <p>Теперь он пишет черновик - а я докручиваю. Не с нуля. С 80% готового.<br>И еще учится потом каждый раз.</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">6/9</div>
+</div>
+
+<!-- SLIDE 7: 4 FILES -->
+<div class="slide slide-list">
+    <div class="section-tag">// 05 ЧТО ДЕЛАТЬ</div>
+    <h2>4 ФАЙЛА, КОТОРЫЕ МЕНЯЮТ ВСЁ</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text"><strong>Голос.</strong> 5 правил + 3 примера ваших лучших текстов.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text"><strong>Аудитория.</strong> Не «женщины 25-45». А: Марина, 38, психолог, устала вести Инсту руками.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text"><strong>Продукт.</strong> Что продаёте, кому, за сколько. AI должен знать, на что работает контент.</span></div>
+    <div class="list-item"><span class="list-num">04</span><span class="list-text"><strong>Стоп-лист.</strong> Чего никогда не писать. Слова, темы, подходы, которые не ваши.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">7/9</div>
+</div>
+
+<!-- SLIDE 8: IRA'S ANGLE -->
+<div class="slide slide-quote">
+    <div class="accent-bar"></div>
+    <blockquote>Prompt engineering учит задавать вопросы. Context engineering учит строить систему. Вопрос можно загуглить.<br>А систему ?</blockquote>
+    <div class="quote-author"></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">8/9</div>
+</div>
+
+<!-- SLIDE 9: CTA -->
+<div class="slide slide-cta">
+    <div class="cta-keyword">КАРУСЕЛИ<br><span class="accent">2.0</span></div>
+    <div class="cta-desc">Context engineering для вашего контента.<br>Старт 15 марта.</div>
+    <div class="cta-how">ПОДРОБНОСТИ СКОРО В TELEGRAM</div>
+    <div class="cta-handle">https://t.me/ira_and_ai</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">9/9</div>
+</div>
+
+</body>
+</html>

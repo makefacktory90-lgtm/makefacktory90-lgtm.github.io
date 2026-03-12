@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Почему карусели не летят — Carousel Constructor</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === MAIN APP === */
+body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
+
+/* === TOP BAR === */
+.topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: #111; border-bottom: 1px solid #333;
+    padding: 10px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+}
+.topbar-section { display: flex; gap: 6px; align-items: center; }
+.topbar-label {
+    font-family: 'Roboto Mono', monospace; font-size: 10px;
+    color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 2px;
+}
+.topbar button {
+    padding: 6px 12px; border: 1.5px solid #444; background: transparent;
+    color: #999; font-family: 'Roboto Mono', monospace; font-size: 10px;
+    letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase;
+    transition: all 0.2s; border-radius: 4px; white-space: nowrap;
+}
+.topbar button:hover { border-color: #888; color: #fff; }
+.topbar button.active { border-color: #E63946; color: #fff; background: #E63946; }
+.topbar .spacer { width: 1px; height: 24px; background: #333; margin: 0 4px; }
+.topbar .brand {
+    margin-left: auto; font-size: 10px; color: #444;
+    font-family: 'Roboto Mono', monospace; letter-spacing: 0.05em;
+}
+
+/* === SETTINGS PANEL === */
+.settings-panel {
+    position: fixed; top: 50px; right: 0; z-index: 150;
+    width: 300px; background: #1a1a1a; border-left: 1px solid #333;
+    border-bottom: 1px solid #333; border-radius: 0 0 0 12px;
+    padding: 16px; display: none; max-height: calc(100vh - 50px); overflow-y: auto;
+}
+.settings-panel.open { display: block; }
+.settings-panel h3 {
+    font-family: 'Roboto Mono', monospace; font-size: 10px;
+    color: #E63946; text-transform: uppercase; letter-spacing: 0.15em;
+    margin-bottom: 10px; margin-top: 18px;
+}
+.settings-panel h3:first-child { margin-top: 0; }
+.settings-panel label {
+    font-family: 'Roboto Mono', monospace; font-size: 10px; color: #888;
+    display: block; margin-bottom: 4px;
+}
+.settings-panel select, .settings-panel input[type="text"] {
+    width: 100%; padding: 8px; background: #111; border: 1px solid #333;
+    color: #fff; font-family: 'Roboto Mono', monospace; font-size: 11px;
+    border-radius: 4px; margin-bottom: 10px;
+}
+.settings-panel input[type="color"] { width: 100%; height: 32px; padding: 2px; cursor: pointer; background: #111; border: 1px solid #333; border-radius: 4px; margin-bottom: 10px; }
+.settings-panel input[type="range"] { width: 100%; margin-bottom: 10px; }
+.color-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.color-row > div { flex: 1; }
+.settings-panel .hint { font-family: 'Roboto Mono', monospace; font-size: 9px; color: #555; margin-top: -6px; margin-bottom: 10px; }
+.settings-panel .s-btn {
+    width: 100%; padding: 8px; border: none; border-radius: 4px;
+    cursor: pointer; font-family: 'Roboto Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
+}
+.s-btn-red { background: #E63946; color: #fff; }
+.s-btn-dark { background: #333; color: #fff; }
+
+/* === BG DROP ZONE === */
+.drop-zone {
+    border: 2px dashed #333; border-radius: 8px; padding: 14px;
+    text-align: center; cursor: pointer; margin-bottom: 10px; transition: all 0.2s;
+}
+.drop-zone:hover, .drop-zone.dragover { border-color: #E63946; background: rgba(230,57,70,0.05); }
+.drop-zone p { font-family: 'Roboto Mono', monospace; font-size: 10px; color: #666; }
+.drop-zone input { display: none; }
+
+/* === SLIDES === */
+.slides-wrap {
+    padding: 64px 0 100px; display: flex; flex-direction: column;
+    align-items: center; gap: 32px;
+}
+.slides-wrap { --scale: 0.42; }
+.phone-wrap {
+    transform: scale(var(--scale)); transform-origin: top center;
+    margin-bottom: calc(-1350px * (1 - var(--scale)));
+}
+.frame-on .phone-wrap {
+    background: #222; border-radius: 48px; padding: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 2px #444;
+    position: relative;
+}
+.frame-on .phone-wrap::before {
+    content: ''; position: absolute; top: 8px;
+    left: 50%; transform: translateX(-50%);
+    width: 120px; height: 28px; background: #111;
+    border-radius: 0 0 16px 16px; z-index: 5;
+}
+.frame-on .phone-wrap .slide { border-radius: 32px; }
+
+.slide {
+    width: 1080px; height: 1350px; position: relative; overflow: hidden;
+    flex-shrink: 0;
+}
+.slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+.slide-overlay { position: absolute; inset: 0; z-index: 1; }
+.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number):not(.slide-brand) { position: relative; z-index: 2; }
+.slide-label {
+    position: absolute; top: -28px; left: 4px;
+    font-family: 'Roboto Mono', monospace; font-size: 11px; color: #999; z-index: 5;
+}
+.slide-number {
+    position: absolute; bottom: 40px; right: 50px;
+    font-family: 'Roboto Mono', monospace; font-size: 14px;
+    opacity: 0.3; z-index: 3;
+}
+.slide-brand {
+    position: absolute; bottom: 48px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    opacity: 0.85; z-index: 3;
+}
+
+/* Editable text styling */
+[contenteditable] { outline: none; cursor: text; border-radius: 4px; transition: box-shadow 0.2s; }
+[contenteditable]:hover { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.2); }
+[contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(230,57,70,0.5); }
+
+/* ================================ */
+/* STYLE 02                          */
+/* ================================ */
+.style-light .slide { background: #FAFAFA; color: #1a1a1a; }
+.style-light .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 100px; }
+.style-light .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 15px; letter-spacing: 0.3em; color: #999; margin-bottom: 32px; text-transform: uppercase; }
+.style-light .slide-cover h1 { font-size: 82px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.style-light .slide-cover h1 .accent { color: var(--accent, #E63946); }
+.style-light .slide-cover .sub { font-size: 26px; color: #888; margin-top: 40px; line-height: 1.5; }
+.style-light .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 28px; font-weight: 700; color: #E63946; margin-top: 60px; letter-spacing: 0.15em; }
+.style-light .slide-cover .bar { width: 80px; height: 3px; background: var(--accent, #E63946); margin-top: 40px; }
+
+.style-light .slide-content { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-content h2 { font-size: 54px; font-weight: 900; line-height: 1.1; margin-bottom: 40px; }
+.style-light .slide-content p { font-size: 27px; line-height: 1.7; color: #555; margin-bottom: 24px; }
+.style-light .slide-content .highlight { background: var(--accent, #E63946); color: #fff; padding: 4px 12px; font-weight: 700; border-radius: 4px; }
+.style-light .slide-content .dim { color: #aaa; font-size: 22px; }
+
+.style-light .slide-quote { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-quote blockquote { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; line-height: 1.4; border-left: 5px solid var(--accent, #E63946); padding-left: 40px; font-style: italic; }
+.style-light .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #aaa; margin-top: 40px; padding-left: 45px; }
+
+.style-light .slide-list { padding: 100px; display: flex; flex-direction: column; justify-content: center; }
+.style-light .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-light .slide-list h2 { font-size: 50px; font-weight: 900; margin-bottom: 48px; line-height: 1.1; }
+.style-light .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 28px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #e8e8e8; }
+.style-light .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 42px; font-weight: 700; color: var(--accent, #E63946); flex-shrink: 0; width: 70px; }
+.style-light .slide-list .list-text { font-size: 25px; line-height: 1.5; color: #555; }
+.style-light .slide-list .list-text strong { color: #1a1a1a; }
+
+.style-light .slide-cta { padding: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-light .slide-cta .cta-keyword { font-size: 100px; font-weight: 900; line-height: 1; margin-bottom: 40px; color: #1a1a1a; }
+.style-light .slide-cta .cta-keyword .accent { color: var(--accent, #E63946); }
+.style-light .slide-cta .cta-desc { font-size: 30px; color: #888; line-height: 1.5; max-width: 800px; }
+.style-light .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
+.style-light .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #ccc; margin-top: 60px; letter-spacing: 0.15em; }
+
+/* ================================ */
+/* STYLE 01                          */
+/* ================================ */
+.style-nike .slide { background: #000; color: #fff; }
+.style-nike .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 80px; }
+.style-nike .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 18px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 32px; text-transform: uppercase; }
+.style-nike .slide-cover h1 { font-size: 96px; font-weight: 900; line-height: 0.95; text-transform: uppercase; letter-spacing: -0.03em; }
+.style-nike .slide-cover h1 .accent { color: var(--accent, #E63946); }
+.style-nike .slide-cover .sub { font-size: 24px; color: #888; margin-top: 40px; line-height: 1.4; }
+.style-nike .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 28px; font-weight: 700; color: var(--accent, #E63946); margin-top: 60px; letter-spacing: 0.15em; }
+.style-nike .slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 14px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-nike .slide-content h2 { font-size: 64px; font-weight: 900; text-transform: uppercase; line-height: 1.05; margin-bottom: 40px; letter-spacing: -0.02em; }
+.style-nike .slide-content p { font-size: 28px; line-height: 1.6; color: #ccc; margin-bottom: 24px; }
+.style-nike .slide-content .highlight { background: var(--accent, #E63946); color: #fff; padding: 4px 12px; font-weight: 700; }
+.style-nike .slide-content .dim { color: #666; font-size: 22px; }
+.style-nike .slide-quote { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-quote blockquote { font-size: 48px; font-weight: 700; line-height: 1.3; border-left: 6px solid var(--accent, #E63946); padding-left: 40px; }
+.style-nike .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 18px; color: #666; margin-top: 40px; padding-left: 46px; }
+.style-nike .slide-list { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.style-nike .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 14px; letter-spacing: 0.3em; color: var(--accent, #E63946); margin-bottom: 24px; text-transform: uppercase; }
+.style-nike .slide-list h2 { font-size: 56px; font-weight: 900; text-transform: uppercase; margin-bottom: 48px; line-height: 1.05; }
+.style-nike .slide-list .list-item { display: flex; gap: 24px; margin-bottom: 32px; align-items: baseline; }
+.style-nike .slide-list .list-num { font-family: 'Roboto Mono', monospace; font-size: 48px; font-weight: 700; color: var(--accent, #E63946); flex-shrink: 0; width: 80px; }
+.style-nike .slide-list .list-text { font-size: 28px; line-height: 1.4; color: #ccc; }
+.style-nike .slide-list .list-text strong { color: #fff; }
+.style-nike .slide-cta { padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.style-nike .slide-cta .cta-keyword { font-size: 120px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1; margin-bottom: 40px; }
+.style-nike .slide-cta .cta-keyword .accent { color: var(--accent, #E63946); }
+.style-nike .slide-cta .cta-desc { font-size: 32px; color: #999; line-height: 1.5; max-width: 800px; }
+.style-nike .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
+.style-nike .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #444; margin-top: 60px; letter-spacing: 0.15em; }
+
+/* === BOTTOM BAR === */
+.bottombar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%);
+    padding: 32px 24px 20px; display: flex; justify-content: center; gap: 12px;
+}
+.bottombar button {
+    padding: 12px 24px; border: none; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+}
+.btn-primary { background: #E63946; color: #fff; }
+.btn-primary:hover { background: #c62d38; }
+.btn-secondary { background: #333; color: #fff; }
+.btn-secondary:hover { background: #444; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .slides-wrap { --scale: 0.3; }
+    .phone-wrap { margin-bottom: calc(-1350px * (1 - 0.3)); }
+    .topbar { padding: 8px 12px; gap: 4px; }
+    .topbar button { padding: 5px 8px; font-size: 9px; }
+    .settings-panel { width: 260px; }
+}
+</style>
+</head>
+<body>
+
+<!-- MAIN APP -->
+<div id="app">
+
+<div class="topbar">
+    <div class="topbar-section">
+        <span class="topbar-label">Style</span>
+        <button onclick="setStyle('nike')" id="btn-nike">СТИЛЬ 01</button>
+        <button onclick="setStyle('light')" class="active" id="btn-light">СТИЛЬ 02</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="topbar-section">
+        <span class="topbar-label">Frame</span>
+        <button onclick="toggleWrap()" id="btn-wrap">PHONE</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="topbar-section">
+        <button onclick="toggleSettings()" id="btn-settings">SETTINGS</button>
+    </div>
+    <span class="brand">КАРУСЕЛИ // @IRA.AND.AI</span>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settings-panel">
+    <h3>Fonts</h3>
+    <label>Headings</label>
+    <select id="font-heading" onchange="applyFont()">
+        <option value="">Default</option>
+        <option value="'Inter', sans-serif">Inter</option>
+        <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+        <option value="'Playfair Display', serif">Playfair Display</option>
+        <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+        <option value="'DM Sans', sans-serif">DM Sans</option>
+        <option value="'Outfit', sans-serif">Outfit</option>
+        <option value="'Roboto Mono', monospace">Roboto Mono</option>
+    </select>
+    <label>Body</label>
+    <select id="font-body" onchange="applyFont()">
+        <option value="">Default</option>
+        <option value="'Inter', sans-serif">Inter</option>
+        <option value="'DM Sans', sans-serif">DM Sans</option>
+        <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+        <option value="'Outfit', sans-serif">Outfit</option>
+        <option value="'Roboto Mono', monospace">Roboto Mono</option>
+        <option value="'Playfair Display', serif">Playfair Display</option>
+    </select>
+
+    <h3>Font Sizes</h3>
+    <label>H1 Cover: <span id="val-h1">82</span>px</label>
+    <input type="range" id="size-h1" min="40" max="160" value="82" oninput="applyFontSizes()">
+    <label>H2: <span id="val-h2">54</span>px</label>
+    <input type="range" id="size-h2" min="28" max="120" value="54" oninput="applyFontSizes()">
+    <label>Body (p): <span id="val-p">27</span>px</label>
+    <input type="range" id="size-p" min="16" max="48" value="27" oninput="applyFontSizes()">
+    <label>Quote: <span id="val-quote">42</span>px</label>
+    <input type="range" id="size-quote" min="24" max="72" value="42" oninput="applyFontSizes()">
+    <label>List text: <span id="val-list">25</span>px</label>
+    <input type="range" id="size-list" min="16" max="48" value="25" oninput="applyFontSizes()">
+    <label>List number: <span id="val-listnum">42</span>px</label>
+    <input type="range" id="size-listnum" min="20" max="72" value="42" oninput="applyFontSizes()">
+    <label>Tag / label: <span id="val-tag">13</span>px</label>
+    <input type="range" id="size-tag" min="10" max="28" value="13" oninput="applyFontSizes()">
+    <label>CTA keyword: <span id="val-cta">100</span>px</label>
+    <input type="range" id="size-cta" min="48" max="200" value="100" oninput="applyFontSizes()">
+    <label>CTA description: <span id="val-ctadesc">30</span>px</label>
+    <input type="range" id="size-ctadesc" min="16" max="48" value="30" oninput="applyFontSizes()">
+    <label>Brand: <span id="val-brand">22</span>px</label>
+    <input type="range" id="size-brand" min="8" max="24" value="22" oninput="applyFontSizes()">
+    <button class="s-btn s-btn-dark" onclick="resetFontSizes()">RESET SIZES</button>
+
+    <h3>Colors</h3>
+    <div class="color-row">
+        <div><label>Accent</label><input type="color" id="color-accent" value="#E63946" onchange="applyColors()"></div>
+        <div><label>Background</label><input type="color" id="color-bg" value="#FAFAFA" onchange="applyColors()"></div>
+        <div><label>Text</label><input type="color" id="color-text" value="#1a1a1a" onchange="applyColors()"></div>
+    </div>
+    <button class="s-btn s-btn-red" onclick="resetColors()">RESET COLORS</button>
+
+    <h3>Background Image</h3>
+    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('bg-file').click()">
+        <input type="file" id="bg-file" accept="image/*" onchange="handleBgFile(this.files[0])">
+        <p>Drop image here</p>
+    </div>
+    <label>Or paste URL</label>
+    <input type="text" id="bg-url" placeholder="https://..." onchange="applyBgUrl()">
+    <label>Overlay opacity</label>
+    <input type="range" id="bg-opacity" min="0" max="100" value="70" oninput="applyBgOverlay()">
+    <label>Apply to</label>
+    <select id="bg-target" onchange="applyBgTarget()">
+        <option value="all">All slides</option>
+        <option value="0">01 / Cover</option>
+        <option value="1">02 / Провокация</option>
+        <option value="2">03 / Что убил AI</option>
+        <option value="3">04 / Цитата Ruben</option>
+        <option value="4">05 / Ловушка</option>
+        <option value="5">06 / Секрет</option>
+        <option value="6">07 / 5 навыков</option>
+        <option value="7">08 / Мой угол</option>
+        <option value="8">09 / Действие</option>
+        <option value="9">10 / CTA</option>
+    </select>
+    <button class="s-btn s-btn-dark" onclick="clearBg()">REMOVE IMAGE</button>
+
+    <h3>Scale</h3>
+    <input type="range" id="scale-slider" min="20" max="100" value="42" oninput="applyScale()">
+    <div class="hint">100% = full size for screenshot</div>
+</div>
+
+<!-- SLIDES -->
+<div class="slides-wrap style-light" id="slides-wrap">
+
+<!-- SLIDE 01: ОБЛОЖКА -->
+<div class="phone-wrap"><div class="slide slide-cover">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 01 / ОБЛОЖКА</div>
+    <div class="tag" contenteditable="true">КАРУСЕЛИ // РАЗБОР</div>
+    <h1 contenteditable="true">ПОЧЕМУ<br>ТВОИ<br>КАРУСЕЛИ<br>НЕ<br><span class="accent">ЛЕТЯТ?</span></h1>
+    <div class="sub" contenteditable="true">Не потому что плохой контент. Потому что сломана структура. Разбираем по слайдам.</div>
+    <div class="bar"></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">1/6</div>
+</div></div>
+
+<!-- SLIDE 02: ТАБЛИЦА -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 02 / АНАТОМИЯ</div>
+    <div class="section-tag" contenteditable="true">// ИЗ ЧЕГО СОСТОИТ КАРУСЕЛЬ</div>
+    <h2 contenteditable="true">КАЖДЫЙ СЛАЙД — СВОЯ РАБОТА</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Хук</strong> — останавливает скролл. Не заголовок, а удар по боли.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Контекст</strong> — объясняет, почему это про тебя. Без него листают дальше.</span></div>
+    <div class="list-item"><span class="list-num">03–07</span><span class="list-text" contenteditable="true"><strong>Мясо</strong> — разрушает миф или даёт конкретный шаг. Не очевидное.</span></div>
+    <div class="list-item"><span class="list-num">08</span><span class="list-text" contenteditable="true"><strong>Вывод</strong> — финальная точка. Не "подумайте об этом".</span></div>
+    <div class="list-item"><span class="list-num">09</span><span class="list-text" contenteditable="true"><strong>CTA</strong> — одно действие. Не три.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">2/6</div>
+</div></div>
+
+<!-- SLIDE 03: ПРАВИЛО 1 -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 03 / ПРАВИЛО 1</div>
+    <div class="section-tag" contenteditable="true">// ПРАВИЛО №1</div>
+    <h2 contenteditable="true">1 СЛАЙД = 1 МЫСЛЬ</h2>
+    <p contenteditable="true">Не абзац. Не список из пяти пунктов. Одна мысль — и точка.</p>
+    <p contenteditable="true">Человек листает карусель за 3 секунды на слайд. Два тезиса на одном слайде — не запомнит ни одного.</p>
+    <p contenteditable="true"><span class="highlight">Один слайд — один удар.</span> Остальное — шум.</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">3/6</div>
+</div></div>
+
+<!-- SLIDE 04: ПРАВИЛО 2 -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 04 / ПРАВИЛО 2</div>
+    <div class="section-tag" contenteditable="true">// ПРАВИЛО №2</div>
+    <h2 contenteditable="true">ХУК — ЭТО НЕ ЗАГОЛОВОК</h2>
+    <p contenteditable="true">Заголовок информирует. Хук останавливает палец.</p>
+    <p contenteditable="true"><span class="dim">Плохой хук:</span> "5 способов улучшить контент"</p>
+    <p contenteditable="true"><span class="highlight">Хороший хук:</span> "Ты делаешь контент неправильно"</p>
+    <p contenteditable="true">Хук — это удар по боли или провокация. Должен вызвать реакцию: "Что? Как это про меня?"</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">4/6</div>
+</div></div>
+
+<!-- SLIDE 05: ПРАВИЛО 3 -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 05 / ПРАВИЛО 3</div>
+    <div class="section-tag" contenteditable="true">// ПРАВИЛО №3</div>
+    <h2 contenteditable="true">СОХРАНЯЮТ ТО, ЧТО МОЖНО ПРИМЕНИТЬ СЕГОДНЯ</h2>
+    <p contenteditable="true">Лайкают — за эмоцию. Сохраняют — за пользу. Репостят — за идентификацию.</p>
+    <p contenteditable="true">Если хочешь сохранения — каждый слайд должен давать что-то конкретное. Не "думай об этом", а "сделай вот это".</p>
+    <p contenteditable="true"><span class="highlight">Карусель без действия — это просто красивые картинки.</span></p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">5/6</div>
+</div></div>
+
+<!-- SLIDE 06: CTA -->
+<div class="phone-wrap"><div class="slide slide-cta">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 06 / CTA</div>
+    <div class="cta-keyword" contenteditable="true">ПРОМПТ<br>ДЛЯ<br><span class="accent">СТРУКТУРЫ</span></div>
+    <div class="cta-desc" contenteditable="true">Генерирует эту структуру за 2 минуты. Бесплатно. В гайде по ссылке в профиле.</div>
+    <div class="cta-how" contenteditable="true">ССЫЛКА В ПРОФИЛЕ → IRAAI.RU</div>
+    <div class="cta-handle" contenteditable="true">@IRA.AND.AI</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">6/6</div>
+</div></div>
+
+</div><!-- slides-wrap -->
+
+<div class="bottombar">
+    <button class="btn-secondary" onclick="saveHTML()">SAVE HTML</button>
+    <button class="btn-secondary" onclick="exportPNG()">EXPORT PNG</button>
+    <button class="btn-primary" onclick="fullscreen()">FULL SIZE</button>
+</div>
+
+</div><!-- app -->
+
+<script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.4.5/dist/dom-to-image-more.min.js"></script>
+<script>
+let currentStyle = 'light';
+const styleDefaults = {
+    nike: { accent: '#E63946', bg: '#000000', text: '#ffffff' },
+    light: { accent: '#E63946', bg: '#FAFAFA', text: '#1a1a1a' }
+};
+
+function setStyle(style) {
+    currentStyle = style;
+    const wrap = document.getElementById('slides-wrap');
+    const isFrame = wrap.classList.contains('frame-on');
+    wrap.className = 'slides-wrap style-' + style + (isFrame ? ' frame-on' : '');
+    document.querySelectorAll('.topbar button[id^="btn-n"], .topbar button[id^="btn-l"]').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + style).classList.add('active');
+    resetColors();
+}
+
+function toggleWrap() {
+    const wrap = document.getElementById('slides-wrap');
+    const btn = document.getElementById('btn-wrap');
+    wrap.classList.toggle('frame-on');
+    btn.classList.toggle('active');
+}
+
+function toggleSettings() {
+    document.getElementById('settings-panel').classList.toggle('open');
+    document.getElementById('btn-settings').classList.toggle('active');
+}
+
+function applyFont() {
+    const h = document.getElementById('font-heading').value;
+    const b = document.getElementById('font-body').value;
+    document.querySelectorAll('.slide h1, .slide h2, .slide .cta-keyword').forEach(el => el.style.fontFamily = h || '');
+    document.querySelectorAll('.slide p, .slide .list-text, .slide .cta-desc, .slide .sub, .slide blockquote').forEach(el => el.style.fontFamily = b || '');
+}
+
+// === FONT SIZES ===
+function applyFontSizes() {
+    const vals = {
+        h1: document.getElementById('size-h1').value,
+        h2: document.getElementById('size-h2').value,
+        p: document.getElementById('size-p').value,
+        quote: document.getElementById('size-quote').value,
+        list: document.getElementById('size-list').value,
+        listnum: document.getElementById('size-listnum').value,
+        tag: document.getElementById('size-tag').value,
+        cta: document.getElementById('size-cta').value,
+        ctadesc: document.getElementById('size-ctadesc').value,
+        brand: document.getElementById('size-brand').value,
+    };
+    Object.keys(vals).forEach(k => document.getElementById('val-' + k).textContent = vals[k]);
+    document.querySelectorAll('.slide h1').forEach(el => el.style.fontSize = vals.h1 + 'px');
+    document.querySelectorAll('.slide h2').forEach(el => el.style.fontSize = vals.h2 + 'px');
+    document.querySelectorAll('.slide p, .slide .sub, .slide .dim').forEach(el => el.style.fontSize = vals.p + 'px');
+    document.querySelectorAll('.slide blockquote').forEach(el => el.style.fontSize = vals.quote + 'px');
+    document.querySelectorAll('.slide .list-text').forEach(el => el.style.fontSize = vals.list + 'px');
+    document.querySelectorAll('.slide .list-num').forEach(el => el.style.fontSize = vals.listnum + 'px');
+    document.querySelectorAll('.slide .section-tag, .slide .tag, .slide .quote-author').forEach(el => el.style.fontSize = vals.tag + 'px');
+    document.querySelectorAll('.slide .cta-keyword').forEach(el => el.style.fontSize = vals.cta + 'px');
+    document.querySelectorAll('.slide .cta-desc, .slide .cta-how, .slide .cta-handle').forEach(el => el.style.fontSize = vals.ctadesc + 'px');
+    document.querySelectorAll('.slide-brand').forEach(el => el.style.fontSize = vals.brand + 'px');
+}
+
+function resetFontSizes() {
+    const defaults = { h1:82, h2:54, p:27, quote:42, list:25, listnum:42, tag:13, cta:100, ctadesc:30, brand:22 };
+    Object.keys(defaults).forEach(k => {
+        document.getElementById('size-' + k).value = defaults[k];
+        document.getElementById('val-' + k).textContent = defaults[k];
+    });
+    document.querySelectorAll('.slide h1,.slide h2,.slide p,.slide .sub,.slide .dim,.slide blockquote,.slide .list-text,.slide .list-num,.slide .section-tag,.slide .tag,.slide .quote-author,.slide .cta-keyword,.slide .cta-desc,.slide .cta-how,.slide .cta-handle,.slide-brand').forEach(el => el.style.fontSize = '');
+}
+
+function applyColors() {
+    const accent = document.getElementById('color-accent').value;
+    const bg = document.getElementById('color-bg').value;
+    const text = document.getElementById('color-text').value;
+    document.getElementById('slides-wrap').style.setProperty('--accent', accent);
+    document.querySelectorAll('.slide').forEach(el => { el.style.background = bg; el.style.color = text; });
+}
+
+function resetColors() {
+    const d = styleDefaults[currentStyle];
+    document.getElementById('color-accent').value = d.accent;
+    document.getElementById('color-bg').value = d.bg;
+    document.getElementById('color-text').value = d.text;
+    document.getElementById('slides-wrap').style.removeProperty('--accent');
+    document.querySelectorAll('.slide').forEach(el => { el.style.background = ''; el.style.color = ''; });
+    document.querySelectorAll('.slide h1,.slide h2,.slide .cta-keyword,.slide p,.slide .list-text,.slide .cta-desc,.slide .sub,.slide blockquote').forEach(el => el.style.fontFamily = '');
+    document.getElementById('font-heading').value = '';
+    document.getElementById('font-body').value = '';
+}
+
+// === BACKGROUND IMAGE ===
+let bgImage = null;
+const dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleBgFile(e.dataTransfer.files[0]);
+});
+
+function handleBgFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => { bgImage = e.target.result; applyBgTarget(); };
+    reader.readAsDataURL(file);
+    dropZone.querySelector('p').textContent = file.name;
+}
+
+function applyBgUrl() {
+    const url = document.getElementById('bg-url').value;
+    if (url) { bgImage = url; applyBgTarget(); dropZone.querySelector('p').textContent = 'URL loaded'; }
+}
+
+function applyBgTarget() {
+    const target = document.getElementById('bg-target').value;
+    const slides = document.querySelectorAll('.slide');
+    if (target === 'all') {
+        slides.forEach(s => s.querySelector('.slide-bg').style.backgroundImage = bgImage ? `url(${bgImage})` : '');
+    } else {
+        slides.forEach(s => s.querySelector('.slide-bg').style.backgroundImage = '');
+        const i = parseInt(target);
+        if (slides[i]) slides[i].querySelector('.slide-bg').style.backgroundImage = bgImage ? `url(${bgImage})` : '';
+    }
+    applyBgOverlay();
+}
+
+function applyBgOverlay() {
+    const op = document.getElementById('bg-opacity').value / 100;
+    const isDark = ['nike'].includes(currentStyle);
+    const c = isDark ? `rgba(0,0,0,${op})` : `rgba(255,255,255,${op})`;
+    document.querySelectorAll('.slide-overlay').forEach(el => el.style.background = bgImage ? c : '');
+}
+
+function clearBg() {
+    bgImage = null;
+    document.getElementById('bg-url').value = '';
+    document.getElementById('bg-file').value = '';
+    dropZone.querySelector('p').textContent = 'Drop image here';
+    document.querySelectorAll('.slide-bg').forEach(el => el.style.backgroundImage = '');
+    document.querySelectorAll('.slide-overlay').forEach(el => el.style.background = '');
+}
+
+function applyScale() {
+    const v = document.getElementById('scale-slider').value / 100;
+    document.querySelector('.slides-wrap').style.setProperty('--scale', v);
+    document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = `calc(-1350px * (1 - ${v}))`);
+}
+
+function saveHTML() {
+    const ui = document.querySelectorAll('.bottombar, .topbar, .settings-panel, .slide-label');
+    const orig = [];
+    ui.forEach((el, i) => { orig[i] = el.style.display; el.style.display = 'none'; });
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    ui.forEach((el, i) => el.style.display = orig[i] || '');
+    const blob = new Blob([html], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'taste-not-ai.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+async function exportPNG() {
+    if (typeof domtoimage === 'undefined') {
+        alert('Библиотека не загрузилась. Скажи Claude: экспортируй.');
+        return;
+    }
+    const slides = document.querySelectorAll('.slide');
+    const statusEl = document.createElement('div');
+    statusEl.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;color:#fff;padding:24px 40px;border-radius:12px;z-index:999;font-family:Inter;font-size:16px;';
+    document.body.appendChild(statusEl);
+    document.querySelectorAll('.bottombar, .topbar, .settings-panel, .slide-label').forEach(el => el.style.display = 'none');
+    let success = 0;
+    for (let i = 0; i < slides.length; i++) {
+        const num = String(i + 1).padStart(2, '0');
+        statusEl.textContent = 'Экспорт слайда ' + num + ' из ' + String(slides.length).padStart(2, '0') + '...';
+        try {
+            const dataUrl = await domtoimage.toPng(slides[i], { width: 1080, height: 1350, quality: 1.0 });
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'slide-' + num + '.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            success++;
+            await new Promise(r => setTimeout(r, 400));
+        } catch (e) {
+            console.error('Slide ' + num + ' failed:', e);
+            statusEl.textContent = 'Ошибка на слайде ' + num;
+            await new Promise(r => setTimeout(r, 2000));
+        }
+    }
+    document.querySelectorAll('.bottombar, .topbar, .settings-panel, .slide-label').forEach(el => el.style.display = '');
+    statusEl.textContent = success + ' слайдов сохранено!';
+    setTimeout(() => statusEl.remove(), 3000);
+}
+
+function fullscreen() {
+    const wrap = document.getElementById('slides-wrap');
+    wrap.style.setProperty('--scale', '1');
+    document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = '0');
+    document.getElementById('scale-slider').value = 100;
+    window.scrollTo(0, 0);
+}
+
+setStyle('light');
+</script>
+</body>
+</html>

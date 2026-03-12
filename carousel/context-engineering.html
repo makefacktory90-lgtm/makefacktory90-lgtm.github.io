@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carousel Constructor — Ira & AI</title>
+<title>Context Engineering — Ira & AI</title>
 <meta name="robots" content="noindex, nofollow">
 
 <!-- Favicon -->
@@ -72,6 +72,15 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 .topbar .brand {
     margin-left: auto; font-size: 10px; color: #444;
     font-family: 'Roboto Mono', monospace; letter-spacing: 0.05em;
+}
+
+/* === SLIDE BRAND === */
+.slide-brand {
+    position: absolute; bottom: 48px; left: 50px; right: 0;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    opacity: 0.4; z-index: 3;
 }
 
 /* === SETTINGS PANEL === */
@@ -148,7 +157,7 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 }
 .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
 .slide-overlay { position: absolute; inset: 0; z-index: 1; }
-.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number) { position: relative; z-index: 2; }
+.slide > *:not(.slide-bg):not(.slide-overlay):not(.slide-label):not(.slide-number):not(.slide-brand) { position: relative; z-index: 2; }
 .slide-label {
     position: absolute; top: -28px; left: 4px;
     font-family: 'Roboto Mono', monospace; font-size: 11px; color: #999; z-index: 5;
@@ -314,149 +323,6 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 .style-light .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 18px; color: var(--accent, #E63946); margin-top: 48px; letter-spacing: 0.1em; }
 .style-light .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 16px; color: #ccc; margin-top: 60px; letter-spacing: 0.15em; }
 
-/* ================================ */
-/* GRID LAYOUTS                      */
-/* ================================ */
-.slide-grid-2col { padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-content: center; }
-.slide-grid-2col .grid-col { display: flex; flex-direction: column; justify-content: center; }
-.slide-grid-2col .grid-card {
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; padding: 30px; height: 100%; display: flex; flex-direction: column; justify-content: center;
-}
-
-.slide-grid-3col { padding: 50px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-content: center; }
-.slide-grid-3col .grid-card {
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 12px;
-}
-.slide-grid-3col .grid-card .card-num { font-family: 'Roboto Mono', monospace; font-size: 40px; font-weight: 700; opacity: 0.3; }
-.slide-grid-3col .grid-card h3 { font-size: 28px; font-weight: 700; }
-.slide-grid-3col .grid-card p { font-size: 19px; opacity: 0.7; line-height: 1.5; }
-
-.slide-grid-mixed { padding: 50px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 24px; align-content: center; }
-.slide-grid-mixed .grid-card-big { grid-row: 1 / 3; display: flex; flex-direction: column; justify-content: center;
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 36px; }
-.slide-grid-mixed .grid-card-small {
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: center;
-}
-
-.slide-grid-photo { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
-.slide-grid-photo .grid-photo-zone {
-    background: #333; display: flex; align-items: center; justify-content: center;
-    font-family: 'Roboto Mono', monospace; font-size: 14px; color: #666;
-    background-size: cover; background-position: center; overflow: hidden;
-}
-.slide-grid-photo .grid-text-zone { padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
-
-.slide-grid-table { padding: 50px; display: flex; flex-direction: column; justify-content: center; gap: 30px; }
-.slide-grid-table .table-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.slide-grid-table .table-header { background: rgba(255,255,255,0.1); padding: 18px 24px; font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
-.slide-grid-table .table-cell { background: rgba(255,255,255,0.04); padding: 18px 24px; font-size: 19px; line-height: 1.5; }
-.slide-grid-table .table-cell.highlight-cell { border-left: 4px solid var(--accent, #E63946); }
-
-/* ================================ */
-/* STYLE: MAGAZINE                   */
-/* ================================ */
-.style-magazine .slide { background: #F5F0E8; color: #2B2B2B; }
-.style-magazine .slide-number { color: #2B2B2B; }
-
-.style-magazine .slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 60px; }
-.style-magazine .slide-cover .tag { font-family: 'Roboto Mono', monospace; font-size: 13px; letter-spacing: 0.35em; color: #C4392D; margin-bottom: 24px; text-transform: uppercase; font-weight: 500; }
-.style-magazine .slide-cover h1 { font-family: 'Playfair Display', serif; font-size: 78px; font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; text-transform: none; }
-.style-magazine .slide-cover h1 .accent { color: #C4392D; }
-.style-magazine .slide-cover .sub { font-family: 'DM Sans', sans-serif; font-size: 22px; color: #6B6B6B; margin-top: 28px; line-height: 1.6; }
-.style-magazine .slide-cover .author { font-family: 'Roboto Mono', monospace; font-size: 12px; color: #999; margin-top: 40px; letter-spacing: 0.2em; text-transform: uppercase; }
-.style-magazine .slide-cover .bar { width: 70px; height: 3px; background: #C4392D; margin-top: 32px; }
-
-.style-magazine .slide-content { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
-.style-magazine .slide-content .section-tag { font-family: 'Roboto Mono', monospace; font-size: 11px; letter-spacing: 0.35em; color: #3D4A3C; margin-bottom: 20px; text-transform: uppercase; border: 1px solid #3D4A3C; display: inline-block; padding: 5px 12px; border-radius: 2px; align-self: flex-start; }
-.style-magazine .slide-content h2 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; line-height: 1.15; margin-bottom: 28px; text-transform: none; }
-.style-magazine .slide-content p { font-family: 'DM Sans', sans-serif; font-size: 20px; line-height: 1.65; color: #555; margin-bottom: 18px; }
-.style-magazine .slide-content .highlight { background: #C4392D; color: #fff; padding: 3px 10px; font-weight: 700; border-radius: 2px; }
-.style-magazine .slide-content .dim { color: #999; font-size: 18px; }
-
-.style-magazine .slide-quote { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
-.style-magazine .slide-quote blockquote { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; line-height: 1.4; border-left: 4px solid #C4392D; padding-left: 32px; font-style: italic; color: #2B2B2B; }
-.style-magazine .slide-quote .quote-author { font-family: 'Roboto Mono', monospace; font-size: 13px; color: #999; margin-top: 32px; padding-left: 36px; text-transform: uppercase; letter-spacing: 0.15em; }
-
-.style-magazine .slide-list { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
-.style-magazine .slide-list .section-tag { font-family: 'Roboto Mono', monospace; font-size: 11px; letter-spacing: 0.35em; color: #3D4A3C; margin-bottom: 20px; text-transform: uppercase; border: 1px solid #3D4A3C; display: inline-block; padding: 5px 12px; border-radius: 2px; align-self: flex-start; }
-.style-magazine .slide-list h2 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 700; margin-bottom: 36px; line-height: 1.15; text-transform: none; }
-.style-magazine .slide-list .list-item { display: flex; gap: 20px; margin-bottom: 22px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #D8D0C4; }
-.style-magazine .slide-list .list-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: #C4392D; flex-shrink: 0; width: 60px; }
-.style-magazine .slide-list .list-text { font-family: 'DM Sans', sans-serif; font-size: 20px; line-height: 1.5; color: #555; }
-.style-magazine .slide-list .list-text strong { color: #2B2B2B; }
-
-.style-magazine .slide-cta { padding: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-.style-magazine .slide-cta .cta-keyword { font-family: 'Playfair Display', serif; font-size: 90px; font-weight: 900; line-height: 1; margin-bottom: 32px; text-transform: none; }
-.style-magazine .slide-cta .cta-keyword .accent { color: #C4392D; }
-.style-magazine .slide-cta .cta-desc { font-family: 'DM Sans', sans-serif; font-size: 24px; color: #6B6B6B; line-height: 1.6; max-width: 800px; }
-.style-magazine .slide-cta .cta-how { font-family: 'Roboto Mono', monospace; font-size: 15px; color: #C4392D; margin-top: 40px; letter-spacing: 0.15em; text-transform: uppercase; }
-.style-magazine .slide-cta .cta-handle { font-family: 'Roboto Mono', monospace; font-size: 13px; color: #999; margin-top: 48px; letter-spacing: 0.2em; }
-
-/* Magazine grid overrides */
-.style-magazine .grid-card, .style-magazine .grid-card-big, .style-magazine .grid-card-small {
-    background: rgba(0,0,0,0.03); border: 1px solid #D8D0C4; }
-.style-magazine .grid-card h3, .style-magazine .grid-card-big h3 { font-family: 'Playfair Display', serif; text-transform: none; }
-.style-magazine .grid-card p, .style-magazine .grid-card-big p, .style-magazine .grid-card-small p { font-family: 'DM Sans', sans-serif; color: #555; }
-.style-magazine .table-header { background: #3D4A3C; color: #F5F0E8; font-family: 'Roboto Mono', monospace; }
-.style-magazine .table-cell { background: rgba(0,0,0,0.03); border-bottom: 1px solid #D8D0C4; font-family: 'DM Sans', sans-serif; color: #555; }
-.style-magazine .table-cell.highlight-cell { border-left-color: #C4392D; }
-.style-magazine .slide-grid-2col .section-tag,
-.style-magazine .slide-grid-3col .section-tag,
-.style-magazine .slide-grid-mixed .section-tag,
-.style-magazine .slide-grid-photo .section-tag,
-.style-magazine .slide-grid-table .section-tag { font-family: 'Roboto Mono', monospace; font-size: 12px; letter-spacing: 0.35em; color: #3D4A3C; text-transform: uppercase; border: 1px solid #3D4A3C; display: inline-block; padding: 6px 14px; border-radius: 2px; }
-.style-magazine .slide-grid-photo .grid-photo-zone { background: #D8D0C4; color: #999; }
-
-/* Light style grid overrides */
-.style-light .grid-card, .style-light .grid-card-big, .style-light .grid-card-small {
-    background: rgba(0,0,0,0.03); border: 1px solid #e0e0e0; }
-.style-light .table-header { background: rgba(0,0,0,0.06); color: #1a1a1a; }
-.style-light .table-cell { background: rgba(0,0,0,0.02); color: #666; }
-.style-light .slide-grid-photo .grid-photo-zone { background: #e8e8e8; color: #999; }
-
-/* === PER-SLIDE PHOTO BUTTONS === */
-.slide-photo-btn {
-    position: absolute; top: 12px; right: 12px; z-index: 10;
-    width: 40px; height: 40px; border-radius: 8px;
-    background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
-    color: #fff; font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.2s;
-    backdrop-filter: blur(8px);
-}
-.slide:hover .slide-photo-btn { opacity: 1; }
-.slide-photo-btn:hover { background: rgba(230,57,70,0.8); border-color: #E63946; }
-.slide-photo-btn input { display: none; }
-
-.slide-photo-remove {
-    position: absolute; top: 12px; right: 60px; z-index: 10;
-    width: 40px; height: 40px; border-radius: 8px;
-    background: rgba(230,57,70,0.7); border: 1px solid rgba(255,255,255,0.2);
-    color: #fff; font-size: 18px; cursor: pointer;
-    display: none; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.2s;
-    backdrop-filter: blur(8px);
-}
-.slide:hover .slide-photo-remove.visible { opacity: 1; display: flex; }
-.slide-photo-remove:hover { background: rgba(230,57,70,1); }
-
-.slide-photo-dim {
-    position: absolute; top: 12px; right: 108px; z-index: 10;
-    display: none; align-items: center; gap: 6px;
-    opacity: 0; transition: opacity 0.2s;
-    backdrop-filter: blur(8px);
-    background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px; padding: 4px 12px; height: 40px;
-}
-.slide:hover .slide-photo-dim.visible { opacity: 1; display: flex; }
-.slide-photo-dim input[type="range"] {
-    width: 80px; height: 4px; accent-color: #E63946;
-}
-.slide-photo-dim label { font-family: 'Roboto Mono', monospace; font-size: 9px; color: #aaa; white-space: nowrap; }
-
 /* === BOTTOM BAR === */
 .bottombar {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
@@ -520,7 +386,6 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
         <button onclick="setStyle('dirty')" id="btn-dirty">DIRTY ROBOT</button>
         <button onclick="setStyle('netflix')" id="btn-netflix">NETFLIX</button>
         <button onclick="setStyle('light')" id="btn-light">CLEAN LIGHT</button>
-        <button onclick="setStyle('magazine')" id="btn-magazine">MAGAZINE</button>
     </div>
     <div class="spacer"></div>
     <div class="topbar-section">
@@ -604,16 +469,14 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     <select id="bg-target" onchange="applyBgTarget()">
         <option value="all">Все слайды</option>
         <option value="0">Слайд 1: Обложка</option>
-        <option value="1">Слайд 2: Контент</option>
-        <option value="2">Слайд 3: Цитата</option>
-        <option value="3">Слайд 4: Контент</option>
-        <option value="4">Слайд 5: Список</option>
-        <option value="5">Слайд 6: Grid 2col</option>
-        <option value="6">Слайд 7: Grid 3col</option>
-        <option value="7">Слайд 8: Grid Mixed</option>
-        <option value="8">Слайд 9: Grid Photo</option>
-        <option value="9">Слайд 10: Grid Table</option>
-        <option value="10">Слайд 11: CTA</option>
+        <option value="1">Слайд 2: Проблема</option>
+        <option value="2">Слайд 3: Метафора</option>
+        <option value="3">Слайд 4: Что это</option>
+        <option value="4">Слайд 5: Prompt vs Context</option>
+        <option value="5">Слайд 6: Мой опыт</option>
+        <option value="6">Слайд 7: 4 файла</option>
+        <option value="7">Слайд 8: Угол Иры</option>
+        <option value="8">Слайд 9: CTA</option>
     </select>
     <button class="s-btn s-btn-dark" onclick="clearBg()">УБРАТЬ КАРТИНКУ</button>
 
@@ -629,192 +492,109 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 <div class="phone-wrap"><div class="slide slide-cover">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 01 / COVER</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-0').click()">📷<input type="file" id="photo-0" accept="image/*" onchange="handleSlidePhoto(0, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(0)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(0, this.value)"></div>
-    <div class="tag" contenteditable="true">ТРЕНД НЕДЕЛИ</div>
-    <h1 contenteditable="true">ЗАГОЛОВОК<br><span class="accent">КАРУСЕЛИ</span></h1>
-    <div class="sub" contenteditable="true">Одно предложение, которое цепляет и объясняет, зачем листать дальше</div>
+    <div class="tag" contenteditable="true">НАВЫК 2026</div>
+    <h1 contenteditable="true">ПОЧЕМУ ВАШ<br>CHATGPT ВЫДАЁТ<br>ЕРУНДУ</h1>
+    <div class="sub" contenteditable="true">Дело не в промпте. Дело в context engineering.</div>
     <div class="author" contenteditable="true">@IRA.AND.AI</div>
     <div class="bar"></div>
-    <div class="slide-number">1/11</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">1/9</div>
 </div></div>
 
-<!-- SLIDE 2: CONTENT -->
+<!-- SLIDE 2: CONTENT — PROBLEM -->
 <div class="phone-wrap"><div class="slide slide-content">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 02 / CONTENT</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-1').click()">📷<input type="file" id="photo-1" accept="image/*" onchange="handleSlidePhoto(1, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(1)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(1, this.value)"></div>
-    <div class="section-tag" contenteditable="true">// 01 КОНТЕКСТ</div>
-    <h2 contenteditable="true">О ЧЁМ РЕЧЬ</h2>
-    <p contenteditable="true">Основной текст слайда. Два-три предложения. Главная мысль раздела, которая заставляет листать дальше.</p>
-    <p class="dim" contenteditable="true">Дополнительный контекст мелким шрифтом.</p>
-    <div class="slide-number">2/11</div>
+    <div class="section-tag" contenteditable="true">// 01 ПРОБЛЕМА</div>
+    <h2 contenteditable="true">ВЫ НАПИСАЛИ ИДЕАЛЬНЫЙ ПРОМПТ</h2>
+    <p contenteditable="true">Подробный. Структурированный. С примерами. AI выдал... <span class="highlight">генеральный мусор</span>. Формально правильный. По существу — ни о чём.</p>
+    <p class="dim" contenteditable="true">Текст, который мог написать кто угодно о чём угодно. Знакомо?</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">2/9</div>
 </div></div>
 
-<!-- SLIDE 3: QUOTE -->
+<!-- SLIDE 3: QUOTE — METAPHOR -->
 <div class="phone-wrap"><div class="slide slide-quote">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 03 / QUOTE</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-2').click()">📷<input type="file" id="photo-2" accept="image/*" onchange="handleSlidePhoto(2, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(2)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(2, this.value)"></div>
-    <blockquote contenteditable="true">Сильная цитата из источника. Фраза, которая заставляет задуматься и сохранить.</blockquote>
-    <div class="quote-author" contenteditable="true">Имя автора</div>
-    <div class="slide-number">3/11</div>
+    <blockquote contenteditable="true">Промпт без контекста — как прийти к врачу и сказать «мне плохо». Без анализов. Без истории. Без ��имптомов.</blockquote>
+    <div class="quote-author" contenteditable="true">Промпт — это вопрос. Контекст — это всё остальное.</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">3/9</div>
 </div></div>
 
-<!-- SLIDE 4: CONTENT -->
+<!-- SLIDE 4: CONTENT — DEFINITION -->
 <div class="phone-wrap"><div class="slide slide-content">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 04 / CONTENT</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-3').click()">📷<input type="file" id="photo-3" accept="image/*" onchange="handleSlidePhoto(3, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(3)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(3, this.value)"></div>
-    <div class="section-tag" contenteditable="true">// 02 ПОЧЕМУ ВАЖНО</div>
-    <h2 contenteditable="true">КЛЮЧЕВОЙ ФАКТ</h2>
-    <p contenteditable="true">Факт или цифра, которая <span class="highlight">бьёт по голове</span>. Одно число или одна мысль.</p>
-    <p contenteditable="true">И что это значит для обычного человека. Перевод на понятный язык.</p>
-    <div class="slide-number">4/11</div>
+    <div class="section-tag" contenteditable="true">// 02 ЧТО ЭТО</div>
+    <h2 contenteditable="true">НЕ НОВЫЙ ПРОМПТ. ДРУГОЙ ПОДХОД.</h2>
+    <p contenteditable="true">Context engineering — когда AI знает <span class="highlight">кто вы, для кого пишете, что продаёте</span> и что категорически нельзя.</p>
+    <p contenteditable="true">Не один запрос. Система из документов + правил, которая накапливает знания.</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">4/9</div>
 </div></div>
 
-<!-- SLIDE 5: LIST -->
+<!-- SLIDE 5: LIST — COMPARE -->
 <div class="phone-wrap"><div class="slide slide-list">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
     <div class="slide-label">SLIDE 05 / LIST</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-4').click()">📷<input type="file" id="photo-4" accept="image/*" onchange="handleSlidePhoto(4, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(4)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(4, this.value)"></div>
-    <div class="section-tag" contenteditable="true">// 03 ЧТО ДЕЛАТЬ</div>
-    <h2 contenteditable="true">КОНКРЕТНЫЕ ШАГИ</h2>
-    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Первый шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Второй шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Третий шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Четвёртый шаг.</strong> Что именно сделать.</span></div>
-    <div class="slide-number">5/11</div>
+    <div class="section-tag" contenteditable="true">// 03 РАЗНИЦА</div>
+    <h2 contenteditable="true">PROMPT VS CONTEXT</h2>
+    <div class="list-item"><span class="list-num">P</span><span class="list-text" contenteditable="true"><strong>«Напиши пост про AI»</strong> — каждый раз с нуля, результат — лотерея.</span></div>
+    <div class="list-item"><span class="list-num">C</span><span class="list-text" contenteditable="true"><strong>AI знает ваш голос, аудиторию, продукт.</strong> Результат предсказуемый.</span></div>
+    <div class="list-item"><span class="list-num">P</span><span class="list-text" contenteditable="true"><strong>Один запрос — один ответ.</strong> Завтра всё заново.</span></div>
+    <div class="list-item"><span class="list-num">C</span><span class="list-text" contenteditable="true"><strong>Система из файлов.</strong> Чем больше работаете — тем точнее.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">5/9</div>
 </div></div>
 
-<!-- SLIDE 6: GRID 2COL -->
-<div class="phone-wrap"><div class="slide slide-grid-2col">
+<!-- SLIDE 6: CONTENT — MY CASE -->
+<div class="phone-wrap"><div class="slide slide-content">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 06 / GRID 2COL</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-5').click()">📷<input type="file" id="photo-5" accept="image/*" onchange="handleSlidePhoto(5, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(5)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(5, this.value)"></div>
-    <div class="grid-col">
-        <div class="section-tag" contenteditable="true">// СРАВНЕНИЕ</div>
-        <h2 contenteditable="true" style="font-size: 48px; margin-bottom: 24px;">ДВЕ КОЛОНКИ</h2>
-        <p contenteditable="true" style="font-size: 24px; line-height: 1.6;">Текст в левой колонке. Основная мысль или контекст.</p>
-    </div>
-    <div class="grid-col">
-        <div class="grid-card">
-            <h3 contenteditable="true" style="font-size: 32px; margin-bottom: 16px;">Карточка</h3>
-            <p contenteditable="true" style="font-size: 22px; line-height: 1.5; opacity: 0.8;">Цитата, факт или ключевая мысль в карточке справа.</p>
-        </div>
-    </div>
-    <div class="slide-number">6/11</div>
+    <div class="slide-label">SLIDE 06 / CONTENT</div>
+    <div class="section-tag" contenteditable="true">// 04 МОЙ ОПЫТ</div>
+    <h2 contenteditable="true">15 МИНУТ ВМЕСТО 3 ЧАСОВ</h2>
+    <p contenteditable="true">Не потому что AI стал умнее. А потому что я дала ему <span class="highlight">контекст</span>: мой голос, стратегию, правила, примеры лучших постов.</p>
+    <p contenteditable="true">Теперь он пишет черновик — а я докручиваю. Не с нуля. С 80% готового.</p>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">6/9</div>
 </div></div>
 
-<!-- SLIDE 7: GRID 3COL -->
-<div class="phone-wrap"><div class="slide slide-grid-3col">
+<!-- SLIDE 7: LIST — 4 FILES -->
+<div class="phone-wrap"><div class="slide slide-list">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 07 / GRID 3COL</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-6').click()">📷<input type="file" id="photo-6" accept="image/*" onchange="handleSlidePhoto(6, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(6)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(6, this.value)"></div>
-    <div class="grid-card">
-        <div class="card-num">01</div>
-        <h3 contenteditable="true">Первая</h3>
-        <p contenteditable="true">Описание первого пункта</p>
-    </div>
-    <div class="grid-card">
-        <div class="card-num">02</div>
-        <h3 contenteditable="true">Вторая</h3>
-        <p contenteditable="true">Описание второго пункта</p>
-    </div>
-    <div class="grid-card">
-        <div class="card-num">03</div>
-        <h3 contenteditable="true">Третья</h3>
-        <p contenteditable="true">Описание третьего пункта</p>
-    </div>
-    <div class="slide-number">7/11</div>
+    <div class="slide-label">SLIDE 07 / LIST</div>
+    <div class="section-tag" contenteditable="true">// 05 ЧТО ДЕЛАТЬ</div>
+    <h2 contenteditable="true">4 ФАЙЛА, КОТОРЫЕ МЕНЯЮТ ВСЁ</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Голос.</strong> 5 правил + 3 примера ваших лучших текстов.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Аудитория.</strong> Не «женщины 25-45». А: Марина, 38, психолог, устала вести Инсту руками.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Продукт.</strong> Что продаёте, кому, за сколько. AI должен знать, на что работает контент.</span></div>
+    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Стоп-лист.</strong> Чего никогда не писать. Слова, темы, подходы, которые не ваши.</span></div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">7/9</div>
 </div></div>
 
-<!-- SLIDE 8: GRID MIXED -->
-<div class="phone-wrap"><div class="slide slide-grid-mixed">
+<!-- SLIDE 8: QUOTE — IRA'S ANGLE -->
+<div class="phone-wrap"><div class="slide slide-quote">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 08 / GRID MIXED</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-7').click()">📷<input type="file" id="photo-7" accept="image/*" onchange="handleSlidePhoto(7, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(7)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(7, this.value)"></div>
-    <div class="grid-card-big">
-        <div class="section-tag" contenteditable="true" style="margin-bottom: 24px;">// ГЛАВНОЕ</div>
-        <h2 contenteditable="true" style="font-size: 52px; margin-bottom: 24px;">Большая карточка</h2>
-        <p contenteditable="true" style="font-size: 26px; line-height: 1.6; opacity: 0.8;">Основной контент занимает всю левую часть. Две маленькие карточки справа.</p>
-    </div>
-    <div class="grid-card-small">
-        <h3 contenteditable="true" style="font-size: 28px; margin-bottom: 12px;">Малая 1</h3>
-        <p contenteditable="true" style="font-size: 20px; opacity: 0.7;">Дополнительный факт</p>
-    </div>
-    <div class="grid-card-small">
-        <h3 contenteditable="true" style="font-size: 28px; margin-bottom: 12px;">Малая 2</h3>
-        <p contenteditable="true" style="font-size: 20px; opacity: 0.7;">Ещё один факт</p>
-    </div>
-    <div class="slide-number">8/11</div>
+    <div class="slide-label">SLIDE 08 / QUOTE</div>
+    <blockquote contenteditable="true">Prompt engineering учит задавать вопросы. Context engineering учит строить систему. Вопрос можно загуглить. Систему ��� нет.</blockquote>
+    <div class="quote-author" contenteditable="true">Вот почему одни получают мусор, а другие — готовый контент за 15 минут.</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">8/9</div>
 </div></div>
 
-<!-- SLIDE 9: GRID PHOTO -->
-<div class="phone-wrap"><div class="slide slide-grid-photo">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 09 / GRID PHOTO</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-8').click()">📷<input type="file" id="photo-8" accept="image/*" onchange="handleSlidePhoto(8, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(8)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(8, this.value)"></div>
-    <div class="grid-photo-zone">ФОТО-ЗОНА<br>(загрузи фото через кнопку)</div>
-    <div class="grid-text-zone">
-        <div class="section-tag" contenteditable="true" style="margin-bottom: 24px;">// ВИЗУАЛ</div>
-        <h2 contenteditable="true" style="font-size: 48px; margin-bottom: 24px;">Фото + текст</h2>
-        <p contenteditable="true" style="font-size: 24px; line-height: 1.6; opacity: 0.8;">Половина слайда — фото, половина — текст. Идеально для кейсов.</p>
-    </div>
-    <div class="slide-number">9/11</div>
-</div></div>
-
-<!-- SLIDE 10: GRID TABLE -->
-<div class="phone-wrap"><div class="slide slide-grid-table">
-    <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 10 / GRID TABLE</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-9').click()">📷<input type="file" id="photo-9" accept="image/*" onchange="handleSlidePhoto(9, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(9)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(9, this.value)"></div>
-    <div class="section-tag" contenteditable="true">// СРАВНЕНИЕ</div>
-    <h2 contenteditable="true" style="font-size: 48px;">Таблица сравнения</h2>
-    <div class="table-grid">
-        <div class="table-header" contenteditable="true">Было</div>
-        <div class="table-header" contenteditable="true">Стало</div>
-        <div class="table-cell" contenteditable="true">Старый подход</div>
-        <div class="table-cell highlight-cell" contenteditable="true">Новый подход</div>
-        <div class="table-cell" contenteditable="true">Минус первый</div>
-        <div class="table-cell highlight-cell" contenteditable="true">Плюс первый</div>
-        <div class="table-cell" contenteditable="true">Минус второй</div>
-        <div class="table-cell highlight-cell" contenteditable="true">Плюс второй</div>
-    </div>
-    <div class="slide-number">10/11</div>
-</div></div>
-
-<!-- SLIDE 11: CTA -->
+<!-- SLIDE 9: CTA -->
 <div class="phone-wrap"><div class="slide slide-cta">
     <div class="slide-bg"></div><div class="slide-overlay"></div>
-    <div class="slide-label">SLIDE 11 / CTA</div>
-    <div class="slide-photo-btn" onclick="document.getElementById('photo-10').click()">📷<input type="file" id="photo-10" accept="image/*" onchange="handleSlidePhoto(10, this.files[0])"></div>
-    <div class="slide-photo-remove" onclick="removeSlidePhoto(10)">✕</div>
-    <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(10, this.value)"></div>
-    <div class="cta-keyword" contenteditable="true">НАПИШИ<br><span class="accent">КАРУСЕЛЬ</span></div>
-    <div class="cta-desc" contenteditable="true">Пришлю промт, который из любого контента делает карусель за 10 минут</div>
-    <div class="cta-how" contenteditable="true">В КОММЕНТЫ ИЛИ В ДИРЕКТ</div>
-    <div class="cta-handle" contenteditable="true">@IRA.AND.AI</div>
-    <div class="slide-number">11/11</div>
+    <div class="slide-label">SLIDE 09 / CTA</div>
+    <div class="cta-keyword" contenteditable="true">КАРУСЕЛИ<br><span class="accent">2.0</span></div>
+    <div class="cta-desc" contenteditable="true">Context engineering для вашего контента. Старт 15 марта.</div>
+    <div class="cta-how" contenteditable="true">ПОДРОБНОСТИ В TELEGRAM</div>
+    <div class="cta-handle" contenteditable="true">@BUYAN_ONLINE</div>
+    <div class="slide-brand">@IRA.AND.AI</div>
+    <div class="slide-number">9/9</div>
 </div></div>
 
 </div><!-- slides-wrap -->
@@ -866,8 +646,7 @@ const styleDefaults = {
     nike: { accent: '#E63946', bg: '#000000', text: '#ffffff' },
     dirty: { accent: '#00ff88', bg: '#0d0d0d', text: '#e0e0e0' },
     netflix: { accent: '#E50914', bg: '#141414', text: '#ffffff' },
-    light: { accent: '#E63946', bg: '#FAFAFA', text: '#1a1a1a' },
-    magazine: { accent: '#C4392D', bg: '#F5F0E8', text: '#2B2B2B' }
+    light: { accent: '#E63946', bg: '#FAFAFA', text: '#1a1a1a' }
 };
 
 function setStyle(style) {
@@ -875,7 +654,7 @@ function setStyle(style) {
     const wrap = document.getElementById('slides-wrap');
     const isFrame = wrap.classList.contains('frame-on');
     wrap.className = 'slides-wrap style-' + style + (isFrame ? ' frame-on' : '');
-    document.querySelectorAll('.topbar button[id^="btn-n"], .topbar button[id^="btn-d"], .topbar button[id^="btn-l"], .topbar button[id^="btn-m"]').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.topbar button[id^="btn-n"], .topbar button[id^="btn-d"], .topbar button[id^="btn-l"]').forEach(b => b.classList.remove('active'));
     document.getElementById('btn-' + style).classList.add('active');
     resetColors();
 }
@@ -1067,54 +846,6 @@ function fullscreen() {
     document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = '0');
     document.getElementById('scale-slider').value = 100;
     window.scrollTo(0, 0);
-}
-
-// === PER-SLIDE PHOTO ===
-const slidePhotos = {};
-
-function handleSlidePhoto(index, file) {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        slidePhotos[index] = { url: e.target.result, dim: 70 };
-        applySlidePhoto(index);
-        const slide = document.querySelectorAll('.slide')[index];
-        slide.querySelector('.slide-photo-remove').classList.add('visible');
-        slide.querySelector('.slide-photo-dim').classList.add('visible');
-    };
-    reader.readAsDataURL(file);
-}
-
-function applySlidePhoto(index) {
-    const slides = document.querySelectorAll('.slide');
-    if (!slides[index] || !slidePhotos[index]) return;
-    const slide = slides[index];
-    const bg = slide.querySelector('.slide-bg');
-    const overlay = slide.querySelector('.slide-overlay');
-    bg.style.backgroundImage = `url(${slidePhotos[index].url})`;
-    const dim = slidePhotos[index].dim / 100;
-    const isDark = ['nike','dirty','netflix'].includes(currentStyle);
-    const c = isDark ? `rgba(0,0,0,${dim})` : `rgba(255,255,255,${dim})`;
-    overlay.style.background = c;
-}
-
-function removeSlidePhoto(index) {
-    delete slidePhotos[index];
-    const slides = document.querySelectorAll('.slide');
-    if (!slides[index]) return;
-    const slide = slides[index];
-    slide.querySelector('.slide-bg').style.backgroundImage = '';
-    slide.querySelector('.slide-overlay').style.background = '';
-    slide.querySelector('.slide-photo-remove').classList.remove('visible');
-    slide.querySelector('.slide-photo-dim').classList.remove('visible');
-    const input = document.getElementById('photo-' + index);
-    if (input) input.value = '';
-}
-
-function updateSlideDim(index, value) {
-    if (!slidePhotos[index]) return;
-    slidePhotos[index].dim = value;
-    applySlidePhoto(index);
 }
 
 // === INIT ===

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Washing: Дорси и Block — Ira & AI</title>
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === PASSWORD GATE === */
+.gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0a0a0a;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+.gate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.gate-box { text-align: center; max-width: 400px; padding: 40px; }
+.gate-logo { font-family: 'Roboto Mono', monospace; font-size: 12px; letter-spacing: 0.3em; color: #555; margin-bottom: 48px; text-transform: uppercase; }
+.gate-title { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 12px; }
+.gate-sub { font-family: 'Inter', sans-serif; font-size: 16px; color: #666; margin-bottom: 40px; line-height: 1.5; }
+.gate-input {
+    width: 100%; padding: 16px 20px; background: #1a1a1a; border: 2px solid #333;
+    color: #fff; font-family: 'Roboto Mono', monospace; font-size: 16px;
+    border-radius: 8px; margin-bottom: 16px; transition: border 0.2s;
+}
+.gate-input:focus { outline: none; border-color: #666; }
+.gate-input.error { border-color: #ff4444; animation: shake 0.4s; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+.gate-btn {
+    width: 100%; padding: 16px; background: #fff; color: #000;
+    font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700;
+    border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s;
+}
+.gate-btn:hover { background: #e0e0e0; }
+
+body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; overflow-x: hidden; }
+#app { opacity: 0; transition: opacity 0.5s; }
+#app.visible { opacity: 1; }
+
+/* === SLIDES === */
+.slides-wrap {
+    display: flex; gap: 40px; padding: 80px 40px 120px 40px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    --scale: 0.42;
+}
+.slides-wrap { --scale: 0.42; }
+
+.phone-wrap {
+    flex-shrink: 0; scroll-snap-align: center;
+    width: calc(1080px * var(--scale)); height: calc(1920px * var(--scale));
+    position: relative;
+}
+
+.slide {
+    width: 1080px; height: 1920px;
+    transform: scale(var(--scale)); transform-origin: top left;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    position: relative; overflow: hidden;
+    padding: 80px 60px;
+    display: flex; flex-direction: column;
+}
+
+.slide-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
+    opacity: 0.15;
+}
+
+.slide-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.8) 100%);
+}
+
+.slide > * { position: relative; z-index: 2; }
+
+.slide-label {
+    position: absolute; top: 20px; right: 20px;
+    font-family: 'Roboto Mono', monospace; font-size: 11px;
+    color: #444; letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+.slide-number {
+    position: absolute; bottom: 60px; right: 60px;
+    font-family: 'Roboto Mono', monospace; font-size: 18px;
+    color: #444; font-weight: 700;
+}
+
+/* COVER */
+.slide-cover {
+    justify-content: center; align-items: flex-start;
+}
+
+.tag {
+    font-family: 'Roboto Mono', monospace; font-size: 16px;
+    color: var(--accent, #ff6b6b); letter-spacing: 0.2em;
+    text-transform: uppercase; font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.slide-cover h1 {
+    font-family: 'Outfit', sans-serif; font-size: 120px;
+    font-weight: 900; line-height: 0.95; margin-bottom: 40px;
+    text-transform: uppercase; letter-spacing: -0.02em;
+}
+
+.slide-cover h1 .accent {
+    color: var(--accent, #ff6b6b);
+}
+
+.sub {
+    font-size: 28px; line-height: 1.4; color: #999;
+    max-width: 800px; margin-bottom: 80px;
+}
+
+.author {
+    font-family: 'Roboto Mono', monospace; font-size: 20px;
+    color: #666; letter-spacing: 0.1em;
+}
+
+.bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 8px; background: var(--accent, #ff6b6b);
+}
+
+/* CONTENT */
+.slide-content {
+    justify-content: flex-start;
+}
+
+.section-tag {
+    font-family: 'Roboto Mono', monospace; font-size: 16px;
+    color: var(--accent, #ff6b6b); letter-spacing: 0.15em;
+    margin-bottom: 30px; font-weight: 700;
+}
+
+.slide-content h2 {
+    font-family: 'Outfit', sans-serif; font-size: 72px;
+    font-weight: 900; line-height: 1.1; margin-bottom: 50px;
+    text-transform: uppercase; letter-spacing: -0.01em;
+}
+
+.slide-content p {
+    font-size: 32px; line-height: 1.5; margin-bottom: 30px;
+    color: #e0e0e0;
+}
+
+.slide-content p.dim {
+    font-size: 24px; color: #888; margin-top: 40px;
+}
+
+.highlight {
+    background: var(--accent, #ff6b6b);
+    color: #000; padding: 2px 8px;
+    font-weight: 700;
+}
+
+/* QUOTE */
+.slide-quote {
+    justify-content: center; align-items: center;
+    text-align: center;
+}
+
+.slide-quote blockquote {
+    font-family: 'Playfair Display', serif; font-size: 56px;
+    line-height: 1.4; font-style: italic; color: #fff;
+    max-width: 900px; margin-bottom: 50px;
+    position: relative;
+}
+
+.slide-quote blockquote::before {
+    content: '"'; font-size: 180px; color: var(--accent, #ff6b6b);
+    position: absolute; top: -80px; left: -40px;
+    font-family: 'Playfair Display', serif; opacity: 0.3;
+}
+
+.quote-author {
+    font-family: 'Roboto Mono', monospace; font-size: 22px;
+    color: #666; letter-spacing: 0.1em;
+}
+
+/* LIST */
+.slide-list {
+    justify-content: flex-start;
+}
+
+.list-item {
+    display: flex; gap: 30px; margin-bottom: 40px;
+    align-items: flex-start;
+}
+
+.list-num {
+    font-family: 'Outfit', sans-serif; font-size: 48px;
+    font-weight: 900; color: var(--accent, #ff6b6b);
+    min-width: 80px;
+}
+
+.list-text {
+    font-size: 28px; line-height: 1.5; color: #e0e0e0;
+}
+
+.list-text strong {
+    font-weight: 700; color: #fff;
+}
+
+/* CTA */
+.slide-cta {
+    justify-content: center; align-items: center;
+    text-align: center;
+}
+
+.cta-keyword {
+    font-family: 'Outfit', sans-serif; font-size: 140px;
+    font-weight: 900; line-height: 0.9; margin-bottom: 60px;
+    text-transform: uppercase; letter-spacing: -0.02em;
+}
+
+.cta-keyword .accent {
+    color: var(--accent, #ff6b6b);
+}
+
+.cta-desc {
+    font-size: 32px; line-height: 1.5; color: #999;
+    max-width: 800px; margin-bottom: 80px;
+}
+
+.cta-how {
+    font-family: 'Roboto Mono', monospace; font-size: 20px;
+    color: #666; letter-spacing: 0.2em; margin-bottom: 20px;
+}
+
+.cta-handle {
+    font-family: 'Roboto Mono', monospace; font-size: 32px;
+    color: var(--accent, #ff6b6b); letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+/* CONTROLS */
+.topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,10,0.95); backdrop-filter: blur(10px);
+    padding: 20px 40px; display: flex; gap: 20px; align-items: center;
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-family: 'Roboto Mono', monospace; font-size: 12px;
+    letter-spacing: 0.3em; color: #666; margin-right: auto;
+}
+
+.control-group {
+    display: flex; gap: 12px; align-items: center;
+}
+
+.control-label {
+    font-family: 'Roboto Mono', monospace; font-size: 11px;
+    color: #666; letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+.btn-style {
+    padding: 8px 16px; background: #1a1a1a; border: 1px solid #333;
+    color: #999; font-family: 'Roboto Mono', monospace; font-size: 11px;
+    cursor: pointer; transition: all 0.2s; border-radius: 4px;
+    letter-spacing: 0.05em;
+}
+
+.btn-style:hover { background: #222; color: #fff; border-color: #555; }
+.btn-style.active { background: var(--accent, #ff6b6b); color: #000; border-color: var(--accent, #ff6b6b); font-weight: 700; }
+
+input[type="color"] {
+    width: 40px; height: 32px; border: 1px solid #333;
+    background: #1a1a1a; cursor: pointer; border-radius: 4px;
+}
+
+input[type="range"] {
+    width: 120px; height: 4px; background: #333;
+    border-radius: 2px; outline: none; cursor: pointer;
+}
+
+.bottombar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,10,0.95); backdrop-filter: blur(10px);
+    padding: 20px 40px; display: flex; gap: 20px; justify-content: center;
+    border-top: 1px solid #222;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 14px 32px; font-family: 'Inter', sans-serif; font-size: 14px;
+    font-weight: 700; border: none; cursor: pointer; border-radius: 6px;
+    transition: all 0.2s; letter-spacing: 0.05em;
+}
+
+.btn-primary {
+    background: var(--accent, #ff6b6b); color: #000;
+}
+
+.btn-primary:hover {
+    background: #ff5252; transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #1a1a1a; color: #999; border: 1px solid #333;
+}
+
+.btn-secondary:hover {
+    background: #222; color: #fff; border-color: #555;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .slides-wrap { --scale: 0.3; }
+    .topbar, .bottombar { padding: 15px 20px; flex-wrap: wrap; }
+    .control-group { width: 100%; justify-content: space-between; }
+}
+
+[contenteditable="true"]:focus {
+    outline: 2px solid var(--accent, #ff6b6b);
+    outline-offset: 4px;
+}
+
+.frame-on .phone-wrap::before {
+    content: ''; position: absolute; inset: -20px; z-index: 10;
+    border: 20px solid #000; border-radius: 60px;
+    pointer-events: none;
+    box-shadow: 0 0 0 2px #333, 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.frame-on .phone-wrap::after {
+    content: ''; position: absolute; top: -10px; left: 50%;
+    transform: translateX(-50%); width: 120px; height: 30px;
+    background: #000; border-radius: 0 0 20px 20px; z-index: 11;
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+    <div class="gate-box">
+        <div class="gate-logo">IRA & AI</div>
+        <div class="gate-title">Carousel Constructor</div>
+        <div class="gate-sub">Введите пароль для доступа к редактору</div>
+        <input type="password" id="gate-input" class="gate-input" placeholder="Пароль" onkeypress="if(event.key==='Enter') checkPass()">
+        <button class="gate-btn" onclick="checkPass()">ВОЙТИ</button>
+    </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+<div class="topbar">
+    <div class="logo">CAROUSEL CONSTRUCTOR</div>
+
+    <div class="control-group">
+        <span class="control-label">STYLE</span>
+        <button class="btn-style active" onclick="setStyle('dark')">DARK</button>
+        <button class="btn-style" onclick="setStyle('light')">LIGHT</button>
+    </div>
+
+    <div class="control-group">
+        <span class="control-label">FRAME</span>
+        <button class="btn-style active" onclick="toggleFrame(true)">ON</button>
+        <button class="btn-style" onclick="toggleFrame(false)">OFF</button>
+    </div>
+
+    <div class="control-group">
+        <span class="control-label">ACCENT</span>
+        <input type="color" id="accent-picker" value="#ff6b6b" onchange="setAccent(this.value)">
+        <button class="btn-style" onclick="resetAccent()">RESET</button>
+    </div>
+
+    <div class="control-group">
+        <span class="control-label">SCALE</span>
+        <input type="range" min="0.2" max="0.6" step="0.02" value="0.42" oninput="setScale(this.value)">
+    </div>
+</div>
+
+<!-- SLIDES -->
+<div class="slides-wrap frame-on" id="slides-wrap">
+
+<!-- SLIDE 1: COVER -->
+<div class="phone-wrap"><div class="slide slide-cover">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 01 / COVER</div>
+    <div class="tag" contenteditable="true">НОВОСТЬ НЕДЕЛИ</div>
+    <h1 contenteditable="true">AI-WASHING<br><span class="accent">ПО-ДОРСИ</span></h1>
+    <div class="sub" contenteditable="true">Когда AI — удобный козёл отпущения для плохого менеджмента</div>
+    <div class="author" contenteditable="true">@IRA.AND.AI</div>
+    <div class="bar"></div>
+    <div class="slide-number">1/6</div>
+</div></div>
+
+<!-- SLIDE 2: CONTENT -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 02 / CONTENT</div>
+    <div class="section-tag" contenteditable="true">// 01 ЧТО СЛУЧИЛОСЬ</div>
+    <h2 contenteditable="true">BLOCK УВОЛИЛ 40%</h2>
+    <p contenteditable="true">Jack Dorsey сократил <span class="highlight">4,000 человек</span> из 10,000. Причина: "AI теперь делает их работу".</p>
+    <p contenteditable="true">Акции выросли на 17%. Уолл-стрит аплодирует.</p>
+    <p class="dim" contenteditable="true">Block — это Square, Cash App, Afterpay. $22B выручки.</p>
+    <div class="slide-number">2/6</div>
+</div></div>
+
+<!-- SLIDE 3: QUOTE -->
+<div class="phone-wrap"><div class="slide slide-quote">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 03 / QUOTE</div>
+    <blockquote contenteditable="true">Это больше про раздутый бизнес, чем про AI</blockquote>
+    <div class="quote-author" contenteditable="true">Zachary Gunn, аналитик FT Partners</div>
+    <div class="slide-number">3/6</div>
+</div></div>
+
+<!-- SLIDE 4: CONTENT -->
+<div class="phone-wrap"><div class="slide slide-content">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 04 / CONTENT</div>
+    <div class="section-tag" contenteditable="true">// 02 РЕАЛЬНЫЕ ЦИФРЫ</div>
+    <h2 contenteditable="true">AI-WASHING</h2>
+    <p contenteditable="true">Block утроил штат с 2019 по 2022: с <span class="highlight">3,835 до 12,430</span> человек.</p>
+    <p contenteditable="true">Goldman Sachs: AI убивает 5,000-10,000 рабочих мест в месяц по всей стране. Не 4,000 в одной компании.</p>
+    <p class="dim" contenteditable="true">Это называется "AI-washing" — когда AI используют как прикрытие для обычного сокращения издержек.</p>
+    <div class="slide-number">4/6</div>
+</div></div>
+
+<!-- SLIDE 5: LIST -->
+<div class="phone-wrap"><div class="slide slide-list">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 05 / LIST</div>
+    <div class="section-tag" contenteditable="true">// 03 ЧТО ЭТО ЗНАЧИТ</div>
+    <h2 contenteditable="true">3 ВЫВОДА</h2>
+    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>AI не заменяет людей массово.</strong> Пока что это отмазка для плохого найма.</span></div>
+    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Рынок любит AI-нарратив.</strong> Акции растут даже когда история не про AI.</span></div>
+    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Эксперты не заменяемы.</strong> AI усиливает тех, кто умеет думать. Остальных — да, заменяет.</span></div>
+    <div class="slide-number">5/6</div>
+</div></div>
+
+<!-- SLIDE 6: CTA -->
+<div class="phone-wrap"><div class="slide slide-cta">
+    <div class="slide-bg"></div><div class="slide-overlay"></div>
+    <div class="slide-label">SLIDE 06 / CTA</div>
+    <div class="cta-keyword" contenteditable="true">УСИЛЕНИЕ<br><span class="accent">НЕ ЗАМЕНА</span></div>
+    <div class="cta-desc" contenteditable="true">Я учу экспертов использовать AI так, чтобы их не заменили, а усилили</div>
+    <div class="cta-how" contenteditable="true">ПОДПИСЫВАЙСЯ</div>
+    <div class="cta-handle" contenteditable="true">@IRA.AND.AI</div>
+    <div class="slide-number">6/6</div>
+</div></div>
+
+</div><!-- slides-wrap -->
+
+<div class="bottombar">
+    <button class="btn-secondary" onclick="saveHTML()">СОХРАНИТЬ HTML</button>
+    <button class="btn-primary" onclick="downloadAllSlides()" id="btn-dl-all">СКАЧАТЬ ВСЕ PNG</button>
+    <button class="btn-secondary" onclick="fullscreen()">НА ВЕСЬ ЭКРАН</button>
+</div>
+
+</div><!-- app -->
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+// === PASSWORD ===
+const PASS_HASH = 'e34f6dec12c4f4599eba078f31ae8139420d21b1bd2d7ced7d22b09c2074fb48';
+
+async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkPass() {
+    const input = document.getElementById('gate-input');
+    const hash = await sha256(input.value.trim());
+    if (hash === PASS_HASH) {
+        document.getElementById('gate').classList.add('hidden');
+        document.getElementById('app').classList.add('visible');
+        localStorage.setItem('carousel_auth', '1');
+    } else {
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 400);
+    }
+}
+
+if (localStorage.getItem('carousel_auth') === '1') {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.add('visible');
+}
+
+// === CONTROLS ===
+function setStyle(style) {
+    const wrap = document.getElementById('slides-wrap');
+    const isFrame = wrap.classList.contains('frame-on');
+    wrap.className = 'slides-wrap style-' + style + (isFrame ? ' frame-on' : '');
+    document.querySelectorAll('.btn-style').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function toggleFrame(on) {
+    const wrap = document.getElementById('slides-wrap');
+    if (on) wrap.classList.add('frame-on');
+    else wrap.classList.remove('frame-on');
+    document.querySelectorAll('.btn-style').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function setAccent(color) {
+    document.getElementById('slides-wrap').style.setProperty('--accent', color);
+}
+
+function resetAccent() {
+    document.getElementById('slides-wrap').style.removeProperty('--accent');
+    document.getElementById('accent-picker').value = '#ff6b6b';
+}
+
+function setScale(v) {
+    document.querySelector('.slides-wrap').style.setProperty('--scale', v);
+}
+
+function fullscreen() {
+    document.documentElement.requestFullscreen();
+}
+
+// === DOWNLOAD ===
+async function downloadAllSlides() {
+    const btn = document.getElementById('btn-dl-all');
+    btn.textContent = 'РЕНДЕРИМ...';
+    btn.disabled = true;
+
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+
+    for (let i = 0; i < total; i++) {
+        btn.textContent = `РЕНДЕРИМ ${i+1}/${total}...`;
+        await downloadSlide(i);
+        await new Promise(r => setTimeout(r, 500));
+    }
+
+    btn.textContent = 'СКАЧАТЬ ВСЕ PNG';
+    btn.disabled = false;
+}
+
+async function downloadSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    if (!slides[index]) return;
+    const slide = slides[index];
+
+    const canvas = await html2canvas(slide, {
+        width: 1080,
+        height: 1920,
+        scale: 2,
+        backgroundColor: '#0a0a0a',
+        logging: false
+    });
+
+    const link = document.createElement('a');
+    link.download = `slide-${index + 1}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+function saveHTML() {
+    const html = document.documentElement.outerHTML;
+    const blob = new Blob([html], { type: 'text/html' });
+    const link = document.createElement('a');
+    link.download = 'carousel-dorsey-ai-washing.html';
+    link.href = URL.createObjectURL(blob);
+    link.click();
+}
+</script>
+
+</body>
+</html>
