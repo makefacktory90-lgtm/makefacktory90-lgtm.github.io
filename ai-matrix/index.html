@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Матрица AI-продуктивности | Ира&AI</title>
+    <meta name="description" content="Интерактивная матрица Эйзенхауэра для работы с AI. Определи, какие задачи двигают к цели, а какие — ловушка.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Матрица AI-продуктивности | Ира&AI">
+    <meta property="og:description" content="Интерактивная матрица для работы с AI. Не попадай в ловушку performative productivity.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iraai.ru/ai-matrix/">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-red: #e50914;
+            --accent-tiffany: #0abab5;
+            --border: #333333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-tiffany));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .intro p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .matrix-cell {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            min-height: 400px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .matrix-cell:hover {
+            border-color: var(--accent-tiffany);
+            transform: translateY(-2px);
+        }
+
+        .matrix-cell.quadrant-1 {
+            border-top: 3px solid #00ff00;
+        }
+
+        .matrix-cell.quadrant-2 {
+            border-top: 3px solid #ffa500;
+        }
+
+        .matrix-cell.quadrant-3 {
+            border-top: 3px solid var(--accent-red);
+        }
+
+        .matrix-cell.quadrant-4 {
+            border-top: 3px solid #666666;
+        }
+
+        .cell-header {
+            margin-bottom: 20px;
+        }
+
+        .cell-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cell-action {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .quadrant-1 .cell-action { color: #00ff00; }
+        .quadrant-2 .cell-action { color: #ffa500; }
+        .quadrant-3 .cell-action { color: var(--accent-red); }
+        .quadrant-4 .cell-action { color: #666666; }
+
+        .cell-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .examples {
+            margin-bottom: 20px;
+        }
+
+        .examples-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .example-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--accent-tiffany);
+        }
+
+        .your-tasks {
+            margin-top: 20px;
+        }
+
+        .your-tasks-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .task-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 15px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .task-input:focus {
+            outline: none;
+            border-color: var(--accent-tiffany);
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 5px;
+        }
+
+        .delete-btn:hover {
+            opacity: 0.7;
+        }
+
+        .axes {
+            text-align: center;
+            margin: 40px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .axes-label {
+            margin: 10px 0;
+        }
+
+        footer {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent-tiffany);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--accent-tiffany);
+        }
+
+        .cta {
+            margin-top: 30px;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-red);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #c40812;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .matrix-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .matrix-cell {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Матрица AI-продуктивности</h1>
+            <p class="subtitle">Не попадай в ловушку performative productivity</p>
+        </header>
+
+        <div class="intro">
+            <p><strong>Проблема:</strong> AI делает добавление работы лёгким. Ты делаешь 125-й трекер привычек, третий лендинг за неделю, прототип продукта, который не связан с бизнесом.</p>
+            <p><strong>Результат:</strong> Работаешь до полуночи. Чувствуешь себя продуктивной. Но не можешь назвать ни одной вещи, которая реально двинула тебя вперёд.</p>
+            <p><strong>Решение:</strong> Эта матрица. Каждый вечер пер��д тем как закрыть Claude, спроси себя: в каком квадрате я провела день?</p>
+        </div>
+
+        <div class="axes">
+            <div class="axes-label">← AI отвлекает | AI помогает →</div>
+            <div class="axes-label">↑ Важно | Неважно ↓</div>
+        </div>
+
+        <div class="matrix-grid">
+            <!-- Квадрат 1 -->
+            <div class="matrix-cell quadrant-1">
+                <div class="cell-header">
+                    <div class="cell-title">Важно + AI помогает</div>
+                    <div class="cell-action">→ ДЕЛАЙ СЕЙЧАС</div>
+                    <div class="cell-description">Задачи, которые двигают к твоей реальной цели, и AI делает их быстрее/лучше.</div>
+                </div>
+
+                <div class="examples">
+                    <div class="examples-title">Примеры:</div>
+                    <div class="example-item">Автоматизация email-последовательности для реального продукта</div>
+                    <div class="example-item">Контент-система для канала, который уже растёт</div>
+                    <div class="example-item">Анализ данных клиентов для улучшения продукта</div>
+                </div>
+
+                <div class="your-tasks">
+                    <div class="your-tasks-title">Твои задачи:</div>
+                    <input type="text" class="task-input" placeholder="Добавь свою задачу..." data-quadrant="1">
+                    <ul class="task-list" data-quadrant="1"></ul>
+                </div>
+            </div>
+
+            <!-- Квадрат 2 -->
+            <div class="matrix-cell quadrant-2">
+                <div class="cell-header">
+                    <div class="cell-title">Важно + AI отвлекает</div>
+                    <div class="cell-action">→ ДЕЛАЙ БЕЗ AI</div>
+                    <div class="cell-description">Важные задачи, где AI открывает возможности, которые уводят в сторону.</div>
+                </div>
+
+                <div class="examples">
+                    <div class="examples-title">Примеры:</div>
+                    <div class="example-item">Стратегическое решение о позиционировании</div>
+                    <div class="example-item">Разговор с клиентом (живой, не через AI)</div>
+                    <div class="example-item">Выбор направления на квартал</div>
+                </div>
+
+                <div class="your-tasks">
+                    <div class="your-tasks-title">Твои задачи:</div>
+                    <input type="text" class="task-input" placeholder="Добавь свою задачу..." data-quadrant="2">
+                    <ul class="task-list" data-quadrant="2"></ul>
+                </div>
+            </div>
+
+            <!-- Квадрат 3 -->
+            <div class="matrix-cell quadrant-3">
+                <div class="cell-header">
+                    <div class="cell-title">Неважно + AI помогает</div>
+                    <div class="cell-action">→ ЛОВУШКА</div>
+                    <div class="cell-description">Самый опасный квадрат. AI делает это так легко, что ты не замечаешь, как проваливаешься.</div>
+                </div>
+
+                <div class="examples">
+                    <div class="examples-title">Примеры:</div>
+                    <div class="example-item">125-й трекер привычек</div>
+                    <div class="example-item">Третий лендинг за неделю для проекта, который не запущен</div>
+                    <div class="example-item">Прототип продукта, не связанный с бизнесом</div>
+                </div>
+
+                <div class="your-tasks">
+                    <div class="your-tasks-title">Твои задачи (чтобы НЕ делать):</div>
+                    <input type="text" class="task-input" placeholder="Добавь задачу-ловушку..." data-quadrant="3">
+                    <ul class="task-list" data-quadrant="3"></ul>
+                </div>
+            </div>
+
+            <!-- Квадрат 4 -->
+            <div class="matrix-cell quadrant-4">
+                <div class="cell-header">
+                    <div class="cell-title">Неважно + AI отвлекает</div>
+                    <div class="cell-action">→ НЕ ДЕЛАЙ</div>
+                    <div class="cell-description">Задачи, которые не двигают к цели и уводят в сторону. Просто не делай.</div>
+                </div>
+
+                <div class="examples">
+                    <div class="examples-title">Примеры:</div>
+                    <div class="example-item">Исследование новой модели, когда не освоил текущую</div>
+                    <div class="example-item">Чтение 47-й статьи про промпт-инженерию</div>
+                    <div class="example-item">Настройка 10-го AI-инструмента "на всякий случай"</div>
+                </div>
+
+                <div class="your-tasks">
+                    <div class="your-tasks-title">Твои задачи (чтобы НЕ делать):</div>
+                    <input type="text" class="task-input" placeholder="Добавь задачу..." data-quadrant="4">
+                    <ul class="task-list" data-quadrant="4"></ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="logo">ira&ai</div>
+            <div class="social-links">
+                <a href="https://t.me/buyan_online" class="social-link" target="_blank">Telegram</a>
+                <a href="https://instagram.com/ira.and.ai" class="social-link" target="_blank">Instagram</a>
+                <a href="https://threads.net/@ira.and.ai" class="social-link" target="_blank">Threads</a>
+            </div>
+            <div class="cta">
+                <p class="cta-text">Хочешь больше инструментов для работы с AI?</p>
+                <a href="https://iraai.ru/#rehab" class="cta-button">Подписаться на рассылку</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Load tasks from localStorage
+        function loadTasks() {
+            for (let i = 1; i <= 4; i++) {
+                const tasks = JSON.parse(localStorage.getItem(`quadrant-${i}`) || '[]');
+                const list = document.querySelector(`.task-list[data-quadrant="${i}"]`);
+                tasks.forEach(task => addTaskToDOM(i, task));
+            }
+        }
+
+        // Save tasks to localStorage
+        function saveTasks(quadrant, tasks) {
+            localStorage.setItem(`quadrant-${quadrant}`, JSON.stringify(tasks));
+        }
+
+        // Get tasks from localStorage
+        function getTasks(quadrant) {
+            return JSON.parse(localStorage.getItem(`quadrant-${quadrant}`) || '[]');
+        }
+
+        // Add task to DOM
+        function addTaskToDOM(quadrant, taskText) {
+            const list = document.querySelector(`.task-list[data-quadrant="${quadrant}"]`);
+            const li = document.createElement('li');
+            li.className = 'task-item';
+            li.innerHTML = `
+                <span>${taskText}</span>
+                <button class="delete-btn" onclick="deleteTask(${quadrant}, '${taskText.replace(/'/g, "\\'")}')">×</button>
+            `;
+            list.appendChild(li);
+        }
+
+        // Delete task
+        function deleteTask(quadrant, taskText) {
+            let tasks = getTasks(quadrant);
+            tasks = tasks.filter(t => t !== taskText);
+            saveTasks(quadrant, tasks);
+
+            // Refresh DOM
+            const list = document.querySelector(`.task-list[data-quadrant="${quadrant}"]`);
+            list.innerHTML = '';
+            tasks.forEach(task => addTaskToDOM(quadrant, task));
+        }
+
+        // Add event listeners to inputs
+        document.querySelectorAll('.task-input').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && e.target.value.trim()) {
+                    const quadrant = e.target.dataset.quadrant;
+                    const taskText = e.target.value.trim();
+
+                    // Add to localStorage
+                    const tasks = getTasks(quadrant);
+                    tasks.push(taskText);
+                    saveTasks(quadrant, tasks);
+
+                    // Add to DOM
+                    addTaskToDOM(quadrant, taskText);
+
+                    // Clear input
+                    e.target.value = '';
+                }
+            });
+        });
+
+        // Load tasks on page load
+        loadTasks();
+    </script>
+</body>
+</html>
