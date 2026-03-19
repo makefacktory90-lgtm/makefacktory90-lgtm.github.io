@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3 факта про AI — правда или бред?</title>
+    <meta property="og:title" content="3 факта про AI — правда или бред?">
+    <meta property="og:description" content="Угадай, что из этого правда. Спорим, ошибёшься.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .app { width: 100%; max-width: 480px; min-height: 100vh; position: relative; }
+        .screen { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 32px 24px; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+        .screen.active { opacity: 1; pointer-events: all; }
+        .badge { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+        .title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+        .sub { font-size: 15px; color: #888; line-height: 1.6; margin-bottom: 32px; }
+        .btn { display: block; width: 100%; padding: 16px; border: none; border-radius: 14px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn:active { transform: scale(0.97); }
+        .btn-start { background: #fff; color: #0a0a0a; }
+        .btn-start:hover { background: #eee; }
+        .counter-badge { display: inline-block; font-size: 12px; color: #555; letter-spacing: 2px; margin-bottom: 24px; }
+        .fact-num { font-family: 'Cormorant Garamond', serif; font-size: 72px; font-weight: 700; color: #1a1a1a; position: absolute; top: 24px; right: 24px; line-height: 1; }
+        .fact-text { font-size: 17px; line-height: 1.7; color: #ddd; margin-bottom: 32px; }
+        .fact-text em { font-style: normal; color: #fff; font-weight: 600; }
+        .btn-row { display: flex; gap: 12px; }
+        .btn-row .btn { flex: 1; }
+        .btn-true { background: transparent; border: 2px solid #444; color: #fff; }
+        .btn-false { background: transparent; border: 2px solid #444; color: #fff; }
+        .btn-true:hover, .btn-false:hover { border-color: #888; }
+        .btn-true.correct, .btn-false.correct { background: #1a3a1a; border-color: #4ade80; color: #4ade80; }
+        .btn-true.wrong, .btn-false.wrong { background: #3a1a1a; border-color: #f87171; color: #f87171; }
+        .btn-true.was-right, .btn-false.was-right { border-color: #4ade80; color: #4ade80; }
+        .explanation { font-size: 14px; line-height: 1.7; color: #888; margin-top: 20px; padding-top: 20px; border-top: 1px solid #1a1a1a; display: none; }
+        .explanation strong { color: #fff; }
+        .btn-next { background: #fff; color: #0a0a0a; margin-top: 24px; display: none; }
+        .result-score { font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 700; margin-bottom: 8px; }
+        .result-score.perfect { color: #4ade80; }
+        .result-score.good { color: #facc15; }
+        .result-score.bad { color: #f87171; }
+        .result-label { font-size: 13px; color: #555; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+        .result-text { font-size: 17px; line-height: 1.7; color: #ddd; margin-bottom: 32px; }
+        .result-text em { font-style: normal; color: #fff; font-weight: 600; }
+        .btn-share { background: #fff; color: #0a0a0a; margin-bottom: 12px; }
+        .btn-restart { background: transparent; border: 2px solid #333; color: #888; }
+        .footer { text-align: center; margin-top: 32px; }
+        .footer a { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: #333; text-decoration: none; }
+        .footer a:hover { color: #888; }
+        .shake { animation: shake 0.4s; }
+        @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+        .preloader { position: fixed; inset: 0; background: #0a0a0a; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s; }
+        .preloader.done { opacity: 0; pointer-events: none; }
+        .preloader-brand { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: #444; letter-spacing: 4px; text-transform: uppercase; }
+        .preloader-sub { font-size: 11px; color: #333; letter-spacing: 6px; margin-top: 6px; }
+    </style>
+</head>
+<body>
+
+<div class="preloader" id="preloader">
+    <div class="preloader-brand">ira&ai 4K</div>
+    <div class="preloader-sub">DAY 001</div>
+</div>
+
+<div class="app">
+    <!-- INTRO -->
+    <div class="screen active" id="intro">
+        <div class="badge">4K — день 001</div>
+        <div class="title">3 факта про AI.<br>Правда или бред?</div>
+        <div class="sub">Все три звучат безумно.<br>Но сколько из них — правда?</div>
+        <button class="btn btn-start" onclick="startGame()">Погнали</button>
+    </div>
+
+    <!-- FACT 1 -->
+    <div class="screen" id="fact1">
+        <div class="fact-num">1</div>
+        <div class="counter-badge">1 из 3</div>
+        <div class="fact-text">
+            GPT-4 <em>сама нашла фрилансера</em> на бирже TaskRabbit и попросила его пройти за неё капчу.
+        </div>
+        <div class="btn-row" id="btns1">
+            <button class="btn btn-true" onclick="answer(1, true)">Правда</button>
+            <button class="btn btn-false" onclick="answer(1, false)">Бред</button>
+        </div>
+        <div class="explanation" id="exp1">
+            <strong>Правда.</strong> И это ещё не всё. Когда фрилансер в шутку спросил: «Ты случайно не робот?» — нейросеть <strong>сама придумала легенду</strong>, что она слабовидящий человек. Никто её этому не учил.
+        </div>
+        <button class="btn btn-next" id="next1" onclick="showFact(2)">Дальше →</button>
+    </div>
+
+    <!-- FACT 2 -->
+    <div class="screen" id="fact2">
+        <div class="fact-num">2</div>
+        <div class="counter-badge">2 из 3</div>
+        <div class="fact-text">
+            Представь: ты и твоя компания потратили <em>$100 000</em> на создание идеального маскота в Midjourney. Любой конкурент может <em>забрать его себе</em> и использовать в своей рекламе. Законно. Бесплатно.
+        </div>
+        <div class="btn-row" id="btns2">
+            <button class="btn btn-true" onclick="answer(2, true)">Правда</button>
+            <button class="btn btn-false" onclick="answer(2, false)">Бред</button>
+        </div>
+        <div class="explanation" id="exp2">
+            <strong>Правда.</strong> По прецеденту в США, изображения, созданные ИИ, не защищены авторским правом — у них нет человеческого автора. Ваш «уникальный» маскот — общественное достояние.
+        </div>
+        <button class="btn btn-next" id="next2" onclick="showFact(3)">Дальше →</button>
+    </div>
+
+    <!-- FACT 3 -->
+    <div class="screen" id="fact3">
+        <div class="fact-num">3</div>
+        <div class="counter-badge">3 из 3</div>
+        <div class="fact-text">
+            Air Canada <em>проиграла суд</em> пассажиру, потому что их чат-бот <em>придумал скидку</em> на билет, которой не существовало.
+        </div>
+        <div class="btn-row" id="btns3">
+            <button class="btn btn-true" onclick="answer(3, true)">Правда</button>
+            <button class="btn btn-false" onclick="answer(3, false)">Бред</button>
+        </div>
+        <div class="explanation" id="exp3">
+            <strong>Правда.</strong> И вот что смешно: компания пыталась доказать в суде, что чат-бот — это <strong>«отдельное юридическое лицо»</strong>, которое само отвечает за свои слова. Суд посмеялся и постановил: если ваш бот наобещал — компания платит.
+        </div>
+        <button class="btn btn-next" id="next3" onclick="showResult()">Узнать результат →</button>
+    </div>
+
+    <!-- RESULT -->
+    <div class="screen" id="result">
+        <div class="counter-badge">Результат</div>
+        <div class="result-score" id="score-num"></div>
+        <div class="result-label">из 3</div>
+        <div class="result-text" id="result-text"></div>
+        <button class="btn btn-share" onclick="shareResult()">Поделиться</button>
+        <button class="btn btn-restart" onclick="restart()">Ещё раз</button>
+        <div class="footer">
+            <a href="https://iraai.ru">ira & ai</a>
+        </div>
+    </div>
+</div>
+
+<script>
+let score = 0;
+const correct = { 1: true, 2: true, 3: true }; // все три — правда
+
+setTimeout(() => document.getElementById('preloader').classList.add('done'), 1200);
+
+function startGame() {
+    score = 0;
+    show('fact1');
+}
+
+function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function answer(num, userAnswer) {
+    const isCorrect = userAnswer === correct[num];
+    if (isCorrect) score++;
+
+    const btns = document.getElementById('btns' + num);
+    const trueBtn = btns.querySelector('.btn-true');
+    const falseBtn = btns.querySelector('.btn-false');
+
+    trueBtn.disabled = true;
+    falseBtn.disabled = true;
+
+    if (userAnswer === true) {
+        trueBtn.classList.add(isCorrect ? 'correct' : 'wrong');
+        if (!isCorrect) falseBtn.classList.add('was-right');
+    } else {
+        falseBtn.classList.add(isCorrect ? 'correct' : 'wrong');
+        if (!isCorrect) trueBtn.classList.add('was-right');
+    }
+
+    if (!isCorrect) {
+        btns.classList.add('shake');
+        setTimeout(() => btns.classList.remove('shake'), 400);
+    }
+
+    document.getElementById('exp' + num).style.display = 'block';
+    document.getElementById('next' + num).style.display = 'block';
+}
+
+function showFact(num) { show('fact' + num); }
+
+function showResult() {
+    const el = document.getElementById('score-num');
+    const txt = document.getElementById('result-text');
+    el.textContent = score;
+
+    if (score === 3) {
+        el.className = 'result-score perfect';
+        txt.innerHTML = 'Ты не купился. <em>Всё это — правда.</em><br><br>Добро пожаловать в 2026, где реальность безумнее любого вымысла.';
+    } else if (score === 2) {
+        el.className = 'result-score good';
+        txt.innerHTML = 'Почти. Но вот сюрприз: <em>все три факта — правда.</em><br><br>Звучит как бред, но мы уже живём в этом мире.';
+    } else if (score === 1) {
+        el.className = 'result-score bad';
+        txt.innerHTML = 'Только один? Не переживай — <em>все три факта настоящие.</em><br><br>AI уже врёт, крадёт и судится. А мы только привыкаем.';
+    } else {
+        el.className = 'result-score bad';
+        txt.innerHTML = 'Ноль? Понимаю. <em>Но всё это — чистая правда.</em><br><br>Мир сошёл с ума быстрее, чем мы успели заметить.';
+    }
+    show('result');
+}
+
+function shareResult() {
+    const text = `Я угадал ${score} из 3 фактов про AI. А ты? 🤖`;
+    const url = window.location.href;
+    if (navigator.share) {
+        navigator.share({ title: '3 факта про AI', text, url }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(text + ' ' + url).then(() => alert('Скопировано! Отправь другу'));
+    }
+}
+
+function restart() {
+    [1, 2, 3].forEach(n => {
+        const btns = document.getElementById('btns' + n);
+        btns.querySelectorAll('.btn').forEach(b => {
+            b.disabled = false;
+            b.className = b.className.includes('true') ? 'btn btn-true' : 'btn btn-false';
+        });
+        document.getElementById('exp' + n).style.display = 'none';
+        document.getElementById('next' + n).style.display = 'none';
+    });
+    score = 0;
+    show('intro');
+}
+</script>
+</body>
+</html>
