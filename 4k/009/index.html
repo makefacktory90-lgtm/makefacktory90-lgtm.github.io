@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Слайдер: подбор дозировки — Pharma Simulator #9</title>
+    <meta property="og:title" content="Слайдер: подбор дозировки препарата">
+    <meta property="og:description" content="Подбери правильную дозу. Двигай слайдер и попадай в целевой диапазон.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎚️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 600px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+            text-align: center;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .counter {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .score-display {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #27AE60;
+            line-height: 1;
+        }
+
+        .case-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .case-drug {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #4A90E2;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .case-scenario {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #2C3E50;
+            margin-bottom: 24px;
+        }
+
+        .case-task {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 24px;
+        }
+
+        .slider-container {
+            margin-bottom: 32px;
+        }
+
+        .slider-value-display {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .slider-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+        }
+
+        .slider-unit {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-top: 4px;
+        }
+
+        .slider-track {
+            position: relative;
+            height: 12px;
+            background: #E1E8ED;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .slider-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            border-radius: 6px;
+            transition: width 0.1s ease;
+        }
+
+        .slider-input {
+            width: 100%;
+            height: 12px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            outline: none;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border: 4px solid #4A90E2;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+        }
+
+        .slider-input::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .slider-input::-moz-range-thumb {
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border: 4px solid #4A90E2;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #7B8FA3;
+        }
+
+        .btn-check {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            background: #fff;
+            border-left: 4px solid #4A90E2;
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            opacity: 0;
+            transition: opacity 0.4s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .feedback.show { opacity: 1; }
+        .feedback strong { color: #4A90E2; font-weight: 600; }
+        .feedback.success { border-left-color: #27AE60; }
+        .feedback.success strong { color: #27AE60; }
+        .feedback.error { border-left-color: #E74C3C; }
+        .feedback.error strong { color: #E74C3C; }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .btn-next.show { opacity: 1; pointer-events: all; }
+        .btn-next:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result-bar-wrap {
+            background: #E1E8ED;
+            border-radius: 8px;
+            height: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            transition: width 1s ease;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Simulator #9</div>
+        <div class="title">Слайдер: подбор дозировки</div>
+        <div class="sub">
+            Подбери правильную дозу препарата для пациента.<br>
+            Двигай слайдер и попадай в целевой диапазон.<br>
+            10 клинических кейсов.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="game-header">
+            <div class="counter" id="counter">КЕЙС 1 / 10</div>
+            <div class="score-display" id="score">0</div>
+        </div>
+
+        <div class="case-card">
+            <div class="case-drug" id="drug-name"></div>
+            <div class="case-scenario" id="scenario"></div>
+            <div class="case-task" id="task"></div>
+
+            <div class="slider-container">
+                <div class="slider-value-display">
+                    <div class="slider-value" id="slider-value">0</div>
+                    <div class="slider-unit" id="slider-unit">мг</div>
+                </div>
+                <div class="slider-track">
+                    <div class="slider-fill" id="slider-fill"></div>
+                </div>
+                <input type="range" class="slider-input" id="slider" min="0" max="100" value="0" oninput="updateSlider()">
+                <div class="slider-labels">
+                    <span id="label-min">0</span>
+                    <span id="label-max">100</span>
+                </div>
+            </div>
+
+            <button class="btn-check" id="btn-check" onclick="checkDose()">Проверить дозу</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <button class="btn-next" id="btn-next" onclick="nextCase()">Следующий кейс →</button>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-num">0/10</div>
+        <div class="result-label">правильных дозировок</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const CASES = [
+    {
+        drug: "Парацетамол",
+        scenario: "Ребёнок 5 лет, вес 18 кг, температура 38.8°C",
+        task: "Подбери разовую дозу (расчёт: 10-15 мг/кг)",
+        min: 0,
+        max: 500,
+        step: 10,
+        unit: "мг",
+        correctMin: 180,
+        correctMax: 270,
+        explanation: "Правильная доза: 180-270 мг (10-15 мг/кг × 18 кг). Меньше — неэффективно, больше — риск гепатотоксичности."
+    },
+    {
+        drug: "Ибупрофен",
+        scenario: "Взрослый, 70 кг, острая боль в спине",
+        task: "Подбери разовую дозу для взрослого",
+        min: 0,
+        max: 1000,
+        step: 50,
+        unit: "мг",
+        correctMin: 400,
+        correctMax: 600,
+        explanation: "Правильная доза: 400-600 мг. Это стандартная разовая доза для взрослых. 200 мг — слабо, 800 мг — максимум, но не для первого приёма."
+    },
+    {
+        drug: "Амоксициллин",
+        scenario: "Ребёнок 3 года, вес 14 кг, острый отит",
+        task: "Подбери суточную дозу (расчёт: 40-50 мг/кг/сут)",
+        min: 0,
+        max: 1000,
+        step: 50,
+        unit: "мг/сут",
+        correctMin: 560,
+        correctMax: 700,
+        explanation: "Правильная доза: 560-700 мг/сут (40-50 мг/кг × 14 кг), разделить на 2-3 приёма. Меньше — риск резистентности, больше — побочные эффекты."
+    },
+    {
+        drug: "Метформин",
+        scenario: "Взрослый, СД2, начало терапии",
+        task: "Подбери стартовую дозу",
+        min: 0,
+        max: 3000,
+        step: 250,
+        unit: "мг/сут",
+        correctMin: 500,
+        correctMax: 1000,
+        explanation: "Правильная стартовая доза: 500-1000 мг/сут. Начинают с малых доз, чтобы снизить побочные эффекты ЖКТ. Титруют до 2000-2500 мг/сут."
+    },
+    {
+        drug: "Левотироксин",
+        scenario: "Взрослый, 60 кг, гипотиреоз, начало терапии",
+        task: "Подбери стартовую дозу (расчёт: 1.6 мкг/кг)",
+        min: 0,
+        max: 200,
+        step: 5,
+        unit: "мкг/сут",
+        correctMin: 90,
+        correctMax: 100,
+        explanation: "Правильная доза: 90-100 мкг/сут (1.6 мкг/кг × 60 кг). У молодых начинают с полной дозы, у пожилых — с 25-50 мкг."
+    },
+    {
+        drug: "Преднизолон",
+        scenario: "Взрослый, обострение бронхиальной астмы",
+        task: "Подбери дозу для короткого курса",
+        min: 0,
+        max: 100,
+        step: 5,
+        unit: "мг/сут",
+        correctMin: 30,
+        correctMax: 40,
+        explanation: "Правильная доза: 30-40 мг/сут на 5-7 дней. Это стандартная доза для купирования обострения. Меньше — неэффективно, больше — избыточно."
+    },
+    {
+        drug: "Варфарин",
+        scenario: "Взрослый, фибрилляция предсердий, начало терапии",
+        task: "Подбери стартовую дозу",
+        min: 0,
+        max: 15,
+        step: 0.5,
+        unit: "мг/сут",
+        correctMin: 5,
+        correctMax: 7.5,
+        explanation: "Правильная стартовая доза: 5-7.5 мг/сут. Дальше титруют по МНО (целевой 2-3). Начинать с 10 мг — опасно (риск кровотечений)."
+    },
+    {
+        drug: "Дигоксин",
+        scenario: "Взрослый, 70 кг, сердечная недостаточность",
+        task: "Подбери поддерживающую дозу",
+        min: 0,
+        max: 0.5,
+        step: 0.0625,
+        unit: "мг/сут",
+        correctMin: 0.125,
+        correctMax: 0.25,
+        explanation: "Правильная доза: 0.125-0.25 мг/сут. Узкое терапевтическое окно. Больше 0.25 мг — риск интоксикации (аритмии, тошнота)."
+    },
+    {
+        drug: "Эналаприл",
+        scenario: "Взрослый, артериальная гипертензия, начало терапии",
+        task: "Подбери стартовую дозу",
+        min: 0,
+        max: 40,
+        step: 2.5,
+        unit: "мг/сут",
+        correctMin: 5,
+        correctMax: 10,
+        explanation: "Правильная стартовая доза: 5-10 мг/сут. Титруют до 20-40 мг/сут. Начинать с 20 мг — риск гипотонии, особенно у пожилых."
+    },
+    {
+        drug: "Омепразол",
+        scenario: "Взрослый, язва желудка",
+        task: "Подбери дозу для лечения язвы",
+        min: 0,
+        max: 80,
+        step: 10,
+        unit: "мг/сут",
+        correctMin: 20,
+        correctMax: 40,
+        explanation: "Правильная доза: 20-40 мг/сут. Стандарт — 20 мг, при рефрактерных случаях — 40 мг. Больше 40 мг — нет смысла, эффект не растёт."
+    }
+];
+
+let currentCase = 0;
+let score = 0;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+    currentCase = 0;
+    score = 0;
+    showScreen('screen-game');
+    document.getElementById('score').textContent = '0';
+    showCase();
+}
+
+function showCase() {
+    const caseData = CASES[currentCase];
+    const feedback = document.getElementById('feedback');
+    const btnNext = document.getElementById('btn-next');
+    const btnCheck = document.getElementById('btn-check');
+
+    document.getElementById('counter').textContent = `КЕЙС ${currentCase + 1} / 10`;
+    document.getElementById('drug-name').textContent = caseData.drug;
+    document.getElementById('scenario').textContent = caseData.scenario;
+    document.getElementById('task').textContent = caseData.task;
+    document.getElementById('slider-unit').textContent = caseData.unit;
+
+    // Настраиваем слайдер
+    const slider = document.getElementById('slider');
+    slider.min = caseData.min;
+    slider.max = caseData.max;
+    slider.step = caseData.step;
+    slider.value = caseData.min;
+
+    document.getElementById('label-min').textContent = caseData.min + ' ' + caseData.unit;
+    document.getElementById('label-max').textContent = caseData.max + ' ' + caseData.unit;
+
+    updateSlider();
+
+    feedback.classList.remove('show', 'success', 'error');
+    btnNext.classList.remove('show');
+    btnCheck.style.display = 'block';
+}
+
+function updateSlider() {
+    const caseData = CASES[currentCase];
+    const slider = document.getElementById('slider');
+    const value = parseFloat(slider.value);
+
+    document.getElementById('slider-value').textContent = value;
+
+    // Обновляем заливку
+    const percent = ((value - caseData.min) / (caseData.max - caseData.min)) * 100;
+    document.getElementById('slider-fill').style.width = percent + '%';
+}
+
+function checkDose() {
+    const caseData = CASES[currentCase];
+    const slider = document.getElementById('slider');
+    const value = parseFloat(slider.value);
+
+    const feedback = document.getElementById('feedback');
+    const btnNext = document.getElementById('btn-next');
+    const btnCheck = document.getElementById('btn-check');
+
+    const isCorrect = value >= caseData.correctMin && value <= caseData.correctMax;
+
+    if (isCorrect) {
+        score++;
+        document.getElementById('score').textContent = score;
+        feedback.innerHTML = `<strong>Правильно!</strong> ${caseData.explanation}`;
+        feedback.classList.add('success');
+    } else {
+        feedback.innerHTML = `<strong>Неправильно.</strong> ${caseData.explanation}`;
+        feedback.classList.add('error');
+    }
+
+    feedback.classList.add('show');
+    btnNext.classList.add('show');
+    btnCheck.style.display = 'none';
+}
+
+function nextCase() {
+    currentCase++;
+    if (currentCase >= 10) {
+        showResult();
+    } else {
+        showCase();
+    }
+}
+
+function showResult() {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 10) * 100);
+    document.getElementById('score-num').textContent = `${score}/10`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных дозировок`;
+
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    let msg = '';
+    if (pct === 100) msg = 'Идеально! Вы точно рассчитываете дозы. Это критичный навык для безопасности пациентов.';
+    else if (pct >= 80) msg = 'Отлично! Вы хорошо понимаете принципы дозирования. Пара нюансов — и вы мастер.';
+    else if (pct >= 60) msg = 'Неплохо, но есть ошибки. Повторите расчёт доз по весу и возрасту.';
+    else msg = 'Нужна дополнительная подготовка. Ошибки в дозировании могут быть опасны. Повторите курс клинической фармакологии.';
+
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
