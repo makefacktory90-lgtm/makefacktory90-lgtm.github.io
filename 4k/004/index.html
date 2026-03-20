@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Возражения клиентов — Business Simulator #4</title>
+    <meta property="og:title" content="Возражения клиентов — симулятор продаж">
+    <meta property="og:description" content="Свайпни правильно. 10 типичных возражений в B2B продажах.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 480px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .counter {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            font-weight: 600;
+        }
+
+        .instructions {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            display: flex;
+            justify-content: space-around;
+            font-size: 13px;
+        }
+
+        .instr-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instr-icon {
+            font-size: 24px;
+        }
+
+        .instr-label {
+            color: #7B8FA3;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .instr-left { color: #E74C3C; }
+        .instr-right { color: #27AE60; }
+
+        .cards-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            cursor: grab;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card:active {
+            cursor: grabbing;
+        }
+
+        .card.swiping {
+            transition: none;
+        }
+
+        .card-client {
+            font-size: 48px;
+            margin-bottom: 24px;
+        }
+
+        .card-objection {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #1A2332;
+            margin-bottom: 16px;
+        }
+
+        .card-context {
+            font-size: 14px;
+            color: #7B8FA3;
+            line-height: 1.6;
+        }
+
+        .swipe-indicator {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 80px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .swipe-indicator.left {
+            left: 40px;
+        }
+
+        .swipe-indicator.right {
+            right: 40px;
+        }
+
+        .feedback {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feedback-verdict {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .feedback-verdict.correct {
+            color: #27AE60;
+        }
+
+        .feedback-verdict.wrong {
+            color: #E74C3C;
+        }
+
+        .feedback-text {
+            font-size: 15px;
+            color: #5A6C7D;
+            line-height: 1.7;
+        }
+
+        .feedback-text strong {
+            color: #2C3E50;
+            font-weight: 600;
+        }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .btn-next.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .btn-next:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+        }
+
+        .result-bar-wrap {
+            background: #E1E8ED;
+            border-radius: 8px;
+            height: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            transition: width 1s ease;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 32px;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Business Simulator #4</div>
+        <div class="title">Возражения клиентов</div>
+        <div class="sub">
+            10 типичных возражений в B2B продажах.<br>
+            Свайпни влево — неправильная реакция.<br>
+            Свайпни вправо — правильная реакция.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="game-header">
+            <div class="counter" id="counter">ВОЗРАЖЕНИЕ 1 / 10</div>
+        </div>
+
+        <div class="instructions">
+            <div class="instr-item">
+                <div class="instr-icon instr-left">👈</div>
+                <div class="instr-label">Неправильно</div>
+            </div>
+            <div class="instr-item">
+                <div class="instr-icon instr-right">👉</div>
+                <div class="instr-label">Правильно</div>
+            </div>
+        </div>
+
+        <div class="cards-container" id="cards-container">
+            <div class="swipe-indicator left" id="indicator-left">❌</div>
+            <div class="swipe-indicator right" id="indicator-right">✅</div>
+        </div>
+
+        <div class="feedback" id="feedback">
+            <div class="feedback-verdict" id="verdict"></div>
+            <div class="feedback-text" id="feedback-text"></div>
+        </div>
+
+        <button class="btn-next" id="btn-next" onclick="nextCard()">Дальше →</button>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-num">0/10</div>
+        <div class="result-label">правильных реакций</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const OBJECTIONS = [
+    {
+        client: "💼",
+        objection: "«Дорого»",
+        context: "Потенциальный клиент, первая встреча",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Дорого» — это не про цену, а про непонятную ценность. Правильная реакция: показать ROI, кейсы, сравнить с потерями от бездействия. Скидка — последнее, что нужно делать.",
+            wrong: "<strong>Ошибка.</strong> Скидка или оправдания («у нас качество») — слабая позиция. Вы обесцениваете продукт и учите клиента торговаться. Нужно показать ценность, а не снижать цену."
+        }
+    },
+    {
+        client: "🏢",
+        objection: "«Нет бюджета»",
+        context: "ЛПР, заинтересован, но говорит про бюджет",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Нет бюджета» часто означает «не вижу ценности» или «не приоритет». Правильно: выяснить, на что бюджет есть, показать потери от проблемы, предложить поэтапное внедрение. Бюджет находится, если ценность понятна.",
+            wrong: "<strong>Ошибка.</strong> «Ок, вернёмся в следующем квартале» — вы теряете сделку. Конкурент придёт раньше. Нужно работать с приоритетами и показывать цену бездействия, а не откладывать."
+        }
+    },
+    {
+        client: "👔",
+        objection: "«Работаем с конкурентом, всё устраивает»",
+        context: "Холодный звонок, первый контакт",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Всё устраивает» — это защитная реакция. Правильно: не критиковать конкурента, а задать вопросы про боли («А что бы вы улучшили?», «Какие задачи остались нерешёнными?»). Цель — найти щель.",
+            wrong: "<strong>Ошибка.</strong> Критика конкурента («а у них вот это плохо») выглядит непрофессионально. Клиент защищает свой выбор. Вы теряете доверие. Нужно искать боли, а не атаковать."
+        }
+    },
+    {
+        client: "🤔",
+        objection: "«Нужно подумать»",
+        context: "После презентации, клиент уходит в тишину",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Подумать» = есть сомнения, но не озвучивает. Правильно: выяснить, что конкретно смущает («Что именно хотите обдумать?», «Какие вопросы остались?»). Без этого — сделка умрёт в тишине.",
+            wrong: "<strong>Ошибка.</strong> «Хорошо, жду ответа» — вы теряете контроль. 90% таких сделок умирают. Нужно вскрыть возражения сейчас, пока клиент перед вами, а не ждать, когда он пропадёт."
+        }
+    },
+    {
+        client: "📧",
+        objection: "«Пришлите коммерческое предложение»",
+        context: "Первый звонок, клиент не хочет встречи",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> КП без встречи = мусорка. Правильно: «Чтобы сделать релевантное КП, мне нужно задать 3 вопроса. 15 минут завтра?». Цель — встреча, а не слепая отправка КП.",
+            wrong: "<strong>Ошибка.</strong> Отправить КП = попасть в папку «Спам» или к конкурентам для сравнения. Вы не знаете боли, бюджет, ЛПР. Конверсия таких КП — 1-2%. Это пустая трата времени."
+        }
+    },
+    {
+        client: "⏰",
+        objection: "«Сейчас нет времени, перезвоните позже»",
+        context: "Холодный звонок, секретарь или ЛПР",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Нет времени» — защита от холодных звонков. Правильно: «Понимаю. 30 секунд: мы помогли [компания] решить [боль]. Если актуально — 15 минут завтра?». Короткий хук + конкретика.",
+            wrong: "<strong>Ошибка.</strong> Настаивать («ну всего 5 минут!») — раздражает. Клиент повесит трубку и внесёт вас в чёрный список. Нужен хук, а не давление."
+        }
+    },
+    {
+        client: "😌",
+        objection: "«У нас всё хорошо, ничего не нужно»",
+        context: "Потенциальный клиент, первый контакт",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Всё хорошо» = нет осознанной боли. Правильно: задать вопросы, которые вскроют скрытые проблемы («А как вы решаете [задачу]?», «Сколько времени уходит на [процесс]?»). Цель — создать боль.",
+            wrong: "<strong>Ошибка.</strong> «Ок, удачи» — вы сдались. Возможно, у клиента реально есть боль, но он её не осознаёт. Ваша задача — задать правильные вопросы, а не уходить при первом «нет»."
+        }
+    },
+    {
+        client: "👤",
+        objection: "«Решаю не я, это к директору»",
+        context: "Встреча с менеджером, а не с ЛПР",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> Презентовать не-ЛПР = терять время. Правильно: «Отлично. Давайте я расскажу вам коротко, а вы поймёте, стоит ли подключать директора. Если да — встретимся втроём». Цель — выйти на ЛПР.",
+            wrong: "<strong>Ошибка.</strong> Презентовать менеджеру = играть в «испорченный телефон». Он перескажет директору криво, упустит ключевые моменты. Сделка умрёт. Нужно сразу выходить на ЛПР."
+        }
+    },
+    {
+        client: "🔍",
+        objection: "«Мы сравним с другими вариантами»",
+        context: "После презентации, клиент уходит сравнивать",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Сравним» = вы попали в тендер. Правильно: узнать критерии выбора («По каким параметрам будете сравнивать?»), стать якорем («С кем сравниваете?»), выделить уникальность. Иначе — война цен.",
+            wrong: "<strong>Ошибка.</strong> «Хорошо, ждём решения» — вы отдали контроль. Клиент сравнит по цене, и вы проиграете. Нужно задать критерии сравнения и показать, почему вы не сравнимы."
+        }
+    },
+    {
+        client: "📅",
+        objection: "«Перезвоните через месяц»",
+        context: "Клиент откладывает решение",
+        correctSwipe: "right",
+        feedback: {
+            correct: "<strong>Правильно.</strong> «Через месяц» = вежливый отказ или реальная причина. Правильно: выяснить, что произойдёт через месяц («Что изменится?»), договориться на конкретную дату и время. Без этого — сделка умрёт.",
+            wrong: "<strong>Ошибка.</strong> «Ок, перезвоню» — вы теряете сделку. Через месяц клиент забудет о вас или купит у конкурента. Нужна конкретика: почему месяц, что изменится, конкретная дата встречи."
+        }
+    }
+];
+
+let currentIndex = 0;
+let score = 0;
+let currentCard = null;
+let startX = 0;
+let startY = 0;
+let currentX = 0;
+let currentY = 0;
+let isDragging = false;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+    currentIndex = 0;
+    score = 0;
+    showScreen('screen-game');
+    showCard();
+}
+
+function showCard() {
+    if (currentIndex >= OBJECTIONS.length) {
+        showResult();
+        return;
+    }
+
+    const objection = OBJECTIONS[currentIndex];
+    const container = document.getElementById('cards-container');
+    const feedback = document.getElementById('feedback');
+    const btnNext = document.getElementById('btn-next');
+
+    document.getElementById('counter').textContent = `ВОЗРАЖЕНИЕ ${currentIndex + 1} / 10`;
+
+    feedback.classList.remove('show');
+    btnNext.classList.remove('show');
+
+    // Создаём новую карточку
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+        <div class="card-client">${objection.client}</div>
+        <div class="card-objection">${objection.objection}</div>
+        <div class="card-context">${objection.context}</div>
+    `;
+
+    container.appendChild(card);
+    currentCard = card;
+
+    // Touch events
+    card.addEventListener('touchstart', handleStart, { passive: false });
+    card.addEventListener('touchmove', handleMove, { passive: false });
+    card.addEventListener('touchend', handleEnd, { passive: false });
+
+    // Mouse events
+    card.addEventListener('mousedown', handleStart);
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseup', handleEnd);
+}
+
+function handleStart(e) {
+    if (!currentCard) return;
+
+    isDragging = true;
+    currentCard.classList.add('swiping');
+
+    if (e.type === 'touchstart') {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    } else {
+        startX = e.clientX;
+        startY = e.clientY;
+        e.preventDefault();
+    }
+}
+
+function handleMove(e) {
+    if (!isDragging || !currentCard) return;
+
+    if (e.type === 'touchmove') {
+        currentX = e.touches[0].clientX;
+        currentY = e.touches[0].clientY;
+    } else {
+        currentX = e.clientX;
+        currentY = e.clientY;
+    }
+
+    const deltaX = currentX - startX;
+    const deltaY = currentY - startY;
+    const rotation = deltaX * 0.1;
+
+    currentCard.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(${rotation}deg)`;
+
+    // Показываем индикаторы
+    const leftIndicator = document.getElementById('indicator-left');
+    const rightIndicator = document.getElementById('indicator-right');
+
+    if (deltaX < -50) {
+        leftIndicator.style.opacity = Math.min(Math.abs(deltaX) / 150, 1);
+        rightIndicator.style.opacity = 0;
+    } else if (deltaX > 50) {
+        rightIndicator.style.opacity = Math.min(deltaX / 150, 1);
+        leftIndicator.style.opacity = 0;
+    } else {
+        leftIndicator.style.opacity = 0;
+        rightIndicator.style.opacity = 0;
+    }
+}
+
+function handleEnd(e) {
+    if (!isDragging || !currentCard) return;
+
+    isDragging = false;
+    const deltaX = currentX - startX;
+
+    const leftIndicator = document.getElementById('indicator-left');
+    const rightIndicator = document.getElementById('indicator-right');
+    leftIndicator.style.opacity = 0;
+    rightIndicator.style.opacity = 0;
+
+    if (Math.abs(deltaX) > 100) {
+        // Свайп засчитан
+        const direction = deltaX > 0 ? 'right' : 'left';
+        handleSwipe(direction);
+    } else {
+        // Вернуть карточку на место
+        currentCard.classList.remove('swiping');
+        currentCard.style.transform = '';
+    }
+}
+
+function handleSwipe(direction) {
+    const objection = OBJECTIONS[currentIndex];
+    const isCorrect = direction === objection.correctSwipe;
+
+    if (isCorrect) score++;
+
+    // Анимация улёта карточки
+    const flyX = direction === 'right' ? 1000 : -1000;
+    currentCard.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+    currentCard.style.transform = `translateX(${flyX}px) rotate(${flyX * 0.1}deg)`;
+    currentCard.style.opacity = '0';
+
+    setTimeout(() => {
+        if (currentCard) {
+            currentCard.remove();
+            currentCard = null;
+        }
+    }, 400);
+
+    // Показываем фидбек
+    const feedback = document.getElementById('feedback');
+    const verdict = document.getElementById('verdict');
+    const feedbackText = document.getElementById('feedback-text');
+
+    verdict.textContent = isCorrect ? '✅ Правильно' : '❌ Неправильно';
+    verdict.className = 'feedback-verdict ' + (isCorrect ? 'correct' : 'wrong');
+    feedbackText.innerHTML = isCorrect ? objection.feedback.correct : objection.feedback.wrong;
+
+    setTimeout(() => {
+        feedback.classList.add('show');
+        document.getElementById('btn-next').classList.add('show');
+    }, 500);
+}
+
+function nextCard() {
+    currentIndex++;
+    showCard();
+}
+
+function showResult() {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 10) * 100);
+    document.getElementById('score-num').textContent = `${score}/10`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных реакций`;
+
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    let msg = '';
+    if (pct >= 90) msg = 'Отлично! Вы знаете, как работать с возражениями. Это уровень опытного продажника.';
+    else if (pct >= 70) msg = 'Хороший результат. Пара нюансов для повторения — и вы в топе.';
+    else if (pct >= 50) msg = 'Есть пробелы. Повторите технику работы с возражениями и SPIN-вопросы.';
+    else msg = 'Нужна дополнительная подготовка. Возражения — это не препятствие, а возможность. Изучите классику продаж.';
+
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
