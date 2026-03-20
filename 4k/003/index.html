@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Первостольник — Pharma Simulator #3</title>
+    <meta property="og:title" content="Первостольник — симулятор фармацевта">
+    <meta property="og:description" content="Консультируй пациентов в аптеке. Задавай правильные вопросы, рекомендуй препараты.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 600px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .case-header {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .case-counter {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .case-patient {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #4A90E2;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .case-complaint {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #2C3E50;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .case-stage {
+            font-size: 13px;
+            color: #7B8FA3;
+            padding: 8px 12px;
+            background: #F0F4F8;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .option {
+            background: #fff;
+            border: 2px solid #E1E8ED;
+            border-radius: 14px;
+            padding: 18px 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #2C3E50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            text-align: left;
+        }
+        .option:hover {
+            border-color: #4A90E2;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            border-color: #27AE60;
+            background: #F0F9F4;
+            color: #27AE60;
+        }
+
+        .option.wrong {
+            border-color: #E74C3C;
+            background: #FDF3F2;
+            color: #E74C3C;
+            animation: shake 0.4s;
+        }
+
+        .option.dimmed {
+            opacity: 0.4;
+        }
+
+        .option.disabled {
+            pointer-events: none;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .feedback {
+            background: #fff;
+            border-left: 4px solid #4A90E2;
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            opacity: 0;
+            transition: opacity 0.4s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .feedback.show { opacity: 1; }
+        .feedback strong { color: #4A90E2; font-weight: 600; }
+        .feedback.success { border-left-color: #27AE60; }
+        .feedback.success strong { color: #27AE60; }
+        .feedback.error { border-left-color: #E74C3C; }
+        .feedback.error strong { color: #E74C3C; }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .btn-next.show { opacity: 1; pointer-events: all; }
+        .btn-next:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+        }
+
+        .result-bar-wrap {
+            background: #E1E8ED;
+            border-radius: 8px;
+            height: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            transition: width 1s ease;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 32px;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Simulator #3</div>
+        <div class="title">Первостольник</div>
+        <div class="sub">
+            Ты — фармацевт в аптеке.<br>
+            К тебе приходят пациенты с жалобами.<br>
+            Задавай правильные вопросы и рекомендуй препараты.<br>
+            5 реальных кейсов.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать смену</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-case">
+        <div class="case-header">
+            <div class="case-counter" id="counter">ПАЦИЕНТ 1 / 5</div>
+            <div class="case-patient" id="patient-info">👨 Мужчина, 35 лет</div>
+            <div class="case-complaint" id="complaint"></div>
+            <div class="case-stage" id="stage">Первичная жалоба</div>
+        </div>
+
+        <div class="options" id="options-container"></div>
+
+        <div class="feedback" id="feedback"></div>
+        <button class="btn-next" id="btn-next" onclick="nextCase()">Следующий пациент →</button>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат смены</div>
+        <div class="result-score" id="score-num">0/5</div>
+        <div class="result-label">правильных консультаций</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Новая смена</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const CASES = [
+    {
+        patient: "👨 Мужчина, 35 лет",
+        complaint: "«Голова раскалывается третий день. Дайте что-нибудь сильное.»",
+        stage: "Первичная жалоба",
+        question: "Что спросишь в первую очередь?",
+        options: [
+            {
+                text: "Какие препараты уже принимали? Помогло?",
+                correct: true,
+                feedback: "<strong>Правильно.</strong> Это ключевой вопрос. Если пациент уже принимал НПВС 3 дня без эффекта — это красный флаг. Нужно направить к врачу, а не давать «что-нибудь сильнее»."
+            },
+            {
+                text: "Вот Нурофен Форте, он сильнее обычного.",
+                correct: false,
+                feedback: "<strong>Ошибка.</strong> Головная боль 3 дня без эффекта от анальгетиков — повод для консультации врача. Это может быть мигрень, гипертония, менингит. Фармацевт не имеет права «усиливать» без выяснения причины."
+            },
+            {
+                text: "А давление измеряли?",
+                correct: false,
+                feedback: "<strong>Хороший вопрос, но не первый.</strong> Сначала нужно узнать, что уже принимал. Если он пил НПВС 3 дня — это важнее. Давление можно измерить после, если есть тонометр в аптеке."
+            }
+        ]
+    },
+    {
+        patient: "👵 Женщина, 68 лет",
+        complaint: "«Доктор назначил статины. Говорит, пить постоянно. Это же химия! Может, курсом?»",
+        stage: "Сомнения в назначении",
+        question: "Как ответишь?",
+        options: [
+            {
+                text: "Статины — это пожизненная терапия. Курсами не работает.",
+                correct: true,
+                feedback: "<strong>Правильно.</strong> Статины снижают синтез холестерина в печени. Эффект есть только при постоянном приёме. Отмена = возврат к исходному уровню ЛПНП за 2-4 недели. Это не «химия», а защита сосудов."
+            },
+            {
+                text: "Попробуйте месяц попить, потом перерыв.",
+                correct: false,
+                feedback: "<strong>Опасная ошибка.</strong> Статины — не витамины. Это базисная терапия для снижения риска инфаркта и инсульта. «Курсами» не работает. Вы подрываете доверие к врачу и ставите под угрозу здоровье пациента."
+            },
+            {
+                text: "Да, химия. Лучше льняное масло и чеснок.",
+                correct: false,
+                feedback: "<strong>Грубейшая ошибка.</strong> Вы отменяете назначение врача и предлагаете БАДы. Льняное масло не снижает ЛПНП. Пациентка с высоким риском ССЗ останется без защиты. Это может закончиться инфарктом."
+            }
+        ]
+    },
+    {
+        patient: "👩 Женщина, 28 лет",
+        complaint: "«Цистит начинается. Дайте Монурал, как в прошлый раз.»",
+        stage: "Повторное обращение",
+        question: "Что сделаешь?",
+        options: [
+            {
+                text: "Монурал — рецептурный. Нужно к врачу.",
+                correct: true,
+                feedback: "<strong>Правильно.</strong> Монурал (фосфомицин) — рецептурный антибиотик. Даже если «помог в прошлый раз», повторный цистит — повод для обследования (посев мочи, УЗИ). Самолечение антибиотиками = резистентность."
+            },
+            {
+                text: "Хорошо, вот Монурал. Один пакетик на ночь.",
+                correct: false,
+                feedback: "<strong>Нарушение закона.</strong> Вы отпустили рецептурный антибиотик без рецепта. Это административная ответственность (штраф до 30 000₽) + риск для пациента (резистентность, маскировка пиелонефрита)."
+            },
+            {
+                text: "Попробуйте Канефрон, он растительный.",
+                correct: false,
+                feedback: "<strong>Ошибка.</strong> Канефрон — не антибиотик. При остром цистите он не поможет. Пациентка потеряет время, инфекция может подняться в почки (пиелонефрит). Нужен врач и антибиотик."
+            }
+        ]
+    },
+    {
+        patient: "👶 Мама с ребёнком, 2 года",
+        complaint: "«У ребёнка температура 38.5. Дайте Нимесил, он быстро сбивает.»",
+        stage: "Запрос на препарат",
+        question: "Что ответишь?",
+        options: [
+            {
+                text: "Нимесил детям до 12 лет противопоказан. Вот Нурофен сироп.",
+                correct: true,
+                feedback: "<strong>Правильно.</strong> Нимесулид (Нимесил) запрещён детям до 12 лет из-за гепатотоксичности. Для детей с 3 месяцев — ибупрофен (Нурофен) или парацетамол. Дозу рассчитываем по весу."
+            },
+            {
+                text: "Нимесил сильный, давайте половину пакетика.",
+                correct: false,
+                feedback: "<strong>Опасная ошибка.</strong> Нимесулид противопоказан детям до 12 лет. «Половина пакетика» не делает его безопасным. Риск токсического гепатита. Это может закончиться реанимацией."
+            },
+            {
+                text: "38.5 — это не страшно. Не сбивайте, организм борется.",
+                correct: false,
+                feedback: "<strong>Ошибка.</strong> У детей до 3 лет температуру выше 38.5 нужно сбивать (риск фебрильных судорог). Рекомендация «не сбивать» опасна. Нужен жаропонижающий (ибупрофен или парацетамол)."
+            }
+        ]
+    },
+    {
+        patient: "👨 Мужчина, 42 года",
+        complaint: "«Изжога замучила. Омепразол пью уже месяц, не помогает. Дайте что-то другое.»",
+        stage: "Неэффективность терапии",
+        question: "Что посоветуешь?",
+        options: [
+            {
+                text: "Месяц без эффекта — это повод для ФГДС. К гастроэнтерологу.",
+                correct: true,
+                feedback: "<strong>Правильно.</strong> Омепразол — мощный ИПП. Если он не помогает месяц — это не «слабый препарат», а неправильный диагноз. Нужна ФГДС (может быть язва, рефлюкс-эзофагит, H.pylori). Менять ИПП на другой — бессмысленно."
+            },
+            {
+                text: "Попробуйте Нексиум, он сильнее омепразола.",
+                correct: false,
+                feedback: "<strong>Ошибка.</strong> Нексиум (эзомепразол) — тот же класс (ИПП). Если омепразол не помог месяц, эзомепразол тоже не поможет. Проблема не в «силе» препарата, а в диагнозе. Нужна ФГДС."
+            },
+            {
+                text: "Добавьте Маалокс, он обволакивает.",
+                correct: false,
+                feedback: "<strong>Ошибка.</strong> Маалокс (антацид) — симптоматическое средство на 1-2 часа. Если ИПП месяц не помогает, антацид не решит проблему. Пациент теряет время, а причина (язва? рак?) остаётся без диагностики."
+            }
+        ]
+    }
+];
+
+let currentCase = 0;
+let score = 0;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+    currentCase = 0;
+    score = 0;
+    showScreen('screen-case');
+    showCase();
+}
+
+function showCase() {
+    const caseData = CASES[currentCase];
+    const container = document.getElementById('options-container');
+    const feedback = document.getElementById('feedback');
+    const btnNext = document.getElementById('btn-next');
+
+    document.getElementById('counter').textContent = `ПАЦИЕНТ ${currentCase + 1} / 5`;
+    document.getElementById('patient-info').textContent = caseData.patient;
+    document.getElementById('complaint').textContent = caseData.complaint;
+    document.getElementById('stage').textContent = caseData.stage;
+
+    feedback.classList.remove('show', 'success', 'error');
+    btnNext.classList.remove('show');
+
+    container.innerHTML = caseData.options.map((opt, i) => `
+        <div class="option" onclick="selectOption(${i})" id="opt-${i}">
+            ${opt.text}
+        </div>
+    `).join('');
+}
+
+function selectOption(index) {
+    const caseData = CASES[currentCase];
+    const selected = caseData.options[index];
+    const allOptions = document.querySelectorAll('.option');
+
+    allOptions.forEach(opt => opt.classList.add('disabled'));
+
+    const selectedEl = document.getElementById(`opt-${index}`);
+
+    if (selected.correct) {
+        selectedEl.classList.add('correct');
+        score++;
+        allOptions.forEach(opt => {
+            if (opt !== selectedEl) opt.classList.add('dimmed');
+        });
+    } else {
+        selectedEl.classList.add('wrong');
+        // Подсветить правильный ответ
+        caseData.options.forEach((opt, i) => {
+            if (opt.correct) {
+                document.getElementById(`opt-${i}`).classList.add('correct');
+            } else if (i !== index) {
+                document.getElementById(`opt-${i}`).classList.add('dimmed');
+            }
+        });
+    }
+
+    const feedback = document.getElementById('feedback');
+    feedback.innerHTML = selected.feedback;
+    feedback.classList.add('show', selected.correct ? 'success' : 'error');
+
+    setTimeout(() => document.getElementById('btn-next').classList.add('show'), 400);
+}
+
+function nextCase() {
+    currentCase++;
+    if (currentCase >= 5) {
+        showResult();
+    } else {
+        showCase();
+    }
+}
+
+function showResult() {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 5) * 100);
+    document.getElementById('score-num').textContent = `${score}/5`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных решений`;
+
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    let msg = '';
+    if (pct === 100) msg = 'Идеально! Вы знаете, когда отпустить, когда отказать, когда отправить к врачу. Это уровень опытного провизора.';
+    else if (pct >= 80) msg = 'Отличная работа. Пара нюансов для повторения — и вы в топе первостольников.';
+    else if (pct >= 60) msg = 'Неплохо, но есть пробелы. Повторите протоколы ответственного самолечения и красные флаги.';
+    else msg = 'Нужна дополнительная подготовка. Ошибки первостольника могут стоить здоровья пациента. Повторите курс фармконсультирования.';
+
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
