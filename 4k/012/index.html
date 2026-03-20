@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Заполни пропуски — Pharma Simulator #12</title>
+    <meta property="og:title" content="Заполни пропуски — проверка терминологии">
+    <meta property="og:description" content="Заполни пропущенные слова в тексте. Проверка знания терминологии.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 700px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+            text-align: center;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .counter {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .score-display {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #27AE60;
+            line-height: 1;
+        }
+
+        .text-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .text-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #2C3E50;
+            margin-bottom: 24px;
+        }
+
+        .blank-input {
+            display: inline-block;
+            min-width: 120px;
+            padding: 4px 12px;
+            border: none;
+            border-bottom: 2px solid #4A90E2;
+            background: #F0F7FF;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C3E50;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            transition: all 0.2s ease;
+            margin: 0 4px;
+        }
+
+        .blank-input:focus {
+            outline: none;
+            background: #E3F2FD;
+            border-bottom-color: #357ABD;
+        }
+
+        .blank-input.correct {
+            border-bottom-color: #27AE60;
+            background: #F0F9F4;
+            color: #27AE60;
+        }
+
+        .blank-input.wrong {
+            border-bottom-color: #E74C3C;
+            background: #FDF3F2;
+            color: #E74C3C;
+            animation: shake 0.4s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-4px); }
+            40% { transform: translateX(4px); }
+            60% { transform: translateX(-2px); }
+            80% { transform: translateX(2px); }
+        }
+
+        .btn-check {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            background: #fff;
+            border-left: 4px solid #4A90E2;
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            opacity: 0;
+            transition: opacity 0.4s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .feedback.show { opacity: 1; }
+        .feedback strong { color: #4A90E2; font-weight: 600; }
+        .feedback.success { border-left-color: #27AE60; }
+        .feedback.success strong { color: #27AE60; }
+        .feedback.error { border-left-color: #E74C3C; }
+        .feedback.error strong { color: #E74C3C; }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .btn-next.show { opacity: 1; pointer-events: all; }
+        .btn-next:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result-bar-wrap {
+            background: #E1E8ED;
+            border-radius: 8px;
+            height: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            transition: width 1s ease;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Simulator #12</div>
+        <div class="title">Заполни пропуски</div>
+        <div class="sub">
+            Заполни пропущенные слова в тексте.<br>
+            Проверка знания терминологии и механизмов действия.<br>
+            10 текстов.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="game-header">
+            <div class="counter" id="counter">ТЕКСТ 1 / 10</div>
+            <div class="score-display" id="score">0</div>
+        </div>
+
+        <div class="text-card">
+            <div class="text-content" id="text-content"></div>
+            <button class="btn-check" id="btn-check" onclick="checkAnswers()">Проверить</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <button class="btn-next" id="btn-next" onclick="nextText()">Следующий текст →</button>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-num">0/10</div>
+        <div class="result-label">правильных текстов</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const TEXTS = [
+    {
+        text: "Аспирин блокирует фермент ___, что приводит к снижению синтеза ___.",
+        blanks: [
+            { answers: ["ЦОГ", "циклооксигеназа", "COX"] },
+            { answers: ["простагландинов", "простагландина"] }
+        ]
+    },
+    {
+        text: "Метформин снижает ___ глюкозы в печени и повышает ___ тканей к инсулину.",
+        blanks: [
+            { answers: ["продукцию", "синтез", "выработку"] },
+            { answers: ["чувствительность", "восприимчивость"] }
+        ]
+    },
+    {
+        text: "Омепразол — это ингибитор ___, который блокирует ___ кислоты в желудке.",
+        blanks: [
+            { answers: ["протонной помпы", "протонного насоса", "ИПП"] },
+            { answers: ["секрецию", "выработку", "продукцию"] }
+        ]
+    },
+    {
+        text: "Амоксициллин — это ___ антибиотик, который нарушает синтез ___ бактерий.",
+        blanks: [
+            { answers: ["бета-лактамный", "пенициллиновый", "β-лактамный"] },
+            { answers: ["клеточной стенки", "стенки", "оболочки"] }
+        ]
+    },
+    {
+        text: "Ибупрофен относится к группе ___ и обладает ___, жаропонижающим и обезболивающим действием.",
+        blanks: [
+            { answers: ["НПВС", "нестероидных противовоспалительных", "НПВП"] },
+            { answers: ["противовоспалительным", "противовоспалительным эффектом"] }
+        ]
+    },
+    {
+        text: "Варфарин — это ___, который блокирует синтез витамин-К-зависимых факторов ___.",
+        blanks: [
+            { answers: ["антикоагулянт", "антикоагулянтом"] },
+            { answers: ["свёртывания", "свертывания крови", "коагуляции"] }
+        ]
+    },
+    {
+        text: "Сальбутамол — это ___ агонист, который расширяет ___ и купирует бронхоспазм.",
+        blanks: [
+            { answers: ["бета-2", "β2", "бета2"] },
+            { answers: ["бронхи", "дыхательные пути", "бронхиальное дерево"] }
+        ]
+    },
+    {
+        text: "Статины блокируют фермент ___, что снижает синтез ___ в печени.",
+        blanks: [
+            { answers: ["ГМГ-КоА-редуктазу", "ГМГ-КоА редуктазу", "HMG-CoA"] },
+            { answers: ["холестерина", "холестерола"] }
+        ]
+    },
+    {
+        text: "Инсулин снижает уровень ___ в крови, стимулируя её поглощение ___ и мышцами.",
+        blanks: [
+            { answers: ["глюкозы", "сахара"] },
+            { answers: ["клетками", "тканями", "печенью"] }
+        ]
+    },
+    {
+        text: "Дигоксин — это ___ гликозид, который усиливает ___ миокарда и замедляет ЧСС.",
+        blanks: [
+            { answers: ["сердечный", "кардиотонический"] },
+            { answers: ["сократимость", "сокращение", "силу сокращения"] }
+        ]
+    }
+];
+
+let currentText = 0;
+let score = 0;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+    currentText = 0;
+    score = 0;
+    showScreen('screen-game');
+    document.getElementById('score').textContent = '0';
+    showText();
+}
+
+function showText() {
+    const textData = TEXTS[currentText];
+    const feedback = document.getElementById('feedback');
+    const btnNext = document.getElementById('btn-next');
+    const btnCheck = document.getElementById('btn-check');
+
+    document.getElementById('counter').textContent = `ТЕКСТ ${currentText + 1} / 10`;
+
+    // Создаём текст с input полями
+    let html = textData.text;
+    let blankIndex = 0;
+
+    html = html.replace(/_+/g, () => {
+        const input = `<input type="text" class="blank-input" data-blank="${blankIndex}" autocomplete="off">`;
+        blankIndex++;
+        return input;
+    });
+
+    document.getElementById('text-content').innerHTML = html;
+
+    // Фокус на первый input
+    setTimeout(() => {
+        const firstInput = document.querySelector('.blank-input');
+        if (firstInput) firstInput.focus();
+    }, 100);
+
+    feedback.classList.remove('show', 'success', 'error');
+    btnNext.classList.remove('show');
+    btnCheck.style.display = 'block';
+}
+
+function normalizeAnswer(str) {
+    return str.toLowerCase().trim().replace(/[.,!?;:]/g, '');
+}
+
+function checkAnswers() {
+    const textData = TEXTS[currentText];
+    const inputs = document.querySelectorAll('.blank-input');
+    let allCorrect = true;
+    let correctCount = 0;
+
+    inputs.forEach((input, index) => {
+        const userAnswer = normalizeAnswer(input.value);
+        const correctAnswers = textData.blanks[index].answers.map(a => normalizeAnswer(a));
+
+        input.classList.remove('correct', 'wrong');
+
+        if (correctAnswers.includes(userAnswer)) {
+            input.classList.add('correct');
+            correctCount++;
+        } else {
+            input.classList.add('wrong');
+            allCorrect = false;
+        }
+
+        input.disabled = true;
+    });
+
+    const feedback = document.getElementById('feedback');
+    const btnNext = document.getElementById('btn-next');
+    const btnCheck = document.getElementById('btn-check');
+
+    if (allCorrect) {
+        score++;
+        document.getElementById('score').textContent = score;
+        feedback.innerHTML = '<strong>Правильно!</strong> Все термины верны.';
+        feedback.classList.add('success');
+    } else {
+        feedback.innerHTML = `<strong>Есть ошибки.</strong> Правильно: ${correctCount} из ${inputs.length}. Проверьте терминологию.`;
+        feedback.classList.add('error');
+    }
+
+    feedback.classList.add('show');
+    btnNext.classList.add('show');
+    btnCheck.style.display = 'none';
+}
+
+function nextText() {
+    currentText++;
+    if (currentText >= 10) {
+        showResult();
+    } else {
+        showText();
+    }
+}
+
+function showResult() {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 10) * 100);
+    document.getElementById('score-num').textContent = `${score}/10`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных текстов`;
+
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    let msg = '';
+    if (pct === 100) msg = 'Идеально! Вы знаете терминологию и механизмы действия препаратов на отлично.';
+    else if (pct >= 80) msg = 'Отлично! Вы хорошо владеете фармакологической терминологией. Пара нюансов — и вы эксперт.';
+    else if (pct >= 60) msg = 'Неплохо, но есть пробелы. Повторите механизмы действия основных групп препаратов.';
+    else msg = 'Нужна дополнительная подготовка. Терминология — основа фармакологии. Повторите курс.';
+
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
