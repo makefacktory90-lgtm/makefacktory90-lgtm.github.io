@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Матрица Эйзенхауэра — Business Simulator #5</title>
+    <meta property="og:title" content="Матрица Эйзенхауэра — приоритизация задач">
+    <meta property="og:description" content="Распредели задачи по матрице срочно/важно. Drag & drop механика.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 900px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+            text-align: center;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .counter {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            font-weight: 600;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .tasks-pool {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .pool-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+        }
+
+        .task-card {
+            background: #F8FAFB;
+            border: 2px solid #E1E8ED;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #2C3E50;
+            cursor: grab;
+            transition: all 0.2s ease;
+        }
+
+        .task-card:hover {
+            border-color: #4A90E2;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.15);
+        }
+
+        .task-card.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .quadrant {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            min-height: 200px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border: 2px dashed #E1E8ED;
+            transition: all 0.3s ease;
+        }
+
+        .quadrant.drag-over {
+            border-color: #4A90E2;
+            background: #F0F7FF;
+        }
+
+        .quadrant-header {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #F0F4F8;
+        }
+
+        .quadrant-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .quadrant-subtitle {
+            font-size: 11px;
+            color: #7B8FA3;
+        }
+
+        .q1 .quadrant-title { color: #E74C3C; }
+        .q2 .quadrant-title { color: #F39C12; }
+        .q3 .quadrant-title { color: #27AE60; }
+        .q4 .quadrant-title { color: #95A5A6; }
+
+        .quadrant-tasks {
+            min-height: 120px;
+        }
+
+        .btn-check {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-check:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result-bar-wrap {
+            background: #E1E8ED;
+            border-radius: 8px;
+            height: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            transition: width 1s ease;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .mistakes {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .mistakes-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1A2332;
+        }
+
+        .mistake-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #F0F4F8;
+        }
+
+        .mistake-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .mistake-task {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 6px;
+        }
+
+        .mistake-explanation {
+            font-size: 13px;
+            color: #7B8FA3;
+            line-height: 1.6;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .game-layout {
+                grid-template-columns: 1fr;
+            }
+            .matrix {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Business Simulator #5</div>
+        <div class="title">Матрица Эйзенхауэра</div>
+        <div class="sub">
+            12 задач. 4 квадранта.<br>
+            Распредели задачи по приоритетам:<br>
+            срочно/важно, срочно/неважно, несрочно/важно, несрочно/неважно.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="game-header">
+            <div class="counter">Распредели задачи по квадрантам</div>
+        </div>
+
+        <div class="game-layout">
+            <div class="tasks-pool">
+                <div class="pool-title">Задачи</div>
+                <div id="tasks-pool"></div>
+            </div>
+
+            <div class="matrix">
+                <div class="quadrant q1" data-quadrant="q1" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+                    <div class="quadrant-header">
+                        <div class="quadrant-title">Срочно + Важно</div>
+                        <div class="quadrant-subtitle">Делать немедленно</div>
+                    </div>
+                    <div class="quadrant-tasks" id="q1-tasks"></div>
+                </div>
+
+                <div class="quadrant q2" data-quadrant="q2" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+                    <div class="quadrant-header">
+                        <div class="quadrant-title">Срочно + Неважно</div>
+                        <div class="quadrant-subtitle">Делегировать</div>
+                    </div>
+                    <div class="quadrant-tasks" id="q2-tasks"></div>
+                </div>
+
+                <div class="quadrant q3" data-quadrant="q3" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+                    <div class="quadrant-header">
+                        <div class="quadrant-title">Несрочно + Важно</div>
+                        <div class="quadrant-subtitle">Планировать</div>
+                    </div>
+                    <div class="quadrant-tasks" id="q3-tasks"></div>
+                </div>
+
+                <div class="quadrant q4" data-quadrant="q4" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+                    <div class="quadrant-header">
+                        <div class="quadrant-title">Несрочно + Неважно</div>
+                        <div class="quadrant-subtitle">Удалить</div>
+                    </div>
+                    <div class="quadrant-tasks" id="q4-tasks"></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-check" id="btn-check" onclick="checkAnswers()">Проверить</button>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-num">0/12</div>
+        <div class="result-label">правильно распределённых задач</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+
+        <div class="mistakes" id="mistakes-block" style="display:none;">
+            <div class="mistakes-title">Разбор ошибок:</div>
+            <div id="mistakes-list"></div>
+        </div>
+
+        <button class="btn-start" onclick="startGame()">Ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const TASKS = [
+    { id: 1, text: "Клиент звонит — сервер упал, продажи остановились", correct: "q1", explanation: "Срочно + Важно. Прямые потери денег прямо сейчас. Делать немедленно." },
+    { id: 2, text: "Коллега просит срочно посмотреть его презентацию", correct: "q2", explanation: "Срочно + Неважно. Чужая задача, не влияет на ваши цели. Делегировать или отказать." },
+    { id: 3, text: "Разработать стратегию на следующий квартал", correct: "q3", explanation: "Несрочно + Важно. Влияет на будущее, но дедлайна нет. Запланировать время." },
+    { id: 4, text: "Пролистать ленту LinkedIn 20 минут", correct: "q4", explanation: "Несрочно + Неважно. Прокрастинация. Удалить из списка." },
+    { id: 5, text: "Дедлайн проекта завтра, осталось 30% работы", correct: "q1", explanation: "Срочно + Важно. Дедлайн горит, проект важный. Делать немедленно." },
+    { id: 6, text: "Ответить на 15 писем в рассылке", correct: "q2", explanation: "Срочно + Неважно. Inbox zero — ловушка. Большинство писем можно игнорировать или делегировать." },
+    { id: 7, text: "Изучить новый навык для карьерного роста", correct: "q3", explanation: "Несрочно + Важно. Инвестиция в будущее. Запланировать регулярное время." },
+    { id: 8, text: "Посмотреть 3-й сезон сериала", correct: "q4", explanation: "Несрочно + Неважно. Развлечение. Можно, но не в рабочее время." },
+    { id: 9, text: "Встреча с ключевым клиентом через час, не готов", correct: "q1", explanation: "Срочно + Важно. Ключевой клиент = важно. Через час = срочно. Готовиться немедленно." },
+    { id: 10, text: "Коллега зовёт на встречу 'обсудить идеи'", correct: "q2", explanation: "Срочно + Неважно. Встречи без повестки = пожиратели времени. Отказать или попросить повестку." },
+    { id: 11, text: "Автоматизировать рутинную задачу (экономия 2 часа/неделю)", correct: "q3", explanation: "Несрочно + Важно. Инвестиция времени сейчас = экономия в будущем. Запланировать." },
+    { id: 12, text: "Разобрать старые файлы на компьютере", correct: "q4", explanation: "Несрочно + Неважно. Прокрастинация под видом продуктивности. Удалить из списка." }
+];
+
+let userAnswers = {};
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+    userAnswers = {};
+    showScreen('screen-game');
+    renderTasks();
+}
+
+function renderTasks() {
+    const pool = document.getElementById('tasks-pool');
+    const shuffled = [...TASKS].sort(() => Math.random() - 0.5);
+
+    pool.innerHTML = shuffled.map(task => `
+        <div class="task-card" draggable="true" data-task-id="${task.id}" ondragstart="drag(event)">
+            ${task.text}
+        </div>
+    `).join('');
+
+    // Очистить квадранты
+    ['q1', 'q2', 'q3', 'q4'].forEach(q => {
+        document.getElementById(`${q}-tasks`).innerHTML = '';
+    });
+}
+
+function drag(event) {
+    event.dataTransfer.setData('taskId', event.target.dataset.taskId);
+    event.target.classList.add('dragging');
+}
+
+function allowDrop(event) {
+    event.preventDefault();
+    const quadrant = event.currentTarget;
+    quadrant.classList.add('drag-over');
+}
+
+function dragLeave(event) {
+    const quadrant = event.currentTarget;
+    quadrant.classList.remove('drag-over');
+}
+
+function drop(event) {
+    event.preventDefault();
+    const quadrant = event.currentTarget;
+    quadrant.classList.remove('drag-over');
+
+    const taskId = parseInt(event.dataTransfer.getData('taskId'));
+    const taskCard = document.querySelector(`[data-task-id="${taskId}"]`);
+
+    if (taskCard) {
+        taskCard.classList.remove('dragging');
+        const quadrantId = quadrant.dataset.quadrant;
+        const tasksContainer = document.getElementById(`${quadrantId}-tasks`);
+        tasksContainer.appendChild(taskCard);
+
+        userAnswers[taskId] = quadrantId;
+    }
+}
+
+function checkAnswers() {
+    let correct = 0;
+    const mistakes = [];
+
+    TASKS.forEach(task => {
+        const userAnswer = userAnswers[task.id];
+        if (userAnswer === task.correct) {
+            correct++;
+        } else {
+            mistakes.push({
+                task: task.text,
+                userAnswer: userAnswer || 'не распределена',
+                correctAnswer: task.correct,
+                explanation: task.explanation
+            });
+        }
+    });
+
+    showResult(correct, mistakes);
+}
+
+function showResult(score, mistakes) {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 12) * 100);
+    document.getElementById('score-num').textContent = `${score}/12`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных ответов`;
+
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    let msg = '';
+    if (pct === 100) msg = 'Идеально! Вы понимаете разницу между срочным и важным. Это редкий навык.';
+    else if (pct >= 80) msg = 'Отлично! Вы хорошо приоритизируете. Пара нюансов — и вы мастер тайм-менеджмента.';
+    else if (pct >= 60) msg = 'Неплохо, но есть путаница между срочным и важным. Повторите матрицу Эйзенхауэра.';
+    else msg = 'Нужна практика. Большинство людей путают срочное с важным — отсюда выгорание и хаос.';
+
+    document.getElementById('result-msg').textContent = msg;
+
+    // Показать ошибки
+    if (mistakes.length > 0) {
+        const mistakesBlock = document.getElementById('mistakes-block');
+        const mistakesList = document.getElementById('mistakes-list');
+
+        mistakesList.innerHTML = mistakes.map(m => `
+            <div class="mistake-item">
+                <div class="mistake-task">${m.task}</div>
+                <div class="mistake-explanation">${m.explanation}</div>
+            </div>
+        `).join('');
+
+        mistakesBlock.style.display = 'block';
+    }
+}
+</script>
+
+</body>
+</html>
