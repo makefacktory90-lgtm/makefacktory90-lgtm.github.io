@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Мемори: показания и противопоказания — Pharma Simulator #6</title>
+    <meta property="og:title" content="Мемори: показания и противопоказания">
+    <meta property="og:description" content="Найди пары: препарат и его показание/противопоказание. Memory game механика.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 800px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+            text-align: center;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #4A90E2;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .memory-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-size: 48px;
+        }
+
+        .card-front {
+            background: #fff;
+            border: 2px solid #E1E8ED;
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched .card-front {
+            border-color: #27AE60;
+            background: #F0F9F4;
+        }
+
+        .card-type {
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .memory-card.matched .card-type {
+            color: #27AE60;
+        }
+
+        .card-drug {
+            font-size: 13px;
+            font-weight: 700;
+            color: #4A90E2;
+            margin-bottom: 8px;
+        }
+
+        .memory-card.matched .card-drug {
+            color: #27AE60;
+        }
+
+        .card-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #2C3E50;
+        }
+
+        .memory-card.matched .card-text {
+            color: #27AE60;
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result-stats {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .result-stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F4F8;
+        }
+
+        .result-stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-stat-label {
+            font-size: 14px;
+            color: #7B8FA3;
+        }
+
+        .result-stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 28px; }
+            .memory-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+            }
+            .card-text { font-size: 11px; }
+            .card-drug { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Simulator #6</div>
+        <div class="title">Мемори: показания и противопоказания</div>
+        <div class="sub">
+            Найди пары: показание и противопоказание для одного препарата.<br>
+            16 карточек. 8 пар. Переворачивай и запоминай.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="game-header">
+            <div class="stat">
+                <div class="stat-label">Ходы</div>
+                <div class="stat-value" id="moves">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Пары</div>
+                <div class="stat-value" id="pairs">0/8</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Время</div>
+                <div class="stat-value" id="timer">0:00</div>
+            </div>
+        </div>
+
+        <div class="memory-grid" id="memory-grid"></div>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-time">0:00</div>
+        <div class="result-label">время прохождения</div>
+
+        <div class="result-stats">
+            <div class="result-stat-row">
+                <div class="result-stat-label">Всего ходов</div>
+                <div class="result-stat-value" id="final-moves">0</div>
+            </div>
+            <div class="result-stat-row">
+                <div class="result-stat-label">Точность</div>
+                <div class="result-stat-value" id="accuracy">0%</div>
+            </div>
+            <div class="result-stat-row">
+                <div class="result-stat-label">Оценка</div>
+                <div class="result-stat-value" id="rating">—</div>
+            </div>
+        </div>
+
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Играть ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const CARDS_DATA = [
+    {
+        id: 1,
+        drug: "Аспирин",
+        indication: "Профилактика тромбозов, снижение риска инфаркта и инсульта",
+        contraindication: "Язва желудка, кровотечения, детский возраст до 15 лет (риск синдрома Рея)"
+    },
+    {
+        id: 2,
+        drug: "Метформин",
+        indication: "Сахарный диабет 2 типа, особенно при избыточном весе",
+        contraindication: "Тяжёлая почечная недостаточность (СКФ < 30), лактоацидоз в анамнезе"
+    },
+    {
+        id: 3,
+        drug: "Омепразол",
+        indication: "Язвенная болезнь, ГЭРБ, эрозивный эзофагит",
+        contraindication: "Одновременный приём с атазанавиром, нелфинавиром (снижает их эффективность)"
+    },
+    {
+        id: 4,
+        drug: "Амоксициллин",
+        indication: "Бактериальные инфекции: ангина, бронхит, пневмония, цистит",
+        contraindication: "Аллергия на пенициллины, инфекционный мононуклеоз (риск сыпи)"
+    },
+    {
+        id: 5,
+        drug: "Варфарин",
+        indication: "Профилактика тромбоэмболии при фибрилляции предсердий, после операций на клапанах",
+        contraindication: "Беременность (тератогенен), кровотечения, тяжёлая печёночная недостаточность"
+    },
+    {
+        id: 6,
+        drug: "Сальбутамол",
+        indication: "Купирование приступов бронхиальной астмы, бронхоспазм",
+        contraindication: "Тяжёлая тахикардия, тиреотоксикоз, декомпенсированный сахарный диабет"
+    },
+    {
+        id: 7,
+        drug: "Дексаметазон",
+        indication: "Тяжёлые аллергии, шок, отёк мозга, аутоиммунные заболевания",
+        contraindication: "Системные грибковые инфекции, язва желудка, остеопороз (при длительном приёме)"
+    },
+    {
+        id: 8,
+        drug: "Лоперамид",
+        indication: "Острая и хроническая диарея неинфекционного происхождения",
+        contraindication: "Кишечная непроходимость, острая дизентерия, язвенный колит в стадии обострения"
+    }
+];
+
+let cards = [];
+let flippedCards = [];
+let matchedPairs = 0;
+let moves = 0;
+let startTime = null;
+let timerInterval = null;
+let isProcessing = false;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function startGame() {
+    // Сброс состояния
+    flippedCards = [];
+    matchedPairs = 0;
+    moves = 0;
+    startTime = Date.now();
+    isProcessing = false;
+
+    // Создаём карточки: для каждого препарата — показание и противопоказание
+    cards = [];
+    CARDS_DATA.forEach(drug => {
+        cards.push({
+            id: drug.id,
+            type: 'indication',
+            drug: drug.drug,
+            text: drug.indication
+        });
+        cards.push({
+            id: drug.id,
+            type: 'contraindication',
+            drug: drug.drug,
+            text: drug.contraindication
+        });
+    });
+
+    // Перемешиваем
+    cards = shuffle(cards);
+
+    // Рендерим
+    const grid = document.getElementById('memory-grid');
+    grid.innerHTML = cards.map((card, index) => `
+        <div class="memory-card" data-index="${index}" onclick="flipCard(${index})">
+            <div class="card-inner">
+                <div class="card-face card-back">🧠</div>
+                <div class="card-face card-front">
+                    <div class="card-type">${card.type === 'indication' ? 'Показание' : 'Противопоказание'}</div>
+                    <div class="card-drug">${card.drug}</div>
+                    <div class="card-text">${card.text}</div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Обновляем UI
+    document.getElementById('moves').textContent = '0';
+    document.getElementById('pairs').textContent = '0/8';
+    document.getElementById('timer').textContent = '0:00';
+
+    // Запускаем таймер
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 1000);
+
+    showScreen('screen-game');
+}
+
+function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    document.getElementById('timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function flipCard(index) {
+    if (isProcessing) return;
+
+    const cardEl = document.querySelector(`[data-index="${index}"]`);
+    if (cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+
+    // Переворачиваем карточку
+    cardEl.classList.add('flipped');
+    flippedCards.push(index);
+
+    // Если перевернули 2 карточки — проверяем
+    if (flippedCards.length === 2) {
+        isProcessing = true;
+        moves++;
+        document.getElementById('moves').textContent = moves;
+
+        setTimeout(() => checkMatch(), 800);
+    }
+}
+
+function checkMatch() {
+    const [index1, index2] = flippedCards;
+    const card1 = cards[index1];
+    const card2 = cards[index2];
+
+    const cardEl1 = document.querySelector(`[data-index="${index1}"]`);
+    const cardEl2 = document.querySelector(`[data-index="${index2}"]`);
+
+    // Проверяем: одинаковый id (препарат) и разные типы (показание + противопоказание)
+    if (card1.id === card2.id && card1.type !== card2.type) {
+        // Совпадение!
+        cardEl1.classList.add('matched');
+        cardEl2.classList.add('matched');
+        matchedPairs++;
+        document.getElementById('pairs').textContent = `${matchedPairs}/8`;
+
+        // Проверяем победу
+        if (matchedPairs === 8) {
+            setTimeout(() => showResult(), 500);
+        }
+    } else {
+        // Не совпало — переворачиваем обратно
+        setTimeout(() => {
+            cardEl1.classList.remove('flipped');
+            cardEl2.classList.remove('flipped');
+        }, 400);
+    }
+
+    flippedCards = [];
+    isProcessing = false;
+}
+
+function showResult() {
+    clearInterval(timerInterval);
+    showScreen('screen-result');
+
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    // Минимум ходов = 16 (идеальная память)
+    const accuracy = Math.round((16 / moves) * 100);
+
+    document.getElementById('score-time').textContent = timeStr;
+    document.getElementById('final-moves').textContent = moves;
+    document.getElementById('accuracy').textContent = accuracy + '%';
+
+    let rating = '';
+    let msg = '';
+
+    if (moves <= 20) {
+        rating = 'Феноменально';
+        msg = 'Идеальная память! Вы запомнили почти все карточки с первого раза. Это уровень клинического провизора.';
+    } else if (moves <= 30) {
+        rating = 'Отлично';
+        msg = 'Очень хороший результат. Вы хорошо запоминаете показания и противопоказания. Пара повторений — и вы в топе.';
+    } else if (moves <= 40) {
+        rating = 'Хорошо';
+        msg = 'Неплохо, но есть куда расти. Тренируйте визуальную память — это ключевой навык для фармацевта.';
+    } else {
+        rating = 'Нужна практика';
+        msg = 'Запоминание показаний и противопоказаний — критичный навык. Повторите препараты и попробуйте снова.';
+    }
+
+    document.getElementById('rating').textContent = rating;
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
