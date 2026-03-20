@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Business Simulators — Каталог</title>
+    <meta property="og:title" content="AI Business Simulators">
+    <meta property="og:description" content="Интерактивные симуляторы для обучения и бизнеса">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #5A6C7D;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(74, 144, 226, 0.15);
+            border-color: #4A90E2;
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-category {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #4A90E2;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1A2332;
+        }
+
+        .card-description {
+            font-size: 15px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #7B8FA3;
+        }
+
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid #4A90E2;
+            color: #4A90E2;
+            background: transparent;
+        }
+
+        .btn:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            border: none;
+            margin-right: 12px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #B8C5D0;
+            font-size: 13px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .tag-new {
+            background: #E8F5E9;
+            color: #27AE60;
+        }
+
+        .tag-popular {
+            background: #FFF3E0;
+            color: #F39C12;
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 36px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="badge">AI Business Simulators</div>
+        <h1 class="title">Интерактивные симуляторы</h1>
+        <p class="subtitle">Обучающие игры для бизнеса, фармы и AI</p>
+    </div>
+
+    <div class="grid">
+        <!-- AI Simulator -->
+        <div class="card">
+            <span class="card-icon">🤖</span>
+            <div class="card-category">AI · Образование</div>
+            <h2 class="card-title">3 факта про AI</h2>
+            <p class="card-description">
+                Правда или бред? Три безумных факта про искусственный интеллект.
+                Угадай, что из этого реальность.
+            </p>
+            <div class="card-meta">
+                <span>⏱️ 3 мин</span>
+                <span>🎯 3 раунда</span>
+            </div>
+            <span class="tag tag-popular">Популярное</span>
+            <div style="margin-top: 20px;">
+                <a href="001/index.html" class="btn btn-primary">Играть</a>
+            </div>
+        </div>
+
+        <!-- Pharma Simulator (Dark) -->
+        <div class="card">
+            <span class="card-icon">💊</span>
+            <div class="card-category">Pharma · Обучение</div>
+            <h2 class="card-title">Одно лишнее</h2>
+            <p class="card-description">
+                4 факта о препарате. 3 правдивых, 1 ложный.
+                Найди ошибку и узнай, почему это важно. 10 раундов.
+            </p>
+            <div class="card-meta">
+                <span>⏱️ 8 мин</span>
+                <span>🎯 10 раундов</span>
+            </div>
+            <span class="tag tag-new">Новое</span>
+            <div style="margin-top: 20px;">
+                <a href="002/index.html" class="btn">Тёмная тема</a>
+                <a href="002/index-light.html" class="btn btn-primary">Светлая тема</a>
+            </div>
+        </div>
+
+        <!-- Placeholder for future -->
+        <div class="card" style="opacity: 0.6; pointer-events: none;">
+            <span class="card-icon">📊</span>
+            <div class="card-category">Business · Стратегия</div>
+            <h2 class="card-title">Бизнес-решения</h2>
+            <p class="card-description">
+                Принимай решения в реальных бизнес-ситуациях.
+                Каждый выбор влияет на результат.
+            </p>
+            <div class="card-meta">
+                <span>⏱️ 15 мин</span>
+                <span>🎯 5 сценариев</span>
+            </div>
+            <div style="margin-top: 20px;">
+                <span style="color: #B8C5D0; font-size: 13px;">Скоро</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        AI-Business Simulator · demo · 2026
+    </div>
+</div>
+
+</body>
+</html>
