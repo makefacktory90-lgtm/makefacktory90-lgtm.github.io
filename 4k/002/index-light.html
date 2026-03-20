@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Одно лишнее — Pharma Mini-Game #2</title>
+    <meta property="og:title" content="Одно лишнее — найди ложный факт">
+    <meta property="og:description" content="4 факта. 3 правдивых. 1 ложный. Найди его.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 520px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+        .btn-start:active { transform: translateY(0); }
+
+        .round-header {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .round-counter {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .round-drug {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #4A90E2;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .round-question {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #1A2332;
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: #fff;
+            border: 2px solid #E1E8ED;
+            border-radius: 14px;
+            padding: 20px 24px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #2C3E50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .card:hover {
+            border-color: #4A90E2;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
+            transform: translateY(-2px);
+        }
+        .card:active { transform: translateY(0); }
+
+        .card-num {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 12px;
+            color: #B8C5D0;
+            font-weight: 700;
+        }
+
+        .card.correct {
+            border-color: #27AE60;
+            background: #F0F9F4;
+            color: #27AE60;
+        }
+
+        .card.wrong {
+            border-color: #E74C3C;
+            background: #FDF3F2;
+            color: #E74C3C;
+            animation: shake 0.4s;
+        }
+
+        .card.dimmed {
+            opacity: 0.4;
+        }
+
+        .card.disabled {
+            pointer-events: none;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .explanation {
+            background: #fff;
+            border-left: 4px solid #4A90E2;
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            opacity: 0;
+            transition: opacity 0.4s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .explanation.show { opacity: 1; }
+        .explanation strong { color: #4A90E2; font-weight: 600; }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .btn-next.show { opacity: 1; pointer-events: all; }
+        .btn-next:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+        }
+
+        .result-bar-wrap {
+            background: #E1E8ED;
+            border-radius: 8px;
+            height: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            transition: width 1s ease;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 32px;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Mini-Game #2</div>
+        <div class="title">Одно лишнее</div>
+        <div class="sub">
+            4 факта о препарате.<br>
+            3 правдивых. 1 — ложный.<br>
+            Найди лишний. 10 раундов.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="round-header">
+            <div class="round-counter" id="counter">РАУНД 1 / 10</div>
+            <div class="round-drug" id="drug-name">💊 ХэппиХарт</div>
+            <div class="round-question" id="question">Найди ложный факт:</div>
+        </div>
+
+        <div class="cards" id="cards-container"></div>
+
+        <div class="explanation" id="explanation"></div>
+        <button class="btn-next" id="btn-next" onclick="nextRound()">Дальше →</button>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-num">0/10</div>
+        <div class="result-label">правильных ответов</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Играть ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const ROUNDS = [
+    {
+        drug: "💊 ХэппиХарт",
+        facts: [
+            { text: "Снижает давление на 15-20% за 4 недели", correct: true },
+            { text: "Принимается 1 раз в сутки, утром", correct: true },
+            { text: "Одобрен для пациентов с диабетом 2 типа", correct: true },
+            { text: "Можно запивать грейпфрутовым соком", correct: false }
+        ],
+        explanation: "Грейпфрутовый сок <strong>блокирует фермент CYP3A4</strong>, что увеличивает концентрацию препарата в крови до опасного уровня. Это классика лекарственных взаимодействий."
+    },
+    {
+        drug: "💊 ЖелудОК",
+        facts: [
+            { text: "Ингибитор протонной помпы (ИПП)", correct: true },
+            { text: "Курс лечения: 14 дней при язве", correct: true },
+            { text: "Принимать строго после еды", correct: false },
+            { text: "Снижает кислотность на 90% за 5 дней", correct: true }
+        ],
+        explanation: "ИПП принимают <strong>за 30 минут ДО еды</strong>, натощак. Так препарат попадает в кровь до активации протонных помп. После еды — эффективность падает на 50%."
+    },
+    {
+        drug: "💊 НервоСтоп",
+        facts: [
+            { text: "Селективный ингибитор обратного захвата серотонина", correct: true },
+            { text: "Эффект наступает через 2-4 недели", correct: true },
+            { text: "Можно резко прекращать приём после 3 месяцев", correct: false },
+            { text: "Не сочетается с ингибиторами МАО", correct: true }
+        ],
+        explanation: "Резкая отмена СИОЗС вызывает <strong>синдром отмены</strong>: головокружение, тошнота, \"удары током\" в голове. Отменять нужно постепенно, снижая дозу в течение 2-4 недель."
+    },
+    {
+        drug: "💊 ДиабеНет",
+        facts: [
+            { text: "Метформин — препарат первой линии при СД2", correct: true },
+            { text: "Принимать во время еды для снижения побочных эффектов ЖКТ", correct: true },
+            { text: "Безопасен при тяжёлой почечной недостаточности (СКФ < 15)", correct: false },
+            { text: "Не вызывает гипогликемию в монотерапии", correct: true }
+        ],
+        explanation: "При СКФ < 15 метформин <strong>противопоказан</strong> из-за риска лактоацидоза. Это опасное состояние с летальностью до 50%. Контроль СКФ — каждые 3-6 месяцев."
+    },
+    {
+        drug: "💊 АстмаФри",
+        facts: [
+            { text: "Ингаляционный глюкокортикостероид", correct: true },
+            { text: "Применяется только при приступах (SOS-терапия)", correct: false },
+            { text: "Полоскать рот после каждого применения", correct: true },
+            { text: "Базисная терапия, эффект накапливается за 1-2 недели", correct: true }
+        ],
+        explanation: "ИГКС — это <strong>базисная (ежедневная)</strong> терапия, а не скорая помощь. Для приступов используют КДБА (сальбутамол). Путаница между ними — частая ошибка."
+    },
+    {
+        drug: "💊 ХолестеРОЛ",
+        facts: [
+            { text: "Статин — блокирует фермент ГМГ-КоА-редуктазу", correct: true },
+            { text: "Принимать утром для максимального эффекта", correct: false },
+            { text: "Снижает ЛПНП на 30-50% за 4-6 недель", correct: true },
+            { text: "Контроль АЛТ/АСТ через 3 месяца после начала", correct: true }
+        ],
+        explanation: "Большинство статинов принимают <strong>на ночь</strong>, потому что синтез холестерина в печени максимален между 00:00 и 03:00. Исключение — аторвастатин и розувастатин (можно в любое время)."
+    },
+    {
+        drug: "💊 АнтиБиоТОП",
+        facts: [
+            { text: "Курс антибиотика нужно пропить полностью", correct: true },
+            { text: "При улучшении на 3-й день можно снизить дозу вдвое", correct: false },
+            { text: "Фторхинолоны нельзя с молочными продуктами", correct: true },
+            { text: "Резистентность растёт при неполных курсах", correct: true }
+        ],
+        explanation: "Снижение дозы или прерывание курса — <strong>главная причина антибиотикорезистентности</strong>. Бактерии, которые выжили при низкой дозе, становятся устойчивыми. Курс = курс."
+    },
+    {
+        drug: "💊 КостиКрепс",
+        facts: [
+            { text: "Бисфосфонат для лечения остеопороза", correct: true },
+            { text: "Принимать строго натощак, запивая полным стаканом воды", correct: true },
+            { text: "После приёма можно сразу лечь отдохнуть", correct: false },
+            { text: "Не принимать с кальцием одновременно", correct: true }
+        ],
+        explanation: "После приёма бисфосфонатов нужно <strong>30-60 минут сидеть или стоять</strong>. Лежать нельзя — препарат может вызвать эрозию пищевода. Это критично и часто забывается."
+    },
+    {
+        drug: "💊 ТромбоЩит",
+        facts: [
+            { text: "Антикоагулянт прямого действия (ПОАК)", correct: true },
+            { text: "Не требует регулярного мониторинга МНО", correct: true },
+            { text: "Безопасно сочетать с НПВС (ибупрофен, диклофенак)", correct: false },
+            { text: "Дозу корректируют по функции почек", correct: true }
+        ],
+        explanation: "ПОАК + НПВС = <strong>двойной удар по свёртываемости</strong>. Риск желудочно-кишечного кровотечения возрастает в 2-4 раза. Если нужно обезболивание — парацетамол."
+    },
+    {
+        drug: "💊 АллергоСтоп",
+        facts: [
+            { text: "Антигистаминный препарат 2-го поколения", correct: true },
+            { text: "Не вызывает сонливости (в отличие от 1-го поколения)", correct: true },
+            { text: "Эффект наступает через 3-5 дней регулярного приёма", correct: false },
+            { text: "Можно применять длительно (весь сезон поллиноза)", correct: true }
+        ],
+        explanation: "Антигистаминные 2-го поколения начинают работать <strong>через 30-60 минут</strong> после приёма. Это их главное преимущество — быстрое облегчение симптомов. 3-5 дней — это про ИГКС-спреи."
+    }
+];
+
+let currentRound = 0;
+let score = 0;
+let roundOrder = [];
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function startGame() {
+    currentRound = 0;
+    score = 0;
+    roundOrder = shuffle([...Array(ROUNDS.length).keys()]);
+    showScreen('screen-game');
+    showRound();
+}
+
+function showRound() {
+    const round = ROUNDS[roundOrder[currentRound]];
+    const container = document.getElementById('cards-container');
+    const explanation = document.getElementById('explanation');
+    const btnNext = document.getElementById('btn-next');
+
+    document.getElementById('counter').textContent = `РАУНД ${currentRound + 1} / 10`;
+    document.getElementById('drug-name').textContent = round.drug;
+
+    explanation.classList.remove('show');
+    btnNext.classList.remove('show');
+
+    const shuffledFacts = shuffle(round.facts.map((f, i) => ({...f, origIndex: i})));
+
+    container.innerHTML = shuffledFacts.map((fact, i) => `
+        <div class="card" onclick="selectCard(this, ${fact.correct ? 'false' : 'true'}, ${roundOrder[currentRound]})" id="card-${i}">
+            <div class="card-num">${i + 1}</div>
+            ${fact.text}
+        </div>
+    `).join('');
+}
+
+function selectCard(el, isOddOneOut, roundIndex) {
+    document.querySelectorAll('.card').forEach(c => c.classList.add('disabled'));
+
+    const round = ROUNDS[roundIndex];
+
+    if (isOddOneOut) {
+        el.classList.add('correct');
+        score++;
+
+        document.querySelectorAll('.card').forEach(c => {
+            if (c !== el) c.classList.add('dimmed');
+        });
+    } else {
+        el.classList.add('wrong');
+
+        const allCards = document.querySelectorAll('.card');
+        allCards.forEach(c => {
+            if (c.getAttribute('onclick').includes('true') && c !== el) {
+                c.classList.add('correct');
+            } else if (c !== el) {
+                c.classList.add('dimmed');
+            }
+        });
+    }
+
+    const explanation = document.getElementById('explanation');
+    explanation.innerHTML = round.explanation;
+    setTimeout(() => explanation.classList.add('show'), 200);
+
+    setTimeout(() => document.getElementById('btn-next').classList.add('show'), 400);
+}
+
+function nextRound() {
+    currentRound++;
+    if (currentRound >= 10) {
+        showResult();
+    } else {
+        showRound();
+    }
+}
+
+function showResult() {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 10) * 100);
+    document.getElementById('score-num').textContent = `${score}/10`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных ответов`;
+
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    let msg = '';
+    if (pct >= 90) msg = 'Отличный результат! Вы знаете фармакологию на уровне клинического провизора.';
+    else if (pct >= 70) msg = 'Хороший уровень. Пара тонкостей для повторения — и вы в топе.';
+    else if (pct >= 50) msg = 'Есть пробелы. Рекомендуем повторить раздел лекарственных взаимодействий.';
+    else msg = 'Нужна дополнительная подготовка. Повторите курс и попробуйте снова.';
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
