@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Блиц за 60 секунд — Pharma Simulator #7</title>
+    <meta property="og:title" content="Блиц за 60 секунд — быстрые вопросы про препараты">
+    <meta property="og:description" content="Сколько вопросов успеешь за минуту? Быстрая проверка знаний.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 600px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+            text-align: center;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .timer-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .timer-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+        }
+
+        .timer-value.warning {
+            color: #F39C12;
+            animation: pulse 0.5s infinite;
+        }
+
+        .timer-value.danger {
+            color: #E74C3C;
+            animation: pulse 0.3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .timer-label {
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-top: 4px;
+        }
+
+        .score-display {
+            text-align: right;
+        }
+
+        .score-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #27AE60;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-top: 4px;
+        }
+
+        .question-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question-number {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #1A2332;
+            margin-bottom: 24px;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-btn {
+            background: #F8FAFB;
+            border: 2px solid #E1E8ED;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #2C3E50;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .answer-btn:hover {
+            border-color: #4A90E2;
+            background: #F0F7FF;
+            transform: translateX(4px);
+        }
+
+        .answer-btn:active {
+            transform: translateX(2px);
+        }
+
+        .answer-btn.correct {
+            border-color: #27AE60;
+            background: #F0F9F4;
+            animation: correctFlash 0.4s;
+        }
+
+        .answer-btn.wrong {
+            border-color: #E74C3C;
+            background: #FDF3F2;
+            animation: shake 0.4s;
+        }
+
+        @keyframes correctFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result-stats {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .result-stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F4F8;
+        }
+
+        .result-stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-stat-label {
+            font-size: 14px;
+            color: #7B8FA3;
+        }
+
+        .result-stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Simulator #7</div>
+        <div class="title">Блиц за 60 секунд</div>
+        <div class="sub">
+            Быстрые вопросы про препараты.<br>
+            Сколько успеешь ответить за минуту?<br>
+            Правильный ответ = +1 балл. Ошибка = 0 баллов.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать блиц</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="game-header">
+            <div class="timer-circle">
+                <div class="timer-value" id="timer">60</div>
+                <div class="timer-label">секунд</div>
+            </div>
+            <div class="score-display">
+                <div class="score-value" id="score">0</div>
+                <div class="score-label">правильно</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-number" id="question-number">ВОПРОС 1</div>
+            <div class="question-text" id="question-text"></div>
+            <div class="answers" id="answers"></div>
+        </div>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="final-score">0</div>
+        <div class="result-label">правильных ответов</div>
+
+        <div class="result-stats">
+            <div class="result-stat-row">
+                <div class="result-stat-label">Всего вопросов</div>
+                <div class="result-stat-value" id="total-questions">0</div>
+            </div>
+            <div class="result-stat-row">
+                <div class="result-stat-label">Точность</div>
+                <div class="result-stat-value" id="accuracy">0%</div>
+            </div>
+            <div class="result-stat-row">
+                <div class="result-stat-label">Скорость</div>
+                <div class="result-stat-value" id="speed">0 сек/вопрос</div>
+            </div>
+        </div>
+
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+    {
+        q: "Аспирин противопоказан детям до 15 лет из-за риска:",
+        answers: ["Синдрома Рея", "Анафилаксии", "Гипогликемии", "Судорог"],
+        correct: 0
+    },
+    {
+        q: "Метформин нельзя при СКФ менее:",
+        answers: ["30 мл/мин", "60 мл/мин", "90 мл/мин", "15 мл/мин"],
+        correct: 0
+    },
+    {
+        q: "Омепразол принимают:",
+        answers: ["За 30 мин до еды", "После еды", "Во время еды", "На ночь"],
+        correct: 0
+    },
+    {
+        q: "Варфарин противопоказан при:",
+        answers: ["Беременности", "Гипертонии", "Диабете", "Астме"],
+        correct: 0
+    },
+    {
+        q: "Статины принимают:",
+        answers: ["На ночь", "Утром", "В обед", "2 раза в день"],
+        correct: 0
+    },
+    {
+        q: "Нимесулид запрещён детям до:",
+        answers: ["12 лет", "3 лет", "6 лет", "18 лет"],
+        correct: 0
+    },
+    {
+        q: "Монурал — это:",
+        answers: ["Антибиотик", "НПВС", "Спазмолитик", "Диуретик"],
+        correct: 0
+    },
+    {
+        q: "Бисфосфонаты принимают:",
+        answers: ["Натощак, стоя", "После еды", "Лёжа", "С молоком"],
+        correct: 0
+    },
+    {
+        q: "ИГКС при астме — это:",
+        answers: ["Базисная терапия", "Скорая помощь", "Курсовое лечение", "По требованию"],
+        correct: 0
+    },
+    {
+        q: "Грейпфрутовый сок блокирует фермент:",
+        answers: ["CYP3A4", "CYP2D6", "MAO", "COMT"],
+        correct: 0
+    },
+    {
+        q: "Лоперамид противопоказан при:",
+        answers: ["Дизентерии", "Диарее путешественников", "СРК", "Стрессе"],
+        correct: 0
+    },
+    {
+        q: "Парацетамол токсичен для:",
+        answers: ["Печени", "Почек", "Сердца", "Лёгких"],
+        correct: 0
+    },
+    {
+        q: "ПОАК не сочетаются с:",
+        answers: ["НПВС", "Статинами", "ИПП", "Метформином"],
+        correct: 0
+    },
+    {
+        q: "Антигистаминные 2-го поколения действуют через:",
+        answers: ["30-60 минут", "3-5 дней", "2 недели", "Мгновенно"],
+        correct: 0
+    },
+    {
+        q: "СИОЗС нельзя резко отменять из-за:",
+        answers: ["Синдрома отмены", "Зависимости", "Аллергии", "Передозировки"],
+        correct: 0
+    },
+    {
+        q: "Амоксициллин противопоказан при:",
+        answers: ["Мононуклеозе", "Ангине", "Бронхите", "Цистите"],
+        correct: 0
+    },
+    {
+        q: "Дексаметазон противопоказан при:",
+        answers: ["Грибковых инфекциях", "Аллергии", "Шоке", "Астме"],
+        correct: 0
+    },
+    {
+        q: "Сальбутамол — это:",
+        answers: ["КДБА", "ИГКС", "Антибиотик", "Муколитик"],
+        correct: 0
+    },
+    {
+        q: "Фторхинолоны нельзя запивать:",
+        answers: ["Молоком", "Водой", "Соком", "Чаем"],
+        correct: 0
+    },
+    {
+        q: "Курс антибиотика нужно:",
+        answers: ["Допить до конца", "Прервать при улучшении", "Снизить дозу", "Удвоить дозу"],
+        correct: 0
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+let totalAnswered = 0;
+let timeLeft = 60;
+let timerInterval = null;
+let usedQuestions = [];
+let isAnswering = false;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function startGame() {
+    score = 0;
+    totalAnswered = 0;
+    timeLeft = 60;
+    usedQuestions = [];
+    isAnswering = false;
+
+    document.getElementById('score').textContent = '0';
+    document.getElementById('timer').textContent = '60';
+    document.getElementById('timer').className = 'timer-value';
+
+    showScreen('screen-game');
+    showNextQuestion();
+    startTimer();
+}
+
+function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        const timerEl = document.getElementById('timer');
+        timerEl.textContent = timeLeft;
+
+        if (timeLeft <= 10) {
+            timerEl.className = 'timer-value danger';
+        } else if (timeLeft <= 20) {
+            timerEl.className = 'timer-value warning';
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            showResult();
+        }
+    }, 1000);
+}
+
+function showNextQuestion() {
+    if (timeLeft <= 0) return;
+
+    // Выбираем случайный вопрос, который ещё не задавали
+    let availableQuestions = QUESTIONS.filter((_, i) => !usedQuestions.includes(i));
+
+    // Если все вопросы использованы — сбрасываем
+    if (availableQuestions.length === 0) {
+        usedQuestions = [];
+        availableQuestions = QUESTIONS;
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+    const question = availableQuestions[randomIndex];
+    const originalIndex = QUESTIONS.indexOf(question);
+    usedQuestions.push(originalIndex);
+
+    currentQuestionIndex = originalIndex;
+
+    document.getElementById('question-number').textContent = `ВОПРОС ${totalAnswered + 1}`;
+    document.getElementById('question-text').textContent = question.q;
+
+    // Перемешиваем ответы
+    const shuffledAnswers = question.answers.map((a, i) => ({ text: a, isCorrect: i === question.correct }));
+    const mixed = shuffle(shuffledAnswers);
+
+    const answersContainer = document.getElementById('answers');
+    answersContainer.innerHTML = mixed.map((answer, i) => `
+        <button class="answer-btn" onclick="selectAnswer(${i}, ${answer.isCorrect})" id="answer-${i}">
+            ${answer.text}
+        </button>
+    `).join('');
+
+    isAnswering = false;
+}
+
+function selectAnswer(index, isCorrect) {
+    if (isAnswering) return;
+    isAnswering = true;
+
+    totalAnswered++;
+
+    const btn = document.getElementById(`answer-${index}`);
+
+    if (isCorrect) {
+        btn.classList.add('correct');
+        score++;
+        document.getElementById('score').textContent = score;
+    } else {
+        btn.classList.add('wrong');
+    }
+
+    // Блокируем все кнопки
+    document.querySelectorAll('.answer-btn').forEach(b => b.style.pointerEvents = 'none');
+
+    // Следующий вопрос через 400ms
+    setTimeout(() => {
+        if (timeLeft > 0) {
+            showNextQuestion();
+        }
+    }, 400);
+}
+
+function showResult() {
+    clearInterval(timerInterval);
+    showScreen('screen-result');
+
+    const accuracy = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+    const avgSpeed = totalAnswered > 0 ? (60 / totalAnswered).toFixed(1) : 0;
+
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('total-questions').textContent = totalAnswered;
+    document.getElementById('accuracy').textContent = accuracy + '%';
+    document.getElementById('speed').textContent = avgSpeed + ' сек/вопрос';
+
+    let msg = '';
+    if (score >= 20) {
+        msg = 'Феноменально! Вы знаете фармакологию на уровне клинического провизора. Скорость + точность = мастерство.';
+    } else if (score >= 15) {
+        msg = 'Отличный результат! Вы быстро ориентируетесь в препаратах. Пара повторений — и вы в топе.';
+    } else if (score >= 10) {
+        msg = 'Хороший темп, но есть пробелы в знаниях. Повторите основные группы препаратов и попробуйте снова.';
+    } else if (score >= 5) {
+        msg = 'Неплохо для первого раза, но нужна практика. Скорость придёт с опытом — сначала точность.';
+    } else {
+        msg = 'Нужна дополнительная подготовка. Повторите курс фармакологии и попробуйте в спокойном темпе.';
+    }
+
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
