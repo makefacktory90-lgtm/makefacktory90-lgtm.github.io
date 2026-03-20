@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Горячо-холодно — Pharma Simulator #10</title>
+    <meta property="og:title" content="Горячо-холодно — угадай с подсказками">
+    <meta property="og:description" content="Угадай правильный ответ. Чем ближе к цели — тем теплее.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8EDF2 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 600px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        .badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #1A2332;
+            text-align: center;
+        }
+
+        .sub {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .counter {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            font-weight: 600;
+        }
+
+        .attempts {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #7B8FA3;
+            font-weight: 600;
+        }
+
+        .question-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .question-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #1A2332;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .guess-input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #E1E8ED;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            color: #2C3E50;
+            transition: all 0.2s ease;
+        }
+
+        .guess-input:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .btn-guess {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-guess:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-guess:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .hint-display {
+            text-align: center;
+            margin-bottom: 24px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hint-emoji {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .hint-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .hint-text.cold { color: #3498DB; }
+        .hint-text.warm { color: #F39C12; }
+        .hint-text.hot { color: #E74C3C; }
+        .hint-text.correct { color: #27AE60; }
+
+        .hint-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+        }
+
+        .history {
+            background: #F8FAFB;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .history-title {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #7B8FA3;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .history-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .history-item {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #E1E8ED;
+            color: #7B8FA3;
+        }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #4A90E2;
+            border-radius: 12px;
+            background: transparent;
+            color: #4A90E2;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .btn-next.show { opacity: 1; pointer-events: all; }
+        .btn-next:hover {
+            background: #4A90E2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .result-score {
+            font-family: 'Poppins', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: #4A90E2;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #7B8FA3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result-bar-wrap {
+            background: #E1E8ED;
+            border-radius: 8px;
+            height: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4A90E2, #27AE60);
+            transition: width 1s ease;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #7B8FA3;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .result-msg {
+            font-size: 16px;
+            color: #5A6C7D;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            font-size: 11px;
+            color: #B8C5D0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Simulator #10</div>
+        <div class="title">Горячо-холодно</div>
+        <div class="sub">
+            Угадай правильный ответ с подсказками.<br>
+            Чем ближе к цели — тем теплее.<br>
+            8 вопросов, 5 попыток на каждый.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <div class="screen" id="screen-game">
+        <div class="game-header">
+            <div class="counter" id="counter">ВОПРОС 1 / 8</div>
+            <div class="attempts" id="attempts">ПОПЫТОК: 5</div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-text" id="question"></div>
+
+            <div class="input-group">
+                <input type="number" class="guess-input" id="guess-input" placeholder="?" onkeypress="if(event.key==='Enter') makeGuess()">
+                <button class="btn-guess" onclick="makeGuess()">Угадать</button>
+            </div>
+
+            <div class="hint-display" id="hint-display"></div>
+
+            <div class="history" id="history" style="display:none;">
+                <div class="history-title">Твои попытки:</div>
+                <div class="history-items" id="history-items"></div>
+            </div>
+        </div>
+
+        <button class="btn-next" id="btn-next" onclick="nextQuestion()">Следующий вопрос →</button>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-num">0/8</div>
+        <div class="result-label">угаданных вопросов</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+    {
+        q: "В каком году был открыт пенициллин?",
+        answer: 1928,
+        unit: "",
+        range: 50
+    },
+    {
+        q: "Сколько мг парацетамола в одной стандартной таблетке?",
+        answer: 500,
+        unit: " мг",
+        range: 200
+    },
+    {
+        q: "При какой температуре (°C) хранится инсулин?",
+        answer: 4,
+        unit: "°C",
+        range: 10
+    },
+    {
+        q: "Сколько часов действует ибупрофен (разовая доза)?",
+        answer: 6,
+        unit: " ч",
+        range: 5
+    },
+    {
+        q: "Сколько мг кофеина в чашке кофе (средняя)?",
+        answer: 95,
+        unit: " мг",
+        range: 50
+    },
+    {
+        q: "Сколько литров крови фильтруют почки за сутки?",
+        answer: 180,
+        unit: " л",
+        range: 100
+    },
+    {
+        q: "Сколько ударов в минуту — нормальный пульс взрослого?",
+        answer: 70,
+        unit: " уд/мин",
+        range: 30
+    },
+    {
+        q: "Сколько мг витамина C в одном апельсине?",
+        answer: 70,
+        unit: " мг",
+        range: 50
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let attemptsLeft = 5;
+let guessHistory = [];
+let correctAnswer = 0;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+    currentQuestion = 0;
+    score = 0;
+    showScreen('screen-game');
+    showQuestion();
+}
+
+function showQuestion() {
+    const q = QUESTIONS[currentQuestion];
+    correctAnswer = q.answer;
+    attemptsLeft = 5;
+    guessHistory = [];
+
+    document.getElementById('counter').textContent = `ВОПРОС ${currentQuestion + 1} / 8`;
+    document.getElementById('attempts').textContent = `ПОПЫТОК: ${attemptsLeft}`;
+    document.getElementById('question').textContent = q.q;
+    document.getElementById('guess-input').value = '';
+    document.getElementById('guess-input').disabled = false;
+    document.querySelector('.btn-guess').disabled = false;
+    document.getElementById('hint-display').innerHTML = '';
+    document.getElementById('history').style.display = 'none';
+    document.getElementById('btn-next').classList.remove('show');
+}
+
+function makeGuess() {
+    const input = document.getElementById('guess-input');
+    const guess = parseInt(input.value);
+
+    if (isNaN(guess)) {
+        return;
+    }
+
+    attemptsLeft--;
+    guessHistory.push(guess);
+
+    document.getElementById('attempts').textContent = `ПОПЫТОК: ${attemptsLeft}`;
+
+    // Показываем историю
+    const history = document.getElementById('history');
+    const historyItems = document.getElementById('history-items');
+    history.style.display = 'block';
+    historyItems.innerHTML = guessHistory.map(g => `<div class="history-item">${g}</div>`).join('');
+
+    const q = QUESTIONS[currentQuestion];
+    const distance = Math.abs(guess - correctAnswer);
+    const maxDistance = q.range;
+
+    let hintEmoji = '';
+    let hintText = '';
+    let hintClass = '';
+    let hintDetail = '';
+
+    if (guess === correctAnswer) {
+        hintEmoji = '🎯';
+        hintText = 'Правильно!';
+        hintClass = 'correct';
+        hintDetail = `Ответ: ${correctAnswer}${q.unit}`;
+        score++;
+        endQuestion();
+    } else if (attemptsLeft === 0) {
+        hintEmoji = '❌';
+        hintText = 'Попытки кончились';
+        hintClass = 'cold';
+        hintDetail = `Правильный ответ: ${correctAnswer}${q.unit}`;
+        endQuestion();
+    } else {
+        const percent = (distance / maxDistance) * 100;
+
+        if (percent <= 10) {
+            hintEmoji = '🔥';
+            hintText = 'Очень горячо!';
+            hintClass = 'hot';
+            hintDetail = 'Совсем рядом';
+        } else if (percent <= 25) {
+            hintEmoji = '🌡️';
+            hintText = 'Горячо';
+            hintClass = 'hot';
+            hintDetail = 'Близко к цели';
+        } else if (percent <= 50) {
+            hintEmoji = '☀️';
+            hintText = 'Тепло';
+            hintClass = 'warm';
+            hintDetail = 'Ещё не близко';
+        } else {
+            hintEmoji = '❄️';
+            hintText = 'Холодно';
+            hintClass = 'cold';
+            hintDetail = 'Далеко от цели';
+        }
+
+        if (guess < correctAnswer) {
+            hintDetail += ' ↑ Больше';
+        } else {
+            hintDetail += ' ↓ Меньше';
+        }
+    }
+
+    const hintDisplay = document.getElementById('hint-display');
+    hintDisplay.innerHTML = `
+        <div class="hint-emoji">${hintEmoji}</div>
+        <div class="hint-text ${hintClass}">${hintText}</div>
+        <div class="hint-detail">${hintDetail}</div>
+    `;
+
+    input.value = '';
+    input.focus();
+}
+
+function endQuestion() {
+    document.getElementById('guess-input').disabled = true;
+    document.querySelector('.btn-guess').disabled = true;
+    document.getElementById('btn-next').classList.add('show');
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion >= 8) {
+        showResult();
+    } else {
+        showQuestion();
+    }
+}
+
+function showResult() {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 8) * 100);
+    document.getElementById('score-num').textContent = `${score}/8`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных ответов`;
+
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    let msg = '';
+    if (pct === 100) msg = 'Идеально! У вас отличная интуиция и логическое мышление. Все ответы с первых попыток!';
+    else if (pct >= 75) msg = 'Отлично! Вы быстро находите правильный ответ. Метод половинного деления работает.';
+    else if (pct >= 50) msg = 'Неплохо, но можно лучше. Используйте подсказки "больше/меньше" для быстрого поиска.';
+    else msg = 'Нужна практика. Совет: начинайте со среднего значения и двигайтесь к цели по подсказкам.';
+
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
