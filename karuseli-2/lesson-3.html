@@ -152,7 +152,7 @@
 <body>
 
     <div class="topbar">
-        <a href="dashboard.html">&larr; Назад к программе</a>
+        <a href="dashboard-v2.html">&larr; Назад к программе</a>
         <span class="lesson-badge">Урок 03 / 03</span>
     </div>
 
@@ -210,7 +210,7 @@
             <h2>Формулы под любую цель</h2>
             <p>Система сама подбирает формулу. Но полезно знать, какие есть.</p>
             <div class="formula-grid">
-                <div class="formula-card" onclick="this.classList.toggle('open')"><div class="formula-header"><span class="formula-name">PAS &mdash; Проблема &rarr; Агитация &rarr; Реше��ие</span><span class="formula-goal">Продажи</span></div><div class="formula-detail">HOOK &rarr; PROBLEM (2-3) &rarr; AGITATE (4-5) &rarr; PIVOT (6) &rarr; SOLUTION (7-8) &rarr; PROOF (9) &rarr; CTA. Решение не раньше слайда 7.</div></div>
+                <div class="formula-card" onclick="this.classList.toggle('open')"><div class="formula-header"><span class="formula-name">PAS &mdash; Проблема &rarr; Агитация &rarr; Решение</span><span class="formula-goal">Продажи</span></div><div class="formula-detail">HOOK &rarr; PROBLEM (2-3) &rarr; AGITATE (4-5) &rarr; PIVOT (6) &rarr; SOLUTION (7-8) &rarr; PROOF (9) &rarr; CTA. Решение не раньше слайда 7.</div></div>
                 <div class="formula-card" onclick="this.classList.toggle('open')"><div class="formula-header"><span class="formula-name">Контраст &mdash; Миф vs Реальность</span><span class="formula-goal">Охваты</span></div><div class="formula-detail">HOOK &rarr; 3 пары Миф/Реальность (нарастают по остроте) &rarr; ВЫВОД &rarr; CTA. Провоцирует &mdash; хочется переслать.</div></div>
                 <div class="formula-card" onclick="this.classList.toggle('open')"><div class="formula-header"><span class="formula-name">Скользкая горка (Шугерман)</span><span class="formula-goal">Экспертность</span></div><div class="formula-detail">HOOK &rarr; SETUP &rarr; SLIDE (3-7, каждый обрывается) &rarr; PAYOFF (8-9) &rarr; CTA. КАЖДЫЙ слайд &mdash; незавершённая мысль.</div></div>
                 <div class="formula-card" onclick="this.classList.toggle('open')"><div class="formula-header"><span class="formula-name">How-To / Listicle</span><span class="formula-goal">Экспертность</span></div><div class="formula-detail">HOOK (обещание с цифрой) &rarr; по шагу на слайд (2-9) &rarr; CTA (&laquo;Сохрани как чеклист&raquo;). Самый простой формат.</div></div>
@@ -1001,7 +1001,7 @@ OUTPUT IN 3 FORMATS:
         </div>
 
         <div class="bottom-nav">
-            <a href="dashboard.html" class="btn-back">&larr; К программе</a>
+            <a href="dashboard-v2.html" class="btn-back">&larr; К программе</a>
             <a href="https://t.me/+nJOk-JZvVfIzOTVi" class="btn-next" target="_blank">Канал в Telegram &rarr;</a>
         </div>
 
@@ -1017,7 +1017,7 @@ OUTPUT IN 3 FORMATS:
             if (content.classList.contains('open')) {
                 label.textContent = id === 'main' ? 'Скрыть промпт' : 'Скрыть промпт Visual DNA';
             } else {
-                label.textContent = id === 'main' ? 'Показать ��ол��ый промпт' : 'Показать промпт Visual DNA';
+                label.textContent = id === 'main' ? 'Показать полный промпт' : 'Показать промпт Visual DNA';
             }
         }
 

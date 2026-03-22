@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КАРУСЕЛИ 2.0 // DASHBOARD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #FF0000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #000; color: #fff; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .welcome { text-align: center; margin-bottom: 60px; }
+        .glitch { font-size: 72px; font-weight: 900; animation: glitch 1s infinite; }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        .countdown-label { margin-top: 30px; opacity: 0.6; font-size: 14px; }
+        #countdown { font-size: 48px; font-weight: 900; margin: 20px 0; color: var(--accent); }
+        .welcome.hidden { display: none; }
+        .schedule { background: #1a1a1a; padding: 30px; margin-bottom: 40px; border: 1px solid #333; }
+        .schedule h3 { color: var(--accent); margin-bottom: 20px; font-size: 14px; }
+        .schedule-item { margin: 15px 0; font-size: 13px; line-height: 1.6; }
+        .schedule-item strong { color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: #333; border: 1px solid #333; }
+        .card { background: #000; padding: 30px; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; }
+        .card.locked { opacity: 0.4; }
+        .card.special { background: linear-gradient(180deg, #120000 0%, #000 100%); border: 1px solid var(--accent); }
+        .card span { font-size: 10px; }
+        .card h3 { margin: 20px 0; }
+        .card p { font-size: 12px; color: #888; }
+        .card a { display: block; margin-top: 15px; padding: 12px; background: #FF0000; color: #fff; text-decoration: none; text-align: center; font-weight: 700; font-size: 12px; text-transform: uppercase; transition: all 0.2s; }
+        .card a:hover { background: #cc0000; }
+        .card.special a { background: #fff; color: #000; }
+        .card.special a:hover { background: #f2f2f2; }
+        @media (max-width: 480px) {
+            .glitch { font-size: 48px; }
+            #countdown { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome">
+            <div class="glitch">КАРУСЕЛИ 2.0</div>
+            <p class="countdown-label">ДО ПЕРВОГО УРОКА ОСТАЛОСЬ:</p>
+            <div id="countdown"></div>
+        </div>
+
+        <div class="schedule">
+            <h3>РАСПИСАНИЕ</h3>
+            <div class="schedule-item">
+                <strong>15 МАРТА И КАЖДОЕ ВОСКРЕСЕНЬЕ, 10:00 МСК</strong> — Выходят новые уроки
+            </div>
+            <div class="schedule-item">
+                <strong>СРЕДЫ, 8:00-10:00 МСК</strong> — Обратная связь от Иры
+            </div>
+            <div class="schedule-item" style="color: var(--accent); margin-top: 25px;">
+                ⚠️ Чтобы получить фидбек гарантированно — отправьте домашку в канал в Telegram до восьми утра среды
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 40px; font-weight: 900;">ПРОГРАММА</h2>
+        <div class="grid">
+            <div class="card">
+                <span>[ ДОСТУПЕН СЕЙЧАС ]</span>
+                <h3>01. ФУНДАМЕНТ</h3>
+                <p>4 файла: Голос, Аудитория, Продукт, Стоп-лист</p>
+                <a href="lesson-1.html">ОТКРЫТЬ УРОК</a>
+            </div>
+            <div class="card special">
+                <span>[ НОВЫЙ УРОК • ДОСТУПЕН СЕЙЧАС ]</span>
+                <h3>02. ПРОДАКШЕН</h3>
+                <p>Интерактивный урок: быстрое производство каруселей с AI</p>
+                <a href="/urok-02-prodakshen/">ОТКРЫТЬ ИНТЕРАКТИВНЫЙ УРОК</a>
+            </div>
+            <div class="card locked">
+                <span>[ 29 МАРТА, 10:00 МСК ]</span>
+                <h3>03. СИСТЕМА</h3>
+                <p>Контент-машина на автопилоте</p>
+            </div>
+            <div class="card">
+                <span>[ ДОСТУПЕН СЕЙЧАС ]</span>
+                <h3>КАНАЛ В TELEGRAM</h3>
+                <p>Чтобы гарантированно получить обратную связь — отправьте домашку или вопрос до 8:00 МСК среды</p>
+                <a href="https://t.me/+nJOk-JZvVfIzOTVi">ПЕРЕЙТИ В КАНАЛ</a>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center;">
+            <div style="background: #1a1a1a; padding: 30px; border: 1px solid #333;">
+                <h3 style="color: var(--accent); margin-bottom: 20px; font-size: 18px; font-weight: 900;">ЧТО ВНУТРИ КУРСА</h3>
+                <p style="font-size: 16px; line-height: 1.8;">
+                    <strong>Агенты</strong> • <strong>Скиллы</strong> • <strong>Гемы</strong> • <strong>Промты</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const targetDate = new Date('2026-03-15T10:00:00+03:00');
+        function updateCountdown() {
+            const now = new Date();
+            const diff = targetDate - now;
+            if (diff <= 0) {
+                document.querySelector('.welcome').classList.add('hidden');
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('countdown').textContent = `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+    </script>
+</body>
+</html>
