@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>УРОК 1 // ФУНДАМЕНТ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #FF0000;
+            --bg: #000;
+            --surface: #1a1a1a;
+            --border: #333;
+            --text: #fff;
+            --text-dim: #888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 40px 20px; line-height: 1.6; }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .intro-box {
+            background: var(--surface);
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            margin-bottom: 30px;
+        }
+
+        .intro-box p {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .intro-box p:last-child { margin-bottom: 0; }
+
+        .intro-box strong { color: var(--text); }
+
+        .video-box {
+            background: var(--surface);
+            padding: 30px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .video-box a {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--accent);
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .video-box a:hover { opacity: 0.9; }
+
+        .prompt-card {
+            background: var(--surface);
+            padding: 30px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        .prompt-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .prompt-num {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .prompt-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .prompt-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .prompt-box {
+            background: #0a0a0a;
+            padding: 20px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            background: var(--accent);
+            color: var(--text);
+            border: none;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover { opacity: 0.9; }
+
+        .link-card {
+            display: block;
+            background: #0a0a0a;
+            padding: 20px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            margin-top: 15px;
+        }
+
+        .link-card:hover { border-color: var(--accent); }
+
+        .link-card strong { color: var(--accent); }
+
+        .note-box {
+            background: rgba(255,0,0,0.1);
+            border: 1px solid rgba(255,0,0,0.3);
+            padding: 20px;
+            margin-top: 15px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 60px;
+            padding: 12px 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .back-link:hover { border-color: var(--accent); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>УРОК 1</h1>
+            <div class="subtitle">ФУНДАМЕНТ</div>
+        </div>
+
+        <!-- ВВЕДЕНИЕ -->
+        <div class="section">
+            <div class="intro-box">
+                <p><strong>Ребята, привет. Это первый урок. Сегодня мы поговорим про фундамент.</strong></p>
+            </div>
+        </div>
+
+        <!-- ВИДЕО-ЛЕКЦИЯ -->
+        <div class="section">
+            <div class="section-title">ВИДЕО-ЛЕКЦИЯ</div>
+            <div class="video-box">
+                <p style="margin-bottom: 20px;">Базовый урок: как делать карусели с нуля. Разбираем на примере косметолога, но подходит для любой ниши.</p>
+                <a href="https://youtu.be/i6usYY46K30" target="_blank">СМОТРЕТЬ ЛЕКЦИЮ (YouTube)</a>
+            </div>
+        </div>
+
+        <!-- ЧТО ПОНАДОБИТСЯ -->
+        <div class="section">
+            <div class="section-title">ЧТО ВАМ ПОНАДОБИТСЯ</div>
+            <div class="intro-box">
+                <p><strong>✦ Любая нейросеть</strong> — ChatGPT, Claude, GigaChat, DeepSeek, YandexGPT. Все промпты из этого курса работают в любой из них. Выбирайте ту, котора�� у вас уже есть.</p>
+                <p><strong>✦ VPN</strong> — если используете ChatGPT или Claude, они не работают из России без VPN. GigaChat и DeepSeek работают без VPN.</p>
+                <p><strong>✦ Аккаунт в нейросети</strong> — зарегистрируйтесь заранее. Базовый доступ бесплатный.</p>
+                <p><strong>✦ Телефон или компьютер</strong> — карусели можно собирать прямо с телефона.</p>
+            </div>
+            <div class="note-box">
+                <strong>💡 Что такое "промпт"?</strong><br>
+                Это текст-инструкция для нейросети. Вы копируете промпт, вставляете в чат нейросети, заменяете слова в [СКОБКАХ] на свои — и получаете результат. Как шаблон письма, только для AI.
+            </div>
+        </div>
+
+        <!-- ПРОМПТЫ -->
+        <div class="section">
+            <div class="section-title">4 ПРОМПТА ДЛЯ ФУНДАМЕНТА</div>
+
+            <div style="text-align: center; margin-bottom: 40px;">
+                <button onclick="downloadAllPrompts()" style="padding: 16px 32px; background: var(--accent); color: var(--text); border: none; font-weight: 700; font-size: 14px; cursor: pointer;">📥 СКАЧАТЬ ВСЕ ПРОМПТЫ</button>
+            </div>
+
+            <!-- Промпт 1: Детектор болей -->
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-num">01</div>
+                    <div class="prompt-title">Детектор болей (CustDev)</div>
+                </div>
+                <p class="prompt-desc">Начните с этого. Вы описываете свою нишу — агент находит реальные боли аудитории и формулирует их словами клиента. Без этого шага все тексты будут "в молоко".</p>
+
+                <div class="note-box">
+                    <strong>⚠️ Это агент в ChatGPT.</strong><br>
+                    Для работы нужен VPN + бесплатный аккаунт ChatGPT. Если у вас нет VPN — пропустите этот шаг и сразу переходите к промпту 2, там просто опишите свою нишу и аудиторию вручную.
+                </div>
+
+                <a class="link-card" href="https://chatgpt.com/g/g-69084d25972881918493148f729ebd5f-detektor-bolei-custdev-by-ira-ai" target="_blank">
+                    <strong>🔍 Детектор болей — CustDev by @ira_and_ai</strong><br>
+                    <span style="font-size: 12px; color: var(--text-dim);">Открыть в ChatGPT (нужен VPN)</span>
+                </a>
+            </div>
+
+            <!-- Промпт 2: Генератор карусели -->
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-num">02</div>
+                    <div class="prompt-title">Генератор карусели</div>
+                </div>
+                <p class="prompt-desc">Вставляете тему и аудиторию — получаете сценарий с хуком, мясом и CTA. Один промпт вместо часа мучений.</p>
+
+                <div class="prompt-box">
+                    <button class="copy-btn" onclick="copyPrompt(this)">КОПИРОВАТЬ</button>РОЛЬ:
+Ты - Главный Редактор вирального медиа. Ты ненавидишь "воду" и банальности.
+Твоя задача — создать сценарий Instagram-карусели (8-10 слайдов), которую невозможно пролистнуть.
+
+ВВОДНЫЕ:
+Тема: [ВСТАВЬ ТЕМУ]
+Целевая аудитория: [КТО ЧИТАЕТ]
+
+СТРОГИЕ ТРЕБОВАНИЯ К СТИЛЮ:
+Плотность: 1 слайд = 1 законченная, мощная мысль. Никаких лишних слов.
+Полярность: Текст должен быть спорным, любопытным или ломающим стереотипы.
+
+Лимиты:
+ЗАГОЛОВОК: Строго до 40 символов (жирно, капс).
+ТЕКСТ: Строго до 160 символов (1-3 предложения).
+Без банальщины: Запрещены вопросы "А вы согласны?". Запрещены фразы "Важно понимать". Только суть.
+
+СТРУКТУРА КАРУСЕЛИ (Сюжетная Арка):
+Слайд 1 (Хук): Удар по боли или провокация. Должен остановить скролл.
+Слайд 2 (Контекст): Почему это касается читателя прямо сейчас?
+Слайды 3-7 (Мясо): Разрушение мифов, инсайты, шаги.
+Слайд 8 (Вывод): Финальная точка.
+Слайд 9 (CTA): Призыв к действию.</div>
+            </div>
+
+            <!-- Промпт 3: Tone of Voice -->
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-num">03</div>
+                    <div class="prompt-title">Tone of Voice (Ваш голос)</div>
+                </div>
+                <p class="prompt-desc">Определите свой стиль общения. Это основа всего контента — как вы говорите с аудиторией.</p>
+
+                <div class="prompt-box">
+                    <button class="copy-btn" onclick="copyPrompt(this)">КОПИРОВАТЬ</button>РОЛЬ:
+Ты — эксперт по брендингу и tone of voice с 15-летним опытом работы с личными брендами.
+Ты умеешь вытаскивать уникальность из человека через правильные вопросы.
+
+КОНТЕКСТ:
+Я веду контент, но он звучит как у всех. Мне нужен свой узнаваемый голос — чтобы люди читали первую строчку и понимали: это я.
+
+ВВОДНЫЕ:
+Кто я: [ниша, чем занимаюсь, сколько лет в теме]
+Моя ЦА: [кто они, возраст, боли, где тусуются]
+Мои ценности: [что для меня важно, за что я готов спорить]
+Мой антигерой: [какой стиль/подход меня бесит в моей нише]
+
+ЗАДАЧА:
+Проведи со мной интервью из 7 вопросов, чтобы вытащить мой настоящий голос:
+
+1. Как ты объясняешь сложное? (примеры, метафоры, прямо в лоб)
+2. Какие слова/фразы ты используешь постоянно в жизни?
+3. Какие слова тебя бесят и ты их НИКОГДА не скажешь?
+4. Ты говоришь быстро или медленно? Много деталей или коротко?
+5. Ты больше про эмоции или про факты?
+6. Как ты реагируешь на чужую глупость? (игнор, сарказм, объясняю)
+7. Если бы твой голос был человеком — кто это? (персонаж, знаменитость)
+
+После моих ответов дай мне:
+1. Описание моего tone of voice (3-4 предложения, как инструкция для копирайтера)
+2. Мой словарь: 15 слов/фраз, которые я использую
+3. Мой стоп-лист: 15 слов/фраз, которые я НЕ использую
+4. 3 примера фраз в моём стиле на тему [моя ниша]</div>
+            </div>
+
+            <!-- Промпт 4: Продукт + Вето -->
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-num">04</div>
+                    <div class="prompt-title">Продукт + Цели + Вето</div>
+                </div>
+                <p class="prompt-desc">Определите что вы продаёте, какие цели ставите, о чём говорите и о чём НЕ говорите. Это ваш стоп-лист для контента.</p>
+
+                <div class="prompt-box">
+                    <button class="copy-btn" onclick="copyPrompt(this)">КОПИРОВАТЬ</button>РОЛЬ:
+Ты — стратег по контенту и продуктовый маркетолог.
+Ты помогаешь экспертам превратить хаос в голове в чёткую систему: что продаю, кому, зачем веду контент.
+
+КОНТЕКСТ:
+Я веду контент, но он не продаёт. Или продаёт, но я не понимаю почему. Мне нужна структура: что я делаю, для кого, и что должно произойти после прочтения.
+
+ВВОДНЫЕ:
+Кто я: [ниша, опыт, что умею]
+Моя ЦА: [кто они, где работают, сколько зарабатывают, какие боли]
+Мой главный результат: [что получает клиент после работы со мной]
+
+ЗАДАЧА:
+Проведи со мной стратегическую сессию из 4 блоков. Задавай вопросы по каждому блоку, жди ответов, копай глубже.
+
+БЛОК 1: МОЙ ПРОДУКТ
+— Что конкретно я продаю? (не "консультации", а что внутри)
+— Какую проблему решаю? (в чём боль ДО меня, что меняется ПОСЛЕ)
+— Чем отличаюсь от 100 таких же? (не "индивидуальный подход", а реально)
+— Сколько стоит? Как долго работаем?
+
+БЛОК 2: ЦЕЛИ КОНТЕНТА
+— Зачем я веду аккаунт? (продажи, экспертность, комьюнити, лояльность)
+— Что должен сделать человек после прочтения? (подписаться, написать, купить, сохранить)
+— Как я понимаю, что контент работает? (метрики, ощущения, деньги)
+
+БЛОК 3: О ЧЁМ Я ГОВОРЮ
+— Какие 5 тем я раскрываю постоянно?
+— Какие форматы использую? (кейсы, инструкции, разборы, мнения)
+— Какой контент у меня заходит лучше всего? (по охватам, по продажам)
+
+БЛОК 4: О ЧЁМ Я НЕ ГОВОРЮ (ВЕТО)
+— Какие темы табу? (политика, религия, что ещё)
+— Какой стиль я НЕ использую? (мотивашки, агрессия, юмор, сторис из жизни)
+— Что я НЕ делаю в контенте? (не танцую, не показываю лицо, не продаю в лоб)
+— Какие слова/подходы меня бесят в моей нише?
+
+После каждого блока — резюмируй мои ответы и проверяй: "Всё верно? Что-то добавить?"
+
+В конце дай мне:
+1. Одностраничный документ "Моя контент-стратегия" (4 блока структурированно)
+2. Чек-лист для проверки каждого поста: "Этот пост работает на мою стратегию?"
+3. 5 идей для контента на основе моих ответов</div>
+            </div>
+
+        </div>
+
+        <!-- КОНСТРУКТОР КАРУСЕЛЕЙ -->
+        <div class="section">
+            <div class="section-title">КОНСТРУКТОР КАРУСЕЛЕЙ</div>
+            <div class="intro-box">
+                <p><strong>Готовый инструмент для сборки каруселей.</strong></p>
+                <p>Вставляете текст и картинки — получаете готовую карусель для Instagram.</p>
+            </div>
+            <a class="link-card" href="https://iraai.ru/carousel-constructor/" target="_blank">
+                <strong>🎨 Конструктор каруселей</strong><br>
+                <span style="font-size: 12px; color: var(--text-dim);">Пароль: password</span>
+            </a>
+
+            <div class="note-box" style="margin-top: 30px;">
+                <strong>🔍 АНАЛИЗАТОР КОНКУРЕНТОВ</strong><br>
+                Инструмент для анализа чужих каруселей: что заходит, какие хуки работают, видео vs карусели.
+            </div>
+
+            <div class="video-box" style="margin-top: 20px;">
+                <p style="margin-bottom: 20px;">Как пользоваться анализатором: пошаговая инструкция.</p>
+                <a href="https://youtu.be/zAWJ6oj50aM" target="_blank">СМОТРЕТЬ ИНСТРУКЦИЮ (YouTube)</a>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <a class="link-card" href="https://competitor-analyzer-bynpaafxxe6aztycbhxrj9.streamlit.app/" target="_blank">
+                    <strong>📊 Анализатор конкурентов</strong><br>
+                    <span style="font-size: 12px; color: var(--text-dim);">Пароль: password</span>
+                </a>
+
+                <a class="link-card" href="https://console.apify.com/sign-in" target="_blank">
+                    <strong>🔧 Apify (для скачивания данных)</strong><br>
+                    <span style="font-size: 12px; color: var(--text-dim);">Используйте актёр: apify/instagram-scraper</span>
+                </a>
+
+                <a class="link-card" href="https://t.me/SaveAsBot" target="_blank">
+                    <strong>💾 SaveAsBot (для сохранения каруселей)</strong><br>
+                    <span style="font-size: 12px; color: var(--text-dim);">Telegram-бот для скачивания постов</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ДОМАШНЕЕ ЗАДАНИЕ -->
+        <div class="section">
+            <div class="section-title">ДОМАШНЕЕ ЗАДАНИЕ</div>
+            <div class="intro-box">
+                <p><strong>Ваша задача на эту неделю:</strong></p>
+                <p>1. Пройдите все 4 промпта и заполните свои данные<br>
+                2. Сохраните результаты (это ваш фундамент)<br>
+                3. Создайте свою первую карусель с помощью промпта 2<br>
+                4. Отправьте результат в канал Telegram до среды 8:00 МСК для обратной связи</p>
+            </div>
+        </div>
+
+        <a class="back-link" href="/karuseli-2-2026/dashboard/">← ВЕРНУТЬСЯ В DASHBOARD</a>
+    </div>
+
+    <script>
+        if (localStorage.getItem('karuseli_2_2026_access') !== 'granted') {
+            window.location.href = '/karuseli-2-2026/'
+        }
+
+        function copyPrompt(btn) {
+            const promptBox = btn.parentElement;
+            const text = promptBox.textContent.replace('КОПИРОВАТЬ', '').trim();
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'СКОПИРОВАНО!';
+                setTimeout(() => { btn.textContent = 'КОПИРОВАТЬ'; }, 2000);
+            });
+        }
+
+        function downloadAllPrompts() {
+            const prompts = document.querySelectorAll('.prompt-box');
+            let allText = '='.repeat(60) + '\n';
+            allText += 'КАРУСЕЛИ 2.0 — ВСЕ ПРОМПТЫ\n';
+            allText += '='.repeat(60) + '\n\n';
+
+            prompts.forEach((prompt, index) => {
+                const title = prompt.parentElement.querySelector('.prompt-title').textContent;
+                const text = prompt.textContent.replace('КОПИРОВАТЬ', '').trim();
+                allText += `ПРОМПТ ${index + 1}: ${title}\n`;
+                allText += '-'.repeat(60) + '\n';
+                allText += text + '\n\n';
+                allText += '='.repeat(60) + '\n\n';
+            });
+
+            const blob = new Blob([allText], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'karuseli-2-prompts.txt';
+            link.click();
+        }
+    </script>
+</body>
+</html>
