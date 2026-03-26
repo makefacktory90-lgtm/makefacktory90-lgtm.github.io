@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Если вы не измеряете — вы не управляете</title>
+<style>
+/* ── RESET ─────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#fff;color:#111;font-family:Impact,Arial Black,sans-serif;overflow-x:hidden;line-height:1.5}
+
+/* ── VARIABLES ─────────────────────────────── */
+:root{
+  --red:#E63946;
+  --black:#111;
+  --white:#fff;
+  --gray:#E5E5E5;
+  --mid:#888;
+}
+
+/* ── TYPOGRAPHY ────────────────────────────── */
+.display{font-family:Impact,"Arial Black",sans-serif;text-transform:uppercase;letter-spacing:.02em}
+.serif{font-family:Georgia,"Times New Roman",serif}
+.kicker{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--mid)}
+
+/* ── LAYOUT ────────────────────────────────── */
+section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;overflow:hidden}
+.container{max-width:1100px;margin:0 auto}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+/* ── SPINE ─────────────────────────────────── */
+#spine-track{position:fixed;top:0;left:0;width:3px;height:100%;background:var(--gray);z-index:99}
+#spine-fill{width:100%;background:var(--red);height:0%;transition:height .1s linear}
+#prog-bar{position:fixed;top:0;left:3px;right:0;height:2px;background:var(--gray);z-index:98}
+#prog-fill{height:100%;width:0%;background:var(--red);transition:width .1s linear}
+
+/* ── OUTLINE BG TEXT ───────────────────────── */
+.bg-word{
+  position:absolute;
+  font-family:Impact,"Arial Black",sans-serif;
+  text-transform:uppercase;
+  -webkit-text-stroke:1px #E5E5E5;
+  color:transparent;
+  pointer-events:none;
+  user-select:none;
+  line-height:.88;
+}
+
+/* ── RED LINE ──────────────────────────────── */
+.red-line{width:60px;height:3px;background:var(--red);display:block;margin:20px 0}
+
+/* ── STEP DIVIDER ──────────────────────────── */
+.step-divider{
+  border-left:4px solid var(--red);
+  padding:48px 64px;
+  border-bottom:1px solid var(--gray);
+}
+
+/* ── SIMULATOR CARDS ───────────────────────── */
+.sim-card{
+  border:1px solid var(--gray);
+  padding:24px;
+  cursor:default;
+  transition:background .22s,color .22s,border-color .22s;
+}
+.sim-card:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.sim-card:hover .kicker{color:rgba(255,255,255,.65)}
+.sim-card:hover .card-hr{border-color:rgba(255,255,255,.25)}
+.sim-card:hover p{color:rgba(255,255,255,.85)}
+
+/* ── TABLE ─────────────────────────────────── */
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid var(--gray);padding:12px 14px;text-align:left;font-size:13px;font-family:Arial,sans-serif}
+th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);background:#fafafa;font-family:Arial,sans-serif}
+.td-red{color:var(--red);font-weight:700}
+.league-leader{background:#FFF5F6}
+.league-leader td:first-child{color:var(--red);font-weight:700}
+
+/* ── BAR CHART ─────────────────────────────── */
+.bar-wrap{border:1px solid var(--gray);padding:20px}
+.bar-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.bar-track{height:4px;background:var(--gray)}
+.bar-fill{height:100%}
+
+/* ── ACCORDION ─────────────────────────────── */
+.garm-trigger{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:20px 24px;text-align:left;background:#fafafa;
+  border-bottom:1px solid var(--gray);cursor:pointer;
+  border:none;
+}
+.garm-trigger:hover{background:#f0f0f0}
+.plus{font-size:32px;color:var(--red);font-family:Arial,sans-serif;transition:transform .3s}
+.garm-trigger.open .plus{transform:rotate(45deg)}
+.garm-body{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1)}
+.garm-body.open{max-height:4000px}
+.price-step-head{background:#f9f9f9;padding:10px 24px;border-bottom:1px solid var(--gray)}
+.price-row{display:flex;justify-content:space-between;align-items:start;gap:16px;padding:16px 24px;border-bottom:1px solid var(--gray)}
+.price-row:last-of-type{border-bottom:none}
+.price-num{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#aaa;margin-bottom:4px;font-family:Arial,sans-serif}
+.price-title{font-weight:600;font-size:15px;font-family:Arial,sans-serif;margin-bottom:4px}
+.price-note{font-size:13px;color:#666;font-family:Georgia,serif}
+.price-right{text-align:right;min-width:140px;flex-shrink:0}
+.price-amount{font-family:Impact,"Arial Black",sans-serif;font-size:22px}
+.pill{display:inline-block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--gray);padding:3px 8px;color:#888;margin-top:6px;font-family:Arial,sans-serif}
+.pill.opt{border-color:var(--red);color:var(--red)}
+.price-total{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:20px 24px;background:#FFF5F6}
+
+/* ── TEAM ──────────────────────────────────── */
+.team-card{border:1px solid var(--gray);transition:border-color .2s}
+.team-card:hover{border-color:var(--red)}
+.team-photo{height:260px;background:#f5f5f5;border-bottom:1px solid var(--gray);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.team-body{padding:20px}
+.team-li{display:flex;gap:8px;font-size:14px;font-family:Arial,sans-serif;margin-bottom:6px}
+.team-arrow{color:var(--red);font-weight:700;flex-shrink:0}
+
+/* ── LINKS ─────────────────────────────────── */
+.red-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--red);color:var(--red);
+  padding:12px 20px;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;text-decoration:none;
+  transition:background .2s,color .2s;font-family:Arial,sans-serif;
+}
+.red-btn:hover{background:var(--red);color:#fff}
+
+/* ── PLAY BTN ──────────────────────────────── */
+.play-btn{
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--red);
+  display:flex;align-items:center;justify-content:center;color:var(--red);
+  background:transparent;cursor:pointer;flex-shrink:0;
+  transition:background .2s,color .2s;
+}
+.play-btn:hover{background:var(--red);color:#fff}
+
+/* ── MEDIA ─────────────────────────────────── */
+.media-row{border:1px solid var(--gray);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.media-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);margin-bottom:2px;font-family:Arial,sans-serif}
+.media-title{font-size:15px;font-family:Arial,sans-serif}
+
+/* ── SVG DIAGRAM ───────────────────────────── */
+.diagram-wrap{border:1px solid var(--gray);padding:20px;background:#fafafa}
+
+/* ── SCROLL REVEAL ─────────────────────────── */
+.reveal{opacity:0;transform:translateY(44px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-left{opacity:0;transform:translateX(-50px) rotate(-1.5deg);transition:opacity .65s ease,transform .65s ease}
+.reveal-left.visible{opacity:1;transform:none}
+.reveal-right{opacity:0;transform:translateX(50px) rotate(1.5deg);transition:opacity .65s ease,transform .65s ease}
+.reveal-right.visible{opacity:1;transform:none}
+
+/* card scatter */
+.card-scatter{opacity:0;transition:opacity .6s ease,transform .6s ease}
+.card-scatter.visible{opacity:1;transform:none!important}
+
+/* ── CLICKABLE TABLE ROWS ──────────────────── */
+.clickable-row{cursor:pointer;transition:background .18s}
+.clickable-row:hover{background:#FFF5F6}
+.clickable-row.selected{background:#FFF0F1;outline:2px solid var(--red);outline-offset:-2px}
+.clickable-row.selected td{color:var(--black)}
+.clickable-row.selected td:first-child{font-weight:700;color:var(--red)}
+@media(max-width:860px){
+  section{padding:40px 20px}
+  .step-divider{padding:36px 20px}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SPINE -->
+<div id="spine-track"><div id="spine-fill"></div></div>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px;border-bottom:1px solid var(--gray)">
+  <span class="bg-word" style="font-size:clamp(100px,18vw,280px);top:10px;right:-10px;opacity:.3">ИЗМЕРИ</span>
+
+  <div class="container reveal">
+    <p class="kicker" style="margin-bottom:20px">PHARMA LEARNING PLATFORM / ИНТЕРАКТИВНОЕ ПРЕДЛОЖЕНИЕ</p>
+
+    <h1 class="display" style="font-size:clamp(42px,7.5vw,110px);line-height:.9;max-width:960px;margin-bottom:24px">
+      Если вы не измеряете,<br>
+      как обучение влияет<br>
+      на поведение —<br>
+      <span style="color:var(--red)">вы не управляете<br>продажами.</span>
+    </h1>
+
+    <span class="red-line"></span>
+
+    <p class="serif" style="font-size:clamp(18px,2.5vw,26px);color:#444;max-width:560px;line-height:1.5">
+      3 шага изменить это.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PROBLEM
+══════════════════════════════════════════ -->
+<section style="min-height:80vh;display:flex;align-items:center">
+  <span class="bg-word" style="font-size:clamp(80px,13vw,200px);bottom:-20px;left:-10px;opacity:.18">ОТВЕТА<br>НЕТ</span>
+
+  <div class="container">
+    <p class="kicker reveal" style="margin-bottom:16px">ПРОБЛЕМА</p>
+
+    <p class="serif reveal" style="font-size:clamp(20px,3vw,36px);line-height:1.25;max-width:860px;color:#333;margin-bottom:32px">
+      Сколько сотрудников из тех, кого вы обучили в прошлом цикле, изменили своё поведение в поле?
+    </p>
+
+    <div class="reveal" style="border-left:3px solid var(--red);padding-left:24px;max-width:780px">
+      <p style="color:#555;line-height:1.7;margin-bottom:14px;font-family:Arial,sans-serif">
+        Обычно на этот вопрос нет ответа. Не потому что команда плохо работает, а потому что стандартное обучение не даёт инструмента это измерить. Фиксируется факт прохождения, а не изменение поведения.
+      </p>
+      <p style="font-weight:600;color:var(--black);font-family:Arial,sans-serif">
+        Мы меняем это: система показывает не только результат теста, но и процесс мышления каждого сотрудника — где сомневался, где ошибался, насколько был уверен.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STEP 1 DIVIDER
+══════════════════════════════════════════ -->
+<div class="step-divider reveal">
+  <p class="kicker" style="color:var(--red);margin-bottom:12px">ШАГ 1</p>
+  <h2 class="display" style="font-size:clamp(52px,9vw,130px);line-height:.9">ПОДГОТОВКА</h2>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PLATFORM / DIGITAL SPRINT
+══════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <p class="kicker reveal" style="margin-bottom:12px">ПЛАТФОРМА / DIGITAL СПРИНТ (ПРЕДЦИКЛОВОЙ)</p>
+    <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:20px">Digital Sprint</h3>
+
+    <p class="serif reveal" style="font-size:17px;line-height:1.65;max-width:700px;color:#444;margin-bottom:24px">
+      За 10 дней до начала цикла каждый участник получает приглашение зарегистрироваться на портале. В течение 10 дней ежедневно открываются новые задания — три блока в день.
+    </p>
+
+    <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px">
+      <div style="border-left:2px solid var(--red);padding-left:14px">
+        <p style="font-weight:700;margin-bottom:4px;font-family:Arial,sans-serif">Видеофрагмент</p>
+        <p style="font-size:14px;color:#666;font-family:Arial,sans-serif">Короткий обучающий материал: продуктовые знания, техника визита, коммуникация с врачом</p>
+      </div>
+      <div style="border-left:2px solid var(--red);padding-left:14px">
+        <p style="font-weight:700;margin-bottom:4px;font-family:Arial,sans-serif">Интерактивная отработка</p>
+        <p style="font-size:14px;color:#666;font-family:Arial,sans-serif">Симуляция ситуаций, выбор стратегии, разбор ошибок — сотрудник применяет только что изученное</p>
+      </div>
+      <div style="border-left:2px solid var(--red);padding-left:14px">
+        <p style="font-weight:700;margin-bottom:4px;font-family:Arial,sans-serif">Тест / Квиз</p>
+        <p style="font-size:14px;color:#666;font-family:Arial,sans-serif">Система фиксирует не только правильный ответ, но и уверенность при выборе</p>
+      </div>
+    </div>
+
+    <a href="https://iraai.ru/4k/" target="_blank" class="red-btn reveal" style="margin-bottom:40px">
+      Открыть платформу → iraai.ru/4k/
+    </a>
+
+    <!-- SIM CARDS -->
+    <p class="kicker" style="margin-bottom:16px;margin-top:40px">ИНТЕРАКТИВНЫЕ СИМУЛЯТОРЫ</p>
+    <div class="grid-3">
+      <div class="sim-card card-scatter" style="transform:translateX(-20px) rotate(-2deg)">
+        <p class="kicker" style="color:var(--red);margin-bottom:12px">PHARMA · ЗНАНИЯ</p>
+        <h4 class="display" style="font-size:22px;margin-bottom:12px">Возражение дня</h4>
+        <p style="font-size:14px;color:#555;font-family:Arial,sans-serif;padding-top:12px;border-top:1px solid var(--gray)" class="card-hr">
+          Врач говорит: «У нас уже есть протокол». Выбери лучший ответ из трёх — и узнай, почему два других не работают. 10 ситуаций.
+        </p>
+      </div>
+      <div class="sim-card card-scatter" style="transform:translateY(20px)">
+        <p class="kicker" style="color:var(--red);margin-bottom:12px">PHARMA · ОБУЧЕНИЕ</p>
+        <h4 class="display" style="font-size:22px;margin-bottom:12px">Одно лишнее</h4>
+        <p style="font-size:14px;color:#555;font-family:Arial,sans-serif;padding-top:12px;border-top:1px solid var(--gray)" class="card-hr">
+          4 факта о препарате. 3 правдивых, 1 ложный. Найди ошибку и узнай, почему это важно. 10 раундов.
+        </p>
+      </div>
+      <div class="sim-card card-scatter" style="transform:translateX(20px) rotate(2deg)">
+        <p class="kicker" style="color:var(--red);margin-bottom:12px">PHARMA · ПРАКТИКА</p>
+        <h4 class="display" style="font-size:22px;margin-bottom:12px">Первостольник</h4>
+        <p style="font-size:14px;color:#555;font-family:Arial,sans-serif;padding-top:12px;border-top:1px solid var(--gray)" class="card-hr">
+          Ты — фармацевт в аптеке. К тебе приходят пациенты с жалобами. Задавай правильные вопросы. 5 пациентов.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════��══
+     ANALYTICS TABLE
+══════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <p class="kicker reveal" style="margin-bottom:12px">READINESS PROFILE</p>
+    <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:16px">Индивидуальный результат</h3>
+    <p class="serif reveal" style="font-size:16px;color:#555;margin-bottom:28px;max-width:700px">
+      Это профиль готовности сотрудника к циклу. Вы видите, кто реально подготовлен, кто формально закрыл задания, а кто требует дополнительного внимания — до того, как цикл начался.
+    </p>
+    <div class="reveal" style="overflow-x:auto">
+      <table style="min-width:820px">
+        <thead>
+          <tr>
+            <th>ФИО</th><th>Регион</th><th>Активность</th>
+            <th>Дней подряд</th><th>First Try %</th>
+            <th>Средние попытки</th><th>Очки (сегодня)</th>
+            <th>Очки (итого)</th><th style="color:var(--red)">Рейтинг</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="clickable-row"><td>Иванов</td><td>Москва</td><td>90%</td><td>7</td><td>80%</td><td>1.2</td><td>12</td><td>145</td><td class="td-red">3</td></tr>
+          <tr class="clickable-row"><td>Петров</td><td>Урал</td><td>60%</td><td>2</td><td>50%</td><td>2.1</td><td>8</td><td>98</td><td class="td-red">15</td></tr>
+          <tr class="clickable-row"><td>Сидоров</td><td>СПб</td><td>100%</td><td>10</td><td>85%</td><td>1.1</td><td>15</td><td>170</td><td class="td-red">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="serif reveal" style="font-size:14px;color:#666;margin-top:14px">
+      Система собирает данные по каждому: активность, streak (дней подряд), процент правильных ответов с первой попытки, среднее количество попыток, итоговый рейтинг.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STEP 2a DIVIDER — МОТИВАЦИЯ (красный фон)
+══════════════════════════════════════════ -->
+<div style="background:var(--red);padding:48px 64px;border-bottom:none">
+  <p class="kicker" style="color:rgba(255,255,255,.6);margin-bottom:12px">ШАГ 2 / ЧАСТЬ А</p>
+  <h2 class="display" style="font-size:clamp(40px,7vw,100px);line-height:.9;color:#fff">МОТИВАЦИЯ</h2>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EVIDENCE (красный фон продолжается)
+══════════════════════════════════════════ -->
+<section style="background:var(--red);border-bottom:1px solid rgba(255,255,255,.15)">
+  <span class="bg-word" style="font-size:clamp(80px,14vw,220px);right:-10px;top:0;opacity:.08;-webkit-text-stroke:1px rgba(255,255,255,.3)">127</span>
+  <div class="container" style="position:relative;z-index:1">
+    <p class="kicker reveal" style="color:rgba(255,255,255,.6);margin-bottom:16px">ИССЛЕДОВАНИЕ</p>
+    <p class="serif reveal" style="font-size:clamp(20px,3vw,36px);line-height:1.25;max-width:840px;color:#fff;margin-bottom:20px">
+      Крупный мета-анализ 127 исследований (77 тыс. сейлзов) показал: внутренняя мотивация — интерес к работе, ощущение смысла и развития — сильнее связана с результативностью продавцов, чем внешние стимулы.
+    </p>
+    <a href="https://selfdeterminationtheory.org/wp-content/uploads/2022/11/2022_GoodHughesEtAl_Salesperson.pdf"
+       target="_blank" class="red-btn reveal" style="color:#fff;border-color:rgba(255,255,255,.5)">Источник: Good et al., 2022 →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     HALL OF FAME (красный фон)
+══════════════════════════════════════════ -->
+<section style="background:var(--red);border-bottom:none">
+  <div class="container">
+    <p class="kicker reveal" style="color:rgba(255,255,255,.6);margin-bottom:12px">ВИРТУАЛЬНЫЙ ЗАЛ СЛАВЫ</p>
+    <h3 class="display reveal" style="font-size:clamp(26px,4vw,60px);margin-bottom:28px;color:#fff">Система признания<br>и внутреннего<br>соревнования</h3>
+
+    <div class="grid-3 reveal">
+      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+        <p style="font-size:28px;font-family:Impact,sans-serif;color:#fff;margin-bottom:8px">01</p>
+        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Интеллектуальный рейтинг</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Кто лучше всех знает материал и стабильно показывает высокий результат по итогам предциклового тестирования</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+        <p style="font-size:28px;font-family:Impact,sans-serif;color:#fff;margin-bottom:8px">02</p>
+        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Персональный стиль</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Номинации за реальные достижения в поле: лучший визит, лучший кейс с возражением, лучший рост доли рынка</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+        <p style="font-size:28px;font-family:Impact,sans-serif;color:#fff;margin-bottom:8px">03</p>
+        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Голосование за лучший кейс</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">1 голос на человека, счётчик результатов в реальном времени. Команда выбирает лучшего сама — это мощнее, чем решение сверху</p>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal" style="margin-top:24px">
+      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+        <p class="kicker" style="color:rgba(255,255,255,.5);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — АУДИО</p>
+        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">До 5 аудиокейсов за цикл</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Реальная ситуация из поля + пошаговая инструкция как повторить. Формат подкаста: слушают в машине, между визитами.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.5);font-family:Arial,sans-serif;margin-top:8px">50 000 ₽ · 5 эпизодов × 5–7 мин</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+        <p class="kicker" style="color:rgba(255,255,255,.5);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — ВИДЕО С AI-АВАТАРОМ</p>
+        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">До 5 видеороликов за цикл</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Сотрудник представляет кейс через цифровой аватар HeyGen. Без камеры, без студии — только голос и слайды. До 2 минут.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.5);font-family:Arial,sans-serif;margin-top:8px">175 000 ₽ · опция вместо аудио · 35 000 ₽ × 5</p>
+        <a href="https://www.videoask.com/examples" target="_blank" style="display:inline-block;margin-top:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);font-family:Arial,sans-serif;border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px">Референс: videoask.com/examples →</a>
+      </div>
+    </div>
+
+    <!-- SVG Зал Славы — схема-пример в стиле Spotify -->
+    <div class="reveal" style="margin-top:32px;border:1px solid rgba(255,255,255,.2);padding:24px;background:rgba(0,0,0,.2)">
+      <p class="kicker" style="color:rgba(255,255,255,.4);margin-bottom:16px">ПРИМЕР СТРАНИЦЫ — ЗАЛА СЛАВЫ</p>
+      <svg viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:300px">
+        <!-- Заголовок страницы -->
+        <text x="20" y="22" font-family="Impact,Arial Black,sans-serif" font-size="18" fill="white" letter-spacing="2" text-transform="uppercase">ЗАЛ СЛАВЫ · ЦИКЛ 2 · 2025</text>
+        <line x1="20" y1="30" x2="780" y2="30" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+        <!-- Карточка 1 — лидер, увеличенная -->
+        <rect x="20" y="44" width="220" height="220" stroke="#E63946" stroke-width="1.5" fill="rgba(230,57,70,0.08)"/>
+        <!-- Силуэт -->
+        <ellipse cx="120" cy="100" rx="28" ry="30" fill="#444"/>
+        <path d="M68 150 C68 118 172 118 172 150" fill="#444"/>
+        <!-- Бейдж #1 -->
+        <rect x="20" y="44" width="46" height="22" fill="#E63946"/>
+        <text x="43" y="59" text-anchor="middle" font-family="Impact,sans-serif" font-size="12" fill="white">#1</text>
+        <!-- Имя -->
+        <text x="120" y="170" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="14" fill="white" letter-spacing="1">СИДОРОВ А.</text>
+        <text x="120" y="186" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.5)">САНКТ-ПЕТЕРБУРГ</text>
+        <!-- Достижения -->
+        <rect x="30" y="196" width="200" height="1" fill="rgba(255,255,255,0.15)"/>
+        <text x="30" y="212" font-family="Arial,sans-serif" font-size="9" fill="#E63946">★</text>
+        <text x="44" y="212" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Лучший визит месяца</text>
+        <text x="30" y="228" font-family="Arial,sans-serif" font-size="9" fill="#E63946">★</text>
+        <text x="44" y="228" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">First Try 85% · 170 очков</text>
+        <text x="30" y="244" font-family="Arial,sans-serif" font-size="9" fill="#E63946">★</text>
+        <text x="44" y="244" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Streak 10 дней подряд</text>
+
+        <!-- Карточка 2 -->
+        <rect x="254" y="44" width="168" height="168" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="rgba(255,255,255,0.03)"/>
+        <ellipse cx="338" cy="92" rx="22" ry="24" fill="#333"/>
+        <path d="M300 128 C300 104 376 104 376 128" fill="#333"/>
+        <rect x="254" y="44" width="36" height="18" fill="rgba(255,255,255,0.15)"/>
+        <text x="272" y="57" text-anchor="middle" font-family="Impact,sans-serif" font-size="11" fill="white">#2</text>
+        <text x="338" y="146" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="12" fill="white" letter-spacing="1">ИВАНОВ С.</text>
+        <text x="338" y="160" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">МОСКВА · 145 очков</text>
+        <text x="338" y="175" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#E63946">Лучший кейс с возражением</text>
+        <text x="338" y="188" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="rgba(255,255,255,0.4)">First Try 80%</text>
+
+        <!-- Карточка 3 -->
+        <rect x="436" y="44" width="168" height="168" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="rgba(255,255,255,0.03)"/>
+        <ellipse cx="520" cy="92" rx="22" ry="24" fill="#333"/>
+        <path d="M482 128 C482 104 558 104 558 128" fill="#333"/>
+        <rect x="436" y="44" width="36" height="18" fill="rgba(255,255,255,0.1)"/>
+        <text x="454" y="57" text-anchor="middle" font-family="Impact,sans-serif" font-size="11" fill="rgba(255,255,255,0.6)">#3</text>
+        <text x="520" y="146" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="12" fill="white" letter-spacing="1">ПЕТРОВА М.</text>
+        <text x="520" y="160" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">УРАЛ · 132 очка</text>
+        <text x="520" y="175" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="rgba(255,255,255,0.4)">Персональный стиль: Эксперт</text>
+
+        <!-- Правый блок: голосование -->
+        <rect x="618" y="44" width="162" height="220" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="rgba(255,255,255,0.02)"/>
+        <text x="628" y="64" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)" letter-spacing="2">ГОЛОСОВАНИЕ</text>
+        <line x1="618" y1="70" x2="780" y2="70" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <!-- строки голосования -->
+        <text x="628" y="90" font-family="Arial,sans-serif" font-size="10" fill="white">Сидоров</text>
+        <rect x="690" y="79" width="64" height="10" fill="rgba(230,57,70,0.6)" rx="1"/>
+        <text x="762" y="89" font-family="Arial,sans-serif" font-size="9" fill="#E63946">68%</text>
+        <text x="628" y="112" font-family="Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.7)">Иванов</text>
+        <rect x="690" y="101" width="34" height="10" fill="rgba(255,255,255,0.2)" rx="1"/>
+        <text x="732" y="111" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.5)">22%</text>
+        <text x="628" y="134" font-family="Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.7)">Петрова</text>
+        <rect x="690" y="123" width="16" height="10" fill="rgba(255,255,255,0.15)" rx="1"/>
+        <text x="714" y="133" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">10%</text>
+        <line x1="618" y1="148" x2="780" y2="148" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <text x="628" y="168" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Проголосовало: 47 из 100</text>
+        <text x="628" y="184" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">До конца голосования: 3 дня</text>
+        <!-- Кнопка голосовать -->
+        <rect x="628" y="200" width="120" height="30" stroke="#E63946" stroke-width="1" fill="none"/>
+        <text x="688" y="220" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#E63946" letter-spacing="1">ПРОГОЛОСОВАТЬ</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STEP 2b DIVIDER — ОТРАБОТКА ВОЗРАЖЕНИЙ (чёрный фон)
+══════════════════════════════════════════ -->
+<div style="background:var(--black);padding:48px 64px;border-bottom:none">
+  <p class="kicker" style="color:rgba(255,255,255,.4);margin-bottom:12px">ШАГ 2 / ЧАСТЬ Б</p>
+  <h2 class="display" style="font-size:clamp(36px,6vw,90px);line-height:.9;color:#fff">ОТРАБОТКА<br>БАРЬЕРОВ</h2>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BARRIER SIMULATORS (чёрный фон)
+══════════════════════════════════════════ -->
+<section style="background:var(--black);border-bottom:1px solid #333">
+  <div class="container">
+    <p class="serif reveal" style="font-size:clamp(18px,2.5vw,28px);line-height:1.4;max-width:800px;color:rgba(255,255,255,.8);margin-bottom:40px">
+      Медицинский представитель знает правильный ответ на тренинге. В кабинете врача — теряется. Платформа воссоздаёт реальные сценарии: нужно слушать, выбирать стратегию и получать обратную связь сразу.
+    </p>
+
+    <div class="grid-2">
+      <!-- Audio sim -->
+      <div class="reveal-left" style="border:1px solid #333;padding:28px">
+        <p class="kicker" style="color:rgba(255,255,255,.4);margin-bottom:12px">АУДИО-СИМУЛЯТОР</p>
+        <h4 class="display" style="font-size:clamp(22px,3vw,40px);color:#fff;margin-bottom:16px">Коридорный визит</h4>
+        <p style="font-size:15px;color:rgba(255,255,255,.65);font-family:Arial,sans-serif;line-height:1.65;margin-bottom:20px">
+          ~10 аудиофрагментов, ветвящийся сценарий, 3 возможных финала. Врач торопится, у медпреда 2 минуты. Сценарий + AI-озвучка + HTML с ветвлениями.
+        </p>
+        <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-bottom:20px">150 000 ₽ · включено в рекомендованный пакет</p>
+
+        <!-- Аудио-схема: 10 фрагментов -->
+        <div style="border:1px solid #333;padding:16px;background:#0a0a0a">
+          <p class="kicker" style="color:rgba(255,255,255,.3);margin-bottom:12px">КАК УСТРОЕНЫ 10 АУДИОФРАГМЕНТОВ</p>
+          <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+            <!-- Уровень 0: старт -->
+            <rect x="95" y="4" width="130" height="28" stroke="#E63946" stroke-width="1.5"/>
+            <text x="160" y="14" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="#E63946" font-weight="700">🎧 АУДИО 1</text>
+            <text x="160" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">Врач спешит, здоровается</text>
+
+            <line x1="110" y1="32" x2="70" y2="52" stroke="#555" stroke-width="1"/>
+            <line x1="210" y1="32" x2="250" y2="52" stroke="#555" stroke-width="1"/>
+            <text x="78" y="47" font-family="Arial,sans-serif" font-size="7" fill="#E63946">ДА</text>
+            <text x="232" y="47" font-family="Arial,sans-serif" font-size="7" fill="#888">НЕТ</text>
+
+            <!-- Уровень 1: 2 аудио -->
+            <rect x="16" y="52" width="108" height="26" stroke="#555" stroke-width="1"/>
+            <text x="70" y="62" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="#aaa">🎧 АУДИО 2</text>
+            <text x="70" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#666">Врач интересуется</text>
+            <rect x="196" y="52" width="108" height="26" stroke="#555" stroke-width="1"/>
+            <text x="250" y="62" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="#aaa">🎧 АУДИО 3</text>
+            <text x="250" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#666">Врач отказывает</text>
+
+            <!-- Уровень 2: 4 аудио -->
+            <line x1="30" y1="78" x2="20" y2="98" stroke="#444" stroke-width="1"/>
+            <line x1="110" y1="78" x2="120" y2="98" stroke="#444" stroke-width="1"/>
+            <line x1="210" y1="78" x2="198" y2="98" stroke="#444" stroke-width="1"/>
+            <line x1="290" y1="78" x2="302" y2="98" stroke="#444" stroke-width="1"/>
+
+            <rect x="0" y="98" width="72" height="26" stroke="#444" stroke-width="1"/>
+            <text x="36" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">🎧 АУДИО 4</text>
+            <text x="36" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">Вопрос про эффект</text>
+            <rect x="78" y="98" width="72" height="26" stroke="#444" stroke-width="1"/>
+            <text x="114" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">🎧 АУДИО 5</text>
+            <text x="114" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">Просит доказательства</text>
+            <rect x="170" y="98" width="72" height="26" stroke="#444" stroke-width="1"/>
+            <text x="206" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">🎧 АУДИО 6</text>
+            <text x="206" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">У нас есть протокол</text>
+            <rect x="248" y="98" width="72" height="26" stroke="#444" stroke-width="1"/>
+            <text x="284" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">🎧 АУДИО 7</text>
+            <text x="284" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">Нет времени сейчас</text>
+
+            <!-- Уровень 3: финалы (аудио 8, 9, 10) -->
+            <line x1="36" y1="124" x2="36" y2="144" stroke="#333" stroke-width="1"/>
+            <line x1="114" y1="124" x2="114" y2="144" stroke="#333" stroke-width="1"/>
+            <line x1="206" y1="124" x2="160" y2="144" stroke="#333" stroke-width="1"/>
+            <line x1="284" y1="124" x2="284" y2="144" stroke="#333" stroke-width="1"/>
+
+            <rect x="0" y="144" width="100" height="26" stroke="#E63946" stroke-width="1" fill="rgba(230,57,70,0.08)"/>
+            <text x="50" y="154" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#E63946">🎧 АУДИО 8</text>
+            <text x="50" y="164" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="rgba(230,57,70,0.7)">ФИНАЛ: договорились</text>
+            <rect x="106" y="144" width="100" height="26" stroke="#555" stroke-width="1"/>
+            <text x="156" y="154" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">🎧 АУДИО 9</text>
+            <text x="156" y="164" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">ФИНАЛ: отложили</text>
+            <rect x="212" y="144" width="108" height="26" stroke="#333" stroke-width="1"/>
+            <text x="266" y="154" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#555">🎧 АУДИО 10</text>
+            <text x="266" y="164" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">ФИНАЛ: не убедил → разбор</text>
+
+            <text x="160" y="204" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#555">1 + 2 + 4 + 3 финала = 10 аудиофрагментов · 3 сценария завершения</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Video sim -->
+      <div class="reveal-right" style="border:1px solid #333;padding:28px">
+        <p class="kicker" style="color:rgba(255,255,255,.4);margin-bottom:12px">ВИДЕО-СИМУЛЯТОР</p>
+        <h4 class="display" style="font-size:clamp(22px,3vw,40px);color:#fff;margin-bottom:16px">Визит к скептику</h4>
+        <p style="font-size:15px;color:rgba(255,255,255,.65);font-family:Arial,sans-serif;line-height:1.65;margin-bottom:20px">
+          15 видеофрагментов, ветвящийся сценарий. Врач-кардиолог, ограниченное время, реальные возражения. Каждый клик — новый видеофрагмент, новая реакция.
+        </p>
+        <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-bottom:20px">425 000 ₽ · опция · 15 роликов × 25 000 ₽ + сборка</p>
+
+        <!-- Схема 15 видео -->
+        <div style="border:1px solid #333;padding:16px;background:#0a0a0a">
+          <p class="kicker" style="color:rgba(255,255,255,.3);margin-bottom:12px">КАК УСТРОЕНЫ 15 ВИДЕОФРАГМЕНТОВ</p>
+          <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+            <!-- Уровень 0: 1 видео — старт -->
+            <rect x="110" y="4" width="100" height="28" stroke="#E63946" stroke-width="1.5"/>
+            <text x="160" y="14" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="#E63946" font-weight="700">ВИДЕО 1</text>
+            <text x="160" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">Врач здоровается</text>
+            <text x="4" y="20" font-family="Arial,sans-serif" font-size="7" fill="#555">УРОВЕНЬ 1</text>
+
+            <!-- Стрелки уровень 0→1 -->
+            <line x1="110" y1="18" x2="70" y2="46" stroke="#555" stroke-width="1"/>
+            <line x1="210" y1="18" x2="250" y2="46" stroke="#555" stroke-width="1"/>
+            <text x="82" y="40" font-family="Arial,sans-serif" font-size="7" fill="#E63946">ДА</text>
+            <text x="230" y="40" font-family="Arial,sans-serif" font-size="7" fill="#888">НЕТ</text>
+
+            <!-- Уровень 1: 2 видео -->
+            <rect x="20" y="46" width="100" height="28" stroke="#555" stroke-width="1"/>
+            <text x="70" y="56" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="#fff">ВИДЕО 2</text>
+            <text x="70" y="67" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">Врач слушает</text>
+            <rect x="200" y="46" width="100" height="28" stroke="#555" stroke-width="1"/>
+            <text x="250" y="56" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="#fff">ВИДЕО 3</text>
+            <text x="250" y="67" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#888">Врач отказывает</text>
+            <text x="4" y="65" font-family="Arial,sans-serif" font-size="7" fill="#555">УРОВЕНЬ 2</text>
+
+            <!-- Стрелки уровень 1→2 -->
+            <line x1="30" y1="74" x2="20" y2="96" stroke="#555" stroke-width="1"/>
+            <line x1="110" y1="74" x2="120" y2="96" stroke="#555" stroke-width="1"/>
+            <line x1="210" y1="74" x2="200" y2="96" stroke="#555" stroke-width="1"/>
+            <line x1="290" y1="74" x2="300" y2="96" stroke="#555" stroke-width="1"/>
+
+            <!-- Уровень 2: 4 видео -->
+            <rect x="0" y="96" width="68" height="26" stroke="#444" stroke-width="1"/>
+            <text x="34" y="106" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#aaa">ВИДЕО 4</text>
+            <text x="34" y="116" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">Вопрос врача</text>
+            <rect x="74" y="96" width="68" height="26" stroke="#444" stroke-width="1"/>
+            <text x="108" y="106" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#aaa">ВИДЕО 5</text>
+            <text x="108" y="116" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">Пауза врача</text>
+            <rect x="178" y="96" width="68" height="26" stroke="#444" stroke-width="1"/>
+            <text x="212" y="106" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#aaa">ВИДЕО 6</text>
+            <text x="212" y="116" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">Возражение 1</text>
+            <rect x="252" y="96" width="68" height="26" stroke="#444" stroke-width="1"/>
+            <text x="286" y="106" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#aaa">ВИДЕО 7</text>
+            <text x="286" y="116" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#666">Возражение 2</text>
+            <text x="4" y="135" font-family="Arial,sans-serif" font-size="7" fill="#555">УРОВЕНЬ 3</text>
+
+            <!-- Стрелки уровень 2→3 (упрощённо по 2 от каждого) -->
+            <line x1="20" y1="122" x2="12" y2="142" stroke="#333" stroke-width="1"/>
+            <line x1="48" y1="122" x2="56" y2="142" stroke="#333" stroke-width="1"/>
+            <line x1="86" y1="122" x2="82" y2="142" stroke="#333" stroke-width="1"/>
+            <line x1="130" y1="122" x2="134" y2="142" stroke="#333" stroke-width="1"/>
+            <line x1="190" y1="122" x2="186" y2="142" stroke="#333" stroke-width="1"/>
+            <line x1="226" y1="122" x2="230" y2="142" stroke="#333" stroke-width="1"/>
+            <line x1="258" y1="122" x2="254" y2="142" stroke="#333" stroke-width="1"/>
+            <line x1="300" y1="122" x2="308" y2="142" stroke="#333" stroke-width="1"/>
+
+            <!-- Уровень 3: 8 финальных видео (видео 8-15) -->
+            <rect x="0" y="142" width="32" height="22" stroke="#333" stroke-width="1"/>
+            <text x="16" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В8</text>
+            <rect x="36" y="142" width="32" height="22" stroke="#333" stroke-width="1"/>
+            <text x="52" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В9</text>
+            <rect x="72" y="142" width="32" height="22" stroke="#333" stroke-width="1"/>
+            <text x="88" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В10</text>
+            <rect x="108" y="142" width="32" height="22" stroke="#333" stroke-width="1"/>
+            <text x="124" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В11</text>
+            <rect x="172" y="142" width="32" height="22" stroke="#333" stroke-width="1"/>
+            <text x="188" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В12</text>
+            <rect x="208" y="142" width="32" height="22" stroke="#333" stroke-width="1"/>
+            <text x="224" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В13</text>
+            <rect x="244" y="142" width="32" height="22" stroke="#333" stroke-width="1"/>
+            <text x="260" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В14</text>
+            <rect x="280" y="142" width="36" height="22" stroke="#333" stroke-width="1"/>
+            <text x="298" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#555">В15</text>
+
+            <!-- Подпись снизу -->
+            <text x="160" y="192" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#555">1 + 2 + 4 + 8 = 15 видеофрагментов · каждый клик = новое видео</text>
+          </svg>
+        </div>
+
+        <div style="margin-top:16px;border:1px solid #333;padding:12px">
+          <p class="kicker" style="color:rgba(255,255,255,.3);margin-bottom:6px">ВТОРОЙ ВАРИАНТ: ТРИ МЕДПРЕДА У ВРАЧА</p>
+          <p style="font-size:13px;color:rgba(255,255,255,.5);font-family:Arial,sans-serif;line-height:1.5">12 видеороликов × 30–40 сек · три стиля поведения медпреда: агрессивный, пассивный, оптимальный. Команда обсуждает, кто сработал лучше и почему.</p>
+          <p style="font-size:11px;color:rgba(255,255,255,.3);font-family:Arial,sans-serif;margin-top:6px">350 000 ₽ · опция</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STEP 3 DIVIDER
+══════════════════════════════════════════ -->
+<div class="step-divider reveal">
+  <p class="kicker" style="color:var(--red);margin-bottom:12px">ШАГ 3</p>
+  <h2 class="display" style="font-size:clamp(52px,9vw,130px);line-height:.9">ДЕЙСТВИЕ</h2>
+</div>
+
+<!-- ══════════════════════════════════════════
+     LEAGUE OF REGIONS
+══════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <p class="kicker reveal" style="margin-bottom:12px">ШАГ 3 / ДАШБОРД</p>
+    <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:16px">Лига регионов</h3>
+    <p class="serif reveal" style="font-size:16px;color:#555;max-width:700px;line-height:1.65;margin-bottom:32px">
+      Между цикловыми совещаниями команда теряет контекст: что было сделано, кто вырос, какие результаты стоит отметить. Дашборд решает именно эту задачу. Итоговый балл: 40% доля рынка + 40% план продаж + 20% знания.
+    </p>
+
+    <div class="grid-2">
+      <div class="reveal-left" style="overflow-x:auto">
+        <table style="min-width:400px">
+          <thead>
+            <tr>
+              <th style="color:var(--red)">Место</th>
+              <th>Регион</th><th>Очки</th>
+              <th>Доля рынка</th><th>План продаж</th><th>Вклад</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="league-leader"><td>1</td><td><strong>Москва</strong></td><td style="color:var(--red);font-weight:700">820</td><td>92%</td><td>105%</td><td>78%</td></tr>
+            <tr><td>2</td><td>Север</td><td>780</td><td>88%</td><td>98%</td><td>82%</td></tr>
+            <tr><td>3</td><td>Юг</td><td>750</td><td>90%</td><td>94%</td><td>75%</td></tr>
+            <tr><td>4</td><td>Запад</td><td>700</td><td>85%</td><td>89%</td><td>70%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="reveal-right" style="display:grid;gap:12px;align-content:start">
+        <div class="bar-wrap">
+          <div class="bar-label">
+            <span class="kicker">Доля рынка</span>
+            <span class="display" style="font-size:28px;color:var(--red)">40%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--red)"></div></div>
+        </div>
+        <div class="bar-wrap">
+          <div class="bar-label">
+            <span class="kicker">Выполнение плана продаж</span>
+            <span class="display" style="font-size:28px">40%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--black)"></div></div>
+        </div>
+        <div class="bar-wrap">
+          <div class="bar-label">
+            <span class="kicker">Знания и вклад команды</span>
+            <span class="display" style="font-size:28px;color:#aaa">20%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:20%;background:#aaa"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PRICING ACCORDION
+══════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <p class="kicker reveal" style="margin-bottom:12px">СТОИМОСТЬ РЕШЕНИЙ</p>
+    <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:28px">Смета проекта</h3>
+
+    <div style="border:1px solid var(--gray)">
+      <button class="garm-trigger" onclick="toggleGarm(this)" style="border:none;border-bottom:1px solid var(--gray)">
+        <span class="display" style="font-size:clamp(18px,2.5vw,30px)">Полная смета проекта</span>
+        <span class="plus">+</span>
+      </button>
+      <div class="garm-body">
+
+        <!-- ВАЖНО -->
+        <div style="padding:12px 24px;background:#FFF5F6;border-bottom:1px solid var(--gray)">
+          <p style="font-size:12px;color:#999;font-family:Arial,sans-serif">⚠ Все модули оптимизированы под iPad / Chrome. Мультибраузерная поддержка не входит в скоуп.</p>
+        </div>
+
+        <!-- STEP 0 -->
+        <div style="border-bottom:1px solid var(--gray)">
+          <div class="price-step-head"><p class="kicker" style="color:var(--red)">ШАГ 0. ПЛАТФОРМА</p></div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">0.1</p>
+              <p class="price-title">Инфраструктура + платформа</p>
+              <p class="price-note">Единый портал. До 100 пользователей. Авторизация по уникальной ссылке, навигация. iPad / Chrome.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">150 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div style="padding:12px 24px;text-align:right;border-top:1px solid var(--gray)">
+            <p class="kicker" style="margin-bottom:4px">Итого шаг 0</p>
+            <p class="display" style="font-size:28px;color:var(--red)">150 000 ₽</p>
+          </div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div style="border-bottom:1px solid var(--gray)">
+          <div class="price-step-head"><p class="kicker" style="color:var(--red)">ШАГ 1. ЦИКЛОВОЙ ЧЕЛЛЕНДЖ (10 дней, до 100 чел.)</p></div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">1.1</p>
+              <p class="price-title">Система аналитики + рейтинг</p>
+              <p class="price-note">Активность, streak, баллы, ошибки, рейтинг. Выгрузка Excel.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">100 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">1.2</p>
+              <p class="price-title">Мини-игры: 10 модулей</p>
+              <p class="price-note">Авторские механики: свайпы, таймеры, drag-and-drop, кейсы, возражения. 80 000 ₽ × 10 игр.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">800 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">1.3</p>
+              <p class="price-title">Нарезка видео клиента</p>
+              <p class="price-note">Готовые материалы клиента → адаптация под платформу. 10 000 ₽ × 10 видео.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">100 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">1.4</p>
+              <p class="price-title">Аудиоподкасты (5 эпизодов × 5–7 мин)</p>
+              <p class="price-note">ОПЦИЯ: вместо части игр. Сценарий + AI-озвучка + монтаж. 30 000 ₽ × 5.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">150 000 ₽</p><span class="pill opt">OPTION</span></div>
+          </div>
+          <div style="padding:12px 24px;text-align:right;border-top:1px solid var(--gray)">
+            <p class="kicker" style="margin-bottom:4px">Итого шаг 1 (без опций)</p>
+            <p class="display" style="font-size:28px;color:var(--red)">1 000 000 ₽</p>
+          </div>
+        </div>
+
+        <!-- STEP 2: МОТИВАЦИЯ -->
+        <div style="border-bottom:1px solid var(--gray)">
+          <div class="price-step-head"><p class="kicker" style="color:var(--red)">ШАГ 2А. МОТИВАЦИЯ</p></div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.1</p>
+              <p class="price-title">Виртуальный зал славы</p>
+              <p class="price-note">Рейтинг + фото + регион, по данным челленджа. Страница с топ-результатами.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">60 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.2а</p>
+              <p class="price-title">Шоу «Лучшие практики» — аудио</p>
+              <p class="price-note">До 5 кейсов за цикл. Подкаст + инструкция. Выбор: 2.2а ИЛИ 2.2б.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">50 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.2б</p>
+              <p class="price-title">Шоу «Лучшие практики» — видео с AI-аватаром</p>
+              <p class="price-note">До 5 кейсов, HeyGen, до 2 мин. Аватар на основе фото сотрудника. 35 000 ₽ × 5.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">175 000 ₽</p><span class="pill opt">OPTION вместо 2.2а</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.3</p>
+              <p class="price-title">Голосование за лучший кейс</p>
+              <p class="price-note">1 голос на человека, счётчик результатов. Привязано к авторизации.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">30 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div style="padding:12px 24px;text-align:right;border-top:1px solid var(--gray)">
+            <p class="kicker" style="margin-bottom:4px">Итого шаг 2А (аудио-вариант)</p>
+            <p class="display" style="font-size:28px;color:var(--red)">140 000 ₽</p>
+          </div>
+        </div>
+
+        <!-- STEP 2: БАРЬЕРЫ -->
+        <div style="border-bottom:1px solid var(--gray)">
+          <div class="price-step-head"><p class="kicker" style="color:var(--red)">ШАГ 2Б. ОТРАБОТКА БАРЬЕРОВ</p></div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.4</p>
+              <p class="price-title">Аудио-симулятор: Коридорный визит</p>
+              <p class="price-note">~10 аудиофрагментов, ветвящийся сценарий, 3 финала. Сценарий + AI-озвучка + HTML с ветвлениями.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">150 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.5а</p>
+              <p class="price-title">Видео-симулятор: Визит к скептику</p>
+              <p class="price-note">~15 видео × 25 000 ₽ + сценарий + сборка. Ветвящийся сценарий, 20–30 сек каждый ролик.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">425 000 ₽</p><span class="pill opt">OPTION</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.5б</p>
+              <p class="price-title">Видео-симулятор: Три медпреда у врача</p>
+              <p class="price-note">~12 видео × 25 000 ₽ + сценарий + сборка. 30–40 сек, три стиля поведения.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">350 000 ₽</p><span class="pill opt">OPTION</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.6</p>
+              <p class="price-title">Аудио-симулятор: Мед. конференция</p>
+              <p class="price-note">~15 аудио, 4 врача × 3 ветки. Второй аудио-симулятор.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">90 000 ₽</p><span class="pill opt">OPTION</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">2.7</p>
+              <p class="price-title">Встройка модулей в портал</p>
+              <p class="price-note">Техническая интеграция зала славы, шоу и симуляторов в единую платформу.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">70 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div style="padding:12px 24px;text-align:right;border-top:1px solid var(--gray)">
+            <p class="kicker" style="margin-bottom:4px">Итого шаг 2Б (аудио-симулятор + интеграция)</p>
+            <p class="display" style="font-size:28px;color:var(--red)">220 000 ₽</p>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div style="border-bottom:1px solid var(--gray)">
+          <div class="price-step-head"><p class="kicker" style="color:var(--red)">ШАГ 3. ДАШБОРД «ЛИГА РЕГИОНОВ»</p></div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">3.1</p>
+              <p class="price-title">Дашборд региональных соревнований</p>
+              <p class="price-note">Таблица + формула очков + админка для ввода данных. Обновление вручную раз в месяц.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">100 000 ₽</p><span class="pill opt">OPTION</span></div>
+          </div>
+        </div>
+
+        <!-- ЕЖЕМЕСЯЧНЫЕ -->
+        <div style="border-bottom:1px solid var(--gray)">
+          <div class="price-step-head"><p class="kicker" style="color:var(--red)">ЕЖЕМЕСЯЧНЫЕ РАСХОДЫ</p></div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">—</p>
+              <p class="price-title">Хостинг + AI-сервисы (полный период)</p>
+              <p class="price-note">10 000 ₽/мес × 9 мес (май 2025 – январь 2026)</p>
+            </div>
+            <div class="price-right"><p class="price-amount">90 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">—</p>
+              <p class="price-title">Хостинг + AI-сервисы (сокращённый)</p>
+              <p class="price-note">10 000 ₽/мес × 2 мес (только период челленджа)</p>
+            </div>
+            <div class="price-right"><p class="price-amount">20 000 ₽</p><span class="pill opt">OPTION</span></div>
+          </div>
+        </div>
+
+        <!-- УПРАВЛЕНИЕ + ПРОДАЖИ -->
+        <div style="border-bottom:1px solid var(--gray)">
+          <div class="price-step-head"><p class="kicker" style="color:var(--red)">УПРАВЛЕНИЕ ПРОЕКТОМ</p></div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">—</p>
+              <p class="price-title">Управление проектом (10%)</p>
+              <p class="price-note">Координация, документооборот, приёмка.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">160 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+          <div class="price-row">
+            <div>
+              <p class="price-num">—</p>
+              <p class="price-title">Аккаунтинг и переговоры с клиентом</p>
+              <p class="price-note">Продажи, сопровождение сделки.</p>
+            </div>
+            <div class="price-right"><p class="price-amount">200 000 ₽</p><span class="pill">IN TOTAL</span></div>
+          </div>
+        </div>
+
+        <!-- ИТОГИ -->
+        <div style="border-bottom:1px solid var(--gray);padding:20px 24px;background:#fafafa">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+            <p class="kicker" style="color:#888">Итого продакшн (рекомендованный пакет)</p>
+            <p class="display" style="font-size:24px">1 600 000 ₽</p>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+            <p class="kicker" style="color:#888">Подитого (до налога)</p>
+            <p class="display" style="font-size:24px">1 960 000 ₽</p>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+            <p class="kicker" style="color:#888">Налог ИП УСН 11%</p>
+            <p class="display" style="font-size:20px;color:#888">215 600 ₽</p>
+          </div>
+        </div>
+
+        <div class="price-total">
+          <div>
+            <p class="kicker" style="color:var(--red);margin-bottom:6px">ИТОГО ПРОЕКТ (С НАЛОГОМ)</p>
+            <p class="serif" style="font-size:14px;color:#666">Предоплата 50% = 1 087 800 ₽ · покрывает техническую часть (платформа)</p>
+          </div>
+          <p class="display" style="font-size:clamp(40px,5vw,64px);color:var(--red)">2 175 600 ₽</p>
+        </div>
+
+      </div><!-- /garm-body -->
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TEAM
+══════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <p class="kicker reveal" style="margin-bottom:12px">КОМАНДА</p>
+    <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:28px">Почему мы?</h3>
+    <div class="grid-2">
+
+      <!-- Speaker 1 -->
+      <div class="team-card reveal-left">
+        <div class="team-photo">
+          <svg width="72" height="90" viewBox="0 0 72 90" fill="none">
+            <ellipse cx="36" cy="27" rx="20" ry="22" fill="#ccc"/>
+            <path d="M2 90C2 65 70 65 70 90" fill="#ccc"/>
+          </svg>
+          <p class="kicker" style="color:#bbb;margin-top:8px">АЛИНА ЛОГУТКИНА</p>
+        </div>
+        <div class="team-body">
+          <p class="kicker" style="color:var(--red);margin-bottom:8px">Strategy / Facilitation / Pharma Learning</p>
+          <h4 class="display" style="font-size:22px;margin-bottom:14px">Алина Логуткина</h4>
+          <div class="team-li"><span class="team-arrow">→</span><span>20+ лет опыта в фармацевтической индустрии: понимаю бизнес, полевые команды и логику принятия решений</span></div>
+          <div class="team-li"><span class="team-arrow">→</span><span>10+ лет создаю обучающие форматы: бизнес-игры, тренинги, цифровые мероприятия</span></div>
+          <div class="team-li"><span class="team-arrow">→</span><span>Дипломированный фасилитатор дизайн-спринтов — умею быстро переводить задачи в практические решения</span></div>
+        </div>
+      </div>
+
+      <!-- Speaker 2 (placeholder clone) -->
+      <div class="team-card reveal-right">
+        <div class="team-photo">
+          <svg width="72" height="90" viewBox="0 0 72 90" fill="none">
+            <ellipse cx="36" cy="27" rx="20" ry="22" fill="#ccc"/>
+            <path d="M2 90C2 65 70 65 70 90" fill="#ccc"/>
+          </svg>
+          <p class="kicker" style="color:#bbb;margin-top:8px">ВТОРОЙ УЧАСТНИК</p>
+        </div>
+        <div class="team-body">
+          <p class="kicker" style="color:var(--red);margin-bottom:8px">Strategy / Facilitation / Pharma Learning</p>
+          <h4 class="display" style="font-size:22px;margin-bottom:14px">Второй участник</h4>
+          <div class="team-li"><span class="team-arrow">→</span><span>20+ лет опыта в фармацевтической индустрии: понимаю бизнес, полевые команды и логику принятия решений</span></div>
+          <div class="team-li"><span class="team-arrow">→</span><span>10+ лет создаю обучающие форматы: бизнес-игры, тренинги, цифровые мероприятия</span></div>
+          <div class="team-li"><span class="team-arrow">→</span><span>Дипломированный фасилитатор дизайн-спринтов — умею быстро переводить задачи в практические решения</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA
+══════════════════════════════════════════ -->
+<section style="min-height:40vh;display:flex;align-items:center;border-bottom:none">
+  <div class="container reveal">
+    <p class="kicker" style="color:var(--red);margin-bottom:20px">СЛЕДУЮЩИЙ ШАГ</p>
+    <h2 class="display" style="font-size:clamp(44px,7vw,100px);line-height:.9;max-width:860px;margin-bottom:32px">
+      Давайте обсудим.
+    </h2>
+    <a href="mailto:" class="red-btn" style="font-size:14px;padding:16px 28px;gap:12px">
+      <span style="font-size:22px;line-height:1;font-weight:300">+</span>
+      Написать / Договориться о встрече
+    </a>
+  </div>
+</section>
+
+<script>
+/* ── SCROLL PROGRESS ─────────────────────── */
+window.addEventListener('scroll',function(){
+  var prog=window.scrollY/(document.body.scrollHeight-window.innerHeight);
+  document.getElementById('prog-fill').style.width=(prog*100)+'%';
+  document.getElementById('spine-fill').style.height=(prog*100)+'%';
+});
+
+/* ── INTERSECTION REVEAL ─────────────────── */
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}
+  });
+},{threshold:.12});
+
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(function(el){io.observe(el);});
+
+/* Card scatter reveal */
+var io2=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      var cards=e.target.querySelectorAll('.card-scatter');
+      cards.forEach(function(c,i){
+        setTimeout(function(){c.classList.add('visible');},i*100);
+      });
+      io2.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+var scatterParents=document.querySelectorAll('.grid-3');
+scatterParents.forEach(function(p){io2.observe(p);});
+
+/* ── SOUND ───────────────────────────────── */
+function playTick(freq,dur){
+  freq=freq||1000; dur=dur||0.035;
+  try{
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+    var ctx=new AC(),osc=ctx.createOscillator(),gain=ctx.createGain();
+    osc.type='sine'; osc.frequency.value=freq;
+    gain.gain.value=0.0001;
+    osc.connect(gain); gain.connect(ctx.destination);
+    var t=ctx.currentTime;
+    gain.gain.exponentialRampToValueAtTime(0.022,t+0.008);
+    gain.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    osc.start(t); osc.stop(t+dur);
+    osc.onended=function(){ctx.close();};
+  }catch(e){}
+}
+
+document.querySelectorAll('.sim-card').forEach(function(el,i){
+  el.addEventListener('mouseenter',function(){playTick(860+i*90);});
+});
+document.querySelectorAll('.red-btn').forEach(function(el){
+  el.addEventListener('mouseenter',function(){playTick(1100,0.03);});
+});
+document.querySelectorAll('.team-card').forEach(function(el){
+  el.addEventListener('mouseenter',function(){playTick(920,0.04);});
+});
+
+/* ── CLICKABLE TABLE ROWS ─────────────────── */
+document.querySelectorAll('.clickable-row').forEach(function(row){
+  row.addEventListener('click',function(){
+    var wasSelected=this.classList.contains('selected');
+    document.querySelectorAll('.clickable-row').forEach(function(r){r.classList.remove('selected');});
+    if(!wasSelected){this.classList.add('selected');playTick(1020,0.04);}
+  });
+});
+
+/* ── ACCORDION ───────────────────────────── */
+function toggleGarm(btn){
+  var body=btn.nextElementSibling;
+  var isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+  playTick(isOpen?620:1040,0.045);
+}
+</script>
+</body>
+</html>
