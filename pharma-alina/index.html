@@ -112,6 +112,10 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 .team-card{border:1px solid var(--gray);transition:border-color .2s}
 .team-card:hover{border-color:var(--red)}
 .team-photo{height:260px;background:#f5f5f5;border-bottom:1px solid var(--gray);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.team-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.team-photo.circle{height:260px;padding:24px;background:#f5f5f5;gap:10px}
+.team-photo.circle img{width:132px;height:132px;border-radius:999px;border:1px solid var(--gray);object-fit:cover;object-position:center top}
+.team-photo.circle .circle-name{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#bbb;font-family:Arial,sans-serif}
 .team-body{padding:20px}
 .team-li{display:flex;gap:8px;font-size:14px;font-family:Arial,sans-serif;margin-bottom:6px}
 .team-arrow{color:var(--red);font-weight:700;flex-shrink:0}
@@ -645,13 +649,13 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
     <div class="grid-2 reveal" style="margin-top:24px">
       <div style="border:1px solid rgba(255,255,255,.12);padding:24px">
         <p class="kicker" style="color:rgba(255,255,255,.35);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — АУДИО</p>
-        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">До 5 аудиокейсов за цикл</p>
+        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Инструмент переноса полевого опыта</p>
         <p style="font-size:14px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;line-height:1.6">Реальная ситуация из поля + пошаговая инструкция как повторить. Формат подкаста: слушают в машине, между визитами.</p>
         <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-top:8px">50 000 ₽ · 5 эпизодов × 5–7 мин</p>
       </div>
       <div style="border:1px solid rgba(255,255,255,.12);padding:24px">
         <p class="kicker" style="color:rgba(255,255,255,.35);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — ВИДЕО С AI-АВАТАРОМ</p>
-        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">До 5 видеороликов за цикл</p>
+        <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Инструмент признания и масштабирования лучших практик</p>
         <p style="font-size:14px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;line-height:1.6">Сотрудник представляет кейс через цифровой аватар HeyGen. Без камеры, без студии — только голос и слайды. До 2 минут.</p>
         <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-top:8px">175 000 ₽ · опция вместо аудио · 35 000 ₽ × 5</p>
         <a href="https://www.videoask.com/examples" target="_blank" style="display:inline-block;margin-top:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:2px">Референс: videoask.com/examples →</a>
@@ -758,7 +762,8 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
         <p style="font-size:15px;color:rgba(255,255,255,.65);font-family:Arial,sans-serif;line-height:1.65;margin-bottom:20px">
           15 видеофрагментов, ветвящийся сценарий. Врач-кардиолог, ограниченное время, реальные возражения. Каждый клик — новый видеофрагмент, новая реакция.
         </p>
-        <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-bottom:20px">425 000 ₽ · опция · 15 роликов × 25 000 ₽ + сборка</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-bottom:10px">425 000 ₽ · опция · 15 роликов × 25 000 ₽ + сборка</p>
+        <a href="https://tga.thetrainingarcade.com/games/scenarios/heart-failure-demo?__hstc=91461573.9c5627bf591877c27803239302eb958f.1773903302301.1773903302301.1773903302301.1&__hssc=91461573.1.1773903302301&__hsfp=0acdbcbf0f08eb2098dff9d084626561" target="_blank" style="display:inline-block;margin-bottom:20px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);font-family:Arial,sans-serif;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:2px">Референс видео-визита →</a>
 
         <!-- Схема 15 видео -->
         <div class="expandable" onclick="openFocus(this)" style="border:1px solid #333;padding:16px;background:#0a0a0a"
@@ -870,6 +875,12 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
       Между цикловыми совещаниями команда теряет контекст: что было сделано, кто вырос, какие результаты стоит отметить. Дашборд решает именно эту задачу. Итоговый балл: 40% доля рынка + 40% план продаж + 20% знания.
     </p>
 
+    <div class="reveal" style="border-left:3px solid var(--red);padding-left:20px;max-width:760px;margin-bottom:32px">
+      <p style="font-family:Arial,sans-serif;font-size:15px;line-height:1.7;color:#444">
+        Это не набор отдельных активностей, а <strong>единая система</strong> под цикловое совещание: единая платформа, измеримая подготовка команды до старта, инструменты мотивации и внутреннего признания, симуляторы для отработки сложных полевых ситуаций и дашборд для управленческой видимости между циклами.
+      </p>
+    </div>
+
     <div class="grid-2">
       <div class="reveal-left" style="overflow-x:auto">
         <table style="min-width:400px">
@@ -923,6 +934,9 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
   <div class="container">
     <p class="kicker reveal" style="margin-bottom:12px">СТОИМОСТЬ РЕШЕНИЙ</p>
     <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:28px">Смета проекта</h3>
+    <p class="serif reveal" style="font-size:15px;color:#555;max-width:760px;line-height:1.7;margin-bottom:24px">
+      Ниже — полная архитектура решения и смета проекта. Мы показываем её детально, потому что это не абстрактный тренинг, а <strong>единая система</strong> с понятными модулями, логикой внедрения и привязкой к цикловому.
+    </p>
 
     <div style="border:1px solid var(--gray)">
       <button class="garm-trigger" onclick="toggleGarm(this)" style="border:none;border-bottom:1px solid var(--gray)">
@@ -1174,13 +1188,17 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 <section>
   <div class="container">
     <p class="kicker reveal" style="margin-bottom:12px">КОМАНДА</p>
-    <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:28px">Почему мы?</h3>
+    <h3 class="display reveal" style="font-size:clamp(32px,5vw,72px);margin-bottom:16px">Почему мы?</h3>
+    <p class="serif reveal" style="font-size:15px;color:#555;max-width:760px;line-height:1.7;margin-bottom:28px">
+      Здесь соединяются две силы: глубокое понимание полевой фармы и обучения — со стороны Алины, и креативно-цифровая сборка системы — со стороны Ira&amp;AI. Вместе это позволяет собирать не отдельные активности, а <strong>единую систему</strong> под конкретное цикловое.
+    </p>
     <div class="grid-2">
 
       <!-- Speaker 1 -->
       <div class="team-card reveal-left">
-        <div class="team-photo" style="padding:0;overflow:hidden;background:#e0e0e0">
-          <img src="alina.jpg" alt="Алина Черникова" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"/>
+        <div class="team-photo circle" style="background:#e0e0e0">
+          <img src="alina.jpg" alt="Алина Черникова"/>
+          <p class="circle-name">Алина Черникова</p>
         </div>
         <div class="team-body">
           <p class="kicker" style="color:var(--red);margin-bottom:8px">Strategy / Facilitation / Pharma Learning</p>
@@ -1193,17 +1211,18 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 
       <!-- Speaker 2 -->
       <div class="team-card reveal-right">
-        <div class="team-photo" style="padding:0;overflow:hidden;background:#d9d9d9">
-          <img src="ira.jpg" alt="Ира Буян" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"/>
+        <div class="team-photo circle" style="background:#d9d9d9">
+          <img src="ira.jpg" alt="Ира Буян" style="object-position:center 18%"/>
+          <p class="circle-name">Ира Буян</p>
         </div>
         <div class="team-body">
-          <p class="kicker" style="color:var(--red);margin-bottom:8px">Creative Director / AI Strategist / Ira&AI</p>
+          <p class="kicker" style="color:var(--red);margin-bottom:8px">Creative Director / AI Strategist / Ira&amp;AI</p>
           <h4 class="display" style="font-size:22px;margin-bottom:14px">Ира Буян</h4>
           <div class="team-li"><span class="team-arrow">→</span><span>Креативный директор, ИИ-стратег. 22 000 аудитория в соцсетях.</span></div>
           <div class="team-li"><span class="team-arrow">→</span><span>10+ лет в креативе, 15 лет в спецпроектах для фармы и корпораций.</span></div>
           <div class="team-li"><span class="team-arrow">→</span><span>Специализация — ИИ для контента: от аналитики до эдьютеймента.</span></div>
-          <div class="team-li"><span class="team-arrow">→</span><span>Строим интерактивные обучающие продукты на стыке креатива, ИИ и кода: бизнес-симуляторы, игровые тренажёры, геймификация для полевых команд.</span></div>
-          <div class="team-li"><span class="team-arrow">→</span><span>От идеи до работающего прототипа — с командой, без посредников.</span></div>
+          <div class="team-li"><span class="team-arrow">→</span><span>Интерактивные обучающие продукты на стыке креатива, ИИ и кода: бизнес-симуляторы, игровые тренажёры, геймификация для полевых команд.</span></div>
+          <div class="team-li"><span class="team-arrow">→</span><span>В связке с Алиной: продуктовая логика + обучение в поле + цифровая сборка.</span></div>
         </div>
       </div>
 
@@ -1217,9 +1236,12 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 <section id="footprint-section">
   <div class="container reveal" style="padding-top:80px;padding-bottom:80px;position:relative;z-index:2">
     <p class="kicker" style="color:var(--red);margin-bottom:20px">СЛЕДУЮЩИЙ ШАГ</p>
-    <h2 class="display" style="font-size:clamp(44px,7vw,100px);line-height:.9;max-width:860px;margin-bottom:32px">
+    <h2 class="display" style="font-size:clamp(44px,7vw,100px);line-height:.9;max-width:860px;margin-bottom:20px">
       Давайте обсудим.
     </h2>
+    <p class="serif" style="font-size:16px;color:#555;max-width:680px;line-height:1.7;margin-bottom:32px">
+      Мы готовы рассказать, как эта система может выглядеть именно под ваше цикловое, вашу команду и задачи.
+    </p>
     <a href="mailto:" class="red-btn" style="font-size:14px;padding:16px 28px;gap:12px">
       <span style="font-size:22px;line-height:1;font-weight:300">+</span>
       Написать / Договориться о встрече
