@@ -161,6 +161,43 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 .clickable-row.selected{background:#FFF0F1;outline:2px solid var(--red);outline-offset:-2px}
 .clickable-row.selected td{color:var(--black)}
 .clickable-row.selected td:first-child{font-weight:700;color:var(--red)}
+
+/* ── SCANLINE ──────────────────────────────── */
+#scanline{
+  position:fixed;top:-2px;left:0;right:0;height:1px;
+  background:var(--red);opacity:.55;z-index:9999;
+  pointer-events:none;will-change:top;
+}
+.scanline-bold{font-weight:900!important;transition:font-weight 0s}
+
+/* ── GRID PULSE ────────────────────────────── */
+@keyframes borderPulse{
+  0%{box-shadow:0 0 0 0 rgba(230,57,70,0)}
+  40%{box-shadow:0 0 0 3px rgba(230,57,70,.55)}
+  100%{box-shadow:0 0 0 6px rgba(230,57,70,0)}
+}
+.sim-card:hover,.bar-wrap:hover,.team-card:hover,.media-row:hover{
+  animation:borderPulse .6s ease-out;
+}
+
+/* ── THERMAL PRINTER ───────────────────────── */
+@keyframes printerShake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-2px)}
+  40%{transform:translateX(2px)}
+  60%{transform:translateX(-1px)}
+  80%{transform:translateX(1px)}
+}
+.garm-body.open{animation:printerShake .25s ease-out}
+.price-row{
+  opacity:0;transform:translateY(-4px);
+  transition:opacity .18s ease,transform .18s ease;
+}
+.garm-body.open .price-row{opacity:1;transform:none}
+
+/* ── GRAVITY CARDS ─────────────────────────── */
+.gravity-el{transition:transform .12s cubic-bezier(.25,.46,.45,.94);will-change:transform}
+
 @media(max-width:860px){
   section{padding:40px 20px}
   .step-divider{padding:36px 20px}
@@ -169,6 +206,9 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 </style>
 </head>
 <body>
+
+<!-- SCANLINE -->
+<div id="scanline"></div>
 
 <!-- SPINE -->
 <div id="spine-track"><div id="spine-fill"></div></div>
@@ -1106,7 +1146,87 @@ function toggleGarm(btn){
   body.classList.toggle('open',!isOpen);
   btn.classList.toggle('open',!isOpen);
   playTick(isOpen?620:1040,0.045);
+
+  /* Thermal printer: stagger rows appearing */
+  if(!isOpen){
+    var rows=body.querySelectorAll('.price-row');
+    rows.forEach(function(r,i){
+      r.style.transitionDelay=(i*60)+'ms';
+    });
+    /* Remove shake class then re-add to re-trigger */
+    body.classList.remove('open');
+    void body.offsetWidth;
+    body.classList.add('open');
+  }
 }
+
+/* ── SCANLINE ────────────────────────────── */
+(function(){
+  var line=document.getElementById('scanline');
+  var pos=0;
+  var speed=1.4;
+  var lastTime=0;
+  var highlighted=[];
+
+  function tick(now){
+    var dt=now-lastTime;lastTime=now;
+    pos+=speed*(dt/16);
+    if(pos>document.body.scrollHeight)pos=-2;
+    line.style.top=pos+'px';
+
+    /* Un-bold previous */
+    highlighted.forEach(function(el){el.classList.remove('scanline-bold');});
+    highlighted=[];
+
+    /* Bold text elements intersecting the scanline */
+    var absPos=pos;
+    var candidates=document.querySelectorAll('h1,h2,h3,h4,.display,.serif');
+    candidates.forEach(function(el){
+      var r=el.getBoundingClientRect();
+      var elTop=r.top+window.scrollY;
+      var elBot=elTop+r.height;
+      if(absPos>=elTop&&absPos<=elBot){
+        el.classList.add('scanline-bold');
+        highlighted.push(el);
+      }
+    });
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ── GRAVITY REPULSION ───────────────────── */
+(function(){
+  var gravEls=document.querySelectorAll('.sim-card,.team-card,.bar-wrap');
+  var mouseX=0,mouseY=0;
+
+  document.addEventListener('mousemove',function(e){
+    mouseX=e.clientX; mouseY=e.clientY;
+  });
+
+  function gravLoop(){
+    gravEls.forEach(function(el){
+      var r=el.getBoundingClientRect();
+      var cx=r.left+r.width/2;
+      var cy=r.top+r.height/2;
+      var dx=mouseX-cx;
+      var dy=mouseY-cy;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      var maxDist=200;
+      if(dist<maxDist&&dist>0){
+        var force=(1-(dist/maxDist))*14;
+        var nx=-(dx/dist)*force;
+        var ny=-(dy/dist)*force;
+        el.style.transform='translate('+nx.toFixed(1)+'px,'+ny.toFixed(1)+'px)';
+      } else {
+        el.style.transform='';
+      }
+    });
+    requestAnimationFrame(gravLoop);
+  }
+  gravLoop();
+})();
 </script>
 </body>
 </html>
