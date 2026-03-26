@@ -316,18 +316,12 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
   color:#fff;font-family:Arial,sans-serif;font-weight:600;margin-top:6px;
 }
 
-/* ── FOOTPRINTS ────────────────────────────── */
+/* ── FOOTER CTA ───────────────────────────── */
 #footprint-section{
   position:relative;min-height:55vh;
   overflow:hidden;background:#fff;
   border-top:1px solid var(--gray);
 }
-.footprint{
-  position:absolute;pointer-events:none;opacity:0;
-  transition:opacity .6s ease;
-}
-.footprint.show{opacity:1}
-.footprint svg{display:block}
 
 /* ── MAGNETIC BUTTON ───────────────────────── */
 .red-btn{
@@ -1222,7 +1216,6 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
           <div class="team-li"><span class="team-arrow">→</span><span>10+ лет в креативе, 15 лет в спецпроектах для фармы и корпораций.</span></div>
           <div class="team-li"><span class="team-arrow">→</span><span>Специализация — ИИ для контента: от аналитики до эдьютеймента.</span></div>
           <div class="team-li"><span class="team-arrow">→</span><span>Интерактивные обучающие продукты на стыке креатива, ИИ и кода: бизнес-симуляторы, игровые тренажёры, геймификация для полевых команд.</span></div>
-          <div class="team-li"><span class="team-arrow">→</span><span>В связке с Алиной: продуктовая логика + обучение в поле + цифровая сборка.</span></div>
         </div>
       </div>
 
@@ -1539,69 +1532,6 @@ function toggleGarm(btn){
   stage.addEventListener('mouseleave',function(){
     beam.style.opacity='0';
     persons.forEach(function(p){p.classList.remove('lit');});
-  });
-})();
-
-/* ── FOOTPRINTS ────────────────────────────── */
-(function(){
-  var section=document.getElementById('footprint-section');
-  if(!section)return;
-
-  var footprints=[];
-  var COUNT=18;
-  var lastX=-999,lastY=-999;
-
-  function makeFootSVG(isLeft,opacity){
-    var flip=isLeft?1:-1;
-    return '<svg width="22" height="32" viewBox="0 0 22 32" fill="none" style="transform:scaleX('+flip+')">'
-      +'<ellipse cx="11" cy="22" rx="9" ry="11" fill="rgba(230,57,70,'+opacity+')" />'
-      +'<ellipse cx="5" cy="9" rx="3.5" ry="4" fill="rgba(230,57,70,'+opacity+')" />'
-      +'<ellipse cx="10" cy="7" rx="3" ry="3.5" fill="rgba(230,57,70,'+opacity+')" />'
-      +'<ellipse cx="15" cy="7.5" rx="2.8" ry="3.2" fill="rgba(230,57,70,'+opacity+')" />'
-      +'<ellipse cx="19.5" cy="10" rx="2" ry="2.5" fill="rgba(230,57,70,'+opacity+')" />'
-      +'</svg>';
-  }
-
-  /* Pre-create footprint elements */
-  for(var i=0;i<COUNT;i++){
-    var el=document.createElement('div');
-    el.className='footprint';
-    section.appendChild(el);
-    footprints.push({el:el,timer:0,isLeft:i%2===0});
-  }
-
-  var idx=0;
-  var stepToggle=0;
-
-  section.addEventListener('mousemove',function(e){
-    var r=section.getBoundingClientRect();
-    var x=e.clientX-r.left;
-    var y=e.clientY-r.top;
-    var dx=x-lastX; var dy=y-lastY;
-    var dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<40)return;
-    lastX=x; lastY=y;
-
-    var fp=footprints[idx%COUNT];
-    idx++;
-    stepToggle=1-stepToggle;
-    var isLeft=stepToggle===0;
-
-    /* Offset to left/right of cursor direction */
-    var angle=Math.atan2(dy,dx);
-    var perpAngle=angle+(isLeft?-1:1)*Math.PI/2;
-    var offsetDist=12;
-    var fx=x+Math.cos(perpAngle)*offsetDist;
-    var fy=y+Math.sin(perpAngle)*offsetDist;
-
-    fp.el.innerHTML=makeFootSVG(isLeft,0.55);
-    fp.el.style.left=(fx-11)+'px';
-    fp.el.style.top=(fy-16)+'px';
-    fp.el.style.transform='rotate('+(angle*180/Math.PI+90)+'deg)';
-    fp.el.classList.add('show');
-
-    clearTimeout(fp.timer);
-    fp.timer=setTimeout(function(){fp.el.classList.remove('show');},1800);
   });
 })();
 
