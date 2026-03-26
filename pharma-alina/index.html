@@ -192,7 +192,7 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 
 /* ── VOTE EMOJI BUTTON ─────────────────────── */
 .vote-btn{
-  font-size:22px;cursor:pointer;background:none;border:none;
+  cursor:pointer;background:none;
   padding:8px 12px;border:1px solid var(--gray);
   transition:transform .15s,border-color .15s;display:inline-flex;
   align-items:center;gap:6px;font-family:Arial,sans-serif;
@@ -201,13 +201,38 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 .vote-btn:hover{transform:scale(1.12);border-color:var(--red)}
 .vote-btn.voted{background:#FFF5F6;border-color:var(--red);font-weight:700}
 
-/* ── SCANLINE ──────────────────────────────── */
+/* ── GRAIN OVERLAY ─────────────────────────── */
+#grain-overlay{
+  position:fixed;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:9996;
+  opacity:.055;mix-blend-mode:overlay;
+  animation:grainShift .12s steps(1) infinite;
+  background-size:200px 200px;
+}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}
+  16%{transform:translate(-3px,-4px)}
+  33%{transform:translate(4px,2px)}
+  50%{transform:translate(-2px,3px)}
+  66%{transform:translate(3px,-2px)}
+  83%{transform:translate(-4px,3px)}
+  100%{transform:translate(0,0)}
+}
+
+/* ── SCANLINE + GLITCH ─────────────────────── */
 #scanline{
   position:fixed;top:-2px;left:0;right:0;height:1px;
   background:var(--red);opacity:.55;z-index:9999;
   pointer-events:none;will-change:top;
 }
 .scanline-bold{font-weight:900!important;transition:font-weight 0s}
+@keyframes glitchShift{
+  0%,100%{clip-path:inset(0 0 100% 0);transform:none}
+  10%{clip-path:inset(20% 0 60% 0);transform:translateX(4px)}
+  20%{clip-path:inset(60% 0 20% 0);transform:translateX(-3px)}
+  30%{clip-path:inset(0 0 100% 0);transform:none}
+}
+.glitch-active{animation:glitchShift .15s steps(2) forwards}
 
 /* ── GRID PULSE ────────────────────────────── */
 @keyframes borderPulse{
@@ -234,21 +259,85 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 }
 .garm-body.open .price-row{opacity:1;transform:none}
 
-/* ── GRAVITY CARDS ─────────────────────────── */
-.gravity-el{transition:transform .12s cubic-bezier(.25,.46,.45,.94);will-change:transform}
+/* ── SPOTLIGHT (Зал Славы) ─────────────────── */
+#spotlight-stage{
+  position:relative;background:#060606;
+  overflow:hidden;cursor:none;
+  padding:64px;border-bottom:1px solid #1a1a1a;
+}
+#spotlight-beam{
+  position:absolute;pointer-events:none;z-index:1;
+  width:380px;height:380px;
+  margin-left:-190px;margin-top:-190px;
+  background:radial-gradient(circle, rgba(255,255,255,.11) 0%, rgba(255,255,255,.04) 40%, transparent 70%);
+  border-radius:50%;
+  transition:opacity .4s;
+}
+.spot-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:32px;
+  position:relative;z-index:2;max-width:1100px;margin:40px auto 0;
+}
+.spot-person{
+  position:relative;padding:28px 20px;text-align:center;
+  border:1px solid rgba(255,255,255,.06);
+  transition:border-color .3s;
+}
+.spot-person.lit{border-color:rgba(255,255,255,.2)}
+/* ghost layer — тусклые контуры */
+.spot-ghost{opacity:1;transition:opacity .35s}
+.spot-ghost svg ellipse,.spot-ghost svg path{fill:none;stroke:rgba(255,255,255,.1);stroke-width:1}
+.spot-ghost .ghost-name{
+  font-size:10px;letter-spacing:.32em;text-transform:uppercase;
+  color:rgba(255,255,255,.1);font-family:Arial,sans-serif;margin-top:10px;
+}
+/* reveal layer — полный контент за маской */
+.spot-reveal{
+  position:absolute;inset:28px 20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .25s;
+}
+.spot-person.lit .spot-ghost{opacity:0}
+.spot-person.lit .spot-reveal{opacity:1}
+.spot-stat{
+  font-family:Impact,"Arial Black",sans-serif;
+  font-size:clamp(44px,5vw,72px);color:var(--red);
+  line-height:1;margin:8px 0 4px;
+}
+.spot-sublabel{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);font-family:Arial,sans-serif;
+}
+.spot-person-name{
+  font-size:13px;letter-spacing:.2em;text-transform:uppercase;
+  color:#fff;font-family:Arial,sans-serif;font-weight:600;margin-top:6px;
+}
 
-/* ── PEOPLE SILHOUETTES ────────────────────── */
-.person{
-  position:absolute;pointer-events:none;
-  opacity:0;transition:opacity .8s ease, transform .08s linear;
+/* ── FOOTPRINTS ────────────────────────────── */
+#footprint-section{
+  position:relative;min-height:55vh;
+  overflow:hidden;background:#fff;
+  border-top:1px solid var(--gray);
+}
+.footprint{
+  position:absolute;pointer-events:none;opacity:0;
+  transition:opacity .6s ease;
+}
+.footprint.show{opacity:1}
+.footprint svg{display:block}
+
+/* ── MAGNETIC BUTTON ───────────────────────── */
+.red-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--red);color:var(--red);
+  padding:12px 20px;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;text-decoration:none;
+  transition:background .2s,color .2s;font-family:Arial,sans-serif;
   will-change:transform;
 }
-.person.appeared{opacity:1}
-.person svg{display:block}
+.red-btn:hover{background:var(--red);color:#fff}
 
-#crowd-section{
-  position:relative;min-height:60vh;
-  overflow:hidden;cursor:crosshair;
+/* ── GRAVITY CARDS ─────────────────────────── */
+.gravity-el{transition:transform .12s cubic-bezier(.25,.46,.45,.94);will-change:transform}
   border-top:1px solid var(--gray);
 }
 #crowd-section .container{position:relative;z-index:2}
@@ -276,6 +365,9 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 <!-- SCANLINE -->
 <div id="scanline"></div>
 
+<!-- GRAIN OVERLAY -->
+<div id="grain-overlay"></div>
+
 <!-- FOCUS OVERLAY — раскрытие блоков на весь экран -->
 <div id="focus-overlay">
   <button id="focus-close" onclick="closeFocus()" aria-label="закрыть">✕</button>
@@ -291,20 +383,6 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 ══════════════════════════════════════════ -->
 <section style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px;border-bottom:1px solid var(--gray)">
   <span class="bg-word" style="font-size:clamp(100px,18vw,280px);top:10px;right:-10px;opacity:.3">ИЗМЕРИ</span>
-
-  <!-- 2 силуэта на Hero -->
-  <div class="person" id="hero-person-1" style="bottom:60px;right:200px">
-    <svg width="54" height="80" viewBox="0 0 54 80" fill="none">
-      <ellipse cx="27" cy="16" rx="13" ry="14" fill="#E5E5E5"/>
-      <path d="M4 80 C4 48 50 48 50 80Z" fill="#E5E5E5"/>
-    </svg>
-  </div>
-  <div class="person" id="hero-person-2" style="bottom:60px;right:280px">
-    <svg width="44" height="68" viewBox="0 0 44 68" fill="none">
-      <ellipse cx="22" cy="13" rx="11" ry="12" fill="#D0D0D0"/>
-      <path d="M2 68 C2 40 42 40 42 68Z" fill="#D0D0D0"/>
-    </svg>
-  </div>
 
   <div class="container reveal">
     <p class="kicker" style="margin-bottom:20px">PHARMA LEARNING PLATFORM / ИНТЕРАКТИВНОЕ ПРЕДЛОЖЕНИЕ</p>
@@ -472,124 +550,111 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 </section>
 
 <!-- ══════════════════════════════════════════
-     HALL OF FAME (красный фон)
+     SPOTLIGHT STAGE — ЗАЛ СЛАВЫ
 ══════════════════════════════════════════ -->
-<section style="background:var(--red);border-bottom:none">
-  <div class="container">
-    <p class="kicker reveal" style="color:rgba(255,255,255,.6);margin-bottom:12px">ВИРТУАЛЬНЫЙ ЗАЛ СЛАВЫ</p>
-    <h3 class="display reveal" style="font-size:clamp(26px,4vw,60px);margin-bottom:28px;color:#fff">Система признания<br>и внутреннего<br>соревнования</h3>
+<section id="spotlight-stage">
+  <div id="spotlight-beam"></div>
 
+  <div class="container" style="position:relative;z-index:2">
+    <p class="kicker reveal" style="color:rgba(255,255,255,.4);margin-bottom:12px">ВИРТУАЛЬНЫЙ ЗАЛ СЛАВЫ</p>
+    <h3 class="display reveal" style="font-size:clamp(26px,4vw,60px);margin-bottom:8px;color:#fff">Система признания<br>и внутреннего<br>соревнования</h3>
+    <p class="serif reveal" style="color:rgba(255,255,255,.4);font-size:14px;margin-bottom:0">Наведите курсор на участника — прожектор его осветит.</p>
+  </div>
+
+  <div class="spot-grid">
+
+    <div class="spot-person" data-stat="170" data-label="ОЧКОВ ЗА ЦИКЛ" data-name="СИДОРОВ А." data-sub="САНКТ-ПЕТЕРБУРГ · #1 · First Try 85%">
+      <div class="spot-ghost">
+        <svg width="80" height="100" viewBox="0 0 80 100" fill="none">
+          <ellipse cx="40" cy="28" rx="22" ry="24"/>
+          <path d="M4 100 C4 62 76 62 76 100Z"/>
+        </svg>
+        <p class="ghost-name">УЧАСТНИК 1</p>
+      </div>
+      <div class="spot-reveal">
+        <p class="spot-sublabel">ИНТЕЛЛЕКТУАЛЬНЫЙ РЕЙТИНГ</p>
+        <p class="spot-stat">170</p>
+        <p class="spot-sublabel">ОЧКОВ ЗА ЦИКЛ</p>
+        <p class="spot-person-name">СИДОРОВ А.</p>
+        <p class="spot-sublabel" style="margin-top:4px">САНКТ-ПЕТЕРБУРГ · #1 · First Try 85%</p>
+      </div>
+    </div>
+
+    <div class="spot-person" data-stat="145" data-label="ОЧКОВ ЗА ЦИКЛ" data-name="ИВАНОВ С." data-sub="МОСКВА · #3 · Лучший кейс">
+      <div class="spot-ghost">
+        <svg width="80" height="100" viewBox="0 0 80 100" fill="none">
+          <ellipse cx="40" cy="28" rx="22" ry="24"/>
+          <path d="M4 100 C4 62 76 62 76 100Z"/>
+        </svg>
+        <p class="ghost-name">УЧАСТНИК 2</p>
+      </div>
+      <div class="spot-reveal">
+        <p class="spot-sublabel">ПЕРСОНАЛЬНЫЙ СТИЛЬ</p>
+        <p class="spot-stat">145</p>
+        <p class="spot-sublabel">ОЧКОВ ЗА ЦИКЛ</p>
+        <p class="spot-person-name">ИВАНОВ С.</p>
+        <p class="spot-sublabel" style="margin-top:4px">МОСКВА · #3 · Лучший кейс</p>
+      </div>
+    </div>
+
+    <div class="spot-person" data-stat="98" data-label="ОЧКОВ ЗА ЦИКЛ" data-name="ПЕТРОВ Е." data-sub="УРАЛ · #15 · Streak 5 дней">
+      <div class="spot-ghost">
+        <svg width="80" height="100" viewBox="0 0 80 100" fill="none">
+          <ellipse cx="40" cy="28" rx="22" ry="24"/>
+          <path d="M4 100 C4 62 76 62 76 100Z"/>
+        </svg>
+        <p class="ghost-name">УЧАСТНИК 3</p>
+      </div>
+      <div class="spot-reveal">
+        <p class="spot-sublabel">ГОЛОСОВАНИЕ КОМАНДЫ</p>
+        <p class="spot-stat">98</p>
+        <p class="spot-sublabel">ОЧКОВ ЗА ЦИКЛ</p>
+        <p class="spot-person-name">ПЕТРОВ Е.</p>
+        <p class="spot-sublabel" style="margin-top:4px">УРАЛ · #15 · Streak 5 дней</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container" style="position:relative;z-index:2;margin-top:40px">
     <div class="grid-3 reveal">
-      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+      <div style="border:1px solid rgba(255,255,255,.12);padding:24px">
         <p style="font-size:28px;font-family:Impact,sans-serif;color:#fff;margin-bottom:8px">01</p>
         <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Интеллектуальный рейтинг</p>
-        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Кто лучше всех знает материал и стабильно показывает высокий результат по итогам предциклового тестирования</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;line-height:1.6">Кто лучше всех знает материал и стабильно показывает высокий результат по итогам предциклового тестирования</p>
       </div>
-      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+      <div style="border:1px solid rgba(255,255,255,.12);padding:24px">
         <p style="font-size:28px;font-family:Impact,sans-serif;color:#fff;margin-bottom:8px">02</p>
         <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Персональный стиль</p>
-        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Номинации за реальные достижения в поле: лучший визит, лучший кейс с возражением, лучший рост доли рынка</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;line-height:1.6">Номинации за реальные достижения в поле: лучший визит, лучший кейс с возражением, лучший рост доли рынка</p>
       </div>
-      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
+      <div style="border:1px solid rgba(255,255,255,.12);padding:24px">
         <p style="font-size:28px;font-family:Impact,sans-serif;color:#fff;margin-bottom:8px">03</p>
         <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">Голосование за лучший кейс</p>
-        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">1 голос на человека, счётчик результатов в реальном времени. Команда выбирает лучшего сама — это мощнее, чем решение сверху</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;line-height:1.6">1 голос на человека, счётчик результатов в реальном времени. Команда выбирает лучшего сама — это мощнее, чем решение сверху</p>
       </div>
+    </div>
+
+    <div class="reveal" style="margin-top:24px;border:1px solid rgba(255,255,255,.12);padding:24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <p class="kicker" style="color:rgba(255,255,255,.4);flex-shrink:0">ПРОГОЛОСОВАТЬ ЗА ЛУЧШИЙ КЕЙС:</p>
+      <button class="vote-btn" onclick="vote(this,'fire')">🔥 Огонь</button>
+      <button class="vote-btn" onclick="vote(this,'heart')">❤️ Топ визит</button>
+      <button class="vote-btn" onclick="vote(this,'star')">⭐ Лучший кейс</button>
     </div>
 
     <div class="grid-2 reveal" style="margin-top:24px">
-      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
-        <p class="kicker" style="color:rgba(255,255,255,.5);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — АУДИО</p>
+      <div style="border:1px solid rgba(255,255,255,.12);padding:24px">
+        <p class="kicker" style="color:rgba(255,255,255,.35);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — АУДИО</p>
         <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">До 5 аудиокейсов за цикл</p>
-        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Реальная ситуация из поля + пошаговая инструкция как повторить. Формат подкаста: слушают в машине, между визитами.</p>
-        <p style="font-size:13px;color:rgba(255,255,255,.5);font-family:Arial,sans-serif;margin-top:8px">50 000 ₽ · 5 эпизодов × 5–7 мин</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;line-height:1.6">Реальная ситуация из поля + пошаговая инструкция как повторить. Формат подкаста: слушают в машине, между визитами.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-top:8px">50 000 ₽ · 5 эпизодов × 5–7 мин</p>
       </div>
-      <div style="border:1px solid rgba(255,255,255,.25);padding:24px">
-        <p class="kicker" style="color:rgba(255,255,255,.5);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — ВИДЕО С AI-АВАТАРОМ</p>
+      <div style="border:1px solid rgba(255,255,255,.12);padding:24px">
+        <p class="kicker" style="color:rgba(255,255,255,.35);margin-bottom:10px">ШОУ «ЛУЧШИЕ ПРАКТИКИ» — ВИДЕО С AI-АВАТАРОМ</p>
         <p style="font-weight:700;color:#fff;font-family:Arial,sans-serif;margin-bottom:8px">До 5 видеороликов за цикл</p>
-        <p style="font-size:14px;color:rgba(255,255,255,.75);font-family:Arial,sans-serif;line-height:1.6">Сотрудник представляет кейс через цифровой аватар HeyGen. Без камеры, без студии — только голос и слайды. До 2 минут.</p>
-        <p style="font-size:13px;color:rgba(255,255,255,.5);font-family:Arial,sans-serif;margin-top:8px">175 000 ₽ · опция вместо аудио · 35 000 ₽ × 5</p>
-        <a href="https://www.videoask.com/examples" target="_blank" style="display:inline-block;margin-top:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);font-family:Arial,sans-serif;border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px">Референс: videoask.com/examples →</a>
-      </div>
-    </div>
-
-    <!-- SVG Зал Славы — схема-пример в стиле Spotify -->
-    <div class="reveal expandable" onclick="openFocus(this)" style="margin-top:32px;border:1px solid rgba(255,255,255,.2);padding:24px;background:rgba(0,0,0,.2)"
-      data-title="Зал Славы — пример страницы"
-      data-desc="Так выглядит витрина признания: рейтинг сотрудников, их достижения и голосование за лучший кейс цикла.">
-      <p class="kicker" style="color:rgba(255,255,255,.4);margin-bottom:16px">ПРИМЕР СТРАНИЦЫ — ЗАЛА СЛАВЫ</p>
-      <svg viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:300px">
-        <!-- Заголовок страницы -->
-        <text x="20" y="22" font-family="Impact,Arial Black,sans-serif" font-size="18" fill="white" letter-spacing="2" text-transform="uppercase">ЗАЛ СЛАВЫ · ЦИКЛ 2 · 2025</text>
-        <line x1="20" y1="30" x2="780" y2="30" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-
-        <!-- Карточка 1 — лидер, увеличенная -->
-        <rect x="20" y="44" width="220" height="220" stroke="#E63946" stroke-width="1.5" fill="rgba(230,57,70,0.08)"/>
-        <!-- Силуэт -->
-        <ellipse cx="120" cy="100" rx="28" ry="30" fill="#444"/>
-        <path d="M68 150 C68 118 172 118 172 150" fill="#444"/>
-        <!-- Бейдж #1 -->
-        <rect x="20" y="44" width="46" height="22" fill="#E63946"/>
-        <text x="43" y="59" text-anchor="middle" font-family="Impact,sans-serif" font-size="12" fill="white">#1</text>
-        <!-- Имя -->
-        <text x="120" y="170" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="14" fill="white" letter-spacing="1">СИДОРОВ А.</text>
-        <text x="120" y="186" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.5)">САНКТ-ПЕТЕРБУРГ</text>
-        <!-- Достижения -->
-        <rect x="30" y="196" width="200" height="1" fill="rgba(255,255,255,0.15)"/>
-        <text x="30" y="212" font-family="Arial,sans-serif" font-size="9" fill="#E63946">★</text>
-        <text x="44" y="212" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Лучший визит месяца</text>
-        <text x="30" y="228" font-family="Arial,sans-serif" font-size="9" fill="#E63946">★</text>
-        <text x="44" y="228" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">First Try 85% · 170 очков</text>
-        <text x="30" y="244" font-family="Arial,sans-serif" font-size="9" fill="#E63946">★</text>
-        <text x="44" y="244" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Streak 10 дней подряд</text>
-
-        <!-- Карточка 2 -->
-        <rect x="254" y="44" width="168" height="168" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="rgba(255,255,255,0.03)"/>
-        <ellipse cx="338" cy="92" rx="22" ry="24" fill="#333"/>
-        <path d="M300 128 C300 104 376 104 376 128" fill="#333"/>
-        <rect x="254" y="44" width="36" height="18" fill="rgba(255,255,255,0.15)"/>
-        <text x="272" y="57" text-anchor="middle" font-family="Impact,sans-serif" font-size="11" fill="white">#2</text>
-        <text x="338" y="146" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="12" fill="white" letter-spacing="1">ИВАНОВ С.</text>
-        <text x="338" y="160" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">МОСКВА · 145 очков</text>
-        <text x="338" y="175" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#E63946">Лучший кейс с возражением</text>
-        <text x="338" y="188" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="rgba(255,255,255,0.4)">First Try 80%</text>
-
-        <!-- Карточка 3 -->
-        <rect x="436" y="44" width="168" height="168" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="rgba(255,255,255,0.03)"/>
-        <ellipse cx="520" cy="92" rx="22" ry="24" fill="#333"/>
-        <path d="M482 128 C482 104 558 104 558 128" fill="#333"/>
-        <rect x="436" y="44" width="36" height="18" fill="rgba(255,255,255,0.1)"/>
-        <text x="454" y="57" text-anchor="middle" font-family="Impact,sans-serif" font-size="11" fill="rgba(255,255,255,0.6)">#3</text>
-        <text x="520" y="146" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="12" fill="white" letter-spacing="1">ПЕТРОВА М.</text>
-        <text x="520" y="160" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">УРАЛ · 132 очка</text>
-        <text x="520" y="175" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="rgba(255,255,255,0.4)">Персональный стиль: Эксперт</text>
-
-        <!-- Правый блок: голосование -->
-        <rect x="618" y="44" width="162" height="220" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="rgba(255,255,255,0.02)"/>
-        <text x="628" y="64" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)" letter-spacing="2">ГОЛОСОВАНИЕ</text>
-        <line x1="618" y1="70" x2="780" y2="70" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <!-- строки голосования -->
-        <text x="628" y="90" font-family="Arial,sans-serif" font-size="10" fill="white">Сидоров</text>
-        <rect x="690" y="79" width="64" height="10" fill="rgba(230,57,70,0.6)" rx="1"/>
-        <text x="762" y="89" font-family="Arial,sans-serif" font-size="9" fill="#E63946">68%</text>
-        <text x="628" y="112" font-family="Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.7)">Иванов</text>
-        <rect x="690" y="101" width="34" height="10" fill="rgba(255,255,255,0.2)" rx="1"/>
-        <text x="732" y="111" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.5)">22%</text>
-        <text x="628" y="134" font-family="Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.7)">Петрова</text>
-        <rect x="690" y="123" width="16" height="10" fill="rgba(255,255,255,0.15)" rx="1"/>
-        <text x="714" y="133" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">10%</text>
-        <line x1="618" y1="148" x2="780" y2="148" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <text x="628" y="168" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Проголосовало: 47 из 100</text>
-        <text x="628" y="184" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">До конца голосования: 3 дня</text>
-        <!-- Кнопка голосовать -->
-        <rect x="628" y="200" width="120" height="30" stroke="#E63946" stroke-width="1" fill="none"/>
-        <text x="688" y="220" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#E63946" letter-spacing="1">❤️ ГОЛОСОВАТЬ</text>
-      </svg>
-      <!-- Настоящая кнопка голосования -->
-      <div style="margin-top:16px;display:flex;gap:10px;align-items:center">
-        <button class="vote-btn" onclick="vote(this,'fire')">🔥 Огонь</button>
-        <button class="vote-btn" onclick="vote(this,'heart')">❤️ Топ визит</button>
-        <button class="vote-btn" onclick="vote(this,'star')">⭐ Лучший кейс</button>
+        <p style="font-size:14px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;line-height:1.6">Сотрудник представляет кейс через цифровой аватар HeyGen. Без камеры, без студии — только голос и слайды. До 2 минут.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-top:8px">175 000 ₽ · опция вместо аудио · 35 000 ₽ × 5</p>
+        <a href="https://www.videoask.com/examples" target="_blank" style="display:inline-block;margin-top:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:2px">Референс: videoask.com/examples →</a>
       </div>
     </div>
   </div>
@@ -1153,11 +1218,10 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 </section>
 
 <!-- ══════════════════════════════════════════
-     CTA — ТОЛПА ЛЮДЕЙ
+     FOOTPRINTS CTA
 ══════════════════════════════════════════ -->
-<section id="crowd-section">
-  <!-- толпа генерируется JS -->
-  <div class="container reveal" style="padding-top:80px;padding-bottom:80px">
+<section id="footprint-section">
+  <div class="container reveal" style="padding-top:80px;padding-bottom:80px;position:relative;z-index:2">
     <p class="kicker" style="color:var(--red);margin-bottom:20px">СЛЕДУЮЩИЙ ШАГ</p>
     <h2 class="display" style="font-size:clamp(44px,7vw,100px);line-height:.9;max-width:860px;margin-bottom:32px">
       Давайте обсудим.
@@ -1170,6 +1234,22 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 </section>
 
 <script>
+/* ── GRAIN TEXTURE ────────────────────────── */
+(function(){
+  var canvas=document.createElement('canvas');
+  canvas.width=256;canvas.height=256;
+  var ctx=canvas.getContext('2d');
+  var img=ctx.createImageData(256,256);
+  for(var i=0;i<img.data.length;i+=4){
+    var v=Math.random()*255|0;
+    img.data[i]=img.data[i+1]=img.data[i+2]=v;
+    img.data[i+3]=255;
+  }
+  ctx.putImageData(img,0,0);
+  var grain=document.getElementById('grain-overlay');
+  if(grain) grain.style.backgroundImage='url('+canvas.toDataURL()+')';
+})();
+
 /* ── SCROLL PROGRESS ─────────────────────── */
 window.addEventListener('scroll',function(){
   var prog=window.scrollY/(document.body.scrollHeight-window.innerHeight);
@@ -1333,6 +1413,7 @@ function toggleGarm(btn){
   var speed=1.4;
   var lastTime=0;
   var highlighted=[];
+  var glitchTimer=0;
 
   function tick(now){
     var dt=now-lastTime;lastTime=now;
@@ -1356,6 +1437,18 @@ function toggleGarm(btn){
         highlighted.push(el);
       }
     });
+
+    /* Periodic glitch every ~18s */
+    glitchTimer+=dt;
+    if(glitchTimer>18000){
+      glitchTimer=0;
+      var glitchEls=document.querySelectorAll('h1,h2,.display');
+      if(glitchEls.length){
+        var target=glitchEls[Math.floor(Math.random()*glitchEls.length)];
+        target.classList.add('glitch-active');
+        setTimeout(function(){target.classList.remove('glitch-active');},200);
+      }
+    }
 
     requestAnimationFrame(tick);
   }
@@ -1394,125 +1487,124 @@ function toggleGarm(btn){
   gravLoop();
 })();
 
-/* ── HERO PEOPLE — появление ─────────────── */
+/* ── SPOTLIGHT (Зал Славы) ─────────────────── */
 (function(){
-  setTimeout(function(){
-    var p1=document.getElementById('hero-person-1');
-    var p2=document.getElementById('hero-person-2');
-    if(p1){p1.classList.add('appeared');}
-    setTimeout(function(){if(p2)p2.classList.add('appeared');},400);
-  },900);
+  var stage=document.getElementById('spotlight-stage');
+  if(!stage)return;
+
+  var beam=document.getElementById('spotlight-beam');
+  var persons=stage.querySelectorAll('.spot-person');
+
+  stage.addEventListener('mousemove',function(e){
+    var r=stage.getBoundingClientRect();
+    var x=e.clientX-r.left;
+    var y=e.clientY-r.top;
+    beam.style.left=x+'px';
+    beam.style.top=y+'px';
+    beam.style.opacity='1';
+
+    persons.forEach(function(p){
+      var pr=p.getBoundingClientRect();
+      var pcx=pr.left+pr.width/2-r.left;
+      var pcy=pr.top+pr.height/2-r.top;
+      var dx=x-pcx; var dy=y-pcy;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<200){
+        if(!p.classList.contains('lit')){
+          p.classList.add('lit');
+          playTick(880+Math.random()*200,0.05);
+        }
+      } else {
+        p.classList.remove('lit');
+      }
+    });
+  });
+
+  stage.addEventListener('mouseleave',function(){
+    beam.style.opacity='0';
+    persons.forEach(function(p){p.classList.remove('lit');});
+  });
 })();
 
-/* ── CROWD SECTION — толпа убегающих ────── */
+/* ── FOOTPRINTS ────────────────────────────── */
 (function(){
-  var section=document.getElementById('crowd-section');
+  var section=document.getElementById('footprint-section');
   if(!section)return;
 
-  /* SVG силуэты — 3 варианта размера */
-  function makeSVG(size,color){
-    var h=size,w=Math.round(size*0.65);
-    var headR=Math.round(w*0.28);
-    var cx=Math.round(w/2);
-    return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" fill="none">'+
-      '<ellipse cx="'+cx+'" cy="'+headR+'" rx="'+headR+'" ry="'+Math.round(headR*1.05)+'" fill="'+color+'"/>'+
-      '<path d="M4 '+h+' C4 '+Math.round(h*.55)+' '+(w-4)+' '+Math.round(h*.55)+' '+(w-4)+' '+h+'Z" fill="'+color+'"/>'+
-      '</svg>';
+  var footprints=[];
+  var COUNT=18;
+  var lastX=-999,lastY=-999;
+
+  function makeFootSVG(isLeft,opacity){
+    var flip=isLeft?1:-1;
+    return '<svg width="22" height="32" viewBox="0 0 22 32" fill="none" style="transform:scaleX('+flip+')">'
+      +'<ellipse cx="11" cy="22" rx="9" ry="11" fill="rgba(230,57,70,'+opacity+')" />'
+      +'<ellipse cx="5" cy="9" rx="3.5" ry="4" fill="rgba(230,57,70,'+opacity+')" />'
+      +'<ellipse cx="10" cy="7" rx="3" ry="3.5" fill="rgba(230,57,70,'+opacity+')" />'
+      +'<ellipse cx="15" cy="7.5" rx="2.8" ry="3.2" fill="rgba(230,57,70,'+opacity+')" />'
+      +'<ellipse cx="19.5" cy="10" rx="2" ry="2.5" fill="rgba(230,57,70,'+opacity+')" />'
+      +'</svg>';
   }
 
-  var colors=['#E5E5E5','#D8D8D8','#CCCCCC','#C0C0C0','rgba(230,57,70,.18)','rgba(230,57,70,.28)'];
-  var sizes=[52,64,44,72,56,48,60,40];
-  var people=[];
-  var COUNT=32;
-  var mouseX=0,mouseY=0,sectionRect;
-
-  /* Генерируем людей */
+  /* Pre-create footprint elements */
   for(var i=0;i<COUNT;i++){
     var el=document.createElement('div');
-    el.className='crowd-person';
-    var sz=sizes[i%sizes.length];
-    var col=colors[i%colors.length];
-    el.innerHTML=makeSVG(sz,col);
-
-    var px=5+Math.random()*90; // % от ширины секции
-    var py=10+Math.random()*80;
-    el.style.left=px+'%';
-    el.style.top=py+'%';
-    el.style.opacity='0';
-    el.style.transition='opacity .6s ease '+( i*40)+'ms';
-
+    el.className='footprint';
     section.appendChild(el);
-    people.push({
-      el:el,
-      bx:px,  // base x %
-      by:py,  // base y %
-      ox:0,   // offset x px
-      oy:0,   // offset y px
-      vx:0,   // velocity x
-      vy:0    // velocity y
-    });
+    footprints.push({el:el,timer:0,isLeft:i%2===0});
   }
 
-  /* Показываем когда секция в view */
-  var crowdIO=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        people.forEach(function(p){p.el.style.opacity='1';});
-        crowdIO.unobserve(section);
-      }
-    });
-  },{threshold:.1});
-  crowdIO.observe(section);
+  var idx=0;
+  var stepToggle=0;
 
-  /* Mouse tracking */
   section.addEventListener('mousemove',function(e){
-    sectionRect=section.getBoundingClientRect();
-    mouseX=e.clientX-sectionRect.left;
-    mouseY=e.clientY-sectionRect.top;
+    var r=section.getBoundingClientRect();
+    var x=e.clientX-r.left;
+    var y=e.clientY-r.top;
+    var dx=x-lastX; var dy=y-lastY;
+    var dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<40)return;
+    lastX=x; lastY=y;
+
+    var fp=footprints[idx%COUNT];
+    idx++;
+    stepToggle=1-stepToggle;
+    var isLeft=stepToggle===0;
+
+    /* Offset to left/right of cursor direction */
+    var angle=Math.atan2(dy,dx);
+    var perpAngle=angle+(isLeft?-1:1)*Math.PI/2;
+    var offsetDist=12;
+    var fx=x+Math.cos(perpAngle)*offsetDist;
+    var fy=y+Math.sin(perpAngle)*offsetDist;
+
+    fp.el.innerHTML=makeFootSVG(isLeft,0.55);
+    fp.el.style.left=(fx-11)+'px';
+    fp.el.style.top=(fy-16)+'px';
+    fp.el.style.transform='rotate('+(angle*180/Math.PI+90)+'deg)';
+    fp.el.classList.add('show');
+
+    clearTimeout(fp.timer);
+    fp.timer=setTimeout(function(){fp.el.classList.remove('show');},1800);
   });
-  section.addEventListener('mouseleave',function(){
-    mouseX=-9999; mouseY=-9999;
-  });
+})();
 
-  /* Физика убегания */
-  var W=window.innerWidth,H=section.offsetHeight;
-  function crowdLoop(){
-    W=section.offsetWidth; H=section.offsetHeight;
-    people.forEach(function(p){
-      /* Текущая абсолютная позиция */
-      var bpx=p.bx/100*W;
-      var bpy=p.by/100*H;
-      var curX=bpx+p.ox;
-      var curY=bpy+p.oy;
-
-      /* Расстояние до курсора */
-      var dx=curX-mouseX;
-      var dy=curY-mouseY;
-      var dist=Math.sqrt(dx*dx+dy*dy);
-      var repulse=180;
-
-      if(dist<repulse&&dist>0){
-        var force=((repulse-dist)/repulse)*22;
-        p.vx+=(dx/dist)*force;
-        p.vy+=(dy/dist)*force;
-      }
-
-      /* Пружина — возврат к базовой позиции */
-      p.vx+=(0-p.ox)*0.06;
-      p.vy+=(0-p.oy)*0.06;
-
-      /* Затухание */
-      p.vx*=0.78;
-      p.vy*=0.78;
-
-      p.ox+=p.vx;
-      p.oy+=p.vy;
-
-      p.el.style.transform='translate('+p.ox.toFixed(1)+'px,'+p.oy.toFixed(1)+'px)';
+/* ── MAGNETIC BUTTONS ────────────────────── */
+(function(){
+  var btns=document.querySelectorAll('.red-btn');
+  btns.forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){
+      var r=btn.getBoundingClientRect();
+      var cx=r.left+r.width/2;
+      var cy=r.top+r.height/2;
+      var dx=(e.clientX-cx)*0.35;
+      var dy=(e.clientY-cy)*0.35;
+      btn.style.transform='translate('+dx.toFixed(1)+'px,'+dy.toFixed(1)+'px)';
     });
-    requestAnimationFrame(crowdLoop);
-  }
-  crowdLoop();
+    btn.addEventListener('mouseleave',function(){
+      btn.style.transform='';
+    });
+  });
 })();
 </script>
 </body>
