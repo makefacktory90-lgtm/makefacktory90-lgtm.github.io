@@ -237,6 +237,33 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 /* ── GRAVITY CARDS ─────────────────────────── */
 .gravity-el{transition:transform .12s cubic-bezier(.25,.46,.45,.94);will-change:transform}
 
+/* ── PEOPLE SILHOUETTES ────────────────────── */
+.person{
+  position:absolute;pointer-events:none;
+  opacity:0;transition:opacity .8s ease, transform .08s linear;
+  will-change:transform;
+}
+.person.appeared{opacity:1}
+.person svg{display:block}
+
+#crowd-section{
+  position:relative;min-height:60vh;
+  overflow:hidden;cursor:crosshair;
+  border-top:1px solid var(--gray);
+}
+#crowd-section .container{position:relative;z-index:2}
+.crowd-person{
+  position:absolute;
+  transition:transform .06s linear;
+  will-change:transform;
+  pointer-events:none;
+}
+
+@keyframes personIn{
+  from{opacity:0;transform:translateY(30px) scale(.7)}
+  to{opacity:1;transform:none}
+}
+
 @media(max-width:860px){
   section{padding:40px 20px}
   .step-divider{padding:36px 20px}
@@ -264,6 +291,20 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 ══════════════════════════════════════════ -->
 <section style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px;border-bottom:1px solid var(--gray)">
   <span class="bg-word" style="font-size:clamp(100px,18vw,280px);top:10px;right:-10px;opacity:.3">ИЗМЕРИ</span>
+
+  <!-- 2 силуэта на Hero -->
+  <div class="person" id="hero-person-1" style="bottom:60px;right:200px">
+    <svg width="54" height="80" viewBox="0 0 54 80" fill="none">
+      <ellipse cx="27" cy="16" rx="13" ry="14" fill="#E5E5E5"/>
+      <path d="M4 80 C4 48 50 48 50 80Z" fill="#E5E5E5"/>
+    </svg>
+  </div>
+  <div class="person" id="hero-person-2" style="bottom:60px;right:280px">
+    <svg width="44" height="68" viewBox="0 0 44 68" fill="none">
+      <ellipse cx="22" cy="13" rx="11" ry="12" fill="#D0D0D0"/>
+      <path d="M2 68 C2 40 42 40 42 68Z" fill="#D0D0D0"/>
+    </svg>
+  </div>
 
   <div class="container reveal">
     <p class="kicker" style="margin-bottom:20px">PHARMA LEARNING PLATFORM / ИНТЕРАКТИВНОЕ ПРЕДЛОЖЕНИЕ</p>
@@ -1112,10 +1153,11 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 </section>
 
 <!-- ══════════════════════════════════════════
-     CTA
+     CTA — ТОЛПА ЛЮДЕЙ
 ══════════════════════════════════════════ -->
-<section style="min-height:40vh;display:flex;align-items:center;border-bottom:none">
-  <div class="container reveal">
+<section id="crowd-section">
+  <!-- толпа генерируется JS -->
+  <div class="container reveal" style="padding-top:80px;padding-bottom:80px">
     <p class="kicker" style="color:var(--red);margin-bottom:20px">СЛЕДУЮЩИЙ ШАГ</p>
     <h2 class="display" style="font-size:clamp(44px,7vw,100px);line-height:.9;max-width:860px;margin-bottom:32px">
       Давайте обсудим.
@@ -1350,6 +1392,127 @@ function toggleGarm(btn){
     requestAnimationFrame(gravLoop);
   }
   gravLoop();
+})();
+
+/* ── HERO PEOPLE — появление ─────────────── */
+(function(){
+  setTimeout(function(){
+    var p1=document.getElementById('hero-person-1');
+    var p2=document.getElementById('hero-person-2');
+    if(p1){p1.classList.add('appeared');}
+    setTimeout(function(){if(p2)p2.classList.add('appeared');},400);
+  },900);
+})();
+
+/* ── CROWD SECTION — толпа убегающих ────── */
+(function(){
+  var section=document.getElementById('crowd-section');
+  if(!section)return;
+
+  /* SVG силуэты — 3 варианта размера */
+  function makeSVG(size,color){
+    var h=size,w=Math.round(size*0.65);
+    var headR=Math.round(w*0.28);
+    var cx=Math.round(w/2);
+    return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" fill="none">'+
+      '<ellipse cx="'+cx+'" cy="'+headR+'" rx="'+headR+'" ry="'+Math.round(headR*1.05)+'" fill="'+color+'"/>'+
+      '<path d="M4 '+h+' C4 '+Math.round(h*.55)+' '+(w-4)+' '+Math.round(h*.55)+' '+(w-4)+' '+h+'Z" fill="'+color+'"/>'+
+      '</svg>';
+  }
+
+  var colors=['#E5E5E5','#D8D8D8','#CCCCCC','#C0C0C0','rgba(230,57,70,.18)','rgba(230,57,70,.28)'];
+  var sizes=[52,64,44,72,56,48,60,40];
+  var people=[];
+  var COUNT=32;
+  var mouseX=0,mouseY=0,sectionRect;
+
+  /* Генерируем людей */
+  for(var i=0;i<COUNT;i++){
+    var el=document.createElement('div');
+    el.className='crowd-person';
+    var sz=sizes[i%sizes.length];
+    var col=colors[i%colors.length];
+    el.innerHTML=makeSVG(sz,col);
+
+    var px=5+Math.random()*90; // % от ширины секции
+    var py=10+Math.random()*80;
+    el.style.left=px+'%';
+    el.style.top=py+'%';
+    el.style.opacity='0';
+    el.style.transition='opacity .6s ease '+( i*40)+'ms';
+
+    section.appendChild(el);
+    people.push({
+      el:el,
+      bx:px,  // base x %
+      by:py,  // base y %
+      ox:0,   // offset x px
+      oy:0,   // offset y px
+      vx:0,   // velocity x
+      vy:0    // velocity y
+    });
+  }
+
+  /* Показываем когда секция в view */
+  var crowdIO=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        people.forEach(function(p){p.el.style.opacity='1';});
+        crowdIO.unobserve(section);
+      }
+    });
+  },{threshold:.1});
+  crowdIO.observe(section);
+
+  /* Mouse tracking */
+  section.addEventListener('mousemove',function(e){
+    sectionRect=section.getBoundingClientRect();
+    mouseX=e.clientX-sectionRect.left;
+    mouseY=e.clientY-sectionRect.top;
+  });
+  section.addEventListener('mouseleave',function(){
+    mouseX=-9999; mouseY=-9999;
+  });
+
+  /* Физика убегания */
+  var W=window.innerWidth,H=section.offsetHeight;
+  function crowdLoop(){
+    W=section.offsetWidth; H=section.offsetHeight;
+    people.forEach(function(p){
+      /* Текущая абсолютная позиция */
+      var bpx=p.bx/100*W;
+      var bpy=p.by/100*H;
+      var curX=bpx+p.ox;
+      var curY=bpy+p.oy;
+
+      /* Расстояние до курсора */
+      var dx=curX-mouseX;
+      var dy=curY-mouseY;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      var repulse=180;
+
+      if(dist<repulse&&dist>0){
+        var force=((repulse-dist)/repulse)*22;
+        p.vx+=(dx/dist)*force;
+        p.vy+=(dy/dist)*force;
+      }
+
+      /* Пружина — возврат к базовой позиции */
+      p.vx+=(0-p.ox)*0.06;
+      p.vy+=(0-p.oy)*0.06;
+
+      /* Затухание */
+      p.vx*=0.78;
+      p.vy*=0.78;
+
+      p.ox+=p.vx;
+      p.oy+=p.vy;
+
+      p.el.style.transform='translate('+p.ox.toFixed(1)+'px,'+p.oy.toFixed(1)+'px)';
+    });
+    requestAnimationFrame(crowdLoop);
+  }
+  crowdLoop();
 })();
 </script>
 </body>
