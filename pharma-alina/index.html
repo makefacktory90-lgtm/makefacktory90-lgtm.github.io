@@ -162,6 +162,45 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 .clickable-row.selected td{color:var(--black)}
 .clickable-row.selected td:first-child{font-weight:700;color:var(--red)}
 
+/* ── FOCUS OVERLAY (раскрытие блоков) ─────── */
+#focus-overlay{
+  position:fixed;inset:0;background:rgba(255,255,255,.97);z-index:10000;
+  display:none;overflow-y:auto;padding:48px 40px 80px;
+  opacity:0;transition:opacity .3s ease;
+}
+#focus-overlay.active{display:block}
+#focus-overlay.visible{opacity:1}
+#focus-close{
+  position:fixed;top:20px;right:24px;z-index:10001;
+  width:44px;height:44px;border:1px solid var(--red);
+  background:#fff;color:var(--red);font-size:22px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-family:Arial,sans-serif;line-height:1;
+}
+#focus-close:hover{background:var(--red);color:#fff}
+#focus-content{max-width:900px;margin:0 auto}
+
+/* Блоки с подсказкой «нажми» */
+.expandable{cursor:pointer;position:relative}
+.expandable::after{
+  content:'↗ РАСКРЫТЬ';
+  position:absolute;top:12px;right:12px;
+  font-size:9px;letter-spacing:.2em;color:var(--red);
+  font-family:Arial,sans-serif;opacity:0;transition:opacity .2s;
+}
+.expandable:hover::after{opacity:1}
+
+/* ── VOTE EMOJI BUTTON ─────────────────────── */
+.vote-btn{
+  font-size:22px;cursor:pointer;background:none;border:none;
+  padding:8px 12px;border:1px solid var(--gray);
+  transition:transform .15s,border-color .15s;display:inline-flex;
+  align-items:center;gap:6px;font-family:Arial,sans-serif;
+  font-size:13px;color:var(--red);
+}
+.vote-btn:hover{transform:scale(1.12);border-color:var(--red)}
+.vote-btn.voted{background:#FFF5F6;border-color:var(--red);font-weight:700}
+
 /* ── SCANLINE ──────────────────────────────── */
 #scanline{
   position:fixed;top:-2px;left:0;right:0;height:1px;
@@ -209,6 +248,12 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
 
 <!-- SCANLINE -->
 <div id="scanline"></div>
+
+<!-- FOCUS OVERLAY — раскрытие блоков на весь экран -->
+<div id="focus-overlay">
+  <button id="focus-close" onclick="closeFocus()" aria-label="закрыть">✕</button>
+  <div id="focus-content"></div>
+</div>
 
 <!-- SPINE -->
 <div id="spine-track"><div id="spine-fill"></div></div>
@@ -428,7 +473,9 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
     </div>
 
     <!-- SVG Зал Славы — схема-пример в стиле Spotify -->
-    <div class="reveal" style="margin-top:32px;border:1px solid rgba(255,255,255,.2);padding:24px;background:rgba(0,0,0,.2)">
+    <div class="reveal expandable" onclick="openFocus(this)" style="margin-top:32px;border:1px solid rgba(255,255,255,.2);padding:24px;background:rgba(0,0,0,.2)"
+      data-title="Зал Славы — пример страницы"
+      data-desc="Так выглядит витрина признания: рейтинг сотрудников, их достижения и голосование за лучший кейс цикла.">
       <p class="kicker" style="color:rgba(255,255,255,.4);margin-bottom:16px">ПРИМЕР СТРАНИЦЫ — ЗАЛА СЛАВЫ</p>
       <svg viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:300px">
         <!-- Заголовок страницы -->
@@ -495,8 +542,14 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
         <text x="628" y="184" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">До конца голосования: 3 дня</text>
         <!-- Кнопка голосовать -->
         <rect x="628" y="200" width="120" height="30" stroke="#E63946" stroke-width="1" fill="none"/>
-        <text x="688" y="220" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#E63946" letter-spacing="1">ПРОГОЛОСОВАТЬ</text>
+        <text x="688" y="220" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#E63946" letter-spacing="1">❤️ ГОЛОСОВАТЬ</text>
       </svg>
+      <!-- Настоящая кнопка голосования -->
+      <div style="margin-top:16px;display:flex;gap:10px;align-items:center">
+        <button class="vote-btn" onclick="vote(this,'fire')">🔥 Огонь</button>
+        <button class="vote-btn" onclick="vote(this,'heart')">❤️ Топ визит</button>
+        <button class="vote-btn" onclick="vote(this,'star')">⭐ Лучший кейс</button>
+      </div>
     </div>
   </div>
 </section>
@@ -529,7 +582,9 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
         <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-bottom:20px">150 000 ₽ · включено в рекомендованный пакет</p>
 
         <!-- Аудио-схема: 10 фрагментов -->
-        <div style="border:1px solid #333;padding:16px;background:#0a0a0a">
+        <div class="expandable" onclick="openFocus(this)" style="border:1px solid #333;padding:16px;background:#0a0a0a"
+          data-title="Аудио-симулятор: Коридорный визит"
+          data-desc="10 аудиофрагментов, ветвящийся сценарий, 3 финала. Врач торопится, у медпреда 2 минуты.">
           <p class="kicker" style="color:rgba(255,255,255,.3);margin-bottom:12px">КАК УСТРОЕНЫ 10 АУДИОФРАГМЕНТОВ</p>
           <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%">
             <!-- Уровень 0: старт -->
@@ -600,7 +655,9 @@ th{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)
         <p style="font-size:13px;color:rgba(255,255,255,.35);font-family:Arial,sans-serif;margin-bottom:20px">425 000 ₽ · опция · 15 роликов × 25 000 ₽ + сборка</p>
 
         <!-- Схема 15 видео -->
-        <div style="border:1px solid #333;padding:16px;background:#0a0a0a">
+        <div class="expandable" onclick="openFocus(this)" style="border:1px solid #333;padding:16px;background:#0a0a0a"
+          data-title="Видео-симулятор: структура 15 фрагментов"
+          data-desc="Каждый клик — новый видеофрагмент. 4 уровня ветвления: 1 + 2 + 4 + 8 = 15 роликов. Врач-кардиолог, реальные возражения.">
           <p class="kicker" style="color:rgba(255,255,255,.3);margin-bottom:12px">КАК УСТРОЕНЫ 15 ВИДЕОФРАГМЕНТОВ</p>
           <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%">
             <!-- Уровень 0: 1 видео — старт -->
@@ -1129,6 +1186,73 @@ document.querySelectorAll('.red-btn').forEach(function(el){
 document.querySelectorAll('.team-card').forEach(function(el){
   el.addEventListener('mouseenter',function(){playTick(920,0.04);});
 });
+
+/* ── FOCUS OVERLAY ───────────────────────── */
+function openFocus(el){
+  var overlay=document.getElementById('focus-overlay');
+  var content=document.getElementById('focus-content');
+  var title=el.getAttribute('data-title')||'';
+  var desc=el.getAttribute('data-desc')||'';
+
+  /* Клонируем содержимое блока */
+  var clone=el.cloneNode(true);
+  clone.style.cursor='default';
+  clone.removeAttribute('onclick');
+  clone.style.animation='none';
+  clone.style.transform='none';
+
+  content.innerHTML='';
+  if(title){
+    var h=document.createElement('h2');
+    h.className='display';
+    h.style.cssText='font-size:clamp(28px,4vw,56px);margin-bottom:12px;line-height:1';
+    h.textContent=title;
+    content.appendChild(h);
+  }
+  if(desc){
+    var p=document.createElement('p');
+    p.className='serif';
+    p.style.cssText='font-size:18px;color:#555;margin-bottom:28px;line-height:1.6;max-width:700px';
+    p.textContent=desc;
+    content.appendChild(p);
+  }
+  /* Увеличиваем SVG внутри клона */
+  clone.querySelectorAll('svg').forEach(function(s){
+    s.style.maxHeight='none';
+    s.style.height='auto';
+  });
+  content.appendChild(clone);
+
+  overlay.classList.add('active');
+  requestAnimationFrame(function(){overlay.classList.add('visible');});
+  document.body.style.overflow='hidden';
+  playTick(1080,0.04);
+}
+
+function closeFocus(){
+  var overlay=document.getElementById('focus-overlay');
+  overlay.classList.remove('visible');
+  setTimeout(function(){
+    overlay.classList.remove('active');
+    document.body.style.overflow='';
+  },300);
+  playTick(680,0.04);
+}
+
+/* Close on Escape */
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeFocus();
+});
+
+/* ── VOTE ────────────────────────────────── */
+function vote(btn,type){
+  /* Снимаем все голоса в группе */
+  btn.closest('div').querySelectorAll('.vote-btn').forEach(function(b){
+    b.classList.remove('voted');
+  });
+  btn.classList.add('voted');
+  playTick(type==='fire'?1200:type==='heart'?980:1100, 0.05);
+}
 
 /* ── CLICKABLE TABLE ROWS ─────────────────── */
 document.querySelectorAll('.clickable-row').forEach(function(row){
