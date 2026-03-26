@@ -82,8 +82,9 @@
             const code = document.getElementById('access-code').value.trim();
             if(code === '16100') {
                 playSuccess();
+                localStorage.setItem('karuseli_2_2026_access', 'granted');
                 setTimeout(() => {
-                    window.location.href = 'dashboard-v2.html';
+                    window.location.href = '/karuseli-2-2026/dashboard/';
                 }, 500);
             } else {
                 playError();
