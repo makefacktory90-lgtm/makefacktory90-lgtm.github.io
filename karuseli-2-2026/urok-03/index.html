@@ -989,6 +989,85 @@ OUTPUT IN 3 FORMATS:
             </div>
         </div>
 
+        <div class="section">
+            <div class="section-tag">Бонус — следующий уровень</div>
+            <h2>Как превратить промпт в скилл</h2>
+            <p>Сейчас вы вставляете промпт в начало каждого чата. Это работает, но есть способ лучше: сделать из него <strong>скилл</strong> — промпт, который живёт у Claude постоянно. Просто пишете «сделай карусель» — и Claude сам подтягивает все инструкции. Без копипаста, без потерь.</p>
+
+            <div class="assembly-grid" style="margin-top:30px;">
+                <div class="assembly-item">
+                    <div class="source">Что понадобится</div>
+                    <div class="label">Аккаунт Claude Pro, Team или Enterprise</div>
+                    <div class="desc">Плюс ваш готовый промпт из этого урока и 15–20 минут</div>
+                </div>
+            </div>
+
+            <div class="workflow-steps" style="margin-top:30px;">
+                <div class="workflow-step">
+                    <div class="step-num">01</div>
+                    <div class="step-content">
+                        <h3>Подготовьте фактуру</h3>
+                        <p>Убедитесь, что в промпте есть всё из Урока 1 (голос, боли, продукт, стоп-лист) и Урока 2 (цвет, стиль, шрифты, handle). Это основа скилла.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-num">02</div>
+                    <div class="step-content">
+                        <h3>Попросите Claude сделать скилл за вас</h3>
+                        <p>Откройте новый чат, вставьте промпт и напишите:</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="prompt-toggle" onclick="togglePrompt('skill')" id="prompt-toggle-skill" style="margin-top:20px;">
+                <span>Показать промпт для создания скилла</span>
+                <span class="arrow">&darr;</span>
+            </button>
+            <div class="prompt-content" id="prompt-content-skill">Преврати этот промпт в скилл для Claude.
+
+Создай файл SKILL.md с правильной шапкой:
+- name: carousel-maker
+- description: подробное описание когда срабатывать — включи прямые запросы («сделай карусель», «нужны слайды») и косвенные («подготовь визуал для поста», «контент-план для Instagram»)
+
+Разбей инструкции:
+- Основной SKILL.md — до 500 строк (Phase 0, 1, 2, 3 + ссылки на reference-файлы)
+- references/formulas.md — все 16 формул с правилами
+- references/design.md — архитектура слайдов, CSS-компоненты, палитра, шрифты
+
+Упакуй всё в .skill файл.</div>
+            <button class="copy-btn" onclick="copyPrompt('skill')">&#128203; Скопировать промпт</button>
+
+            <div class="workflow-steps" style="margin-top:30px;">
+                <div class="workflow-step">
+                    <div class="step-num">03</div>
+                    <div class="step-content">
+                        <h3>Скачайте .skill файл</h3>
+                        <p>Claude создаст все файлы и упакует их. Скачайте архив.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <h3>Установите скилл</h3>
+                        <p>Настройки Claude &rarr; Skills &rarr; загрузите .skill файл. Готово.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-num">05</div>
+                    <div class="step-content">
+                        <h3>Проверьте</h3>
+                        <p>Откройте новый чат и напишите: «Сделай карусель про выгорание» или «Придумай 5 тем на неделю». Если Claude подхватил — скилл работает.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-grid" style="margin-top:30px;">
+                <div class="tip"><span class="tip-icon">&rarr;</span> <strong>Слишком длинный SKILL.md</strong> — если файл больше 500 строк, Claude может «забыть» инструкции. Выносите детали в references/</div>
+                <div class="tip"><span class="tip-icon">&rarr;</span> <strong>Слабый description</strong> — если скилл не срабатывает, добавьте слово-триггер в description</div>
+                <div class="tip"><span class="tip-icon">&rarr;</span> <strong>Объясняйте почему</strong> — вместо «НИКОГДА не пиши слово уникальный» лучше: «Избегай слова уникальный — оно звучит как корпоративный шаблон и снижает доверие»</div>
+            </div>
+        </div>
+
         <div class="homework">
             <h3>Финальное задание</h3>
             <p>До среды 8:00 МСК &mdash; чтобы получить фидбек от Иры:</p>
