@@ -165,7 +165,8 @@
         </div>
 
         <div class="video-block" id="video-container">
-            <div class="video-placeholder">
+            <iframe src="https://www.youtube.com/embed/06BBLeT0Jm0" allowfullscreen></iframe>
+            <div class="video-placeholder" style="display:none">
                 <div class="icon">&#9654;</div>
                 <p>Видео будет здесь после записи</p>
             </div>
@@ -1008,9 +1009,10 @@ OUTPUT IN 3 FORMATS:
     </div>
 
     <script>
-        if (localStorage.getItem('karuseli_2_2026_access') !== 'granted') {
-            window.location.href = '/karuseli-2-2026/'
-        }
+        // TEMPORARILY DISABLED for local preview
+        // if (localStorage.getItem('karuseli_2_2026_access') !== 'granted') {
+        //     window.location.href = '/karuseli-2-2026/'
+        // }
 
         function togglePrompt(id) {
             const btn = document.getElementById('prompt-toggle-' + id);
