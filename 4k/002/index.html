@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Одно лишнее — Pharma Mini-Game #2</title>
+    <meta property="og:title" content="Одно лишнее — найди ложный факт">
+    <meta property="og:description" content="4 факта. 3 правдивых. 1 ложный. Найди его.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- ====================================================
+         🎓 УРОК 2 — КУРС 4К (Креативщик кодит в кафешке)
+
+         Вчера: HTML = коробки (div, h1, button)
+         Сегодня: CSS = одежда + JS = мозг
+
+         CSS (между <style> и </style>) — описывает КАК выглядит
+         JS (между <script> и </script>) — описывает ЧТО делает
+
+         Попробуй: найди .card и поменяй border-radius: 16px
+         на border-radius: 0px — карточки станут квадратными!
+    ==================================================== -->
+
+    <style>
+        /* ========================================
+           CSS = ОДЕЖДА КОТА
+           Каждая строчка — один элемент гардероба.
+           background: цвет фона
+           color: цвет текста
+           border-radius: скругление углов
+           padding: отступ внутри коробки
+           font-size: размер шрифта
+        ======================================== */
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;  /* Чёрный фон — бренд можно менять тут */
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .app { width: 100%; max-width: 480px; min-height: 100vh; position: relative; }
+
+        /* Экраны — невидимые слои, показываем по одному */
+        .screen {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 32px 24px;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        .screen.active { opacity: 1; pointer-events: all; }
+
+        /* Мелкие текстовые стили */
+        .badge { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+        .title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+        .sub { font-size: 15px; color: #888; line-height: 1.6; margin-bottom: 32px; }
+
+        /* Кнопка "Начать" */
+        .btn-start {
+            display: block; width: 100%; padding: 16px;
+            border: none; border-radius: 14px;
+            background: #fff; color: #0a0a0a;
+            font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-start:active { transform: scale(0.97); }
+        .btn-start:hover { background: #eee; }
+
+        /* Верхняя часть раунда */
+        .round-header { margin-bottom: 24px; }
+        .round-counter { font-size: 12px; letter-spacing: 2px; color: #555; margin-bottom: 8px; }
+        .round-drug { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #5DBCD2; margin-bottom: 16px; }
+        .round-question { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; line-height: 1.3; }
+
+        /* ========================================
+           КАРТОЧКИ — 4 штуки в столбик
+           Это ГЛАВНЫЙ визуальный элемент.
+           Клиент хочет свой бренд? Меняем:
+           - background (фон карточки)
+           - border цвет
+           - font-size
+        ======================================== */
+        .cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+
+        .card {
+            background: #111;
+            border: 2px solid #1e1e1e;
+            border-radius: 16px;       /* Попробуй поменять на 0 */
+            padding: 18px 20px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .card:active { transform: scale(0.98); }
+        .card:hover { border-color: #333; }
+
+        /* Номер карточки */
+        .card-num {
+            position: absolute;
+            top: 12px; right: 14px;
+            font-size: 11px;
+            color: #333;
+            font-weight: 700;
+        }
+
+        /* Состояния карточек после ответа */
+        .card.correct {
+            border-color: #4caf50;
+            background: #0a1a0a;
+            color: #4caf50;
+        }
+        .card.wrong {
+            border-color: #FF0000;
+            background: #1a0a0a;
+            color: #FF0000;
+            animation: shake 0.4s;
+        }
+        .card.dimmed {
+            opacity: 0.3;
+        }
+        .card.disabled {
+            pointer-events: none;
+        }
+
+        /* Анимация тряски — JS запускает, CSS описывает КАК */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        /* Пояснение после ответа */
+        .explanation {
+            background: #111;
+            border-left: 3px solid #5DBCD2;
+            padding: 14px 16px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #888;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .explanation.show { opacity: 1; }
+        .explanation strong { color: #5DBCD2; }
+
+        /* Кнопка "Дальше" */
+        .btn-next {
+            display: block; width: 100%; padding: 14px;
+            border: 2px solid #333; border-radius: 14px;
+            background: transparent; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            opacity: 0; pointer-events: none;
+        }
+        .btn-next.show { opacity: 1; pointer-events: all; }
+        .btn-next:hover { border-color: #fff; }
+
+        /* Экран результатов */
+        .result-score { font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 8px; }
+        .result-label { font-size: 14px; color: #555; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px; }
+        .result-bar-wrap { background: #111; border-radius: 8px; height: 8px; margin-bottom: 12px; overflow: hidden; }
+        .result-bar { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #FF0000, #5DBCD2); transition: width 1s ease; }
+        .result-detail { font-size: 13px; color: #555; margin-bottom: 32px; }
+        .result-msg { font-size: 15px; color: #ccc; line-height: 1.6; margin-bottom: 32px; }
+
+        /* Футер — бренд */
+        .footer {
+            position: absolute; bottom: 24px; left: 24px; right: 24px;
+            font-size: 10px; color: #333; text-align: center; letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <!-- ========================================
+         ЭКРАН 1: Приветствие
+         HTML: просто текст + кнопка
+    ======================================== -->
+    <div class="screen active" id="screen-start">
+        <div class="badge">Pharma Mini-Game #2</div>
+        <div class="title">Одно лишнее</div>
+        <div class="sub">
+            4 факта о препарате.<br>
+            3 правдивых. 1 — ложный.<br>
+            Найди лишний. 10 раундов.
+        </div>
+        <button class="btn-start" onclick="startGame()">Начать</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+    <!-- ========================================
+         ЭКРАН 2: Игровой раунд
+         Здесь JS будет менять содержимое карточек
+    ======================================== -->
+    <div class="screen" id="screen-game">
+        <div class="round-header">
+            <div class="round-counter" id="counter">РАУНД 1 / 10</div>
+            <div class="round-drug" id="drug-name">💊 ХэппиХарт</div>
+            <div class="round-question" id="question">Найди ложный факт:</div>
+        </div>
+
+        <div class="cards" id="cards-container">
+            <!-- Карточки создаёт JavaScript -->
+        </div>
+
+        <div class="explanation" id="explanation"></div>
+        <button class="btn-next" id="btn-next" onclick="nextRound()">Дальше →</button>
+    </div>
+
+    <!-- ========================================
+         ЭКРАН 3: Результат
+    ======================================== -->
+    <div class="screen" id="screen-result">
+        <div class="badge">Результат</div>
+        <div class="result-score" id="score-num">0/10</div>
+        <div class="result-label">правильных ответов</div>
+        <div class="result-bar-wrap"><div class="result-bar" id="result-bar" style="width:0%"></div></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-start" onclick="startGame()">Играть ещё раз</button>
+        <div class="footer">AI-Business Simulator · demo</div>
+    </div>
+
+</div>
+
+<script>
+/* ========================================
+   JAVASCRIPT = МОЗГ КОТА
+
+   Вчера HTML = коробки.
+   CSS выше = одежда.
+   А тут — ЛОГИКА. Что происходит, когда
+   пользователь нажимает на карточку.
+
+   🎓 Ключевые понятия:
+   - const = создать переменную (коробку с данными)
+   - function = действие (рецепт, который можно вызвать)
+   - onclick = "когда нажали — сделай вот это"
+   - if/else = "если... то... иначе..."
+   - массив [] = список (как список покупок)
+======================================== */
+
+// ========================================
+// ДАННЫЕ — придуманные препараты
+// Это МАССИВ (список) объектов.
+// Каждый объект = один раунд.
+// Клиент даёт свои данные → мы просто заменяем этот массив.
+// ========================================
+
+const ROUNDS = [
+    {
+        drug: "💊 ХэппиХарт",
+        facts: [
+            { text: "Снижает давление на 15-20% за 4 недели", correct: true },
+            { text: "Принимается 1 раз в сутки, утром", correct: true },
+            { text: "Одобрен для пациентов с диабетом 2 типа", correct: true },
+            { text: "Можно запивать грейпфрутовым соком", correct: false }
+        ],
+        explanation: "Грейпфрутовый сок <strong>блокирует фермент CYP3A4</strong>, что увеличивает концентрацию препарата в крови до опасного уровня. Это классика лекарственных взаимодействий."
+    },
+    {
+        drug: "💊 ЖелудОК",
+        facts: [
+            { text: "Ингибитор протонной помпы (ИПП)", correct: true },
+            { text: "Курс лечения: 14 дней при язве", correct: true },
+            { text: "Принимать строго после еды", correct: false },
+            { text: "Снижает кислотность на 90% за 5 дней", correct: true }
+        ],
+        explanation: "ИПП принимают <strong>за 30 минут ДО еды</strong>, натощак. Так препарат попадает в кровь до активации протонных помп. После еды — эффективность падает на 50%."
+    },
+    {
+        drug: "💊 НервоСтоп",
+        facts: [
+            { text: "Селективный ингибитор обратного захвата серотонина", correct: true },
+            { text: "Эффект наступает через 2-4 недели", correct: true },
+            { text: "Можно резко прекращать приём после 3 месяцев", correct: false },
+            { text: "Не сочетается с ингибиторами МАО", correct: true }
+        ],
+        explanation: "Резкая отмена СИОЗС вызывает <strong>синдром отмены</strong>: головокружение, тошнота, \"удары током\" в голове. Отменять нужно постепенно, снижая дозу в течение 2-4 недель."
+    },
+    {
+        drug: "💊 ДиабеНет",
+        facts: [
+            { text: "Метформин — препарат первой линии при СД2", correct: true },
+            { text: "Принимать во время еды для снижения побочных эффектов ЖКТ", correct: true },
+            { text: "Безопасен при тяжёлой почечной недостаточности (СКФ < 15)", correct: false },
+            { text: "Не вызывает гипогликемию в монотерапии", correct: true }
+        ],
+        explanation: "При СКФ < 15 метформин <strong>противопоказан</strong> из-за риска лактоацидоза. Это опасное состояние с летальностью до 50%. Контроль СКФ — каждые 3-6 месяцев."
+    },
+    {
+        drug: "💊 АстмаФри",
+        facts: [
+            { text: "Ингаляционный глюкокортикостероид", correct: true },
+            { text: "Применяется только при приступах (SOS-терапия)", correct: false },
+            { text: "Полоскать рот после каждого применения", correct: true },
+            { text: "Базисная терапия, эффект накапливается за 1-2 недели", correct: true }
+        ],
+        explanation: "ИГКС — это <strong>базисная (ежедневная)</strong> терапия, а не скорая помощь. Для приступов используют КДБА (сальбутамол). Путаница между ними — частая ошибка."
+    },
+    {
+        drug: "💊 ХолестеРОЛ",
+        facts: [
+            { text: "Статин — блокирует фермент ГМГ-КоА-редуктазу", correct: true },
+            { text: "Принимать утром для максимального эффекта", correct: false },
+            { text: "Снижает ЛПНП на 30-50% за 4-6 недель", correct: true },
+            { text: "Контроль АЛТ/АСТ через 3 месяца после начала", correct: true }
+        ],
+        explanation: "Большинство статинов принимают <strong>на ночь</strong>, потому что синтез холестерина в печени максимален между 00:00 и 03:00. Исключение — аторвастатин и розувастатин (можно в любое время)."
+    },
+    {
+        drug: "💊 АнтиБиоТОП",
+        facts: [
+            { text: "Курс антибиотика нужно пропить полностью", correct: true },
+            { text: "При улучшении на 3-й день можно снизить дозу вдвое", correct: false },
+            { text: "Фторхинолоны нельзя с молочными продуктами", correct: true },
+            { text: "Резистентность растёт при неполных курсах", correct: true }
+        ],
+        explanation: "Снижение дозы или прерывание курса — <strong>главная причина антибиотикорезистентности</strong>. Бактерии, которые выжили при низкой дозе, становятся устойчивыми. Курс = курс."
+    },
+    {
+        drug: "💊 КостиКрепс",
+        facts: [
+            { text: "Бисфосфонат для лечения остеопороза", correct: true },
+            { text: "Принимать строго натощак, запивая полным стаканом воды", correct: true },
+            { text: "После приёма можно сразу лечь отдохнуть", correct: false },
+            { text: "Не принимать с кальцием одновременно", correct: true }
+        ],
+        explanation: "После приёма бисфосфонатов нужно <strong>30-60 минут сидеть или стоять</strong>. Лежать нельзя — препарат может вызвать эрозию пищевода. Это критично и часто забывается."
+    },
+    {
+        drug: "💊 ТромбоЩит",
+        facts: [
+            { text: "Антикоагулянт прямого действия (ПОАК)", correct: true },
+            { text: "Не требует регулярного мониторинга МНО", correct: true },
+            { text: "Безопасно сочетать с НПВС (ибупрофен, диклофенак)", correct: false },
+            { text: "Дозу корректируют по функции почек", correct: true }
+        ],
+        explanation: "ПОАК + НПВС = <strong>двойной удар по свёртываемости</strong>. Риск желудочно-кишечного кровотечения возрастает в 2-4 раза. Если нужно обезболивание — парацетамол."
+    },
+    {
+        drug: "💊 АллергоСтоп",
+        facts: [
+            { text: "Антигистаминный препарат 2-го поколения", correct: true },
+            { text: "Не вызывает сонливости (в отличие от 1-го поколения)", correct: true },
+            { text: "Эффект наступает через 3-5 дней регулярного приёма", correct: false },
+            { text: "Можно применять длительно (весь сезон поллиноза)", correct: true }
+        ],
+        explanation: "Антигистаминные 2-го поколения начинают работать <strong>через 30-60 минут</strong> после приёма. Это их главное преимущество — быстрое облегчение симптомов. 3-5 дней — это про ИГКС-спреи."
+    }
+];
+
+// ========================================
+// СОСТОЯНИЕ ИГРЫ
+// Переменные, которые хранят "где мы сейчас"
+// ========================================
+let currentRound = 0;
+let score = 0;
+let roundOrder = [];  // перемешанный порядок раундов
+
+// ========================================
+// ФУНКЦИИ = РЕЦЕПТЫ
+// Каждая function — это действие.
+// startGame() — начать игру
+// showRound() — показать раунд
+// selectCard() — обработать нажатие на карточку
+// ========================================
+
+function showScreen(id) {
+    // Прячем все экраны, показываем нужный
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function shuffle(arr) {
+    // Перемешать массив (как колоду карт)
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function startGame() {
+    currentRound = 0;
+    score = 0;
+    roundOrder = shuffle([...Array(ROUNDS.length).keys()]); // перемешиваем порядок раундов
+    showScreen('screen-game');
+    showRound();
+}
+
+function showRound() {
+    const round = ROUNDS[roundOrder[currentRound]];
+    const container = document.getElementById('cards-container');
+    const explanation = document.getElementById('explanation');
+    const btnNext = document.getElementById('btn-next');
+
+    // Обновляем заголовок
+    document.getElementById('counter').textContent = `РАУНД ${currentRound + 1} / 10`;
+    document.getElementById('drug-name').textContent = round.drug;
+
+    // Прячем пояснение и кнопку
+    explanation.classList.remove('show');
+    btnNext.classList.remove('show');
+
+    // Перемешиваем карточки внутри раунда
+    const shuffledFacts = shuffle(round.facts.map((f, i) => ({...f, origIndex: i})));
+
+    // Создаём HTML карточек через JavaScript
+    // 🎓 innerHTML = "запиши внутрь этой коробки вот этот HTML"
+    container.innerHTML = shuffledFacts.map((fact, i) => `
+        <div class="card" onclick="selectCard(this, ${fact.correct ? 'false' : 'true'}, ${roundOrder[currentRound]})" id="card-${i}">
+            <div class="card-num">${i + 1}</div>
+            ${fact.text}
+        </div>
+    `).join('');
+}
+
+function selectCard(el, isOddOneOut, roundIndex) {
+    // Блокируем все карточки
+    document.querySelectorAll('.card').forEach(c => c.classList.add('disabled'));
+
+    const round = ROUNDS[roundIndex];
+
+    if (isOddOneOut) {
+        // ПРАВИЛЬНО! Нашёл лишнее
+        el.classList.add('correct');
+        score++;
+
+        // Остальные приглушаем
+        document.querySelectorAll('.card').forEach(c => {
+            if (c !== el) c.classList.add('dimmed');
+        });
+    } else {
+        // ОШИБКА — подсветить ошибку + показать правильный
+        el.classList.add('wrong');
+
+        // Находим и подсвечиваем настоящий ложный факт
+        const allCards = document.querySelectorAll('.card');
+        allCards.forEach(c => {
+            // Проверяем по onclick — есть ли true (лишний)
+            if (c.getAttribute('onclick').includes('true') && c !== el) {
+                c.classList.add('correct');
+            } else if (c !== el) {
+                c.classList.add('dimmed');
+            }
+        });
+    }
+
+    // Показываем пояснение
+    const explanation = document.getElementById('explanation');
+    explanation.innerHTML = round.explanation;
+    setTimeout(() => explanation.classList.add('show'), 200);
+
+    // Показываем кнопку "Дальше"
+    setTimeout(() => document.getElementById('btn-next').classList.add('show'), 400);
+}
+
+function nextRound() {
+    currentRound++;
+    if (currentRound >= 10) {
+        showResult();
+    } else {
+        showRound();
+    }
+}
+
+function showResult() {
+    showScreen('screen-result');
+
+    const pct = Math.round((score / 10) * 100);
+    document.getElementById('score-num').textContent = `${score}/10`;
+    document.getElementById('result-detail').textContent = `${pct}% правильных ответов`;
+
+    // Анимация полоски
+    setTimeout(() => {
+        document.getElementById('result-bar').style.width = pct + '%';
+    }, 200);
+
+    // Сообщение по результату
+    let msg = '';
+    if (pct >= 90) msg = 'Отличный результат! Вы знаете фармакологию на уровне клинического провизора.';
+    else if (pct >= 70) msg = 'Хороший уровень. Пара тонкостей для повторения — и вы в топе.';
+    else if (pct >= 50) msg = 'Есть пробелы. Рекомендуем повторить раздел лекарственных взаимодействий.';
+    else msg = 'Нужна дополнительная подготовка. Повторите курс и попробуйте снова.';
+    document.getElementById('result-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>

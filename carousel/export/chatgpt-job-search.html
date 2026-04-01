@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 запросов в ChatGPT, если ищешь работу — @IRA.AND.AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f0f0f0; font-family: 'Inter', sans-serif; }
+
+.slides-wrap {
+    padding: 32px 0 100px; display: flex; flex-direction: column;
+    align-items: center; gap: 32px;
+}
+.slides-wrap { --scale: 0.42; }
+.phone-wrap {
+    transform: scale(var(--scale)); transform-origin: top center;
+    margin-bottom: calc(-1350px * (1 - var(--scale)));
+    background: #222; border-radius: 48px; padding: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 2px #444;
+    position: relative;
+}
+.phone-wrap::before {
+    content: ''; position: absolute; top: 8px;
+    left: 50%; transform: translateX(-50%);
+    width: 120px; height: 28px; background: #111;
+    border-radius: 0 0 16px 16px; z-index: 5;
+}
+
+.slide {
+    width: 1080px; height: 1350px; position: relative; overflow: hidden;
+    flex-shrink: 0; border-radius: 32px;
+    background: #141414; color: #fff;
+}
+.slide-label {
+    position: absolute; top: -28px; left: 4px;
+    font-family: 'Roboto Mono', monospace; font-size: 11px; color: #999; z-index: 5;
+}
+.slide-number {
+    position: absolute; bottom: 40px; right: 50px;
+    font-family: 'Roboto Mono', monospace; font-size: 14px;
+    opacity: 0.3; z-index: 3;
+}
+
+/* === NETFLIX STYLE === */
+.slide-cover { display: flex; flex-direction: column; justify-content: center; padding: 80px; }
+.slide-cover .tag { font-size: 20px; letter-spacing: 0.3em; color: #E50914; margin-bottom: 24px; text-transform: uppercase; font-weight: 700; }
+.slide-cover h1 { font-size: 88px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+.slide-cover h1 .accent { color: #E50914; }
+.slide-cover .sub { font-size: 26px; color: #808080; margin-top: 40px; line-height: 1.5; }
+.slide-cover .author { font-size: 16px; color: #404040; margin-top: 60px; letter-spacing: 0.1em; }
+.slide-cover .bar { width: 60px; height: 4px; background: #E50914; margin-top: 48px; }
+
+.slide-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.slide-content .section-tag { font-size: 16px; letter-spacing: 0.2em; color: #E50914; margin-bottom: 20px; text-transform: uppercase; font-weight: 700; }
+.slide-content h2 { font-size: 60px; font-weight: 900; line-height: 1.1; margin-bottom: 40px; }
+.slide-content p { font-size: 28px; line-height: 1.6; color: #b3b3b3; margin-bottom: 24px; }
+.slide-content .highlight { background: #E50914; color: #fff; padding: 4px 12px; font-weight: 700; }
+.slide-content .dim { color: #666; font-size: 22px; }
+
+.slide-quote { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.slide-quote::before { content: '\201C'; font-size: 200px; color: #E50914; opacity: 0.3; position: absolute; top: 20px; left: 60px; font-family: Georgia, serif; z-index: 2; }
+.slide-quote blockquote { font-size: 44px; font-weight: 600; line-height: 1.4; padding: 0 20px; position: relative; z-index: 2; }
+.slide-quote .quote-author { font-size: 18px; color: #666; margin-top: 40px; padding-left: 20px; }
+
+.slide-list { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+.slide-list .section-tag { font-size: 16px; letter-spacing: 0.2em; color: #E50914; margin-bottom: 20px; text-transform: uppercase; font-weight: 700; }
+.slide-list h2 { font-size: 56px; font-weight: 900; margin-bottom: 48px; line-height: 1.1; }
+.slide-list .list-item { display: flex; gap: 24px; margin-bottom: 32px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #2a2a2a; }
+.slide-list .list-num { font-size: 40px; font-weight: 900; color: #E50914; flex-shrink: 0; width: 70px; }
+.slide-list .list-text { font-size: 26px; line-height: 1.4; color: #b3b3b3; }
+.slide-list .list-text strong { color: #fff; }
+
+/* PROMPT BOX — special for this carousel */
+.prompt-box {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 32px; margin-top: 24px; margin-bottom: 24px;
+}
+.prompt-box .prompt-label {
+    font-family: 'Roboto Mono', monospace; font-size: 13px;
+    letter-spacing: 0.2em; color: #E50914; margin-bottom: 16px;
+    text-transform: uppercase; font-weight: 700;
+}
+.prompt-box pre {
+    font-family: 'Inter', sans-serif; font-size: 22px; line-height: 1.6;
+    color: #ccc; white-space: pre-wrap; word-wrap: break-word;
+}
+.prompt-result {
+    font-family: 'Roboto Mono', monospace; font-size: 20px;
+    color: #E50914; font-weight: 700; letter-spacing: 0.05em;
+    margin-top: 16px;
+}
+
+.slide-grid-table { padding: 50px; display: flex; flex-direction: column; justify-content: center; gap: 30px; }
+.slide-grid-table .table-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+.slide-grid-table .table-header { background: rgba(255,255,255,0.1); padding: 18px 24px; font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+.slide-grid-table .table-cell { background: rgba(255,255,255,0.04); padding: 18px 24px; font-size: 19px; line-height: 1.5; }
+.slide-grid-table .table-cell.highlight-cell { border-left: 4px solid #E50914; }
+
+.slide-cta { padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.slide-cta .cta-keyword { font-size: 64px; font-weight: 900; line-height: 1.15; margin-bottom: 40px; }
+.slide-cta .cta-keyword .accent { color: #E50914; }
+.slide-cta .cta-desc { font-size: 30px; color: #808080; line-height: 1.5; max-width: 800px; }
+.slide-cta .cta-how { font-size: 20px; color: #E50914; margin-top: 40px; font-weight: 700; letter-spacing: 0.1em; }
+.slide-cta .cta-handle { font-size: 16px; color: #404040; margin-top: 60px; letter-spacing: 0.15em; }
+
+/* Bottom bar */
+.bottombar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%);
+    padding: 32px 24px 20px; display: flex; justify-content: center; gap: 12px;
+}
+.bottombar button {
+    padding: 12px 24px; border: none; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+}
+.btn-primary { background: #E50914; color: #fff; }
+.btn-primary:hover { background: #c20812; }
+.btn-secondary { background: #333; color: #fff; }
+.btn-secondary:hover { background: #444; }
+
+@media (max-width: 768px) {
+    .slides-wrap { --scale: 0.3; }
+    .phone-wrap { margin-bottom: calc(-1350px * (1 - 0.3)); }
+}
+</style>
+</head>
+<body>
+
+<div class="slides-wrap" id="slides-wrap">
+
+<!-- SLIDE 1: COVER -->
+<div class="phone-wrap"><div class="slide slide-cover" id="slide-0">
+    <div class="slide-label">SLIDE 01 / COVER</div>
+    <div class="tag">CHATGPT / КАРЬЕРА / ПРОМПТЫ</div>
+    <h1>5 ЗАПРОСОВ<br>В <span class="accent">CHATGPT</span>,<br>ЕСЛИ ИЩЕШЬ<br>РАБОТУ</h1>
+    <div class="bar"></div>
+    <div class="author">@IRA.AND.AI</div>
+    <div class="slide-number">1/8</div>
+</div></div>
+
+<!-- SLIDE 2: INTRO -->
+<div class="phone-wrap"><div class="slide slide-content" id="slide-1">
+    <div class="slide-label">SLIDE 02 / INTRO</div>
+    <div class="section-tag">// ФОРМАТ</div>
+    <h2>РЕЗЮМЕ, ВАКАНСИИ, СОБЕСЕДОВАНИЯ, ДЕНЬГИ</h2>
+    <p>Когда нужно <span class="highlight">быстро собрать голову</span></p>
+    <p class="dim" style="margin-top: 40px; font-family: 'Roboto Mono', monospace; font-size: 18px; letter-spacing: 0.05em;">ЗАДАЧА → ЧТО СКАЗАТЬ GPT → ЧТО ПОЛУЧИШЬ</p>
+    <div class="slide-number">2/8</div>
+</div></div>
+
+<!-- SLIDE 3: PROMPT 01 -->
+<div class="phone-wrap"><div class="slide slide-content" id="slide-2">
+    <div class="slide-label">SLIDE 03 / PROMPT 01</div>
+    <div class="section-tag">// 01 ВАКАНСИИ</div>
+    <h2 style="font-size: 48px;">ПОНЯТЬ, НА КАКИЕ ВАКАНСИИ ИДТИ</h2>
+    <div class="prompt-box">
+        <div class="prompt-label">Промпт</div>
+        <pre>Ты карьерный консультант.
+Вот мой опыт: [вставь опыт, 5–10 строк].
+Подскажи 5 ролей, на которые мне реально стоит откликаться сейчас.
+
+Для каждой роли дай:
+1. название вакансии
+2. почему мне подходит
+3. какой мой опыт туда лучше всего ложится
+4. что может смущать работодателя
+
+Пиши конкретно, без воды.</pre>
+    </div>
+    <div class="prompt-result">→ не смотришь всё подряд</div>
+    <div class="slide-number">3/8</div>
+</div></div>
+
+<!-- SLIDE 4: PROMPT 02 -->
+<div class="phone-wrap"><div class="slide slide-content" id="slide-3">
+    <div class="slide-label">SLIDE 04 / PROMPT 02</div>
+    <div class="section-tag">// 02 РЕЗЮМЕ</div>
+    <h2 style="font-size: 48px;">ПЕРЕПИСАТЬ РЕЗЮМЕ ПОД ВАКАНСИЮ</h2>
+    <div class="prompt-box">
+        <div class="prompt-label">Промпт</div>
+        <pre>Ты HR и карьерный консультант.
+Вот вакансия: [вставь текст вакансии].
+Вот моё резюме: [вставь текст резюме].
+
+Перепиши моё резюме под эту вакансию.
+Правила:
+— не врать
+— не придумывать опыт
+— использовать формулировки ближе к вакансии
+— оставить сильные достижения
+— сделать текст понятным и плотным
+
+В конце отдельно покажи:
+1. что ты усилил
+2. что лучше не писать</pre>
+    </div>
+    <div class="prompt-result">→ адаптированное резюме</div>
+    <div class="slide-number">4/8</div>
+</div></div>
+
+<!-- SLIDE 5: PROMPT 03 -->
+<div class="phone-wrap"><div class="slide slide-content" id="slide-4">
+    <div class="slide-label">SLIDE 05 / PROMPT 03</div>
+    <div class="section-tag">// 03 СОБЕСЕДОВАНИЕ</div>
+    <h2 style="font-size: 48px;">ПОДГОТОВИТЬСЯ К СОБЕСЕДОВАНИЮ</h2>
+    <div class="prompt-box">
+        <div class="prompt-label">Промпт</div>
+        <pre>Ты HR, который проводит собеседование на роль [вставь роль].
+Задай мне 10 самых вероятных вопросов для этой позиции.
+
+После каждого вопроса сразу дай:
+1. что хотят услышать
+2. как обычно отвечают слабо
+3. как отвечать сильнее
+
+Пиши коротко и по делу.</pre>
+    </div>
+    <div class="prompt-result">→ меньше паники на собесе</div>
+    <div class="slide-number">5/8</div>
+</div></div>
+
+<!-- SLIDE 6: PROMPT 04 -->
+<div class="phone-wrap"><div class="slide slide-content" id="slide-5">
+    <div class="slide-label">SLIDE 06 / PROMPT 04</div>
+    <div class="section-tag">// 04 ДЕНЬГИ</div>
+    <h2 style="font-size: 48px;">ПОНЯТЬ, СКОЛЬКО ПРОСИТЬ ДЕНЕГ</h2>
+    <div class="prompt-box">
+        <div class="prompt-label">Промпт</div>
+        <pre>Ты карьерный консультант.
+Я иду на роль [вставь роль].
+Вот мой опыт: [вставь кратко].
+Помоги понять, какую зарплату просить и как это обосновать.
+
+Верни ответ в формате:
+1. нижняя граница
+2. нормальная цифра
+3. сильная цифра
+4. 5 аргументов, почему я стою этих денег
+5. пример фразы, как это сказать спокойно</pre>
+    </div>
+    <div class="prompt-result">→ не мямлишь про деньги</div>
+    <div class="slide-number">6/8</div>
+</div></div>
+
+<!-- SLIDE 7: PROMPT 05 -->
+<div class="phone-wrap"><div class="slide slide-content" id="slide-6">
+    <div class="slide-label">SLIDE 07 / PROMPT 05</div>
+    <div class="section-tag">// 05 КОММУНИКАЦИЯ</div>
+    <h2 style="font-size: 48px;">ОТВЕТИТЬ HR НОРМАЛЬНО</h2>
+    <div class="prompt-box">
+        <div class="prompt-label">Промпт</div>
+        <pre>Ты карьерный консультант.
+Ситуация: [мне написал HR / я хочу откликнуться / мне прислали вакансию].
+Вот контекст: [вставь].
+
+Напиши короткий ответ HR.
+Тон:
+— вежливо
+— уверенно
+— без подхалимажа
+— без сухости
+— без канцелярита
+
+Дай 3 версии:
+1. нейтральную
+2. более тёплую
+3. более деловую</pre>
+    </div>
+    <div class="prompt-result">→ нормальная коммуникация</div>
+    <div class="slide-number">7/8</div>
+</div></div>
+
+<!-- SLIDE 8: CTA -->
+<div class="phone-wrap"><div class="slide slide-cta" id="slide-7">
+    <div class="slide-label">SLIDE 08 / CTA</div>
+    <div class="cta-keyword">ПРОБЛЕМА НЕ В ТОМ,<br>ЧТО ТЫ <span class="accent">НЕ УМЕЕШЬ</span>.</div>
+    <div class="cta-desc">Проблема в том, что в этот момент нужно быстро собрать голову.</div>
+    <div class="cta-how">СОХРАНЯЙ И ПЕРЕСЫЛАЙ</div>
+    <div class="cta-handle">@IRA.AND.AI</div>
+    <div class="slide-number">8/8</div>
+</div></div>
+
+</div>
+
+<div class="bottombar">
+    <button class="btn-primary" onclick="downloadAllSlides()" id="btn-dl-all">СКАЧАТЬ ВСЕ PNG</button>
+    <button class="btn-secondary" onclick="fullscreen()">НА ВЕСЬ ЭКРАН</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+async function downloadAllSlides() {
+    const btn = document.getElementById('btn-dl-all');
+    btn.textContent = 'ГОТОВЛЮ...';
+    btn.disabled = true;
+
+    const slides = document.querySelectorAll('.slide');
+
+    for (let i = 0; i < slides.length; i++) {
+        btn.textContent = `СКАЧИВАЮ ${i+1}/${slides.length}...`;
+        const slide = slides[i];
+
+        // Temporarily remove border-radius for clean export
+        const origRadius = slide.style.borderRadius;
+        slide.style.borderRadius = '0';
+
+        try {
+            const canvas = await html2canvas(slide, {
+                width: 1080,
+                height: 1350,
+                scale: 1,
+                useCORS: true,
+                backgroundColor: '#141414'
+            });
+
+            const link = document.createElement('a');
+            link.download = `chatgpt-job-search-${String(i+1).padStart(2,'0')}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        } catch(e) {
+            console.error('Error on slide', i+1, e);
+        }
+
+        slide.style.borderRadius = origRadius;
+        await new Promise(r => setTimeout(r, 500));
+    }
+
+    btn.textContent = 'СКАЧАТЬ ВСЕ PNG';
+    btn.disabled = false;
+}
+
+function fullscreen() {
+    const wrap = document.getElementById('slides-wrap');
+    wrap.style.setProperty('--scale', '1');
+    document.querySelectorAll('.phone-wrap').forEach(pw => {
+        pw.style.background = 'none';
+        pw.style.borderRadius = '0';
+        pw.style.padding = '0';
+        pw.style.boxShadow = 'none';
+        pw.style.marginBottom = '0';
+    });
+    document.querySelectorAll('.slide').forEach(s => s.style.borderRadius = '0');
+    document.querySelectorAll('.slide-label').forEach(l => l.style.display = 'none');
+    document.querySelector('.bottombar').style.display = 'none';
+}
+</script>
+
+</body>
+</html>
