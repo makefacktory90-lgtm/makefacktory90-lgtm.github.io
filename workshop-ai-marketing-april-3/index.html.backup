@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>AI для маркетинга — Корпоративный воркшоп 3 апреля 2026</title>
 <style>
+/* ── RESET ─────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:#fff;color:#111;font-family:Impact,Arial Black,sans-serif;overflow-x:hidden;line-height:1.5}
 
+/* ── VARIABLES ─────────────────────────────── */
 :root{
   --red:#E63946;
   --black:#111;
@@ -17,19 +19,24 @@ body{background:#fff;color:#111;font-family:Impact,Arial Black,sans-serif;overfl
   --mid:#888;
 }
 
+/* ── TYPOGRAPHY ────────────────────────────── */
 .display{font-family:Impact,"Arial Black",sans-serif;text-transform:uppercase;letter-spacing:.02em}
 .serif{font-family:Georgia,"Times New Roman",serif}
 .kicker{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--mid)}
 
+/* ── LAYOUT ────────────────────────────────── */
 section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;overflow:hidden}
 .container{max-width:1100px;margin:0 auto}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
 
+/* ── SPINE ─────────────────────────────────── */
 #spine-track{position:fixed;top:0;left:0;width:3px;height:100%;background:var(--gray);z-index:99}
 #spine-fill{width:100%;background:var(--red);height:0%;transition:height .1s linear}
 #prog-bar{position:fixed;top:0;left:3px;right:0;height:2px;background:var(--gray);z-index:98}
 #prog-fill{height:100%;width:0%;background:var(--red);transition:width .1s linear}
 
+/* ── OUTLINE BG TEXT ───────────────────────── */
 .bg-word{
   position:absolute;
   font-family:Impact,"Arial Black",sans-serif;
@@ -41,8 +48,10 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   line-height:.88;
 }
 
+/* ── RED LINE ──────────────────────────────── */
 .red-line{width:60px;height:3px;background:var(--red);display:block;margin:20px 0}
 
+/* ── CARDS ───────────────────────────────── */
 .level-card{
   border:1px solid var(--gray);
   padding:24px;
@@ -53,7 +62,6 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 .level-card:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .level-card:hover .kicker{color:rgba(255,255,255,.65)}
 .level-card:hover p{color:rgba(255,255,255,.85)}
-.level-card:hover .level-num{color:#fff}
 
 .level-num{
   font-family:Impact,"Arial Black",sans-serif;
@@ -62,6 +70,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   line-height:1;
   margin-bottom:8px;
 }
+.level-card:hover .level-num{color:#fff}
 
 .level-title{
   font-family:Impact,"Arial Black",sans-serif;
@@ -77,6 +86,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   color:#555;
 }
 
+/* ── PROMPT ACCORDION ─────────────────────────────── */
 .prompt-trigger{
   width:100%;display:flex;justify-content:space-between;align-items:center;
   padding:20px 24px;text-align:left;background:#fafafa;
@@ -91,7 +101,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1);
   border:1px solid var(--gray);border-top:none;
 }
-.prompt-body.open{max-height:8000px}
+.prompt-body.open{max-height:4000px}
 .prompt-content{
   padding:24px;
   background:#f9f9f9;
@@ -102,6 +112,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   color:#222;
 }
 
+/* ── STEP CARDS ───────────────────────────────── */
 .step-card{
   background:#fafafa;
   border:1px solid var(--gray);
@@ -120,6 +131,17 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   line-height:1.6;
 }
 
+/* ── LINKS ─────────────────────────────────── */
+.red-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--red);color:var(--red);
+  padding:12px 20px;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;text-decoration:none;
+  transition:background .2s,color .2s;font-family:Arial,sans-serif;
+}
+.red-btn:hover{background:var(--red);color:#fff}
+
+/* ── GRAIN OVERLAY ─────────────────────────── */
 #grain-overlay{
   position:fixed;inset:0;width:100%;height:100%;
   pointer-events:none;z-index:9996;
@@ -137,6 +159,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   100%{transform:translate(0,0)}
 }
 
+/* ── SCANLINE ─────────────────────────────── */
 #scanline{
   position:fixed;top:-2px;left:0;right:0;height:1px;
   background:var(--red);opacity:.55;z-index:9999;
@@ -145,19 +168,26 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 
 @media(max-width:860px){
   section{padding:40px 20px}
-  .grid-2{grid-template-columns:1fr}
+  .grid-2,.grid-3{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
+<!-- SCANLINE -->
 <div id="scanline"></div>
+
+<!-- GRAIN OVERLAY -->
 <div id="grain-overlay"></div>
+
+<!-- SPINE -->
 <div id="spine-track"><div id="spine-fill"></div></div>
 <div id="prog-bar"><div id="prog-fill"></div></div>
 
-<!-- HERO -->
-<section style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px">
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px;border-bottom:1px solid var(--gray)">
   <span class="bg-word" style="font-size:clamp(100px,18vw,280px);top:10px;right:-10px;opacity:.3">ДЕЙСТВУЙ</span>
 
   <div class="container">
@@ -175,7 +205,9 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- ТРИ УРОВНЯ -->
+<!-- ══════════════════════════════════════════
+     ШОК: ЧТО РЕАЛЬНО ПРОИСХОДИТ
+══════════════════════════════════════════ -->
 <section style="min-height:80vh;display:flex;align-items:center">
   <span class="bg-word" style="font-size:clamp(80px,13vw,200px);bottom:-20px;left:-10px;opacity:.18">УРОВНИ</span>
 
@@ -200,7 +232,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
       <div class="level-title">МАСШТАБИРОВАНИЕ БИЗНЕСА</div>
       <p class="level-desc">
         Из новых возможностей построить или выйти на новый рынок.<br><br>
-        Автономный агент-локализатор переводит продукт, адаптирует маркетинг, отвечает саппорту на 15 языках. Консалтинговая компания, которая раньше только давала рекомендации, теперь может и внедрять.
+        Автономный агент-локализатор переводит продукт, адаптирует маркетинг, отвечает саппорту на 15 языках. Консалтинговая компания, которая раньше только давала рекомендации, теперь может и внедрять. Вместо одного продукта для всех, ваш продукт может гиперперсонализироваться на лету под каждого.
       </p>
     </div>
 
@@ -209,185 +241,48 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
       <div class="level-title">CYBERNETIC OS</div>
       <p class="level-desc">
         Вы создаете автоматизированную систему по постоянному улучшению себя.<br><br>
-        AI является менеджером для всей компании, а информационная обратная связь помогает ставить цели, вокруг которых организуются агенты и люди.
+        AI является менеджером для всей компании, а информационная обратная связь помогает ставить цели, вокруг которых организуются агенты (для любой «понятной» работы) и люди (для нового, рискованного или требующего эмпатии и взаимоотношений).
       </p>
     </div>
 
     <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
       <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
-        ВОПРОС: НА КАКОМ УРОВНЕ ВАШИ КОНКУРЕНТЫ?
+        ВОПРОС: НА КАКОМ УРОВНЕ В��ШИ КОНКУРЕНТЫ?
       </p>
     </div>
   </div>
 </section>
 
-<!-- БЛОК 0: ПРОМПТИНГ -->
-<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
-  <div class="container">
-    <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 0 — БАЗА</p>
-    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
-      ПРОМПТИНГ
-    </h2>
-    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
-      Промпт — это ДНК вашего результата
-    </p>
-  </div>
-</section>
-
-<!-- ПРОМПТ = ДНК -->
+<!-- ══════════════════════════════════════════
+     СЕГОДНЯ НЕ ПРО "AI — ЭТО ХОРОШО"
+══════════════════════════════════════════ -->
 <section>
   <div class="container">
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ПРОМПТ — ЭТО ДНК РЕЗУЛЬТАТА
-    </h2>
-    
-    <div class="grid-2" style="gap:24px;margin-bottom:32px">
-      <div style="border:1px solid var(--gray);padding:24px">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:12px">ПЛОХОЙ ПРОМПТ</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">
-          "Напиши пост про AI"
-        </p>
-        <p style="font-family:Arial,sans-serif;font-size:13px;color:#888;margin-top:12px">
-          Результат: общий текст, который никому не нужен
-        </p>
-      </div>
-      
-      <div style="border:1px solid var(--gray);padding:24px;border-left:3px solid var(--red)">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:12px">ХОРОШИЙ ПРОМПТ</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">
-          "Ты — копирайтер для B2B SaaS. Аудитория: СТО стартапов. Напиши пост 500 слов про то, как AI снижает время code review на 40%. Тон: экспертный, но без снобизма. Структура: проблема → решение → кейс → CTA."
-        </p>
-        <p style="font-family:Arial,sans-serif;font-size:13px;color:#888;margin-top:12px">
-          Результат: точный текст под задачу
-        </p>
-      </div>
-    </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px">
-      <p style="font-family:Arial,sans-serif;font-size:18px;line-height:1.7;margin-bottom:12px;">
-        Разница между "напиши пост" и профессиональным промптом — как между "нарисуй дом" и архитектурным чертежом.
-      </p>
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:20px;text-transform:uppercase;color:var(--red)">
-        СЕГОДНЯ ВЫ ПОЛУЧИТЕ ЧЕРТЕЖИ
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- 4 ЭЛЕМЕНТА ПРОМПТА -->
-<section style="background:#fafafa">
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      4 ЭЛЕМЕНТА СИЛЬНОГО ПРОМПТА
+      СЕГОДНЯ НЕ ПРО<br>"AI — ЭТО ХОРОШО"
     </h2>
 
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">1</div>
-      <div class="level-title">РОЛЬ</div>
-      <p class="level-desc">
-        "Ты — [кто]". Не "AI-ассистент", а конкретная роль: аналитик McKinsey, копирайтер для B2B, дизайнер презентаций.
-      </p>
-    </div>
-
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">2</div>
-      <div class="level-title">КОНТЕКСТ</div>
-      <p class="level-desc">
-        Аудитория, цель, ограничения. "Для кого? Что они должны сделать после? Какие рамки?"
-      </p>
-    </div>
-
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">3</div>
-      <div class="level-title">ЗАДАЧА</div>
-      <p class="level-desc">
-        Конкретное действие. Не "улучши", а "перепиши заголовки так, чтобы каждый был выводом, не темой".
-      </p>
-    </div>
-
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">4</div>
-      <div class="level-title">ФОРМАТ</div>
-      <p class="level-desc">
-        Как выдать результат. Таблица? Список? Структура слайдов? Чем точнее формат, тем лучше результат.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- CHAIN OF THOUGHT -->
-<section>
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      CHAIN OF THOUGHT
-    </h2>
-
-    <p style="font-family:Arial,sans-serif;font-size:18px;line-height:1.7;max-width:700px;margin-bottom:24px">
-      Вместо "дай ответ" → "подумай вслух, потом дай ответ"
+    <p class="serif" style="font-size:20px;line-height:1.65;max-width:700px;color:#444;margin-bottom:24px">
+      Это и так понятно.
     </p>
 
-    <div style="border:1px solid var(--gray);padding:24px;background:#fafafa;margin-bottom:24px">
-      <p style="font-family:'Courier New',monospace;font-size:14px;line-height:1.7;color:#222">
-        Прежде чем писать презентацию, ответь на три вопроса:<br>
-        1. Какое общепринятое мнение я опровергну?<br>
-        2. Какие данные 2024-2026 это докажут?<br>
-        3. Что аудитория будет делать ИНАЧЕ после?<br><br>
-        Если не можешь ответить — не начинай. Найди данные.
-      </p>
-    </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px">
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:20px;text-transform:uppercase;color:var(--red)">
-        AI ДУМАЕТ ЛУЧШЕ, КОГДА ВЫ ЗАСТАВЛЯЕТЕ ЕГО ДУМАТЬ ВСЛУХ
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ИТЕРАЦИИ -->
-<section style="background:#fafafa">
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ИТЕРАЦИИ > ИДЕАЛЬНЫЙ ПРОМПТ
-    </h2>
-
-    <div style="display:grid;gap:16px;max-width:700px">
-      <div style="display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--gray);padding:16px">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">1</span>
-        <p style="font-family:Arial,sans-serif;font-size:15px">Первый промпт → результат 60%</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px">
+      <div style="border:1px solid var(--gray);padding:20px">
+        <p style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6">
+          <strong>Что уже возможно</strong><br>прямо сейчас
+        </p>
       </div>
-      <div style="display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--gray);padding:16px">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">2</span>
-        <p style="font-family:Arial,sans-serif;font-size:15px">"Перепиши заголовки — каждый должен быть выводом" → 80%</p>
+      <div style="border:1px solid var(--gray);padding:20px">
+        <p style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6">
+          <strong>Как делать документы</strong><br>не руками
+        </p>
       </div>
-      <div style="display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--gray);padding:16px">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">3</span>
-        <p style="font-family:Arial,sans-serif;font-size:15px">"Добавь цифры в слайды 2-4" → 95%</p>
+      <div style="border:1px solid var(--gray);padding:20px">
+        <p style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6">
+          <strong>Главное — понять,</strong><br>что это существует
+        </p>
       </div>
     </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
-      <p style="font-family:Arial,sans-serif;font-size:18px;line-height:1.7">
-        Не ждите идеала с первого раза. Три итерации по 2 минуты = лучше, чем один промпт на 20 минут.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- СИСТЕМА ПРОМПТОВ -->
-<section style="background:#0a0a0a;color:#fff">
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);color:#fff;margin-bottom:32px">
-      ВАМ НЕ НУЖНО ЭТО ЗАПОМИНАТЬ
-    </h2>
-
-    <p style="font-family:Arial,sans-serif;font-size:20px;line-height:1.7;color:#ccc;max-width:700px;margin-bottom:24px">
-      Все промпты из сегодняшнего воркшопа — в одном файле. Копируй, вставляй, адаптируй.
-    </p>
-
-    <a href="prompts-system.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 24px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif;margin-top:20px">
-      ОТКРЫТЬ СИСТЕМУ ПРОМПТОВ →
-    </a>
   </div>
 </section>
 
@@ -396,8 +291,11 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   <div class="container">
     <p class="kicker" style="margin-bottom:16px;color:#888">ПРЯМО СЕЙЧАС</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px;color:#fff">
-      NOTEBOOKLM: ДОКУМЕНТ → ПРЕЗЕНТАЦИЯ ЗА 3 МИНУТЫ
+      КАК ВЫ ДЕЛАЕТЕ<br>ПРЕЗЕНТАЦИИ?<br><span style="color:var(--red)">РУКАМИ?</span>
     </h2>
+    <p class="serif" style="font-size:20px;line-height:1.65;max-width:700px;color:#ccc;margin-bottom:32px">
+      NotebookLM: Документ → презентация за 3 минуты
+    </p>
     <div class="step-card" style="background:#1a1a1a;border-color:#333">
       <div class="step-num">1</div>
       <p class="step-text" style="color:#ccc">Откройте <strong style="color:#fff">notebooklm.google.com</strong></p>
@@ -442,7 +340,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- БАРЬЕРЫ -->
+<!-- ВАШУ КОМАНДУ ИЗУЧИЛИ -->
 <section>
   <div class="container">
     <p class="kicker" style="margin-bottom:16px">ВАШУ КОМАНДУ ИЗУЧИЛИ</p>
@@ -479,14 +377,14 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   <div class="container">
     <p class="kicker" style="margin-bottom:16px">МАРШРУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ОТ НУЛЯ ДО НАВЫКА ЗА 4 ЧАСА
+      ОТ НУЛЯ ДО НАВЫКА<br>ЗА 4 ЧАСА
     </h2>
     <div style="display:grid;gap:12px">
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">1</span>
         <div style="flex:1">
           <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПРЕЗЕНТАЦИИ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">NotebookLM, Gamma, Kimi</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Gamma, Kimi, Live Demo</p>
         </div>
         <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">40 мин</span>
       </div>
@@ -494,7 +392,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">2</span>
         <div style="flex:1">
           <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ТЕКСТЫ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">ToV-карта, адаптация</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">ToV-карта, адаптация, промпты</p>
         </div>
         <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">50 мин</span>
       </div>
@@ -502,7 +400,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">3</span>
         <div style="flex:1">
           <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">РЕСЁРЧ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Perplexity, тренды</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Perplexity, тренды, фактчекинг</p>
         </div>
         <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">30 мин</span>
       </div>
@@ -539,131 +437,120 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- GAMMA -->
+<!-- УПРАЖНЕНИЕ: KIMI -->
 <section>
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ 1</p>
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 1 / 15 МИНУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      GAMMA — БЫСТРО И КРАСИВО
+      KIMI: ПРОСТЕЙШИЙ ПРОМПТ
     </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: скорость. 3 минуты до готового дека
+    <p class="serif" style="font-size:18px;line-height:1.65;max-width:700px;color:#444;margin-bottom:24px">
+      Самый быстрый способ: тема → презентация за 5 минут
     </p>
     <div class="step-card">
-      <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>gamma.app</strong></p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <p class="step-text">Create → Generate</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <p class="step-text">Вставьте промпт</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-gamma')">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ GAMMA</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-gamma">
-      <div class="prompt-content">Создай структуру презентации для Gamma.
-
-Тема: [ТЕМА]
-Аудитория: [КТО]
-Цель: [ЧТО СДЕЛАЮТ ПОСЛЕ]
-
-7 слайдов:
-- Слайд 1: Hook — вопрос без очевидного ответа ИЛИ число, которое удивит
-- Слайд 2: Проблема (The Problem) — цена бездействия в цифрах
-- Слайд 3: Решение (The Solution) — 3 тезиса, каждый ≤ 10 слов
-- Слайд 4: Как работает (Process) — максимум 3 шага
-- Слайд 5: Доказательство — один кейс или метрика
-- Слайд 6: Возражения — ответы на 2-3 главных "но"
-- Слайд 7: CTA — одно действие + дедлайн
-
-Для каждого слайда:
-— Заголовок (вывод, не тема)
-— Текст (≤ 40 слов)
-— Визуал (график/схема/иконка)
-
-ТЕСТ: прочитай ТОЛЬКО заголовки — история понятна?
-
-Язык: русский</div>
-    </div>
-  </div>
-</section>
-
-<!-- KIMI -->
-<section style="background:#fafafa">
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ 2</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      KIMI — БЕСПЛАТНЫЙ ИССЛЕДОВАТЕЛЬ
-    </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: сам ищет данные. Бесплатно
-    </p>
-    <div class="step-card" style="background:#fff">
       <div class="step-num">1</div>
       <p class="step-text">Откройте <strong>kimi.ai</strong></p>
     </div>
-    <div class="step-card" style="background:#fff">
+    <div class="step-card">
       <div class="step-num">2</div>
       <p class="step-text">Режим: <strong>Visual</strong> (быстрая генерация)</p>
     </div>
-    <div class="step-card" style="background:#fff">
+    <div class="step-card">
       <div class="step-num">3</div>
-      <p class="step-text">Вставьте промпт</p>
+      <p class="step-text">Вставьте промпт ниже</p>
     </div>
     <button class="prompt-trigger" onclick="togglePrompt('prompt-kimi')">
       <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ KIMI</span>
       <span class="plus">+</span>
     </button>
     <div class="prompt-body" id="prompt-kimi">
-      <div class="prompt-content">Ты — аналитик-исследователь уровня McKinsey.
-
+      <div class="prompt-content">Создай презентацию с исследованием.
 Тема: [ВАША ТЕМА]
-Аудитория: [КТО СМОТРИТ]
 Режим: Visual
 
-КРИТИЧЕСКОЕ ПРАВИЛО:
-Прежде чем писать, ответь на три вопроса:
-1. Какое общепринятое мнение я опровергну?
-2. Какие данные 2024-2026 это докажут?
-3. Что аудитория будет делать ИНАЧЕ после?
+СТРУКТУ��А:
+Слайд 1: "Все думают X. Данные говорят Y"
+Слайды 2-4: реальная картина с актуальными данными
+Слайд 5: таблица сравнения — кто делает хорошо, кто отстаёт
+Слайды 6-8: что это значит для [аудитория]. Практические выводы
+Слайды 9-10: 3 действия по убыванию импакта. #1 = максимальный ROI
+Слайд 11: все ссылки на источники
 
-СТРУКТУРА (11 слайдов):
-
-Слайд 1 — Провокация:
-"Все думают [общепринятое]. Данные 2024-2026 говорят [противоположное]."
-Одна цифра, которая ломает шаблон. Источник обязателен.
-
-Слайды 2-4 — Реальная картина:
-Три ключевых тренда с данными.
-Для каждого: заголовок-вывод + 2-3 факта с цифрами + источник
-
-Слайд 5 — Таблица сравнения:
-Кто делает правильно vs кто отстаёт. Минимум 4 компании.
-Цвета: зелёный = лидер, красный = отстающий
-
-Слайды 6-8 — Что это значит для вас:
-Три практических вывода.
-Формула: "Если вы [ситуация], то [конкретное действие]"
-Запрещено: "оптимизировать", "улучшить". Только конкретика.
-
-Слайды 9-10 — План действий:
-3 шага по убыванию сложности, возрастанию импакта.
-Для каждого: что делать + сколько времени + какой результат
-
-Слайд 11 — Источники
-
-ПРАВИЛА:
-— Только данные 2024-2026
-— Каждая цифра — со ссылкой
-— Один факт, который ПРОТИВОРЕЧИТ общепринятому мнению
+ПРАВИЛА РЕСЁРЧА:
+— Только данные 2024-2026. Старее — игнорировать
+— Каждая цифра — со ссылкой на источник
+— Найди один факт, который ПРОТИВОРЕЧИТ общепринятому мнению
 
 Слайдов: 11</div>
     </div>
+  </div>
+</section>
+
+<!-- УПРАЖНЕНИЕ: GAMMA -->
+<section style="background:#fafafa">
+  <div class="container">
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 2 / 20 МИНУТ</p>
+    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
+      GAMMA: СТРУКТУРА + ДИЗАЙН
+    </h2>
+    <div class="step-card" style="background:#fff">
+      <div class="step-num">1</div>
+      <p class="step-text">Откройте <strong>gamma.app</strong></p>
+    </div>
+    <div class="step-card" style="background:#fff">
+      <div class="step-num">2</div>
+      <p class="step-text">Create → Generate</p>
+    </div>
+    <div class="step-card" style="background:#fff">
+      <div class="step-num">3</div>
+      <p class="step-text">Вставьте промпт (структура 7 слайдов)</p>
+    </div>
+    <button class="prompt-trigger" onclick="togglePrompt('prompt-gamma')">
+      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ GAMMA</span>
+      <span class="plus">+</span>
+    </button>
+    <div class="prompt-body" id="prompt-gamma">
+      <div class="prompt-content">Создай структуру презентации для сервиса Gamma.app.
+
+Тема: [ТЕМА]
+Аудитория: [КТО СМОТРИТ]
+Цель: [ПРОДАТЬ/ОБУЧИТЬ/ИНФОРМИРОВАТЬ]
+
+Напиши план на 7 слайдов:
+- Слайд 1: Hook-заголовок и ценностное предложение
+- Слайд 2: Описание боли (The Problem)
+- Слайд 3: Решение (The Solution) в 3 тезисах
+- Слайд 4: Как это работает (Process/Workflow)
+- Слайд 5: Социальное доказательство/Кейсы
+- Слайд 6: Ответы на возможные возражения
+- Слайд 7: Финальный CTA (Call to Action)
+
+Для каждого слайда напиши:
+— Заголовок (вывод, не тема)
+— Текст (не более 40 слов)
+— Описание идеального визуала для генерации
+
+ТЕСТ: прочитай ТОЛЬКО заголовки всех слайдов подряд — 
+история понятна целиком? Если нет — переписать заголовки
+
+Карточек: 7 · Язык: русский</div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DEMO -->
+<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
+  <div class="container" style="text-align:center">
+    <p class="kicker" style="color:#888;margin-bottom:16px">LIVE DEMO</p>
+    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:32px">
+      ДАЙТЕ МНЕ<br>ЛЮБУЮ ТЕМУ<br>ИЗ ЗАЛА
+    </h2>
+    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px;margin:0 auto 40px">
+      За 5 минут сделаю презентацию на ваших глазах
+    </p>
+    <p style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;text-transform:uppercase;color:var(--red)">
+      КТО ПЕРВЫЙ?
+    </p>
   </div>
 </section>
 
@@ -680,14 +567,14 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- TOV-КАРТА -->
+<!-- УПРАЖНЕНИЕ: TOV-КАРТА -->
 <section>
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ</p>
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 3 / 15 МИНУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       TOV-КАРТА БРЕНДА
     </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
+    <p class="serif" style="font-size:18px;line-height:1.65;max-width:700px;color:#444;margin-bottom:24px">
       Анализ авторского стиля на уровне лингвиста-стилиста
     </p>
     <div class="step-card">
@@ -713,7 +600,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 
 Проанализируй и систематизируй следующие аспекты (все особенности пиши в одну строку после названия аспекта, разделяя точкой с запятой):
 
-Тональность и стиль: {Проведи детальный анализ эмоционального тона текста: формальный/неформальный, серьезный/юмористический, авторитетный/скромный. Определи преобладающие эмоциональные оттенки: вдохновляющий, провокационный, информативный, критический и т.д. Отметь используемые риторические приемы, метафоры, аналогии. Определи, как автор позиц��онирует себя: как эксперт, друг, наставник, исследователь.}
+Тональность и сти��ь: {Проведи детальный анализ эмоционального тона текста: формальный/неформальный, серьезный/юмористический, авторитетный/скромный. Определи преобладающие эмоциональные оттенки: вдохновляющий, провокационный, информативный, критический и т.д. Отметь используемые риторические приемы, метафоры, аналогии. Определи, как автор позиционирует себя: как эксперт, друг, наставник, исследователь.}
 
 Лексические особенности: {Проанализируй словарный запас: простой/сложный, обыденный/специализированный, современный/классический. Выяви характерные слова-маркеры, устойчивые выражения, авторские неологизмы, фразеологизмы. Определи наличие профессиональной терминологии, иностранных слов, сленга. Создай список из 10-15 наиболее характерных для автора слов и выражений.}
 
@@ -736,10 +623,10 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- АДАПТАЦИЯ -->
+<!-- УПРАЖНЕНИЕ: АДАПТАЦИЯ -->
 <section style="background:#fafafa">
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ</p>
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 4 / 20 МИНУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       АДАПТАЦИЯ В 4 ФОРМАТА
     </h2>
@@ -790,10 +677,10 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- PERPLEXITY -->
+<!-- УПРАЖНЕНИЕ: PERPLEXITY -->
 <section>
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 5 / 15 МИНУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       ТРЕНДЫ ЧЕРЕЗ PESTEL
     </h2>
@@ -803,7 +690,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <p class="step-text">Вставьте промпт</p>
+      <p class="step-text">Вставьте промпт (ниже)</p>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
@@ -831,7 +718,9 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- БЛОК 4: ВИЗУАЛ + ВИДЕО -->
+<!-- ══════════════════════════════════════════
+     БЛОК 4: ВИЗУАЛ + ВИДЕО
+══════════════════════════════════════════ -->
 <section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
   <div class="container">
     <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 4 / 30 МИНУТ</p>
@@ -847,7 +736,7 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 <!-- GEMINI -->
 <section>
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 6 / 10 МИНУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       GEMINI: АНАЛИЗ ВИЗУАЛА
     </h2>
@@ -857,11 +746,11 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <p class="step-text">Загрузите скриншот презентации</p>
+      <p class="step-text">Загрузите скриншот презентации конкурента</p>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <p class="step-text">Вставьте промпт</p>
+      <p class="step-text">Вставьте промт (ниже)</p>
     </div>
     <button class="prompt-trigger" onclick="togglePrompt('prompt-gemini')">
       <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ GEMINI</span>
@@ -883,24 +772,21 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 <!-- HIGGSFIELD -->
 <section style="background:#fafafa">
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 7 / 10 МИНУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       HIGGSFIELD: ВИДЕО ИЗ ТЕКСТА
     </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: статичный слайд → анимация 3-5 сек
-    </p>
     <div class="step-card" style="background:#fff">
       <div class="step-num">1</div>
       <p class="step-text">Откройте <strong>higgsfield.ai</strong></p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">2</div>
-      <p class="step-text">Загрузите статичный слайд из Gamma</p>
+      <p class="step-text">Загрузите статичный слайд или напишите промпт</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">3</div>
-      <p class="step-text">Сгенерируйте видео (3-5 сек)</p>
+      <p class="step-text">Сгенерируйте 3-5 сек видео</p>
     </div>
   </div>
 </section>
@@ -908,20 +794,17 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 <!-- CHRONICLE -->
 <section>
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
+    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ 8 / 10 МИНУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       CHRONICLE: ПИТЧ-ДЕК
     </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: сторителлинг. Строит историю, не слайды
-    </p>
     <div class="step-card">
       <div class="step-num">1</div>
       <p class="step-text">Откройте <strong>chronicle.app</strong></p>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <p class="step-text">Вставьте URL вашего сайта</p>
+      <p class="step-text">Вставьте URL вашего сайта или промпт</p>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
@@ -930,13 +813,26 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- ФИНАЛ -->
-<section style="background:#fafafa">
+<!-- БЛОК 5: БОНУС -->
+<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
+  <div class="container">
+    <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 5 / 20 МИНУТ</p>
+    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
+      БОНУС
+    </h2>
+    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
+      Cowork, автоматизация, что дальше
+    </p>
+  </div>
+</section>
+
+<!-- COWORK -->
+<section>
   <div class="container">
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       ЧТО ДАЛЬШЕ
     </h2>
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-bottom:32px">
+    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;">
       <p style="font-family:Arial,sans-serif;font-size:20px;line-height:1.7;margin-bottom:16px;">
         Сегодня вы получили навык. Завтра появится 20 новых инструментов. Но вы уже знаете, как с ними работать.
       </p>
@@ -944,8 +840,13 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
         ПРИНЦИП ВАЖНЕЕ КНОПОК
       </p>
     </div>
+  </div>
+</section>
 
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px;margin-top:48px">
+<!-- ФИНАЛ -->
+<section style="background:#fafafa">
+  <div class="container">
+    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
       ДОМАШНЕЕ ЗАДАНИЕ
     </h2>
     <div class="step-card" style="background:#fff">
@@ -965,16 +866,11 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
         ДЕДЛАЙН: ПЯТНИЦА 5 АПРЕЛЯ
       </p>
     </div>
-
-    <div style="margin-top:48px;text-align:center">
-      <a href="prompts-system.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif">
-        СИСТЕМА ПРОМПТОВ →
-      </a>
-    </div>
   </div>
 </section>
 
 <script>
+// Промпт аккордеоны
 function togglePrompt(id) {
   const triggers = document.querySelectorAll('.prompt-trigger');
   const bodies = document.querySelectorAll('.prompt-body');
@@ -991,6 +887,7 @@ function togglePrompt(id) {
   });
 }
 
+// Прогресс скролла
 window.addEventListener('scroll', () => {
   const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -999,6 +896,7 @@ window.addEventListener('scroll', () => {
   document.getElementById('prog-fill').style.width = scrolled + '%';
 });
 
+// Сканлайн анимация
 const scanline = document.getElementById('scanline');
 let scanPos = 0;
 setInterval(() => {
