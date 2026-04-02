@@ -479,11 +479,23 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   <div class="container">
     <p class="kicker" style="margin-bottom:16px">МАРШРУТ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ОТ НУЛЯ ДО НАВЫКА ЗА 4 ЧАСА
+      ОТ НУЛЯ ДО СИСТЕМЫ ЗА 4 ЧАСА
     </h2>
-    <div style="display:grid;gap:12px">
+
+    <!-- ЧАСТЬ 1 -->
+    <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red);margin-bottom:16px">ЧАСТЬ 1 — ИНСТРУМЕНТЫ (2 ЧАСА)</p>
+
+    <div style="display:grid;gap:12px;margin-bottom:32px">
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">1</span>
+        <div style="flex:1">
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПРОМПТИНГ</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">База, 4 элемента, Chain of Thought</p>
+        </div>
+        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">20 мин</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
+        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">2</span>
         <div style="flex:1">
           <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПРЕЗЕНТАЦИИ</p>
           <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">NotebookLM, Gamma, Kimi</p>
@@ -491,36 +503,66 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
         <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">40 мин</span>
       </div>
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">2</span>
-        <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ТЕКСТЫ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">ToV-карта, адаптация</p>
-        </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">50 мин</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">3</span>
         <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">РЕСЁРЧ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Perplexity, тренды</p>
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ТЕКСТЫ</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">ToV-карта, адаптация в 4 формата</p>
         </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">30 мин</span>
+        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">40 мин</span>
       </div>
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">4</span>
         <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ВИЗУАЛ + ВИДЕО</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Gemini, Higgsfield, Chronicle</p>
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">РЕСЁРЧ + ВИЗУАЛ</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Perplexity, Gemini, Higgsfield</p>
+        </div>
+        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">20 мин</span>
+      </div>
+    </div>
+
+    <!-- ПЕРЕРЫВ -->
+    <div style="position:relative;text-align:center;margin:40px 0;padding:24px 0">
+      <span class="bg-word" style="font-size:clamp(60px,10vw,140px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.08;white-space:nowrap">ПЕРЕРЫВ</span>
+      <span class="red-line" style="width:100%;margin:0 auto 16px"></span>
+      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:20px;text-transform:uppercase;color:var(--red)">ПЕРЕРЫВ — 15 МИНУТ</p>
+      <span class="red-line" style="width:100%;margin:16px auto 0"></span>
+    </div>
+
+    <!-- ЧАСТЬ 2 -->
+    <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red);margin-bottom:16px">ЧАСТЬ 2 — СИСТЕМА (2 ЧАСА)</p>
+
+    <div style="display:grid;gap:12px">
+      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
+        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">5</span>
+        <div style="flex:1">
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">CLAUDE FOR WORK</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Projects, Skills, NDA, команда</p>
+        </div>
+        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">20 мин</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
+        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">6</span>
+        <div style="flex:1">
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">УСТАНОВКА СКИЛЛОВ</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">5 готовых, руками через Zoom</p>
+        </div>
+        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">40 мин</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
+        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">7</span>
+        <div style="flex:1">
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПРАКТИКА</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Аудит сайта клиента live</p>
         </div>
         <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">30 мин</span>
       </div>
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">5</span>
+        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">8</span>
         <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">БОНУС</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Cowork, автоматизация</p>
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПАПКА + ДОМАШКА</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Как качать ещё, как создавать свои</p>
         </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">20 мин</span>
+        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">30 мин</span>
       </div>
     </div>
   </div>
@@ -915,17 +957,148 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
     <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
       Суперсила: сторителлинг. Строит историю, не слайды
     </p>
-    <div class="step-card">
+    <div style="border: 2px dashed #ccc; padding: 40px; text-align: center; color: #666; font-family: Arial, sans-serif; margin-bottom: 24px;">
+      [ МЕСТО ДЛЯ ДЕМОНСТРАЦИИ CHRONICLE (LIVE) ]
+    </div>
+  </div>
+</section>
+
+<!-- ПЕРЕРЫВ — TRANSITION -->
+<section style="background:#0a0a0a;color:#fff;min-height:50vh;display:flex;align-items:center;position:relative">
+  <span class="bg-word" style="font-size:clamp(80px,14vw,220px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.06;white-space:nowrap;-webkit-text-stroke-color:#444">ПЕРЕРЫВ</span>
+  <div class="container" style="text-align:center">
+    <span class="red-line" style="width:120px;margin:0 auto 24px"></span>
+    <h2 class="display" style="font-size:clamp(32px,5vw,72px);color:#fff;margin-bottom:20px">
+      ПЕРЕРЫВ — 15 МИНУТ
+    </h2>
+    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px;margin:0 auto">
+      Дальше мы уходим на уровень выше. Не экскурсия по кнопкам — а система, которая работает на вашем компе.
+    </p>
+    <span class="red-line" style="width:120px;margin:24px auto 0"></span>
+  </div>
+</section>
+
+<!-- БЛОК 5: CLAUDE FOR WORK -->
+<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
+  <div class="container">
+    <p class="kicker" style="color:#888;margin-bottom:16px">ЧАСТЬ 2 / СИСТЕМА</p>
+    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
+      CLAUDE FOR WORK
+    </h2>
+    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
+      Не чат. Операционная система для маркетинга.
+    </p>
+  </div>
+</section>
+
+<!-- ПОЧЕМУ TEAM -->
+<section>
+  <div class="container">
+    <p class="kicker" style="margin-bottom:16px">ЗАЧЕМ TEAM</p>
+    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
+      ЧТО МЕНЯЕТ ВСЁ
+    </h2>
+
+    <div class="level-card">
+      <div class="level-num">1</div>
+      <div class="level-title">PROJECTS</div>
+      <p class="level-desc">
+        Один бриф — вся команда видит. Brand guide загружен раз. Все пишут в одном тоне без созвонов.
+      </p>
+    </div>
+
+    <div class="level-card">
+      <div class="level-num">2</div>
+      <div class="level-title">SKILLS</div>
+      <p class="level-desc">
+        Slash-команды: /audit, /brief, /copy. Создал один раз — вся команда использует.
+      </p>
+    </div>
+
+    <div class="level-card">
+      <div class="level-num">3</div>
+      <div class="level-title">БЕЗ ЛИМИТОВ</div>
+      <p class="level-desc">
+        Работаете весь день. Каждый день. Без «вы достигли лимита».
+      </p>
+    </div>
+
+    <div class="level-card">
+      <div class="level-num">4</div>
+      <div class="level-title">NDA-READY</div>
+      <p class="level-desc">
+        Данные клиентов НЕ идут в обучение модели. Можно загружать конфиденциальное.
+      </p>
+    </div>
+
+    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
+      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
+        ВЫ ПРИШЛИ НОВИЧКАМИ. УЙДЁТЕ С СИСТЕМОЙ НА СВОЁМ КОМПЕ.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 СКИЛЛОВ — УСТАНОВКА -->
+<section style="background:#fafafa">
+  <div class="container">
+    <p class="kicker" style="margin-bottom:16px">ПРЯМО СЕЙЧАС</p>
+    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
+      5 СКИЛЛОВ → ВАШ КОМП
+    </h2>
+
+    <div class="step-card" style="background:#fff">
       <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>chronicle.app</strong></p>
+      <p class="step-text">Откройте папку на Google Drive (ссылка будет в чате)</p>
     </div>
-    <div class="step-card">
+    <div class="step-card" style="background:#fff">
       <div class="step-num">2</div>
-      <p class="step-text">Вставьте URL вашего сайта</p>
+      <p class="step-text">Скачайте 5 папок — каждая = один скилл</p>
     </div>
-    <div class="step-card">
+    <div class="step-card" style="background:#fff">
       <div class="step-num">3</div>
-      <p class="step-text">Chronicle построит питч автоматически</p>
+      <p class="step-text">Скопируйте в <strong>~/.claude/skills/</strong></p>
+    </div>
+    <div class="step-card" style="background:#fff">
+      <div class="step-num">4</div>
+      <p class="step-text">Перезапустите Claude Code</p>
+    </div>
+    <div class="step-card" style="background:#fff">
+      <div class="step-num">5</div>
+      <p class="step-text">Напишите: <strong>/market audit https://ваш-клиент.ru</strong></p>
+    </div>
+
+    <h3 class="display" style="font-size:clamp(24px,3.5vw,48px);margin-top:48px;margin-bottom:24px">
+      СКИЛЛЫ В КОМПЛЕКТЕ
+    </h3>
+
+    <div class="grid-2" style="gap:16px">
+      <div style="border:1px solid var(--gray);padding:20px;background:#fff">
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market audit</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Полный аудит сайта клиента</p>
+      </div>
+      <div style="border:1px solid var(--gray);padding:20px;background:#fff">
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market competitors</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Конкурентный анализ + карта позиционирования</p>
+      </div>
+      <div style="border:1px solid var(--gray);padding:20px;background:#fff">
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market copy</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Анализ текстов + готовые улучшения</p>
+      </div>
+      <div style="border:1px solid var(--gray);padding:20px;background:#fff">
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market social</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Контент-план на 30 дней с хуками</p>
+      </div>
+      <div style="border:1px solid var(--gray);padding:20px;background:#fff;grid-column:1 / -1">
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market proposal</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">КП с 3-уровневым прайсом и ROI</p>
+      </div>
+    </div>
+
+    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
+      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
+        ХОТИТЕ БОЛЬШЕ? НА GITHUB — СОТНИ ГОТОВЫХ СКИЛЛОВ. ИЩИТЕ: CLAUDE SKILLS MARKETING
+      </p>
     </div>
   </div>
 </section>
@@ -938,10 +1111,10 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
     </h2>
     <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-bottom:32px">
       <p style="font-family:Arial,sans-serif;font-size:20px;line-height:1.7;margin-bottom:16px;">
-        Сегодня вы получили навык. Завтра появится 20 новых инструментов. Но вы уже знаете, как с ними работать.
+        Сегодня вы получили два уровня. Инструменты — это кнопки. Система — это другая скорость. Через неделю вы не вспомните все 9 инструментов. Но система на компе будет работать каждый день.
       </p>
       <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
-        ПРИНЦИП ВАЖНЕЕ КНОПОК
+        КНОПКИ ЗАБУДУТСЯ. СИСТЕМА ОСТАНЕТСЯ.
       </p>
     </div>
 
@@ -950,25 +1123,33 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
     </h2>
     <div class="step-card" style="background:#fff">
       <div class="step-num">1</div>
-      <p class="step-text">Выберите 2 инструмента из 9 – ваш стек</p>
+      <p class="step-text">Сделайте <strong>/market audit</strong> своего главного клиента — до пятницы</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">2</div>
-      <p class="step-text">Сделайте первую презентацию до пятницы</p>
+      <p class="step-text">Создайте свой первый скилл (любой!) — файл SKILL.md из 10 строк</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">3</div>
-      <p class="step-text">Скриншот результата – в чат команды</p>
+      <p class="step-text">Найдите на GitHub ещё 3 скилла под ваши задачи</p>
     </div>
+    <div class="step-card" style="background:#fff">
+      <div class="step-num">4</div>
+      <p class="step-text">Скриншот результата — в чат команды</p>
+    </div>
+
     <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px;">
       <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
-        ДЕДЛАЙН: ПЯТНИЦА 5 АПРЕЛЯ
+        ДЕДЛАЙН: ПЯТНИЦА 10 АПРЕЛЯ
       </p>
     </div>
 
-    <div style="margin-top:48px;text-align:center">
+    <div style="margin-top:48px;display:flex;gap:16px;flex-wrap:wrap">
       <a href="prompts-system.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif">
         СИСТЕМА ПРОМПТОВ →
+      </a>
+      <a href="#" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif">
+        ПАПКА СО СКИЛЛАМИ →
       </a>
     </div>
   </div>
