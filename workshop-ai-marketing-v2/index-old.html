@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI для маркетинга — Корпоративный воркшоп 3 апреля 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#fff;color:#111;font-family:Impact,Arial Black,sans-serif;overflow-x:hidden;line-height:1.5}
+
+:root{
+  --red:#E63946;
+  --black:#111;
+  --white:#fff;
+  --gray:#E5E5E5;
+  --mid:#888;
+}
+
+.display{font-family:Impact,"Arial Black",sans-serif;text-transform:uppercase;letter-spacing:.02em}
+.serif{font-family:Georgia,"Times New Roman",serif}
+.kicker{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--mid)}
+
+section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;overflow:hidden}
+.container{max-width:1100px;margin:0 auto}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+#spine-track{position:fixed;top:0;left:0;width:3px;height:100%;background:var(--gray);z-index:99}
+#spine-fill{width:100%;background:var(--red);height:0%;transition:height .1s linear}
+#prog-bar{position:fixed;top:0;left:3px;right:0;height:2px;background:var(--gray);z-index:98}
+#prog-fill{height:100%;width:0%;background:var(--red);transition:width .1s linear}
+
+.bg-word{
+  position:absolute;
+  font-family:Impact,"Arial Black",sans-serif;
+  text-transform:uppercase;
+  -webkit-text-stroke:1px #E5E5E5;
+  color:transparent;
+  pointer-events:none;
+  user-select:none;
+  line-height:.88;
+}
+
+.red-line{width:60px;height:3px;background:var(--red);display:block;margin:20px 0}
+
+.level-card{
+  border:1px solid var(--gray);
+  padding:24px;
+  margin-bottom:16px;
+  cursor:default;
+  transition:background .22s,color .22s,border-color .22s;
+}
+.level-card:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.level-card:hover .kicker{color:rgba(255,255,255,.65)}
+.level-card:hover p{color:rgba(255,255,255,.85)}
+
+.level-num{
+  font-family:Impact,"Arial Black",sans-serif;
+  font-size:48px;
+  color:var(--red);
+  line-height:1;
+  margin-bottom:8px;
+}
+.level-card:hover .level-num{color:#fff}
+
+.level-title{
+  font-family:Impact,"Arial Black",sans-serif;
+  font-size:22px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+.level-desc{
+  font-family:Arial,sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  color:#555;
+}
+
+.prompt-trigger{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:20px 24px;text-align:left;background:#fafafa;
+  border-bottom:1px solid var(--gray);cursor:pointer;
+  border:1px solid var(--gray);
+  margin-top:20px;
+}
+.prompt-trigger:hover{background:#f0f0f0}
+.plus{font-size:32px;color:var(--red);font-family:Arial,sans-serif;transition:transform .3s}
+.prompt-trigger.open .plus{transform:rotate(45deg)}
+.prompt-body{
+  max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1);
+  border:1px solid var(--gray);border-top:none;
+}
+.prompt-body.open{max-height:6000px}
+.prompt-content{
+  padding:24px;
+  background:#f9f9f9;
+  font-family:'Courier New',monospace;
+  font-size:13px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  color:#222;
+}
+
+.step-card{
+  background:#fafafa;
+  border:1px solid var(--gray);
+  padding:20px;
+  margin-bottom:12px;
+}
+.step-num{
+  font-family:Impact,"Arial Black",sans-serif;
+  font-size:32px;
+  color:var(--red);
+  margin-bottom:8px;
+}
+.step-text{
+  font-family:Arial,sans-serif;
+  font-size:15px;
+  line-height:1.6;
+}
+
+.red-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--red);color:var(--red);
+  padding:12px 20px;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;text-decoration:none;
+  transition:background .2s,color .2s;font-family:Arial,sans-serif;
+}
+.red-btn:hover{background:var(--red);color:#fff}
+
+#grain-overlay{
+  position:fixed;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:9996;
+  opacity:.055;mix-blend-mode:overlay;
+  animation:grainShift .12s steps(1) infinite;
+  background-size:200px 200px;
+}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}
+  16%{transform:translate(-3px,-4px)}
+  33%{transform:translate(4px,2px)}
+  50%{transform:translate(-2px,3px)}
+  66%{transform:translate(3px,-2px)}
+  83%{transform:translate(-4px,3px)}
+  100%{transform:translate(0,0)}
+}
+
+#scanline{
+  position:fixed;top:-2px;left:0;right:0;height:1px;
+  background:var(--red);opacity:.55;z-index:9999;
+  pointer-events:none;will-change:top;
+}
+
+@media(max-width:860px){
+  section{padding:40px 20px}
+  .grid-2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="scanline"></div>
+<div id="grain-overlay"></div>
+<div id="spine-track"><div id="spine-fill"></div></div>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+
+<!-- HERO -->
+<section style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px;border-bottom:1px solid var(--gray)">
+  <span class="bg-word" style="font-size:clamp(100px,18vw,280px);top:10px;right:-10px;opacity:.3">ДЕЙСТВУЙ</span>
+
+  <div class="container">
+    <p class="kicker" style="margin-bottom:20px">КОРПОРАТИВНЫЙ ВОРКШОП / 3 АПРЕЛЯ 2026</p>
+
+    <h1 class="display" style="font-size:clamp(42px,7.5vw,110px);line-height:.9;max-width:960px;margin-bottom:24px">
+      AI ДЛЯ <span style="color:var(--red)">МАРКЕТИНГА</span>
+    </h1>
+
+    <span class="red-line"></span>
+
+    <p class="serif" style="font-size:clamp(18px,2.5vw,26px);color:#444;max-width:560px;line-height:1.5">
+      4 часа практики на реальных задачах вашей команды
+    </p>
+  </div>
+</section>
+
+<!-- ТРИ УРОВНЯ -->
+<section style="min-height:80vh;display:flex;align-items:center">
+  <span class="bg-word" style="font-size:clamp(80px,13vw,200px);bottom:-20px;left:-10px;opacity:.18">УРОВНИ</span>
+
+  <div class="container">
+    <p class="kicker" style="margin-bottom:16px">ЧТО РЕАЛЬНО ПРОИСХОДИТ</p>
+
+    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
+      ТРИ УРОВНЯ AI-НАТИВНЫХ КОМПАНИЙ
+    </h2>
+
+    <div class="level-card">
+      <div class="level-num">1</div>
+      <div class="level-title">ОПТИМИЗАЦИЯ КОСТОВ</div>
+      <p class="level-desc">
+        Агенты заменяют рутину: код, договоры, поддержка, дизайн, бухгалтерия, маркетинг.<br><br>
+        <strong>300 сотрудников × 10 процессов × 10 мин × 30 раз/мес = $470K экономии в месяц</strong>
+      </p>
+    </div>
+
+    <div class="level-card">
+      <div class="level-num">2</div>
+      <div class="level-title">МАСШТАБИРОВАНИЕ БИЗНЕСА</div>
+      <p class="level-desc">
+        Из новых возможностей построить или выйти на новый рынок.<br><br>
+        Автономный агент-локализатор переводит продукт, адаптирует маркетинг, отвечает саппорту на 15 языках. Консалтинговая компания, которая раньше только давала рекомендации, теперь может и внедрять. Вместо одного продукта для всех, ваш продукт может гиперперсонализироваться на лету под каждого.
+      </p>
+    </div>
+
+    <div class="level-card">
+      <div class="level-num">3</div>
+      <div class="level-title">CYBERNETIC OS</div>
+      <p class="level-desc">
+        Вы создаете автоматизированную систему по постоянному улучшению себя.<br><br>
+        AI является менеджером для всей компании, а информационная обратная связь помогает ставить цели, вокруг которых организуются агенты (для любой «понятной» работы) и люди (для нового, рискованного или требующего эмпатии и взаимоотношений).
+      </p>
+    </div>
+
+    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
+      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
+        ВОПРОС: НА КАКОМ УРОВНЕ ВАШИ КОНКУРЕНТЫ?
+      </p>
+    </div>
+  </div>
+</section>
