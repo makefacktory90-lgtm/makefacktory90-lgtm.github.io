@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>AI для маркетинга — Интерактивный урок по итогам воркшопа</title>
+<title>AI для маркетинга — Интерактивный урок по второй части воркшопа</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -77,31 +77,6 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   color:#555;
 }
 
-.prompt-trigger{
-  width:100%;display:flex;justify-content:space-between;align-items:center;
-  padding:20px 24px;text-align:left;background:#fafafa;
-  border-bottom:1px solid var(--gray);cursor:pointer;
-  border:1px solid var(--gray);
-  margin-top:20px;
-}
-.prompt-trigger:hover{background:#f0f0f0}
-.plus{font-size:32px;color:var(--red);font-family:Arial,sans-serif;transition:transform .3s}
-.prompt-trigger.open .plus{transform:rotate(45deg)}
-.prompt-body{
-  max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1);
-  border:1px solid var(--gray);border-top:none;
-}
-.prompt-body.open{max-height:8000px}
-.prompt-content{
-  padding:24px;
-  background:#f9f9f9;
-  font-family:'Courier New',monospace;
-  font-size:13px;
-  line-height:1.7;
-  white-space:pre-wrap;
-  color:#222;
-}
-
 .step-card{
   background:#fafafa;
   border:1px solid var(--gray);
@@ -156,891 +131,134 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 <div id="spine-track"><div id="spine-fill"></div></div>
 <div id="prog-bar"><div id="prog-fill"></div></div>
 
-<!-- HERO -->
 <section style="min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px">
-  <span class="bg-word" style="font-size:clamp(100px,18vw,280px);top:10px;right:-10px;opacity:.3">ДЕЙСТВУЙ</span>
-
+  <span class="bg-word" style="font-size:clamp(100px,18vw,280px);top:10px;right:-10px;opacity:.3">FOLLOW-UP</span>
   <div class="container">
-    <p class="kicker" style="margin-bottom:20px">ИНТЕРАКТИВНЫЙ УРОК / ПОСЛЕ ВОРКШОПА / 3 АПРЕЛЯ 2026</p>
-
+    <p class="kicker" style="margin-bottom:20px">ИНТЕРАКТИВНЫЙ УРОК / ТОЛЬКО ВТОРАЯ ЧАСТЬ / 3 АПРЕЛЯ 2026</p>
     <h1 class="display" style="font-size:clamp(42px,7.5vw,110px);line-height:.9;max-width:960px;margin-bottom:24px">
-      AI ДЛЯ <span style="color:var(--red)">МАРКЕТИНГА</span><br/>FOLLOW-UP
+      CLAUDE FOR <span style="color:var(--red)">WORK</span><br/>+ СКИЛЛЫ + ДОМАШКА
     </h1>
-
     <span class="red-line"></span>
-
-    <p class="serif" style="font-size:clamp(18px,2.5vw,26px);color:#444;max-width:560px;line-height:1.5">
-      Запись второй части, переходы по нужным минутам и домашняя работа, чтобы материал не умер через сутки
+    <p class="serif" style="font-size:clamp(18px,2.5vw,26px);color:#444;max-width:620px;line-height:1.5">
+      Здесь только вторая часть воркшопа: система после перерыва, запись с таймкодами, полезные ссылки и домашняя работа.
     </p>
   </div>
 </section>
 
-<!-- ТРИ УРОВНЯ -->
-<section style="min-height:80vh;display:flex;align-items:center">
-  <span class="bg-word" style="font-size:clamp(80px,13vw,200px);bottom:-20px;left:-10px;opacity:.18">УРОВНИ</span>
-
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ЧТО РЕАЛЬНО ПРОИСХОДИТ</p>
-
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ТРИ УРОВНЯ AI-НАТИВНЫХ КОМПАНИЙ
-    </h2>
-
-    <div class="level-card">
-      <div class="level-num">1</div>
-      <div class="level-title">ОПТИМИЗАЦИЯ КОСТОВ</div>
-      <p class="level-desc">
-        Агенты заменяют рутину: код, договоры, поддержка, дизайн, бухгалтерия, маркетинг.<br><br>
-        <strong>300 сотрудников × 10 процессов × 10 мин × 30 раз/мес = $470K экономии в месяц</strong>
-      </p>
-    </div>
-
-    <div class="level-card">
-      <div class="level-num">2</div>
-      <div class="level-title">МАСШТАБИРОВАНИЕ БИЗНЕСА</div>
-      <p class="level-desc">
-        Из новых возможностей построить или выйти на новый рынок.<br><br>
-        Автономный агент-локализатор переводит продукт, адаптирует маркетинг, отвечает саппорту на 15 языках. Консалтинговая компания, которая раньше только давала рекомендации, теперь может и внедрять.
-      </p>
-    </div>
-
-    <div class="level-card">
-      <div class="level-num">3</div>
-      <div class="level-title">CYBERNETIC OS</div>
-      <p class="level-desc">
-        Вы создаете автоматизированную систему по постоянному улучшению себя.<br><br>
-        AI является менеджером для всей компании, а информационная обратная связь помогает ставить цели, вокруг которых организуются агенты и люди.
-      </p>
-    </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
-        ВОПРОС: НА КАКОМ УРОВНЕ ВАШИ КОНКУРЕНТЫ?
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- БЛОК 0: ПРОМПТИНГ -->
-<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
-  <div class="container">
-    <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 0 — БАЗА</p>
-    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
-      ПРОМПТИНГ
-    </h2>
-    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
-      Промпт — это ДНК вашего результата
-    </p>
-  </div>
-</section>
-
-<!-- ПРОМПТ = ДНК -->
 <section>
   <div class="container">
+    <p class="kicker" style="margin-bottom:16px">ЧТО ВНУТРИ</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ПРОМПТ — ЭТО ДНК РЕЗУЛЬТАТА
-    </h2>
-    
-    <div class="grid-2" style="gap:24px;margin-bottom:32px">
-      <div style="border:1px solid var(--gray);padding:24px">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:12px">ПЛОХОЙ ПРОМПТ</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">
-          "Напиши пост про AI"
-        </p>
-        <p style="font-family:Arial,sans-serif;font-size:13px;color:#888;margin-top:12px">
-          Результат: общий текст, который никому не нужен
-        </p>
-      </div>
-      
-      <div style="border:1px solid var(--gray);padding:24px;border-left:3px solid var(--red)">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:12px">ХОРОШИЙ ПРОМПТ</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">
-          "Ты — копирайтер для B2B SaaS. Аудитория: СТО стартапов. Напиши пост 500 слов про то, как AI снижает время code review на 40%. Тон: экспертный, но без снобизма. Структура: проблема → решение → кейс → CTA."
-        </p>
-        <p style="font-family:Arial,sans-serif;font-size:13px;color:#888;margin-top:12px">
-          Результат: точный текст под задачу
-        </p>
-      </div>
-    </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px">
-      <p style="font-family:Arial,sans-serif;font-size:18px;line-height:1.7;margin-bottom:12px;">
-        Разница между "напиши пост" и профессиональным промптом — как между "нарисуй дом" и архитектурным чертежом.
-      </p>
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:20px;text-transform:uppercase;color:var(--red)">
-        СЕГОДНЯ ВЫ ПОЛУЧИТЕ ЧЕРТЕЖИ
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- 4 ЭЛЕМЕНТА ПРОМПТА -->
-<section style="background:#fafafa">
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      4 ЭЛЕМЕНТА СИЛЬНОГО ПРОМПТА
+      БЕЗ ПЕРВОЙ ЧАСТИ
     </h2>
 
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">1</div>
-      <div class="level-title">РОЛЬ</div>
-      <p class="level-desc">
-        "Ты — [кто]". Не "AI-ассистент", а конкретная роль: аналитик McKinsey, копирайтер для B2B, дизайнер презентаций.
-      </p>
-    </div>
-
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">2</div>
-      <div class="level-title">КОНТЕКСТ</div>
-      <p class="level-desc">
-        Аудитория, цель, ограничения. "Для кого? Что они должны сделать после? Какие рамки?"
-      </p>
-    </div>
-
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">3</div>
-      <div class="level-title">ЗАДАЧА</div>
-      <p class="level-desc">
-        Конкретное действие. Не "улучши", а "перепиши заголовки так, чтобы каждый был выводом, не темой".
-      </p>
-    </div>
-
-    <div class="level-card" style="background:#fff">
-      <div class="level-num">4</div>
-      <div class="level-title">ФОРМАТ</div>
-      <p class="level-desc">
-        Как выдать результат. Таблица? Список? Структура слайдов? Чем точнее формат, тем лучше результат.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- CHAIN OF THOUGHT -->
-<section>
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      CHAIN OF THOUGHT
-    </h2>
-
-    <p style="font-family:Arial,sans-serif;font-size:18px;line-height:1.7;max-width:700px;margin-bottom:24px">
-      Вместо "дай ответ" → "подумай вслух, потом дай ответ"
+    <p style="font-family:Arial,sans-serif;font-size:18px;line-height:1.7;color:#444;max-width:820px;margin-bottom:28px">
+      Эта страница не дублирует весь воркшоп. Первая часть сюда не включена. Здесь только то, что нужно для follow-up: что такое Claude for Work, как перенести систему к себе на компьютер, куда смотреть в записи и что сделать после урока.
     </p>
 
-    <div style="border:1px solid var(--gray);padding:24px;background:#fafafa;margin-bottom:24px">
-      <p style="font-family:'Courier New',monospace;font-size:14px;line-height:1.7;color:#222">
-        Прежде чем писать презентацию, ответь на три вопроса:<br>
-        1. Какое общепринятое мнение я опровергну?<br>
-        2. Какие данные 2024-2026 это докажут?<br>
-        3. Что аудитория будет делать ИНАЧЕ после?<br><br>
-        Если не можешь ответить — не начинай. Найди данные.
-      </p>
-    </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px">
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:20px;text-transform:uppercase;color:var(--red)">
-        AI ДУМАЕТ ЛУЧШЕ, КОГДА ВЫ ЗАСТАВЛЯЕТЕ ЕГО ДУМАТЬ ВСЛУХ
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ИТЕРАЦИИ -->
-<section style="background:#fafafa">
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ИТЕРАЦИИ > ИДЕАЛЬНЫЙ ПРОМПТ
-    </h2>
-
-    <div style="display:grid;gap:16px;max-width:700px">
-      <div style="display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--gray);padding:16px">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">1</span>
-        <p style="font-family:Arial,sans-serif;font-size:15px">Первый промпт → результат 60%</p>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--gray);padding:16px">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">2</span>
-        <p style="font-family:Arial,sans-serif;font-size:15px">"Перепиши заголовки — каждый должен быть выводом" → 80%</p>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--gray);padding:16px">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">3</span>
-        <p style="font-family:Arial,sans-serif;font-size:15px">"Добавь цифры в слайды 2-4" → 95%</p>
-      </div>
-    </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
-      <p style="font-family:Arial,sans-serif;font-size:18px;line-height:1.7">
-        Не ждите идеала с первого раза. Три итерации по 2 минуты = лучше, чем один промпт на 20 минут.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- СИСТЕМА ПРОМПТОВ -->
-<section style="background:#0a0a0a;color:#fff">
-  <div class="container">
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);color:#fff;margin-bottom:32px">
-      ВАМ НЕ НУЖНО ЭТО ЗАПОМИНАТЬ
-    </h2>
-
-    <p style="font-family:Arial,sans-serif;font-size:20px;line-height:1.7;color:#ccc;max-width:700px;margin-bottom:24px">
-      Все промпты из сегодняшнего воркшопа — в одном файле. Копируй, вставляй, адаптируй.
-    </p>
-
-    <a href="../workshop-ai-marketing-april-3/prompts-system.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 24px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif;margin-top:20px">
-      ОТКРЫТЬ СИСТЕМУ ПРОМПТОВ →
-    </a>
-    <a href="../workshop-ai-marketing-april-3/index.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--black);color:var(--black);padding:16px 24px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif;margin-top:20px;margin-left:12px">
-      ИСХОДНЫЙ ВОРКШОП →
-    </a>
-  </div>
-</section>
-
-<!-- QUICK WIN: NOTEBOOKLM -->
-<section style="background:#0a0a0a;color:#fff">
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px;color:#888">ПРЯМО СЕЙЧАС</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px;color:#fff">
-      NOTEBOOKLM: ДОКУМЕНТ → ПРЕЗЕНТАЦИЯ ЗА 3 МИНУТЫ
-    </h2>
-    <div class="step-card" style="background:#1a1a1a;border-color:#333">
-      <div class="step-num">1</div>
-      <p class="step-text" style="color:#ccc">Откройте <strong style="color:#fff">notebooklm.google.com</strong></p>
-    </div>
-    <div class="step-card" style="background:#1a1a1a;border-color:#333">
-      <div class="step-num">2</div>
-      <p class="step-text" style="color:#ccc">Загрузите документ (PDF/Word/ссылка)</p>
-    </div>
-    <div class="step-card" style="background:#1a1a1a;border-color:#333">
-      <div class="step-num">3</div>
-      <p class="step-text" style="color:#ccc">Studio Panel → Slide Deck → Detailed Deck</p>
-    </div>
-    <div class="step-card" style="background:#1a1a1a;border-color:#333">
-      <div class="step-num">4</div>
-      <p class="step-text" style="color:#ccc">Вставьте промпт (ниже)</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-notebooklm')" style="background:#1a1a1a;border-color:#333;color:#fff">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ NOTEBOOKLM</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-notebooklm">
-      <div class="prompt-content" style="background:#0a0a0a;color:#00ff41">Роль: дизайнер презентаций McKinsey.
-Аудитория: руководители отделов маркетинга
-
-Для каждого слайда:
-— Заголовок = вывод. Не "Продажи Q4", а "Продажи Q4 выросли на 47% год к году"
-— Максимум 3 тезиса, каждый ≤ 12 слов
-— Каждый тезис = факт из источника с цитатой
-
-Первый слайд: самый удивительный инсайт из материала.
-  Тот, ради которого стоит смотреть дальше.
-Предпоследний: сравнение "было → стало"
-Последний: одно действие. Не "Спасибо"
-
-Формат: Detailed Deck
-Стиль: минималистичный, много воздуха
-Язык: русский</div>
-    </div>
-    <p style="font-family:Impact,'Arial Black',sans-serif;font-size:28px;text-transform:uppercase;color:var(--red);margin-top:40px;text-align:center">
-      У КОГО ПОЛУЧИЛОСЬ? 🙋
-    </p>
-  </div>
-</section>
-
-<!-- БАРЬЕРЫ -->
-<section>
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ВАШУ КОМАНДУ ИЗУЧИЛИ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      19 АНКЕТ. 4 БАРЬЕРА.<br>ПРОГРАММА ЗАКРЫВАЕТ КАЖДЫЙ.
-    </h2>
-    <div class="grid-2" style="gap:20px">
-      <div style="border:1px solid var(--gray);padding:24px">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:48px;color:var(--red);margin-bottom:8px">63%</p>
-        <p style="font-family:Arial,sans-serif;font-size:16px;margin-bottom:8px"><strong>Не знаю, какой инструмент</strong></p>
-        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Дадим стек из 3 — не 20</p>
-      </div>
-      <div style="border:1px solid var(--gray);padding:24px">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:48px;color:var(--red);margin-bottom:8px">47%</p>
-        <p style="font-family:Arial,sans-serif;font-size:16px;margin-bottom:8px"><strong>Не умею формулировать</strong></p>
-        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Промпт как мышление, не формула</p>
-      </div>
-      <div style="border:1px solid var(--gray);padding:24px">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:48px;color:var(--red);margin-bottom:8px">42%</p>
-        <p style="font-family:Arial,sans-serif;font-size:16px;margin-bottom:8px"><strong>Нет времени разбираться</strong></p>
-        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">4 часа → готовый набор навыков</p>
-      </div>
-      <div style="border:1px solid var(--gray);padding:24px">
-        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:48px;color:var(--red);margin-bottom:8px">26%</p>
-        <p style="font-family:Arial,sans-serif;font-size:16px;margin-bottom:8px"><strong>Не доверяю результатам</strong></p>
-        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Perplexity: источники, верификация</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- МАРШРУТ -->
-<section style="background:#fafafa">
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">МАРШРУТ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ОТ НУЛЯ ДО СИСТЕМЫ ЗА 4 ЧАСА
-    </h2>
-
-    <!-- ЧАСТЬ 1 -->
-    <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red);margin-bottom:16px">ЧАСТЬ 1 — ИНСТРУМЕНТЫ (2 ЧАСА)</p>
-
-    <div style="display:grid;gap:12px;margin-bottom:32px">
+    <div style="display:grid;grid-template-columns:1fr;gap:12px;max-width:860px">
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">1</span>
         <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПРОМПТИНГ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">База, 4 элемента, Chain of Thought</p>
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">CLAUDE FOR WORK</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Почему это уже не чат, а рабочая система</p>
         </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">20 мин</span>
       </div>
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">2</span>
         <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПРЕЗЕНТАЦИИ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">NotebookLM, Gamma, Kimi</p>
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">5 СКИЛЛОВ → ВАШ КОМП</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Как поставить комплект и с чего запускаться</p>
         </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">40 мин</span>
       </div>
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">3</span>
         <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ТЕКСТЫ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">ToV-карта, адаптация в 4 формата</p>
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ЗАПИСЬ + ТАЙМКОДЫ</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Быстрый переход в нужный кусок второй части</p>
         </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">40 мин</span>
       </div>
       <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
         <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">4</span>
         <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">РЕСЁРЧ + ВИЗУАЛ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Perplexity, Gemini, Higgsfield</p>
+          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ДОМАШКА + ВОПРОСЫ</p>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Что сделать руками и что прислать заранее</p>
         </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">20 мин</span>
       </div>
     </div>
 
-    <!-- ПЕРЕРЫВ -->
-    <div style="position:relative;text-align:center;margin:40px 0;padding:24px 0">
-      <span class="bg-word" style="font-size:clamp(60px,10vw,140px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.08;white-space:nowrap">ПЕРЕРЫВ</span>
-      <span class="red-line" style="width:100%;margin:0 auto 16px"></span>
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:20px;text-transform:uppercase;color:var(--red)">ПЕРЕРЫВ — 15 МИНУТ</p>
-      <span class="red-line" style="width:100%;margin:16px auto 0"></span>
-    </div>
-
-    <!-- ЧАСТЬ 2 -->
-    <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red);margin-bottom:16px">ЧАСТЬ 2 — СИСТЕМА (2 ЧАСА)</p>
-
-    <div style="display:grid;gap:12px">
-      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">5</span>
-        <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">CLAUDE FOR WORK</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Projects, Skills, NDA, команда</p>
-        </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">20 мин</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">6</span>
-        <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">УСТАНОВКА СКИЛЛОВ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">5 готовых, руками через Zoom</p>
-        </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">40 мин</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">7</span>
-        <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПРАКТИКА</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Аудит сайта клиента live</p>
-        </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">30 мин</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray);padding:16px;background:#fff">
-        <span style="font-family:Impact,'Arial Black',sans-serif;font-size:32px;color:var(--red);min-width:50px">8</span>
-        <div style="flex:1">
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase">ПАПКА + ДОМАШКА</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666">Как качать ещё, как создавать свои</p>
-        </div>
-        <span style="font-family:Arial,sans-serif;font-size:14px;color:#888">30 мин</span>
-      </div>
-    </div>
-
-    <div style="margin-top:32px;border:1px solid var(--gray);background:#fafafa;padding:28px">
-      <p class="kicker" style="margin-bottom:12px">ИНТЕРАКТИВНЫЙ FOLLOW-UP</p>
-      <h3 class="display" style="font-size:clamp(26px,4vw,44px);margin-bottom:16px;color:var(--black)">
-        ЗАПИСЬ ВТОРОЙ ЧАСТИ + ПЕРЕХОДЫ ПО НУЖНЫМ МИНУТАМ
-      </h3>
-      <p style="font-family:Arial,sans-serif;font-size:17px;line-height:1.7;color:#444;max-width:780px;margin-bottom:20px">
-        Это не запись “смотрите от начала до конца и терпите”. Ниже — вторая часть воркшопа на YouTube и ориентировочные таймкоды, чтобы вы могли перейти ровно в тот блок, который вам нужен: система, скиллы, практика или домашка.
-      </p>
-
-      <div style="position:relative;padding-top:56.25%;margin-bottom:24px;border:1px solid var(--gray);background:#000">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/JRK9A9udDBA?rel=0"
-          title="AI для маркетинга — вторая часть воркшопа"
-          style="position:absolute;inset:0;width:100%;height:100%;border:0"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <div class="grid-2" style="gap:12px">
-        <a href="https://youtu.be/JRK9A9udDBA?t=0" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
-          <p class="kicker" style="margin-bottom:8px;color:var(--red)">00:00</p>
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">КНОПКИ VS СИСТЕМА</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Короткий переход после перерыва и рамка всей второй части.</p>
-        </a>
-        <a href="https://youtu.be/JRK9A9udDBA?t=180" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
-          <p class="kicker" style="margin-bottom:8px;color:var(--red)">03:00</p>
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">CLAUDE FOR WORK</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Projects, Skills, Team, лимиты и почему это уже не просто чатик.</p>
-        </a>
-        <a href="https://youtu.be/JRK9A9udDBA?t=1080" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
-          <p class="kicker" style="margin-bottom:8px;color:var(--red)">18:00</p>
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">5 СКИЛЛОВ → ВАШ КОМП</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Установка базового комплекта и первый запуск системы на своем компьютере.</p>
-        </a>
-        <a href="https://youtu.be/JRK9A9udDBA?t=2100" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
-          <p class="kicker" style="margin-bottom:8px;color:var(--red)">35:00</p>
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">ЧТО ЛЕЖИТ В КОМПЛЕКТЕ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">/market audit, competitors, copy, social и proposal — где какой скилл использовать.</p>
-        </a>
-        <a href="https://youtu.be/JRK9A9udDBA?t=3000" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
-          <p class="kicker" style="margin-bottom:8px;color:var(--red)">50:00</p>
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">ПРАКТИКА И РАЗБОРЫ</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Где система начинает работать не на теории, а на вашей реальной задаче.</p>
-        </a>
-        <a href="https://youtu.be/JRK9A9udDBA?t=4920" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
-          <p class="kicker" style="margin-bottom:8px;color:var(--red)">82:00</p>
-          <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">ФИНАЛ И ДОМАШКА</p>
-          <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Что сделать после воркшопа и с чем прийти на финальную онлайн-встречу.</p>
-        </a>
-      </div>
-
-      <p style="font-family:Arial,sans-serif;font-size:13px;color:#777;margin-top:14px">
-        Таймкоды сделаны как рабочая навигация по блокам. Если вам нужен конкретный кусок, открывайте ближайший блок и проматывайте на 1-2 минуты внутри него.
-      </p>
+    <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap">
+      <a href="../workshop-ai-marketing-april-3/index.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--black);color:var(--black);padding:16px 24px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;font-family:Arial,sans-serif">
+        ИСХОДНЫЙ ВОРКШОП →
+      </a>
+      <a href="../workshop-ai-marketing-april-3/prompts-system.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 24px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;font-family:Arial,sans-serif">
+        СИСТЕМА ПРОМПТОВ →
+      </a>
     </div>
   </div>
 </section>
 
-<!-- БЛОК 1: ПРЕЗЕНТАЦИИ -->
-<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
-  <div class="container">
-    <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 1 / 40 МИНУТ</p>
-    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
-      ПРЕЗЕНТАЦИИ
-    </h2>
-    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
-      Запрос №1 из анкет: 14 из 19 человек
-    </p>
-  </div>
-</section>
-
-<!-- GAMMA -->
-<section>
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ 1</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      GAMMA — БЫСТРО И КРАСИВО
-    </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: скорость. 3 минуты до готового дека
-    </p>
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>gamma.app</strong></p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <p class="step-text">Create → Generate</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <p class="step-text">Вставьте промпт</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-gamma')">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ GAMMA</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-gamma">
-      <div class="prompt-content">Создай структуру презентации для Gamma.
-
-Тема: [ТЕМА]
-Аудитория: [КТО]
-Цель: [ЧТО СДЕЛАЮТ ПОСЛЕ]
-
-7 слайдов:
-- Слайд 1: Hook — вопрос без очевидного ответа ИЛИ число, которое удивит
-- Слайд 2: Проблема (The Problem) — цена бездействия в цифрах
-- Слайд 3: Решение (The Solution) — 3 тезиса, каждый ≤ 10 слов
-- Слайд 4: Как работает (Process) — максимум 3 шага
-- Слайд 5: Доказательство — один кейс или метрика
-- Слайд 6: Возражения — ответы на 2-3 главных "но"
-- Слайд 7: CTA — одно действие + дедлайн
-
-Для каждого слайда:
-— Заголовок (вывод, не тема)
-— Текст (≤ 40 слов)
-— Визуал (график/схема/иконка)
-
-ТЕСТ: прочитай ТОЛЬКО заголовки — история понятна?
-
-Язык: русский</div>
-    </div>
-  </div>
-</section>
-
-<!-- KIMI -->
 <section style="background:#fafafa">
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ 2</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      KIMI — БЕСПЛАТНЫЙ ИССЛЕДОВАТЕЛЬ
+    <p class="kicker" style="margin-bottom:12px">ИНТЕРАКТИВНЫЙ FOLLOW-UP</p>
+    <h2 class="display" style="font-size:clamp(26px,4vw,44px);margin-bottom:16px;color:var(--black)">
+      ЗАПИСЬ ВТОРОЙ ЧАСТИ + ПЕРЕХОДЫ ПО НУЖНЫМ МИНУТАМ
     </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: сам ищет данные. Бесплатно
+    <p style="font-family:Arial,sans-serif;font-size:17px;line-height:1.7;color:#444;max-width:780px;margin-bottom:20px">
+      Не нужно смотреть 4.5 часа подряд. Открывайте именно тот блок, который нужен: система, навыки, практика или финал с домашкой.
     </p>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>kimi.ai</strong></p>
+
+    <div style="position:relative;padding-top:56.25%;margin-bottom:24px;border:1px solid var(--gray);background:#000">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/JRK9A9udDBA?rel=0"
+        title="AI для маркетинга — вторая часть воркшопа"
+        style="position:absolute;inset:0;width:100%;height:100%;border:0"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
     </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">2</div>
-      <p class="step-text">Режим: <strong>Visual</strong> (быстрая генерация)</p>
+
+    <div class="grid-2" style="gap:12px">
+      <a href="https://youtu.be/JRK9A9udDBA?t=0" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
+        <p class="kicker" style="margin-bottom:8px;color:var(--red)">00:00</p>
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">КНОПКИ VS СИСТЕМА</p>
+        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Короткий вход после перерыва и рамка всей второй части.</p>
+      </a>
+      <a href="https://youtu.be/JRK9A9udDBA?t=180" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
+        <p class="kicker" style="margin-bottom:8px;color:var(--red)">03:00</p>
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">CLAUDE FOR WORK</p>
+        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Projects, Skills, Team, лимиты и почему это уже не просто чат.</p>
+      </a>
+      <a href="https://youtu.be/JRK9A9udDBA?t=1080" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
+        <p class="kicker" style="margin-bottom:8px;color:var(--red)">18:00</p>
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">5 СКИЛЛОВ → ВАШ КОМП</p>
+        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Установка базового комплекта и первый запуск системы на своем компьютере.</p>
+      </a>
+      <a href="https://youtu.be/JRK9A9udDBA?t=2100" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
+        <p class="kicker" style="margin-bottom:8px;color:var(--red)">35:00</p>
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">ЧТО ЛЕЖИТ В КОМПЛЕКТЕ</p>
+        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">/market audit, competitors, copy, social и proposal — где какой скилл использовать.</p>
+      </a>
+      <a href="https://youtu.be/JRK9A9udDBA?t=3000" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
+        <p class="kicker" style="margin-bottom:8px;color:var(--red)">50:00</p>
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">ПРАКТИКА И РАЗБОРЫ</p>
+        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Где система начинает работать уже на реальной задаче, а не на теории.</p>
+      </a>
+      <a href="https://youtu.be/JRK9A9udDBA?t=4920" target="_blank" rel="noopener noreferrer" style="display:block;border:1px solid var(--gray);padding:18px;background:#fff;color:inherit;text-decoration:none">
+        <p class="kicker" style="margin-bottom:8px;color:var(--red)">82:00</p>
+        <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;margin-bottom:6px">ФИНАЛ И ДОМАШКА</p>
+        <p style="font-family:Arial,sans-serif;font-size:14px;color:#666;line-height:1.6">Что сделать после воркшопа и с чем прийти на финальную онлайн-встречу.</p>
+      </a>
     </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">3</div>
-      <p class="step-text">Вставьте промпт</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-kimi')">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ KIMI</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-kimi">
-      <div class="prompt-content">Ты — аналитик-исследователь уровня McKinsey.
 
-Тема: [ВАША ТЕМА]
-Аудитория: [КТО СМОТРИТ]
-Режим: Visual
-
-КРИТИЧЕСКОЕ ПРАВИЛО:
-Прежде чем писать, ответь на три вопроса:
-1. Какое общепринятое мнение я опровергну?
-2. Какие данные 2024-2026 это докажут?
-3. Что аудитория будет делать ИНАЧЕ после?
-
-СТРУКТУРА (11 слайдов):
-
-Слайд 1 — Провокация:
-"Все думают [общепринятое]. Данные 2024-2026 говорят [противоположное]."
-Одна цифра, которая ломает шаблон. Источник обязателен.
-
-Слайды 2-4 — Реальная картина:
-Три ключевых тренда с данными.
-Для каждого: заголовок-вывод + 2-3 факта с цифрами + источник
-
-Слайд 5 — Таблица сравнения:
-Кто делает правильно vs кто отстаёт. Минимум 4 компании.
-Цвета: зелёный = лидер, красный = отстающий
-
-Слайды 6-8 — Что это значит для вас:
-Три практических вывода.
-Формула: "Если вы [ситуация], то [конкретное действие]"
-Запрещено: "оптимизировать", "улучшить". Только конкретика.
-
-Слайды 9-10 — План действий:
-3 шага по убыванию сложности, возрастанию импакта.
-Для каждого: что делать + сколько времени + какой результат
-
-Слайд 11 — Источники
-
-ПРАВИЛА:
-— Только данные 2024-2026
-— Каждая цифра — со ссылкой
-— Один факт, который ПРОТИВОРЕЧИТ общепринятому мнению
-
-Слайдов: 11</div>
-    </div>
-  </div>
-</section>
-
-<!-- БЛОК 2: ТЕКСТЫ -->
-<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
-  <div class="container">
-    <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 2 / 50 МИНУТ</p>
-    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
-      ТЕКСТЫ
-    </h2>
-    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
-      ToV-карта, адаптация, промпты Senior-уровня
+    <p style="font-family:Arial,sans-serif;font-size:13px;color:#777;margin-top:14px">
+      Таймкоды сделаны как рабочая навигация по блокам. Если вам нужен очень конкретный момент, открывайте ближайший блок и проматывайте на 1-2 минуты внутри него.
     </p>
   </div>
 </section>
 
-<!-- TOV-КАРТА -->
-<section>
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      TOV-КАРТА БРЕНДА
-    </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Анализ авторского стиля на уровне лингвиста-стилиста
-    </p>
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>claude.ai</strong></p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <p class="step-text">Вставьте промпт + 2-3 своих текста</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <p class="step-text">Сохраните ToV-карту в Projects</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-tov')">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ TOV-КАРТЫ</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-tov">
-      <div class="prompt-content">Ты профессиональный лингвист-стилист и эксперт по анализу авторского текста.
-
-Твоя задача: провести глубокий анализ предоставленных примеров текста и создать детальное руководство, которое позволит в точности воспроизвести авторский стиль в новых текстовых постах.
-
-Проанализируй и систематизируй следующие аспекты (все особенности пиши в одну строку после названия аспекта, разделяя точкой с запятой):
-
-Тональность и стиль: {Проведи детальный анализ эмоционального тона текста: формальный/неформальный, серьезный/юмористический, авторитетный/скромный. Определи преобладающие эмоциональные оттенки: вдохновляющий, провокационный, информативный, критический и т.д. Отметь используемые риторические приемы, метафоры, аналогии. Определи, как автор позиц��онирует себя: как эксперт, друг, наставник, исследователь.}
-
-Лексические особенности: {Проанализируй словарный запас: простой/сложный, обыденный/специализированный, современный/классический. Выяви характерные слова-маркеры, устойчивые выражения, авторские неологизмы, фразеологизмы. Определи наличие профессиональной терминологии, иностранных слов, сленга. Создай список из 10-15 наиболее характерных для автора слов и выражений.}
-
-Синтаксические особенности: {Определи типичную длину предложений, их структуру и сложность. Проанализируй соотношение простых и сложных предложений. Отметь особенности использования вводных конструкций, причастных и деепричастных оборотов. Выяви характерные синтаксические приемы: инверсия, параллелизм, эллипсис, риторические вопросы.}
-
-Структура контента: {Проанализируй композиционное построение текста: вступление, основную часть, заключение. Определи типичные приемы начала текста (хуки): вопрос, провокация, история, статистика. Выяви логические переходы между частями текста, наличие подзаголовков. Определи ключевые элементы завершения: вывод, призыв к действию, риторический вопрос. Опиши, как развивается основная мысль на протяжении текста.}
-
-Форматирование и визуальная подача: {Проанализируй длину и структуру абзацев, использование маркированных и нумерованных списков, цитат, выделений текста. Определи типичное количество предложений в абзаце. Отметь особенности использования заголовков и подзаголовков, их оформление. Проанализируй визуальное структурирование информации.}
-
-Орфография, пунктуация и типографика: {Отметь особенности использования знаков препинания: тире, двоеточия, скобки, многоточия. Проанализируй особенности оформления цитат и диалогов. Определи, обращается ли автор к читателю, и какую форму обращения использует (ты/вы). Выяви типографские предпочтения: использование определенного типа кавычек, тире, особенности оформления списков.}
-
-Стилистические приемы и фигуры речи: {Проанализируй использование метафор, сравнений, эпитетов, гипербол, иронии, аллитерации и других стилистических приемов. Выяви наличие историй, примеров из жизни, статистики, экспертных мнений. Определи баланс между эмоциональностью и фактологичностью.}
-
-Взаимодействие с аудиторией: {Проанализируй, как автор вовлекает читателя: прямые обращения, риторические вопросы, императивы. Определи степень диалогичности текста, создания эффекта личного общения. Выяви способы проявления эмпатии к читателю, предвосхищения возражений, создания доверия.}
-
-В ответ предоставь только результат анализа по указанным разделам, без вступительных объяснений или комментариев.
-
-[ниже укажи примеры своих текстов]</div>
-    </div>
-  </div>
-</section>
-
-<!-- АДАПТАЦИЯ -->
-<section style="background:#fafafa">
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">УПРАЖНЕНИЕ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      АДАПТАЦИЯ В 4 ФОРМАТА
-    </h2>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">1</div>
-      <p class="step-text">Выберите один текст (пост, релиз, статья)</p>
-    </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">2</div>
-      <p class="step-text">Вставьте промпт + ToV-карту + текст</p>
-    </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">3</div>
-      <p class="step-text">Получите 4 адаптации: Telegram, Email, Stories, LinkedIn</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-adapt')">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ АДАПТАЦИИ</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-adapt">
-      <div class="prompt-content">Возьми исходный текст: [ВСТАВИТЬ ТЕКСТ]
-
-Используй ToV-карту бренда: [ВСТАВИТЬ ToV-КАРТУ]
-
-Переработай исходный текст в 4 уникальных формата, строго следуя указанному Tone of Voice:
-
-1. Telegram: Лаконичный пост с акцентом на пользу (bullet points) и вовлекающим вопросом в конце
-2. Email: Структурированное письмо с интригующим Subject Line и четким CTA
-3. Stories: Серия из 5 карточек (Текст + Визуальное описание)
-4. LinkedIn: Профессиональный пост с экспертными выводами, хэштегами и фокусом на нетворкинг
-
-Важно: Не копируй предложения, а пересказывай суть в стиле площадки и с учетом ToV. 
-Выдай результат в виде таблицы.</div>
-    </div>
-  </div>
-</section>
-
-<!-- БЛОК 3: РЕСЁРЧ -->
-<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
-  <div class="container">
-    <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 3 / 30 МИНУТ</p>
-    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
-      РЕСЁРЧ
-    </h2>
-    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
-      Perplexity: источники, фактчекинг, тренды
-    </p>
-  </div>
-</section>
-
-<!-- PERPLEXITY -->
-<section>
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ТРЕНДЫ ЧЕРЕЗ PESTEL
-    </h2>
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>perplexity.ai</strong></p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <p class="step-text">Вставьте промпт</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <p class="step-text">Создайте Space для автодайджестов</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-perplexity')">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ PERPLEXITY</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-perplexity">
-      <div class="prompt-content">Проведи исследование трендов в нише [НАЗВАНИЕ НИШИ] за период [ПЕРИОД].
-
-Используй фреймворк PESTEL (Политика, Экономика, Социум, Технологии, Экология, Право).
-
-Выход:
-1. ТОП-5 трендов с кратким обоснованием
-2. Ссылки на авторитетные источники (отчеты Gartner, Deloitte, профильные СМИ)
-3. Гипотеза: Как наше агентство может использовать каждый тренд для роста клиента прямо сейчас?
-
-ПРАВИЛА:
-— Только данные 2024-2026
-— Каждая цифра — со ссылкой
-— Найди один тренд, который ПРОТИВОРЕЧИТ общепринятому мнению</div>
-    </div>
-  </div>
-</section>
-
-<!-- БЛОК 4: ВИЗУАЛ + ВИДЕО -->
-<section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
-  <div class="container">
-    <p class="kicker" style="color:#888;margin-bottom:16px">БЛОК 4 / 30 МИНУТ</p>
-    <h2 class="display" style="font-size:clamp(42px,7vw,110px);color:#fff;margin-bottom:20px">
-      ВИЗУАЛ + ВИДЕО
-    </h2>
-    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px">
-      Gemini, Higgsfield, Chronicle
-    </p>
-  </div>
-</section>
-
-<!-- GEMINI -->
-<section>
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      GEMINI: АНАЛИЗ ВИЗУАЛА
-    </h2>
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>gemini.google.com</strong></p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <p class="step-text">Загрузите скриншот презентации</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <p class="step-text">Вставьте промпт</p>
-    </div>
-    <button class="prompt-trigger" onclick="togglePrompt('prompt-gemini')">
-      <span style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.1em">ПРОМПТ ДЛЯ GEMINI</span>
-      <span class="plus">+</span>
-    </button>
-    <div class="prompt-body" id="prompt-gemini">
-      <div class="prompt-content">Опиши визуальный стиль этого изображения как ТЗ для дизайнера:
-
-1. ЦВЕТА: фон, текст, акцент. HEX-коды
-2. ШРИФТЫ: тип, размеры, uppercase?
-3. КОМПОЗИЦИЯ: сетка, воздух, разделители
-4. ПРИЁМЫ: тени, градиенты, текстуры
-5. НАСТРОЕНИЕ: 3 прилагательных
-6. ИТОГО: один абзац – вставить в любой AI-инструмент</div>
-    </div>
-  </div>
-</section>
-
-<!-- HIGGSFIELD -->
-<section style="background:#fafafa">
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      HIGGSFIELD: ВИДЕО ИЗ ТЕКСТА
-    </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: статичный слайд → анимация 3-5 сек
-    </p>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">1</div>
-      <p class="step-text">Откройте <strong>higgsfield.ai</strong></p>
-    </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">2</div>
-      <p class="step-text">Загрузите статичный слайд из Gamma</p>
-    </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">3</div>
-      <p class="step-text">Сгенерируйте видео (3-5 сек)</p>
-    </div>
-  </div>
-</section>
-
-<!-- CHRONICLE -->
-<section>
-  <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ИНСТРУМЕНТ</p>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      CHRONICLE: ПИТЧ-ДЕК
-    </h2>
-    <p style="font-family:Arial,sans-serif;font-size:16px;color:#666;margin-bottom:24px">
-      Суперсила: сторителлинг. Строит историю, не слайды
-    </p>
-    <div style="border: 2px dashed #ccc; padding: 40px; text-align: center; color: #666; font-family: Arial, sans-serif; margin-bottom: 24px;">
-      [ МЕСТО ДЛЯ ДЕМОНСТРАЦИИ CHRONICLE (LIVE) ]
-    </div>
-  </div>
-</section>
-
-<!-- ПЕРЕРЫВ — TRANSITION -->
-<section style="background:#0a0a0a;color:#fff;min-height:50vh;display:flex;align-items:center;position:relative">
-  <span class="bg-word" style="font-size:clamp(80px,14vw,220px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.06;white-space:nowrap;-webkit-text-stroke-color:#444">ПЕРЕРЫВ</span>
-  <div class="container" style="text-align:center">
-    <span class="red-line" style="width:120px;margin:0 auto 24px"></span>
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);color:#fff;margin-bottom:20px">
-      ПЕРЕРЫВ — 15 МИНУТ
-    </h2>
-    <p class="serif" style="font-size:22px;color:#ccc;max-width:600px;margin:0 auto">
-      Дальше мы уходим на уровень выше. Не экскурсия по кнопкам — а система, которая работает на вашем компе.
-    </p>
-    <span class="red-line" style="width:120px;margin:24px auto 0"></span>
-  </div>
-</section>
-
-<!-- БЛОК 5: CLAUDE FOR WORK -->
 <section style="background:#0a0a0a;color:#fff;min-height:60vh;display:flex;align-items:center">
   <div class="container">
     <p class="kicker" style="color:#888;margin-bottom:16px">ЧАСТЬ 2 / СИСТЕМА</p>
@@ -1053,55 +271,45 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
   </div>
 </section>
 
-<!-- ПОЧЕМУ TEAM -->
 <section>
   <div class="container">
-    <p class="kicker" style="margin-bottom:16px">ЗАЧЕМ TEAM</p>
+    <p class="kicker" style="margin-bottom:16px">ПОЧЕМУ ЭТО ВАЖНО</p>
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ЧТО МЕНЯЕТ ВСЁ
+      ЧТО МЕНЯЕТ ВСЕ
     </h2>
 
     <div class="level-card">
       <div class="level-num">1</div>
       <div class="level-title">PROJECTS</div>
-      <p class="level-desc">
-        Один бриф — вся команда видит. Brand guide загружен раз. Все пишут в одном тоне без созвонов.
-      </p>
+      <p class="level-desc">Один бриф загружается один раз, и дальше команда работает в одном контексте, а не изобретает его заново в каждом чате.</p>
     </div>
 
     <div class="level-card">
       <div class="level-num">2</div>
       <div class="level-title">SKILLS</div>
-      <p class="level-desc">
-        Slash-команды: /audit, /brief, /copy. Создал один раз — вся команда использует.
-      </p>
+      <p class="level-desc">Slash-команды превращают хороший процесс в повторяемую систему: /audit, /brief, /copy и другие сценарии работают по одному стандарту.</p>
     </div>
 
     <div class="level-card">
       <div class="level-num">3</div>
       <div class="level-title">БЕЗ ЛИМИТОВ</div>
-      <p class="level-desc">
-        Работаете весь день. Каждый день. Без «вы достигли лимита».
-      </p>
+      <p class="level-desc">Это уже не режим “написал один промпт и вышел”, а рабочая среда, в которой можно делать задачи весь день.</p>
     </div>
 
     <div class="level-card">
       <div class="level-num">4</div>
       <div class="level-title">NDA-READY</div>
-      <p class="level-desc">
-        Данные клиентов НЕ идут в обучение модели. Можно загружать конфиденциальное.
-      </p>
+      <p class="level-desc">Конфиденциальные материалы можно использовать в работе без ощущения, что вы таскаете клиентские данные по случайным чатам.</p>
     </div>
 
     <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
       <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
-        ВЫ ПРИШЛИ НОВИЧКАМИ. УЙДЁТЕ С СИСТЕМОЙ НА СВОЁМ КОМПЕ.
+        КНОПКИ МОЖНО ЗАБЫТЬ. СИСТЕМА ОСТАЕТСЯ С ВАМИ.
       </p>
     </div>
   </div>
 </section>
 
-<!-- 5 СКИЛЛОВ — УСТАНОВКА -->
 <section style="background:#fafafa">
   <div class="container">
     <p class="kicker" style="margin-bottom:16px">ПРЯМО СЕЙЧАС</p>
@@ -1111,97 +319,92 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
 
     <div class="step-card" style="background:#fff">
       <div class="step-num">1</div>
-      <p class="step-text">Откройте папку на Google Drive (ссылка будет в чате)</p>
+      <p class="step-text">Откройте папку с материалами и скачайте комплект скиллов.</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">2</div>
-      <p class="step-text">Скачайте 5 папок — каждая = один скилл</p>
+      <p class="step-text">Скопируйте их в папку со скиллами у себя на компьютере.</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">3</div>
-      <p class="step-text">Скопируйте в <strong>~/.claude/skills/</strong></p>
-    </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">4</div>
-      <p class="step-text">Перезапустите Claude Code</p>
-    </div>
-    <div class="step-card" style="background:#fff">
-      <div class="step-num">5</div>
-      <p class="step-text">Напишите: <strong>/market audit https://ваш-клиент.ru</strong></p>
+      <p class="step-text">Перезапустите Claude Code и попробуйте один живой сценарий на своей задаче.</p>
     </div>
 
     <h3 class="display" style="font-size:clamp(24px,3.5vw,48px);margin-top:48px;margin-bottom:24px">
-      СКИЛЛЫ В КОМПЛЕКТЕ
+      ЧТО ВХОДИТ В КОМПЛЕКТ
     </h3>
 
     <div class="grid-2" style="gap:16px">
       <div style="border:1px solid var(--gray);padding:20px;background:#fff">
         <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market audit</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Полный аудит сайта клиента</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Быстрый аудит сайта или лендинга.</p>
       </div>
       <div style="border:1px solid var(--gray);padding:20px;background:#fff">
         <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market competitors</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Конкурентный анализ + карта позиционирования</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Конкурентный анализ и карта позиционирования.</p>
       </div>
       <div style="border:1px solid var(--gray);padding:20px;background:#fff">
         <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market copy</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Анализ текстов + готовые улучшения</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Анализ текстов и улучшение сообщений.</p>
       </div>
       <div style="border:1px solid var(--gray);padding:20px;background:#fff">
         <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market social</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Контент-план на 30 дней с хуками</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Контентные идеи и упаковка под соцсети.</p>
       </div>
       <div style="border:1px solid var(--gray);padding:20px;background:#fff;grid-column:1 / -1">
         <p style="font-family:Impact,'Arial Black',sans-serif;font-size:18px;text-transform:uppercase;color:var(--red);margin-bottom:8px">/market proposal</p>
-        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">КП с 3-уровневым прайсом и ROI</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#555;line-height:1.6">Коммерческое предложение с логикой, структурой и ценой.</p>
       </div>
-    </div>
-
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px">
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
-        ХОТИТЕ БОЛЬШЕ? НА GITHUB — СОТНИ ГОТОВЫХ СКИЛЛОВ. ИЩИТЕ: CLAUDE SKILLS MARKETING
-      </p>
     </div>
   </div>
 </section>
 
-<!-- ФИНАЛ -->
+<section>
+  <div class="container">
+    <p class="kicker" style="margin-bottom:16px">ПРАКТИКА</p>
+    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
+      НЕ СМОТРЕТЬ. СДЕЛАТЬ
+    </h2>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <p class="step-text">Возьмите одну свою реальную задачу. Не учебную, не воображаемую, а ту, которая у вас правда висит в работе.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <p class="step-text">Запустите на ней один сценарий: аудит, конкурентный разбор, текст, соцсети или предложение.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <p class="step-text">Посмотрите, где результат сырой, и дожмите его руками. Именно так и появляется рабочий процесс, а не магия.</p>
+    </div>
+  </div>
+</section>
+
 <section style="background:#fafafa">
   <div class="container">
     <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px">
-      ЧТО ДАЛЬШЕ
-    </h2>
-    <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-bottom:32px">
-      <p style="font-family:Arial,sans-serif;font-size:20px;line-height:1.7;margin-bottom:16px;">
-        Сегодня вы получили два уровня. Инструменты — это кнопки. Система — это другая скорость. Через неделю вы не вспомните все 9 инструментов. Но система на компе будет работать каждый день.
-      </p>
-      <p style="font-family:Impact,'Arial Black',sans-serif;font-size:22px;text-transform:uppercase;color:var(--red)">
-        КНОПКИ ЗАБУДУТСЯ. СИСТЕМА ОСТАНЕТСЯ.
-      </p>
-    </div>
-
-    <h2 class="display" style="font-size:clamp(32px,5vw,72px);margin-bottom:32px;margin-top:48px">
       ДОМАШНЕЕ ЗАДАНИЕ
     </h2>
     <div class="step-card" style="background:#fff">
       <div class="step-num">1</div>
-      <p class="step-text">Выберите <strong>одну реальную задачу</strong> из своей работы и примените к ней один инструмент или одну механику из воркшопа. Это может быть аналитика, текст, презентация, ресёрч, оффер или структура.</p>
+      <p class="step-text">Выберите <strong>одну реальную задачу</strong> из своей работы и примените к ней один инструмент или одну механику из второй части воркшопа.</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">2</div>
-      <p class="step-text">Пересоберите <strong>одну презентацию</strong> или хотя бы <strong>несколько слайдов</strong> по-новому, используя подходы из урока. Не “когда-нибудь”, а на живом материале.</p>
+      <p class="step-text">Пересоберите <strong>одну презентацию</strong> или хотя бы <strong>несколько слайдов</strong> по-новому на живом материале.</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">3</div>
-      <p class="step-text">Откройте <strong>Claude Code</strong> у себя на компьютере и попробуйте довести до результата хотя бы один маленький сценарий. Не обязательно идеальный. Важно руками пройти этот путь.</p>
+      <p class="step-text">Откройте <strong>Claude Code</strong> у себя на компьютере и попробуйте довести до результата хотя бы один маленький реальный сценарий.</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">4</div>
-      <p class="step-text">Коротко опишите, <strong>что именно вы сделали</strong>, какой инструмент выбрали и какой результат получили. Скриншот или ссылка на результат — очень приветствуются.</p>
+      <p class="step-text">Коротко опишите, <strong>что именно вы сделали</strong>, какой инструмент выбрали и какой результат получили. Скриншот или ссылка на результат приветствуются.</p>
     </div>
     <div class="step-card" style="background:#fff">
       <div class="step-num">5</div>
-      <p class="step-text">Соберите <strong>1–3 вопроса</strong> к финальной онлайн-встрече и пришлите их <strong>заранее</strong>. Встреча будет короткой — около 30 минут, поэтому чем точнее будут вопросы, тем полезнее и конкретнее будут ответы.</p>
+      <p class="step-text">Соберите <strong>1-3 вопроса</strong> к финальной онлайн-встрече и пришлите их <strong>заранее</strong>, чтобы мы успели ответить по делу.</p>
     </div>
 
     <div style="border-left:3px solid var(--red);padding-left:24px;max-width:780px;margin-top:32px;">
@@ -1211,39 +414,20 @@ section{border-bottom:1px solid var(--gray);padding:64px 64px;position:relative;
     </div>
 
     <div style="margin-top:48px;display:flex;gap:16px;flex-wrap:wrap">
-      <a href="../workshop-ai-marketing-april-3/prompts-system.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif">
+      <a href="../workshop-ai-marketing-april-3/prompts-system.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;font-family:Arial,sans-serif">
         СИСТЕМА ПРОМПТОВ →
       </a>
-      <a href="../workshop-ai-marketing-april-3/index.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--black);color:var(--black);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif">
-        ИСХОДНЫЙ ВОРКШОП →
-      </a>
-      <a href="https://youtu.be/JRK9A9udDBA" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif">
+      <a href="https://youtu.be/JRK9A9udDBA" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;font-family:Arial,sans-serif">
         ЗАПИСЬ НА YOUTUBE →
       </a>
-      <a href="https://github.com/search?q=claude+skills+marketing&type=repositories" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--red);color:var(--red);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;font-family:Arial,sans-serif">
-        СКИЛЛЫ НА GITHUB →
+      <a href="../workshop-ai-marketing-april-3/index.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--black);color:var(--black);padding:16px 32px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;font-family:Arial,sans-serif">
+        ИСХОДНЫЙ ВОРКШОП →
       </a>
     </div>
   </div>
 </section>
 
 <script>
-function togglePrompt(id) {
-  const triggers = document.querySelectorAll('.prompt-trigger');
-  const bodies = document.querySelectorAll('.prompt-body');
-  
-  triggers.forEach((t, i) => {
-    const body = bodies[i];
-    const targetBody = document.getElementById(id);
-    
-    if (body === targetBody) {
-      const isOpen = t.classList.contains('open');
-      t.classList.toggle('open');
-      body.classList.toggle('open');
-    }
-  });
-}
-
 window.addEventListener('scroll', () => {
   const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
