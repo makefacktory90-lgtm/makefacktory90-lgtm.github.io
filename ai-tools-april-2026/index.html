@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Tools Map — April 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f6f4ef;color:#151515;line-height:1.55}
+:root{
+  --bg:#f6f4ef;
+  --card:#fffdf8;
+  --text:#151515;
+  --muted:#666;
+  --line:#d8d2c7;
+  --accent:#d64045;
+  --dark:#111;
+}
+.wrap{max-width:1220px;margin:0 auto;padding:40px 20px 80px}
+.hero{padding:24px 0 32px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+h1,h2,h3{font-family:Impact,"Arial Black",sans-serif;letter-spacing:.01em;text-transform:uppercase}
+h1{font-size:clamp(38px,6vw,90px);line-height:.92;max-width:980px}
+h2{font-size:clamp(28px,4vw,54px);line-height:.95}
+.lead{font-size:18px;max-width:840px;color:#333;margin-top:20px}
+.note{margin-top:18px;padding:16px 18px;border-left:4px solid var(--accent);background:#fff}
+.note p{font-size:15px;color:#333}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:26px}
+.card{background:var(--card);border:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:12px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.rank{font-family:Impact,"Arial Black",sans-serif;font-size:28px;color:var(--accent);line-height:1}
+.tag{display:inline-block;border:1px solid var(--line);padding:6px 10px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#444;background:#faf8f2}
+.name{font-size:28px;line-height:.94}
+.sub{font-size:14px;color:var(--muted)}
+.stat{font-size:14px;color:#222;background:#f1eee5;padding:10px 12px;border-left:3px solid var(--accent)}
+.bul{display:grid;gap:8px}
+.bul p{font-size:15px;color:#222}
+.bul strong{font-weight:700}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid var(--dark);color:var(--dark);text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.btn.red{border-color:var(--accent);color:var(--accent)}
+.section{margin-top:44px}
+.sources{display:grid;gap:10px;margin-top:18px}
+.sources a{color:var(--accent);text-decoration:none}
+.small{font-size:14px;color:var(--muted)}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="kicker">AI Tools Map / April 6, 2026</div>
+      <h1>Какая нейронка в каком деле сильнее</h1>
+      <p class="lead">Это не “мой любимый список”. Это практическая карта из 20 инструментов, собранная по свежим публичным данным о посещаемости и использованию AI-сервисов, плюс по рабочей специализации там, где один только трафик не объясняет ценность.</p>
+      <div class="note">
+        <p><strong>Как читать эту страницу:</strong> блоки с пометкой <strong>Traffic leader</strong> опираются на публичные рейтинги посещаемости AI-сервисов за <strong>февраль 2026</strong>. Блоки с пометкой <strong>Specialist pick</strong> добавлены как узкие, но важные рабочие инструменты для визуала, аудио, видео и продакшна. Последняя ручная сборка страницы: <strong>6 апреля 2026</strong>.</p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="top"><div class="rank">01</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">ChatGPT</h2>
+        <p class="sub">Универсальный центр для идей, текста, структуры, черновиков, research-first задач и быстрой работы “из одного окна”.</p>
+        <div class="stat">Статистика: ~5.5B monthly visits, №1 среди AI tools в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> быстрые тексты, brainstorming, брифы, маркетинговые и продуктовые задачи, универсальный first draft.</p>
+          <p><strong>Решает:</strong> когда нужно быстро начать, собрать структуру, распаковать идею или получить несколько вариантов на выбор.</p>
+          <p><strong>Не лучший выбор:</strong> когда нужен глубокий проектный контекст, строгая внутренняя память команды или very specific workflow without setup.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">02</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Claude / Claude Cowork</h2>
+        <p class="sub">Сильный инструмент для текстов, документов, проектной работы, длинного контекста и офисных сценариев.</p>
+        <div class="stat">Статистика: ~219.9M monthly visits, №6 в глобальном февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> длинные тексты, редактирование, рабочие документы, спокойная аналитика, office-style collaboration.</p>
+          <p><strong>Решает:</strong> когда нужен аккуратный разбор, большая контекстная память внутри проекта и меньше суеты при работе с файлами и правилами.</p>
+          <p><strong>Не лучший выбор:</strong> если хочется мгновенной мультимодальной экосистемы уровня Google или масс-маркета уровня ChatGPT.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://claude.ai/" target="_blank" rel="noopener noreferrer">Open Tool</a><a class="btn" href="https://www.anthropic.com/claude" target="_blank" rel="noopener noreferrer">Official</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">03</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Gemini</h2>
+        <p class="sub">Сильный мультимодальный инструмент Google для анализа файлов, трендов, визуала и быстрого синтеза информации.</p>
+        <div class="stat">Статистика: ~805.6M monthly visits, №3; один из самых быстрорастущих крупных игроков начала 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> анализ документов, картинок, трендов, research with Google ecosystem, визуальный разбор.</p>
+          <p><strong>Решает:</strong> когда нужно быстро пройтись по файлам, изображениям, таблицам, презентациям и вытащить из них суть.</p>
+          <p><strong>Не лучший выбор:</strong> если нужен очень точный citation-first web research в стиле поисковика с явными ссылками на каждый тезис.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">04</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Perplexity</h2>
+        <p class="sub">AI-поиск и research-движок, когда нужны веб-источники, факты, сравнения и быстрое понимание темы.</p>
+        <div class="stat">Статистика: ~206.1M monthly visits, №7 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> поиск по вебу, ресерч, сбор источников, fact-checking, поиск новых кейсов и имен.</p>
+          <p><strong>Решает:</strong> когда нужен не просто ответ, а быстрый маршрут по теме с ссылками, цитатами и внешними доказательствами.</p>
+          <p><strong>Не лучший выбор:</strong> если задача упирается не в поиск, а в глубокую внутреннюю редактуру текста или построение команды/проекта.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">05</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">DeepSeek</h2>
+        <p class="sub">Популярный reasoning-first инструмент для сильных рассуждений, техничных задач и бюджетного heavy use.</p>
+        <div class="stat">Статистика: ~262M monthly visits, №5 в глобальном февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> reasoning-задачи, техничные и аналитические сценарии, длинные рассуждения по шагам.</p>
+          <p><strong>Решает:</strong> когда нужна “рабочая голова” на сложной задаче, а не просто удобный интерфейс.</p>
+          <p><strong>Не лучший выбор:</strong> если главный критерий — polished UX, экосистема и сверхудобная бытовая работа для широкой команды.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">06</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Grok</h2>
+        <p class="sub">Быстрый conversational AI с сильной связкой с X и живым веб-контекстом.</p>
+        <div class="stat">Статистика: ~265.5M monthly visits, №4 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> реакция на инфополе, быстрые формулировки, social-first задачи, наблюдение за тем, что происходит сейчас.</p>
+          <p><strong>Решает:</strong> когда нужно быстро сориентироваться в публичной повестке и собрать angle под пост или обсуждение.</p>
+          <p><strong>Не лучший выбор:</strong> если нужна спокойная, дисциплинированная, документная работа с большим количеством артефактов.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://grok.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">07</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Microsoft Copilot</h2>
+        <p class="sub">AI для офисной работы, особенно когда у вас уже все живет в Microsoft 365.</p>
+        <div class="stat">Статистика: ~94.5M monthly visits, №11 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> Word, Excel, PowerPoint, Outlook, office productivity, корпоративный use-case.</p>
+          <p><strong>Решает:</strong> когда нужно встроить AI не “рядом”, а прямо в повседневную офисную работу команды.</p>
+          <p><strong>Не лучший выбор:</strong> если вы не в Microsoft-экосистеме и хотите более гибкую креативную среду.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">08</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Canva</h2>
+        <p class="sub">Главный бытовой комбайн для дизайна, презентаций, соцсетей и быстрой упаковки контента.</p>
+        <div class="stat">Статистика: ~870.4M monthly visits, №2 среди AI tools в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> соцсети, презентации, простая графика, быстрый дизайн без сложного продакшна.</p>
+          <p><strong>Решает:</strong> когда нужно собрать понятный, аккуратный визуал без тяжелых дизайн-инструментов.</p>
+          <p><strong>Не лучший выбор:</strong> если нужен киношный motion/video pipeline или глубокая кастомная типографика.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://www.canva.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">09</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Gamma</h2>
+        <p class="sub">Быстрая сборка презентаций и простых визуальных историй, когда нужен speed-first результат.</p>
+        <div class="stat">Статистика: ~24.4M monthly visits, №22 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> презентации, обучающие decks, quick sales narratives, fast structured slides.</p>
+          <p><strong>Решает:</strong> когда нужно быстро перейти от темы к нормальной структуре слайдов и не зависнуть на дизайне.</p>
+          <p><strong>Не лучший выбор:</strong> если нужен очень авторский визуал или точная ручная режиссура каждой карточки.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://gamma.app/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">10</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">NotebookLM</h2>
+        <p class="sub">Инструмент для работы с длинным материалом: документы, лекции, сборка summaries и обучающих выжимок.</p>
+        <div class="stat">Статистика: ~33.2M monthly visits, №21 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> конспекты, summaries, разбор длинных видео и документов, учебные материалы.</p>
+          <p><strong>Решает:</strong> когда нужно быстро переварить много материала и превратить его в понятную структуру.</p>
+          <p><strong>Не лучший выбор:</strong> если нужен polished финальный маркетинговый текст без дальнейшей редактуры.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">11</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">DeepL</h2>
+        <p class="sub">Переводы, локализация и полировка языка, когда нужно звучать не как робот-переводчик.</p>
+        <div class="stat">Статистика: ~169.4M monthly visits, №8 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> переводы, многоязычные тексты, локализация, чистка языка и тона.</p>
+          <p><strong>Решает:</strong> когда нужно быстро привести текст в порядок на другом языке без ощущения машинного мусора.</p>
+          <p><strong>Не лучший выбор:</strong> если нужна полноценная стратегия или сложное создание контента с нуля.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://www.deepl.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">12</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Kimi</h2>
+        <p class="sub">Резко выросший в начале 2026 игрок, который зашел людям за сильное письмо и value-for-money.</p>
+        <div class="stat">Статистика: ~18.5M monthly visits, №26; один из самых быстрорастущих сервисов начала 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> writing-heavy задачи, эксперименты с альтернативой крупным лидерам, недорогой интенсивный use.</p>
+          <p><strong>Решает:</strong> когда хочется второе мнение или альтернативный стиль генерации по тексту и reasoning.</p>
+          <p><strong>Не лучший выбор:</strong> если вам критична максимальная стабильность enterprise-экосистемы или глубокая интеграция в корпоративный стек.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://kimi.ai/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">13</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Cursor</h2>
+        <p class="sub">AI-first редактор для кодинга и техничной работы, когда нужна скорость именно в разработке.</p>
+        <div class="stat">Статистика: ~19.2M monthly visits, №25 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> код, правки по проекту, refactor, multi-file implementation.</p>
+          <p><strong>Решает:</strong> когда нужно не просто поговорить про код, а писать и менять его в реальной среде.</p>
+          <p><strong>Не лучший выбор:</strong> если задача не связана с разработкой и вам нужен универсальный knowledge/work assistant.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">14</div><span class="tag">Specialist pick</span></div>
+        <h2 class="name">Freepik AI</h2>
+        <p class="sub">Практичный агрегатор для визуала и production assets: когда нужен не один стиль, а рабочая пачка материалов.</p>
+        <div class="stat">Статус: specialist pick. Добавлен не как трафик-лидер, а как рабочий визуальный агрегатор для контентных и продакшн-сценариев.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> генерация и добор визуала, графика, mockups, ассеты для контента и презентаций.</p>
+          <p><strong>Решает:</strong> когда вам нужен не “один шедевр”, а поток usable visuals и запас вариантов.</p>
+          <p><strong>Не лучший выбор:</strong> если нужен ультраавторский арт или сложная сценообразующая видеоанимация.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://www.freepik.com/ai" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">15</div><span class="tag">Specialist pick</span></div>
+        <h2 class="name">Higgsfield</h2>
+        <p class="sub">Инструмент для визуального видео и stylized motion, когда нужен модный короткий AI-визуал.</p>
+        <div class="stat">Статус: specialist pick. Включен как рабочий видеосервис для визуальных и контентных задач, а не как массовый traffic leader.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> короткие stylized clips, motion-first visuals, wow-кадры для Reels/Shorts.</p>
+          <p><strong>Решает:</strong> когда нужно добавить атмосферный или fashion-forward AI-визуал в видео-поток.</p>
+          <p><strong>Не лучший выбор:</strong> если вы собираете длинное объясняющее видео, а не визуальную вставку или shot.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://higgsfield.ai/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">16</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Runway</h2>
+        <p class="sub">Сильный AI-видеосервис для генерации, редактуры и motion-heavy production.</p>
+        <div class="stat">Статистика: ~7.1M monthly visits, №37 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> AI video generation, editing, clean motion output, experimentation with shots.</p>
+          <p><strong>Решает:</strong> когда нужно не просто редактировать, а добавлять генеративное видео в продакшн-пайплайн.</p>
+          <p><strong>Не лучший выбор:</strong> если нужен быстрый бытовой монтаж без генеративной части.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://runwayml.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">17</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">HeyGen</h2>
+        <p class="sub">Аватары и synthetic talking head, когда нужно быстро клепать говорящие видео без студии каждый раз.</p>
+        <div class="stat">Статистика: ~16.5M monthly visits, №28 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> аватары, talking head, быстрые explainers, multilingual persona video.</p>
+          <p><strong>Решает:</strong> когда важна регулярность выпуска, а не ежедневная живая съемка с макияжем и продакшном.</p>
+          <p><strong>Не лучший выбор:</strong> если вам критична живая человеческая пластика и “неаватарное” ощущение присутствия.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://www.heygen.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">18</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">ElevenLabs</h2>
+        <p class="sub">Один из самых заметных сервисов для голоса, дубляжа, voiceover и синтеза речи.</p>
+        <div class="stat">Статистика: ~52.6M monthly visits, №17 в февральском срезе 2026; один из заметных growth winners начала 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> voiceover, dubbing, speech-to-speech, voice cloning, audio output для контента.</p>
+          <p><strong>Решает:</strong> когда нужен качественный голосовой слой без ручной студийной записи на каждый ролик.</p>
+          <p><strong>Не лучший выбор:</strong> если задача скорее про музыку, чем про голос, или про длинный монтаж аудиоподкаста целиком.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">19</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">Suno</h2>
+        <p class="sub">Инструмент для быстрой генерации музыки и музыкальных идей под видео, контент и mood pieces.</p>
+        <div class="stat">Статистика: ~85.5M monthly visits, №12 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> музыка для контента, демо-треки, музыкальные mood pieces, идея для sound identity.</p>
+          <p><strong>Решает:</strong> когда нужен не просто фон, а музыкальный слой, который можно быстро собрать под конкретное видео.</p>
+          <p><strong>Не лучший выбор:</strong> если вам нужен чистый voice/audio workflow, а не генерация музыки.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://suno.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+
+      <article class="card">
+        <div class="top"><div class="rank">20</div><span class="tag">Traffic leader</span></div>
+        <h2 class="name">CapCut</h2>
+        <p class="sub">Массовый AI-assisted монтаж для social video, когда нужен быстрый результат и понятный интерфейс.</p>
+        <div class="stat">Статистика: ~82.9M monthly visits, №13 в февральском срезе 2026.</div>
+        <div class="bul">
+          <p><strong>Лучше всего:</strong> быстрый монтаж, автосабы, social editing, шаблонные видео-потоки.</p>
+          <p><strong>Решает:</strong> когда надо быстро выпустить видео без сложного монтажного пайплайна.</p>
+          <p><strong>Не лучший выбор:</strong> если вы строите кодовый или fully automated video pipeline, а не ручной GUI-монтаж.</p>
+        </div>
+        <div class="links"><a class="btn red" href="https://www.capcut.com/" target="_blank" rel="noopener noreferrer">Open Tool</a></div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Как этим пользоваться</div>
+      <h2>Быстрый выбор без истерики</h2>
+      <div class="note" style="margin-top:20px">
+        <p><strong>Если нужен текст и thinking:</strong> ChatGPT, Claude / Claude Cowork, Kimi.</p>
+        <p><strong>Если нужен поиск и факты:</strong> Perplexity, Gemini, DeepSeek.</p>
+        <p><strong>Если нужен офис и документы:</strong> Claude / Claude Cowork, Copilot, NotebookLM, DeepL.</p>
+        <p><strong>Если нужен визуал и презентации:</strong> Canva, Gamma, Freepik AI.</p>
+        <p><strong>Если нужен AI-видео-поток:</strong> HeyGen, Higgsfield, Runway, CapCut.</p>
+        <p><strong>Если нужен звук:</strong> ElevenLabs для голоса, Suno для музыки.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Источники</div>
+      <h2>На Что Я Оперся</h2>
+      <div class="sources">
+        <p class="small">Публичная статистическая база этой страницы:</p>
+        <p class="small"><a href="https://explodingtopics.com/blog/most-popular-ai-tools" target="_blank" rel="noopener noreferrer">Exploding Topics: 65 Most Popular AI Tools Ranked (February 2026)</a> — февральский срез monthly visits по 65 AI tools, обновлено 21 февраля 2026, на базе Semrush.</p>
+        <p class="small"><a href="https://www.similarweb.com/top-websites/ai-chatbots-and-tools/trending/" target="_blank" rel="noopener noreferrer">Similarweb: Top AI Chatbots and Tools Trending Websites (February 2026)</a> — мировой срез категории AI Chatbots and Tools, updated March 1, 2026.</p>
+        <p class="small"><a href="https://www.androidcentral.com/apps-software/ai/battle-of-gen-ai-googles-gemini-gains-ground-on-its-chatgpt-competitor" target="_blank" rel="noopener noreferrer">Android Central summary of Similarweb’s early-2026 tracker</a> — для общей картины распределения трафика между крупнейшими AI-ассистентами в начале 2026 года.</p>
+      </div>
+      <div class="note" style="margin-top:20px">
+        <p><strong>Честная оговорка:</strong> для апреля 2026 это не “абсолютная истина на всей планете”, а лучшая сопоставимая публичная картина, которую можно собрать из открытых источников с актуальным обновлением. Поэтому лидеры по трафику отмечены отдельно, а узкие specialist picks помечены честно как specialist picks.</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
