@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Региональный вуз × молодые постдоки IT+биотех — демо-отчёт · Ира Буян</title>
+<meta name="description" content="Демо-отчёт по задаче, пришедшей от подписчика в рамках открытого эксперимента: HR для регионального федерального вуза. Произведено авторским скиллом Иры Буян за час. Три портрета, пакет предложения, пять углов позиционирования, контринтуитивные стратегии.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F6F4EF;
+  --ink: #0F0F0F;
+  --muted: #5A5A5A;
+  --line: #1A1A1A;
+  --line-soft: rgba(0,0,0,0.12);
+  --accent: #D64A2C;
+  --accent-soft: #FBE8E1;
+  --warn: #8A6B00;
+  --warn-soft: #FFF3C7;
+  --ok: #2F6F3C;
+  --ok-soft: #E2F0E1;
+  --info: #24456A;
+  --info-soft: #E2EAF3;
+  --paper: #FFFFFF;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
+}
+.container { max-width: 780px; margin: 0 auto; padding: 48px 24px 96px; }
+@media (min-width: 720px) { .container { padding: 72px 32px 120px; } }
+
+/* ——— HEADER ——— */
+.tag-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+}
+.tag-line::before { content: "●"; color: var(--accent); font-size: 14px; }
+
+h1 {
+  font-size: clamp(32px, 6vw, 54px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+h1 em { font-style: normal; background: var(--accent); color: #fff; padding: 0 10px; display: inline-block; transform: skew(-3deg); }
+
+.subtitle {
+  font-size: clamp(17px, 2.3vw, 22px);
+  color: var(--muted);
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: 40px;
+  max-width: 640px;
+}
+.meta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 56px;
+}
+.meta dt { color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.meta dd { color: var(--ink); }
+
+/* ——— SECTIONS ——— */
+section { margin-bottom: 72px; }
+h2 {
+  font-size: clamp(24px, 3.4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin: 0 0 24px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 32px;
+}
+h2 .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  display: block;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+}
+h3 {
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 32px 0 12px;
+}
+h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 22px 0 10px;
+  letter-spacing: -0.005em;
+}
+p { font-size: 16.5px; margin-bottom: 16px; color: var(--ink); }
+p.lead {
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+ul, ol { padding-left: 22px; margin-bottom: 20px; }
+li { margin-bottom: 8px; font-size: 16.5px; }
+strong { font-weight: 700; }
+em { font-style: italic; color: var(--ink); }
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+a:hover { background: var(--accent-soft); }
+
+/* ——— LEGEND / TAGS ——— */
+.legend {
+  background: var(--paper);
+  padding: 24px;
+  border-left: 4px solid var(--accent);
+  margin-bottom: 48px;
+  font-size: 15px;
+}
+.legend h3 { margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.legend .row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.badge-fact { background: var(--ok-soft); color: var(--ok); }
+.badge-check { background: var(--warn-soft); color: var(--warn); }
+.badge-hyp { background: var(--info-soft); color: var(--info); }
+.badge-rec { background: var(--accent-soft); color: var(--accent); }
+
+/* ——— HIGHLIGHT BOX ——— */
+.tldr {
+  background: var(--ink);
+  color: #F0EFE9;
+  padding: 36px 32px;
+  margin-bottom: 72px;
+  position: relative;
+}
+.tldr .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+  display: block;
+}
+.tldr p {
+  color: #F0EFE9;
+  font-size: 19px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+.tldr p:last-child { margin-bottom: 0; }
+.tldr strong { color: #fff; }
+
+/* ——— PORTRAIT CARDS ——— */
+.portrait {
+  background: var(--paper);
+  padding: 28px;
+  margin-bottom: 24px;
+  border-top: 3px solid var(--ink);
+  position: relative;
+}
+.portrait h3 { margin-top: 0; }
+.portrait .role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 6px;
+}
+.portrait blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 8px 0 8px 16px;
+  margin: 14px 0;
+  font-style: italic;
+  color: var(--muted);
+  font-size: 15.5px;
+}
+.portrait p { font-size: 15.5px; }
+
+/* ——— TABLES ——— */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  margin: 20px 0;
+  background: var(--paper);
+}
+.tbl th, .tbl td {
+  padding: 11px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+.tbl th {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: #F0EEE8;
+  border-bottom: 1px solid var(--line);
+}
+.tbl-compact th, .tbl-compact td { padding: 8px 10px; }
+
+/* ——— BLOCKQUOTE ——— */
+blockquote {
+  font-style: italic;
+  border-left: 3px solid var(--accent);
+  padding-left: 20px;
+  margin: 20px 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+/* ——— ANGLE BOX ——— */
+.angle {
+  background: var(--paper);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--accent);
+}
+.angle .n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+.angle h4 { margin: 0 0 8px; font-size: 17px; }
+.angle p { font-size: 15.5px; font-style: italic; color: var(--ink); margin: 0; }
+
+/* ——— CALLOUT ——— */
+.callout {
+  background: var(--warn-soft);
+  padding: 18px 22px;
+  margin: 24px 0;
+  font-size: 15.5px;
+  border-left: 3px solid var(--warn);
+}
+.callout strong { color: var(--warn); }
+
+/* ——— FOOTER ——— */
+footer {
+  margin-top: 96px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--muted);
+}
+footer a { color: var(--muted); border-bottom-color: rgba(0,0,0,0.2); }
+footer p { font-size: 14px; margin-bottom: 10px; color: var(--muted); }
+.brand {
+  display: block;
+  margin-top: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.brand strong { color: var(--ink); }
+
+/* ——— DISCLAIMER ——— */
+.disclaimer {
+  background: #FFF4EE;
+  border: 3px solid var(--accent);
+  padding: 36px 32px;
+  margin: 0 0 56px;
+  position: relative;
+}
+.disclaimer .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: block;
+}
+.disclaimer h3 {
+  font-size: clamp(24px, 3.2vw, 30px);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 22px;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.disclaimer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.disclaimer li {
+  padding: 12px 0 12px 32px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  position: relative;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.disclaimer li:last-child { border-bottom: none; }
+.disclaimer li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 17px;
+}
+.disclaimer li strong { font-weight: 700; }
+.disclaimer .close {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-top: 8px;
+  padding-top: 22px;
+  border-top: 2px solid var(--ink);
+  letter-spacing: -0.01em;
+}
+.disclaimer .close em { font-style: normal; background: var(--accent); color: #fff; padding: 0 8px; display: inline-block; transform: skew(-3deg); }
+
+@media print {
+  body { background: #fff; }
+  .tldr { background: #fff; color: #000; border: 2px solid #000; }
+  .tldr p, .tldr .label { color: #000; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="tag-line">Демо-отчёт · Задача от подписчика · 15 апреля 2026</div>
+
+  <h1>Региональный вуз × молодые постдоки <em>IT+биотех</em></h1>
+
+  <p class="subtitle">Как привлечь тех, кого уже искали все. Три портрета, пакет предложения, пять нестандартных углов и честный раздел про то, где модель могла соврать.</p>
+
+  <div class="disclaimer">
+    <span class="label">Сначала — стоп</span>
+    <h3>Прежде чем читать, несколько важных слов о том, что это.</h3>
+    <ul>
+      <li><strong>Это ДЕМО.</strong> Не план действий, не готовый HR-документ, не оплаченная консультация.</li>
+      <li>У меня <strong>не было ни одной внутренней цифры вуза</strong>. Никаких бюджетов, имён научных групп, данных по текучке. Ничего.</li>
+      <li>Все вводные, которые вы увидите в отчёте (город, позиция, предметная область, рычаги) — <strong>мы с агентом придумали сами</strong>. Зафиксировали свои предположения как рабочие — и пошли работать.</li>
+      <li>Работа заняла <strong>примерно час</strong>.</li>
+      <li>Я <strong>не проверяла руками ни одной цифры и ни одного имени</strong>. Если бы это был реальный запрос с оплатой — проверила бы всё до точки перед отправкой. Но это демо, и цель — показать, что метод работает.</li>
+    </ul>
+    <p class="close">И он работает <em>фантастически</em>. Читайте дальше.</p>
+  </div>
+
+  <dl class="meta">
+    <dt>Задача</dt><dd>Привлечь молодых постдоков 28–35 лет в IT+биотех в региональный федеральный вуз</dd>
+    <dt>Как возникло</dt><dd>Публичный эксперимент. Я придумала скилл и попросила подписчиков в Telegram прислать задачи. Эта пришла от подписчика — без подробностей, и, строго говоря, не совсем по профилю скилла (он был заточен под поиск ЦА, а тут — стратегия привлечения ЦА). Тем интереснее.</dd>
+    <dt>Время работы</dt><dd>~1 час</dd>
+    <dt>Автор</dt><dd>Ира Буян (<a href="https://iraai.ru">iraai.ru</a>), применение авторского скилла</dd>
+    <dt>Статус</dt><dd>Демо. Каждая цифра и каждое имя помечены по шкале достоверности (см. легенду ниже)</dd>
+  </dl>
+
+  <div class="legend">
+    <h3>Легенда пометок в тексте</h3>
+    <p>Нейросети умеют врать красиво. Поэтому вместо того, чтобы подавать всё как «факт», я разметила каждую цифру, имя и оценку по уровню достоверности. Это и есть суть метода: не «AI ответил», а «AI ответил, и вот где ему верить, а где проверять».</p>
+    <div class="row">
+      <span class="badge badge-fact">[ФАКТ]</span>
+      <span class="badge badge-check">[ПРОВЕРИТЬ]</span>
+      <span class="badge badge-hyp">[ГИПОТЕЗА]</span>
+      <span class="badge badge-rec">[РЕКОМЕНДАЦИЯ]</span>
+    </div>
+  </div>
+
+  <div class="tldr">
+    <span class="label">Единственная мысль этого документа</span>
+    <p>Молодой постдок 28–35 в IT+биотех <strong>не покупает стабильность</strong>. Он покупает <strong>контроль над своей карьерой</strong>.</p>
+    <p>Классический HR-бриф регионального вуза («престижный федеральный университет, служебное жильё, дружный коллектив») ему не просто не интересен — он его <strong>оскорбляет</strong>.</p>
+    <p>Но у вуза есть то, чего нет у МГУ, Сколтеха и ИТМО: <strong>уникальный регуляторный контекст</strong>, который даёт собрать предложение, которое не может собрать Москва.</p>
+  </div>
+
+  <!-- ——— 1 ——— -->
+  <section>
+    <h2><span class="num">01 · Диагноз</span>Почему классический HR регионального вуза провалится</h2>
+
+    <p>Даже идеальный пакет — бюджет, жильё, грант — разобьётся о пять системных барьеров.</p>
+
+    <ol>
+      <li><strong>Бюрократия Минобрнауки съедает оффер за 3–6 месяцев.</strong> <span class="badge badge-hyp">[ГИПОТЕЗА]</span> Кандидат подаёт в июле, старт в декабре. За это время 40–50% сливаются к конкурентам.</li>
+      <li><strong>KPI ректората ≠ потребности научной группы.</strong> Ректорат закрывает вакансии по цифре для Минобра; группа хочет специалиста <em>под конкретный проект</em>. Нанимают «по счёту» — через квартал человек уходит.</li>
+      <li><strong>Запад-ориентированные постдоки IT+биотех после 2022 не вернутся.</strong> Возврат = карьерный суицид без доступа к Nature/Science, санкционным приборам, конференциям в ЕС. Кроме «экстренных случаев» (виза, семья, здоровье родителей) — они не ваши.</li>
+      <li><strong>Сколтех, ИТМО, МФТИ, НГУ уже забрали сливки.</strong> Региональный вуз не перекупит — бюджет не тот. Остаются «несобранные» сегменты, но их надо искать точечно, не в общей воронке.</li>
+      <li><strong>Дырявое дно: свои молодые НПР уходят 20–30%/год</strong> <span class="badge badge-hyp">[ГИПОТЕЗА]</span> — нагрузка, устаревшее оборудование, локальная политика, нет международной среды после 2022.</li>
+    </ol>
+
+    <div class="callout">
+      <strong>Главный вывод:</strong> без внутренней реформы рекрутинг — трата денег. Сначала фикс дырявого дна, потом хантинг. <span class="badge badge-rec">[РЕКОМЕНДАЦИЯ]</span>
+    </div>
+  </section>
+
+  <!-- ——— 2 ——— -->
+  <section>
+    <h2><span class="num">02 · Люди</span>Три портрета, которых можно привезти</h2>
+
+    <p>Это не «целевая аудитория». Это три живых человека, которым переезд в регион — не шаг назад, а единственный осмысленный шаг вперёд.</p>
+
+    <div class="portrait">
+      <span class="role">Портрет 1 · Возвратившийся</span>
+      <h3>Артём, 31, Берлин</h3>
+      <p><strong>Вычислительная нейробиология,</strong> постдок в Свободном университете Берлина. Контракт истекает 30 сентября, продление «под вопросом из-за геополитической чувствительности».</p>
+      <blockquote>Научный руководитель прямо говорит: «Твои результаты блестящи, Артём. Но руководство дало негласное указание диверсифицировать команды. Я не могу выдвигать тебя на permanent track.»</blockquote>
+      <p><strong>Реальный тупик:</strong> не запрет — системная маргинализация по паспорту. Стеклянный потолок из гражданства, не из компетенций.</p>
+      <p><strong>Девушка Марина</strong> (UX-дизайнер в Берлине): <em>«Калининград? Это же провинция! Ты сойдёшь с ума от изоляции. Это будет выглядеть как бегство. Как поражение.»</em></p>
+      <p><strong>Триггер, который сломает оборону:</strong> отказ в продлении визы → одновременный звонок от больной диабетом матери → срыв публикации в <em>Nature Communications</em>, где его двигают с первой позиции на третью «для снижения политических рисков журнала».</p>
+      <p><strong>Где найдёт вакансию:</strong> не на HH. В TG-канале «Учёные против изоляции» или напрямую от завлаба через ResearchGate.</p>
+      <p><strong>Первый вопрос на Zoom:</strong> <em>«На каком именно оборудовании буду работать? Модель томографа, версия ПО для ЭЭГ? И есть ли действующие соглашения о данных с клиническими базами?»</em></p>
+      <p><strong>Отвратит моментально:</strong> шаблонный HR-бриф с «молодым динамичным коллективом». Незнание модели вашего же томографа. Разговор про «возвращение на Родину» вместо науки.</p>
+    </div>
+
+    <div class="portrait">
+      <span class="role">Портрет 2 · Московский выгоревший</span>
+      <h3>Кирилл, 32, Москва, Митино</h3>
+      <p><strong>Биоинформатик, геномика рака,</strong> вечный постдок в топовом НИИ. Ипотека 67к/мес. Зарплата постдока 85к. Жена Настя готовится к беременности.</p>
+      <p><strong>Реальный тупик:</strong> научный руководитель <strong>системно не даёт защититься</strong> — Кирилл слишком ценен как исполнитель по 5 грантам. Каждая готовая глава возвращается с бесконечными правками. <em>Это не научная требовательность — это управление через занятость.</em></p>
+      <blockquote>Жена: «Митино — не центр, но это столица. Калининград — край света. Я не хочу рожать первого ребёнка в общежитии для учёных. Ты предлагаешь променять сложившуюся жизнь на авантюру? Мы что, проиграли?»</blockquote>
+      <p><strong>Триггер:</strong> отказ в продлении договора → слова гинеколога «стресс — худший спутник при планировании» → пост одногруппника из Казани о новом секвенаторе на мегагранте.</p>
+      <p><strong>Где найдёт:</strong> TG-канал «Академический Треш» <span class="badge badge-check">[ПРОВЕРИТЬ, возможная галлюцинация]</span> или закрытое комьюнити выпускников МФТИ в TG.</p>
+      <p><strong>Первый вопрос на Zoom:</strong> <em>«Служебное жильё — это общежитие или отдельная квартира? Можно ли привезти семью? И на какой срок гарантирована моя позиция?»</em></p>
+    </div>
+
+    <div class="portrait">
+      <span class="role">Портрет 3 · Ушёл в индустрию, жалеет</span>
+      <h3>Дмитрий, 30, Москва, Хамовники</h3>
+      <p><strong>Биофак МГУ → R-Pharm.</strong> 4 года в отделе диагностики. 320к/мес. Менеджер просит <em>«заменить Taq-полимеразу на более дешёвый аналог, пусть и с потерей специфичности»</em>. Дмитрий внутренне содрогается.</p>
+      <p><strong>Реальный тупик:</strong> смысловой вакуум. <em>Высокооплачиваемый технолог, а не учёный.</em> Бывший научрук из МГУ: «Дима, ты мог бы открывать новые мишени, а ты оптимизируешь себестоимость тест-систем».</p>
+      <blockquote>Девушка Катя (юрист): «Ты предлагаешь бросить юридическую практику и ехать в научную ссылку? Это эгоизм.»</blockquote>
+      <p><strong>Триггер:</strong> провал коммерческого проекта по вине менеджмента → встреча на Alumni МГУ с однокурсником с горящими глазами и статьёй в <em>Cell</em> → конкретное предложение из региона с расписанной инфраструктурой (BSL-2, платформа in silico drug discovery, партнёрство с IT-резидентом ОЭЗ).</p>
+      <p><strong>Отвратит:</strong> предложение «вернуться в науку» на ставку 70к в общежитие «зато чистая наука». Игнорирование его 4 лет GxP и вопросов про KPI/процессы.</p>
+    </div>
+
+    <div class="callout">
+      <strong>Ключ к трём портретам:</strong> никто из них не реагирует на «престижный федеральный вуз». Все реагируют на <strong>специфику</strong> — конкретный завлаб, конкретная модель прибора, конкретный партнёр, конкретное карьерное окно.
+    </div>
+  </section>
+
+  <!-- ——— 3 ——— -->
+  <section>
+    <h2><span class="num">03 · Деньги</span>Пакет, которым бьём Москву</h2>
+
+    <h3>Бюджетные рычаги (цифры к проверке)</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>Источник</th><th>Размер</th><th>Статус</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>«Приоритет 2030» спец. часть</td><td>400–450 млн ₽/год</td><td><span class="badge badge-check">[ПРОВЕРИТЬ]</span></td></tr>
+        <tr><td>РНФ «Молодые учёные» (2 года)</td><td>1,5–2 млн ₽</td><td><span class="badge badge-fact">[ФАКТ]</span></td></tr>
+        <tr><td>Грант Президента (МК)</td><td>600 тыс ₽/год</td><td><span class="badge badge-fact">[ФАКТ]</span></td></tr>
+        <tr><td>Стипендия Президента</td><td>273,6 тыс ₽/год</td><td><span class="badge badge-fact">[ФАКТ]</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Декомпозиция пакета на одного постдока</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>Компонент</th><th>В год, ₽</th><th>Смысл</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Зарплата (ставка доцента/н.с.)</td><td>1 200 000</td><td>региональная база</td></tr>
+        <tr><td><strong>Внутренний грант из «Приоритета»</strong></td><td><strong>+1 200 000 – 1 800 000</strong></td><td><strong>ключевой рычаг: доход 200–250к/мес</strong></td></tr>
+        <tr><td>Субсидирование ипотеки (50–70% %-х платежей)</td><td>~360 000</td><td>якорь удержания на 3–5 лет</td></tr>
+        <tr><td>Подъёмные разовые</td><td>250 000</td><td>психологический жест</td></tr>
+        <tr><td><strong>Сниженная нагрузка (0.1–0.25 ставки)</strong></td><td>ценность ~500 000</td><td><strong>«выкуп» времени для науки</strong></td></tr>
+        <tr><td>Тревел-грант</td><td>300 000 – 400 000</td><td>2–3 крупные поездки</td></tr>
+        <tr><td>Стартовый капитал на науку</td><td>500 000 – 1 500 000</td><td>реактивы, софт, железо</td></tr>
+        <tr><td><strong>ИТОГО пакет</strong></td><td><strong>3,5–5,0 млн ₽</strong></td><td><strong>прямой доход 2,4–3,0 млн</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>Московский доцент получает 180–250к/мес. <span class="badge badge-hyp">[ГИПОТЕЗА]</span> Пакет в регионе в деньгах — 200–250к. Разницу бьём не деньгами, а <strong>временем, жильём и коммерциализацией через ОЭЗ</strong>.</p>
+
+    <h3>Уникальный козырь региона (для Калининградской обл.)</h3>
+    <p><strong>ОЭЗ Калининградской области:</strong> 0% налог на прибыль 6 лет, страховые взносы 7.6% (вместо 30%). <span class="badge badge-fact">[ФАКТ]</span></p>
+    <p><strong>Прямой хак:</strong> постдок + вуз создают <strong>МИП</strong> (малое инновационное предприятие), МИП становится резидентом ОЭЗ, коммерциализирует разработки <em>на сверхльготных условиях, которых нет в Москве и Новосибирске</em>.</p>
+    <p><strong>Близость к ЕС в 2026 — честно:</strong> научная инфраструктура ЕС закрыта, совместные программы заморожены. Это <strong>культурно-ментальный бонус и налоговый хак, не научный инструмент</strong>. Продавать как науку — некорректно.</p>
+  </section>
+
+  <!-- ——— 4 ——— -->
+  <section>
+    <h2><span class="num">04 · Слова</span>Пять углов, которых академический HR в РФ не использует</h2>
+
+    <p>Ниже — формулировки, которые разговаривают с постдоком на его языке, а не на языке HR-менеджера.</p>
+
+    <div class="angle">
+      <span class="n">УГОЛ 01</span>
+      <h4>Airplane Mode — режим полёта</h4>
+      <p>«Москва платит больше, но требует, чтобы вы жили в её Telegram-чате 24/7. Мы в часовом поясе +2 от Москвы и в политическом поясе −5 от её бюрократии. Здесь вы можете провести 6 часов в лаборатории без единого push-уведомления от ректората. Это не отсталость — это feature для deep work.»</p>
+    </div>
+
+    <div class="angle">
+      <span class="n">УГОЛ 02 · только для биотех</span>
+      <h4>Янтарный чип</h4>
+      <p>«Единственное место в РФ, где вы копаете в морском песке и извлекаете ДНК комара возрастом 40 млн лет. Прямой доступ к балтийскому янтарю для палеогеномики. Работаете с древней ДНК или микробиомами — вы либо здесь, либо в Копенгагене. Разница в зарплате компенсируется отсутствием очереди на секвенатор.»</p>
+    </div>
+
+    <div class="angle">
+      <span class="n">УГОЛ 03</span>
+      <h4>Нулевой административный шум</h4>
+      <p>«Мы не в списке стратегических вузов, за которыми сидит министерство с микроскопом. Закуп оборудования проходит через ОЭЗ без московской бюрократии. Ваш грант пойдёт на реактивы, не на мероприятия. Мы не проводим планёрок в 19:00 пятницы — половина сотрудников уже на рыбалке.»</p>
+    </div>
+
+    <div class="angle">
+      <span class="n">УГОЛ 04</span>
+      <h4>Налоговый арбитраж Берлин–Калининград</h4>
+      <p>«ОЭЗ: 0% налога на прибыль первые 5 лет. Зарплата 90к здесь эквивалентна 150к в Москве (аренда 25 vs 80). Вы в 2 часах полёта от Берлина — можно держать постдок в вузе и консультировать европейский биотех-стартап. Мы не спрашиваем, откуда деньги на новый MacBook Pro.»</p>
+    </div>
+
+    <div class="angle">
+      <span class="n">УГОЛ 05</span>
+      <h4>Debug по Канту</h4>
+      <p>«Кант писал: смелость мыслить самостоятельно — главное достоинство. Мы — единственный федеральный вуз, где можно публиковаться в зарубежных журналах без одобрения куратора. Мы не проверяем ваши твиты. Мы проверяем ваш код и ваши Western blot.»</p>
+    </div>
+  </section>
+
+  <!-- ——— 5 ——— -->
+  <section>
+    <h2><span class="num">05 · Каналы</span>Где искать — и где точно не</h2>
+
+    <p>HH.ru для постдоков 28–35 в 2026 — это место, где они ищут <strong>не</strong> работу. Реальные точки контакта:</p>
+
+    <table class="tbl tbl-compact">
+      <thead>
+        <tr><th>Канал</th><th>Как работать</th><th>Приоритет</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Закрытые TG-чаты постдоков <span class="badge badge-check">[ПРОВЕРИТЬ]</span></td><td>Не публиковать вакансию. Попросить админа закинуть «историю о странном предложении из региона»</td><td>высокий</td></tr>
+        <tr><td>Bioinformatics Russia Slack</td><td>Не «вакансия», а научный вопрос в #random → разговор → оффер</td><td>критический</td></tr>
+        <tr><td>Выпускные комьюнити МФТИ/МГУ/ВШЭ в TG</td><td>Вакансию размещает свой человек, уже работающий в вузе</td><td>высокий</td></tr>
+        <tr><td>TenChat, кластер «Наука»</td><td>Пост от лица конкретного НПР: «уехал из Москвы, AMA»</td><td>средний</td></tr>
+        <tr><td>Конференции OpenBio, Bioinformatics of Genome Regulation, Биотехмед</td><td>Не стенд. Вечерний фуршет. Завлаб, а не HR.</td><td>критический</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ——— 6 ——— -->
+  <section>
+    <h2><span class="num">06 · Формат</span>Два способа связаться, которых вуз раньше не позволял себе</h2>
+
+    <h3>Формат А. TG-пост, 450 знаков</h3>
+    <blockquote>Москва: зп 150к, аренда 80к, начальник зовёт в 21:00 «по рабочему». <br>Регион: зп 90к, аренда 25к, начальник не знает вашего номера — он на рыбалке.<br><br>Ищем постдока в computational biology. Единственное требование: молчать в лаборатории и публиковаться в хороших журналах.<br><br>Писать @username — не в отдел кадров, они заняты оформлением декрета уборщицы.</blockquote>
+
+    <h3>Формат Б. Личное письмо через ResearchGate / GitHub</h3>
+    <p style="font-size: 14px; color: var(--muted); margin-top: -8px; margin-bottom: 18px;"><em>Адресовано биоинформатику / computational biologist — то есть биотеху, у которого есть публичный код. Для wet-lab специалиста формулировки нужно другие: там стучимся через публикации и конференции, не через GitHub.</em></p>
+    <p><strong>Subject:</strong> <em>Вы публикуете в Nature Methods, а у нас свободный NextSeq и простаивающий GPU-кластер</em></p>
+    <blockquote>Здравствуйте, [Имя].<br><br>Я нашёл ваш профиль через GitHub (репозиторий [название]), а не через кадровое резюме. Это важно — я не HR, я руководитель лаборатории [название]. Мы занимаемся [геномикой X / анализом single-cell / палеогеномикой / чем-то конкретным из вашей области].<br><br>У вас через 8 месяцев выбор: вернуться в Москву в институт с совещаниями «по воспитательной работе» или остаться в ЕС на визу, которая кончится через год.<br><br>Я предлагаю третий вариант. Честно о минусах: Москва 2.5 часа лёта, зарплата 90к чистыми, вы будете изолированы — либо 6 часов deep work в день, либо сойдёте с ума за 3 месяца.<br><br>Что хочу: не CV. 20-минутный созвон, где вы расскажете, как у вас устроен анализ данных — какой язык, какие инструменты, какие задачи на стыке с wet lab. И я расскажу, что у нас простаивает из-за нехватки людей вашего профиля.</blockquote>
+  </section>
+
+  <!-- ——— 7 ——— -->
+  <section>
+    <h2><span class="num">07 · Контринтуиция</span>Три стратегии, которые противоречат здравому смыслу — и именно поэтому работают</h2>
+
+    <h3>🧪 А. «Арендуем» постдоков у индустрии на 12–18 мес с опцией buyout</h3>
+    <p>Партнёрство с Яндекс / Ростех / биотех-компаниями. Постдок работает 70% в компании (зп 200к+), 30% в вузе на проекте (грант вуза). Через 12–18 мес — <strong>опция buyout</strong>: вуз забирает постдока на полную ставку (если он влюбился в регион) или отпускает (если нет).</p>
+    <p><em>Привлекает ровно тот архетип, что Дмитрий из R-Pharm.</em></p>
+
+    <h3>🧘 Б. «Островной blackout» — продаём тишину для deep work</h3>
+    <p>Оффер — не зарплатный бонус, а <strong>пакет изоляции</strong>. Dedicated лаборатория, zero teaching/admin на 12 мес, фокус на нишевых темах (палеогеномика, AI для балтийской экологии). Рекрутинг с pitch: <em>«Здесь нет distractions — как в retreat, но с грантами»</em>.</p>
+    <p><em>Срабатывает для выгоревшего Кирилла.</em></p>
+
+    <h3>🔄 В. «Reverse mentorship» — постдоки учат старых профессоров цифре, получая автономию</h3>
+    <p>Постдок не подчиняется faculty 60+, а <strong>менторит</strong> их по цифровым навыкам (Python for bio, ML). Взамен получает <strong>контроль над 50к/мес дискреционного бюджета лаборатории</strong> и право принимать аспирантов.</p>
+    <p><em>Решает проблему «старения» кафедр и даёт молодому то, чего ему не дают в Москве — власть над своим проектом с первого дня.</em></p>
+  </section>
+
+  <!-- ——— 8 ——— -->
+  <section>
+    <h2><span class="num">08 · Анти</span>Кого НЕ надо пытаться привлечь</h2>
+
+    <p>Три сегмента, на которые вуз сольёт бюджет в ноль:</p>
+
+    <ol>
+      <li><strong>Иностранцы из non-friendly стран (ЕС/США/UA)</strong> — визовый ад, риск депортации, нежелание жить «в анклаве». Бюджет 500к на кандидата, success rate 0%.</li>
+      <li><strong>Топы из МФТИ/ИТМО/Сколтеха с Western PhD</strong> — уже в экосистемах с 2× зарплатой. Bidding war вуз проиграет. Не начинайте.</li>
+      <li><strong>«Стабильщики» 30+ с семьями, ищущие пенсионный комфорт</strong> — уйдут при первой задержке зарплаты. Регион дорог для семей.</li>
+    </ol>
+
+    <div class="callout">
+      <strong>Целевая:</strong> амбициозные одиночки или пары без детей, которые хотят <strong>контроля над своей карьерой</strong>, а не стабильности.
+    </div>
+  </section>
+
+  <!-- ——— 9 ——— -->
+  <section>
+    <h2><span class="num">09 · Проверка</span>Что нужно докрутить, прежде чем брать это в работу</h2>
+
+    <p>У меня не было ни одной внутренней цифры вуза. Ниже — 4 информационных разрыва, которые нужно закрыть, чтобы из демо-карты получился план действий.</p>
+
+    <ol>
+      <li><strong>Аудит «дырявого дна»</strong> — 20 интервью с уходящими / ушедшими за 2 года молодыми НПР в IT+биотех. Почему ушли. Что вернуло бы.</li>
+      <li><strong>Карта научных активов</strong> — реальные группы, завлабы, приборы, гранты в IT+биотех. Без неё любая вакансия слепая.</li>
+      <li><strong>Бюджетная матрица</strong> — что ректорат реально может дать: грант, ипотека, нагрузка, в каких пределах.</li>
+      <li><strong>Декомпозиция ОЭЗ-механики</strong> — рабочий ли это коммерциализационный хак или бумажная возможность. Кто уже через неё проходил.</li>
+    </ol>
+
+    <p>При закрытии этих четырёх пунктов метод выдаст не стратегию «вообще», а <strong>пакеты офферов под 3–5 конкретных научных групп с именами кандидатов в цели</strong>.</p>
+  </section>
+
+  <!-- ——— NOTE FROM AGENT ——— -->
+  <section style="background: var(--ink); color: #F0EFE9; padding: 36px 32px; margin: 0 -8px 72px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px;">Записка от агента</div>
+    <p style="color: #F0EFE9; font-size: 17px; font-style: italic; line-height: 1.55;">«Если бы автор задачи дал хоть какие-то вводные — данные по текучке среди молодых НПР, бюджет на программу и имена научных групп — итоговый документ был бы в три раза полезнее. Без вводных я сделал что мог: обозначил карту, где фундамент из гипотез, а где из фактов. Пусть читают так. Если кто-то захочет работать по-настоящему — пусть придёт с цифрами, тогда поговорим.»</p>
+  </section>
+
+  <footer>
+    <p>Документ произведён с применением авторского скилла Иры Буян. Задача пришла от подписчика в рамках открытого эксперимента. Время работы — около часа. Формат — демонстрация метода, не готовый HR-план.</p>
+    <p>Автор задачи в публичной версии обезличен. Все цифры и имена, не помеченные <span class="badge badge-fact">[ФАКТ]</span>, требуют проверки на внутренних данных.</p>
+    <p>Контекст, рассуждения автора и ссылка на рассылку — <a href="https://iraai.ru">iraai.ru</a> → «AI reХАБ».</p>
+    <span class="brand"><strong>Ира Буян</strong> · iraai.ru · 15 апреля 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
