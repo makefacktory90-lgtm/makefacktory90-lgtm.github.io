@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKILL: Исследование ЦА за 15 минут — IRA AI</title>
+<meta property="og:title" content="Исследование ЦА за 15 минут — бесплатный скилл от IRA AI">
+<meta property="og:description" content="Портрет целевой аудитории через 3 нейросети параллельно. Вместо 2 часов — 15 минут. Бесплатно, MIT.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#e0e0e0;font-family:'SF Mono','Fira Code','Consolas',monospace;line-height:1.7;padding:2rem;max-width:740px;margin:0 auto}
+a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+a:hover{color:#ccc}
+h1{font-size:1.8rem;font-weight:900;letter-spacing:-.02em;margin-bottom:.3rem;color:#fff}
+h2{font-size:1.15rem;font-weight:700;margin-top:2.5rem;margin-bottom:1rem;color:#fff;border-bottom:1px solid #333;padding-bottom:.5rem}
+h3{font-size:1rem;font-weight:700;margin-top:1.5rem;margin-bottom:.5rem;color:#fff}
+h4{font-size:.9rem;font-weight:700;margin-top:1.2rem;margin-bottom:.4rem;color:#ddd}
+p{margin-bottom:1rem;color:#bbb}
+.tag{display:inline-block;background:#1a1a1a;border:1px solid #333;padding:2px 10px;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:#888;margin-right:.5rem;margin-bottom:.5rem}
+.meta{color:#666;font-size:.85rem;margin-bottom:1.5rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
+th{text-align:left;padding:8px 10px;border-bottom:2px solid #333;color:#fff;font-weight:700}
+td{padding:8px 10px;border-bottom:1px solid #1a1a1a;color:#bbb}
+tr:hover td{background:#111}
+pre{background:#111;border:1px solid #222;padding:1rem;overflow-x:auto;margin:1rem 0;font-size:.82rem;line-height:1.6;color:#ccc}
+code{background:#1a1a1a;padding:2px 6px;font-size:.85rem;border:1px solid #333}
+pre code{background:none;border:none;padding:0}
+ul,ol{padding-left:1.2rem;margin-bottom:1rem}
+li{padding:.2rem 0;color:#bbb}
+blockquote{border-left:3px solid #333;padding-left:1rem;margin:1rem 0;color:#999;font-style:italic}
+.btn{display:inline-block;background:#fff;color:#0a0a0a;padding:10px 24px;text-decoration:none;font-weight:700;font-size:.9rem;letter-spacing:.02em;margin-top:.5rem;margin-right:.5rem;transition:background .2s}
+.btn:hover{background:#ccc;color:#0a0a0a}
+.btn-outline{background:#1a1a1a;color:#fff;border:1px solid #333}
+.btn-outline:hover{background:#222;color:#fff}
+.warning{background:#1a1200;border:1px solid #332a00;padding:1rem;margin:1rem 0}
+.warning p{color:#cc9900;margin-bottom:0}
+.sep{border:none;border-top:1px solid #222;margin:2rem 0}
+.footer{margin-top:4rem;padding-top:1.5rem;border-top:1px solid #222;color:#555;font-size:.8rem}
+.footer a{color:#777}
+.nav{margin-bottom:2rem}
+.nav a{color:#666;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<div class="nav"><a href="./">← все скиллы</a></div>
+
+<p>
+<span class="tag">SKILL</span>
+<span class="tag">v1.0</span>
+<span class="tag">MIT</span>
+<span class="tag">15 мин</span>
+</p>
+
+<h1>ИССЛЕДОВАНИЕ ЦА ЗА 15 МИНУТ</h1>
+<div class="meta">
+Автор: Ира Буян (<a href="https://t.me/ira_and_ai">@ira_and_ai</a>) + Клод · Апрель 2026<br>
+Вдохновлено <a href="https://habr.com/ru/articles/1018360/">статьёй на Хабре про «Метод Франкенштейна»</a> — там 2 часа, здесь 15 минут.
+</div>
+
+<p><strong>Что делает:</strong> Собирает портрет целевой аудитории через 3 нейросети параллельно + локальные источники. В одном окне. Без ручной пересадки между вкладками.</p>
+
+<a href="research-icp.md" class="btn">СКАЧАТЬ .MD</a>
+<a href="./" class="btn btn-outline">ВСЕ СКИЛЛЫ</a>
+
+<hr class="sep">
+
+<h2>Триггеры</h2>
+<ul>
+<li><strong>«исследование ца»</strong>, <strong>«анализ аудитории»</strong>, <strong>«портрет клиента»</strong></li>
+<li><strong>«исследуй ца для [продукт]»</strong></li>
+<li><strong>«кто моя аудитория»</strong>, <strong>«кому это продавать»</strong></li>
+</ul>
+
+<h2>Принцип</h2>
+<p><strong>«Метод Франкенштейна» в одном окне.</strong> 3 модели отвечают на один вопрос, каждая сильна в своём. Claude Code собирает всё в финальный отчёт.</p>
+<p><strong>Бюджет:</strong> через OpenRouter одно исследование ЦА ~$0.05-0.08.</p>
+
+<table>
+<tr><th>Роль</th><th>Модель</th><th>$/1M in-out</th><th>За что отвечает</th></tr>
+<tr><td>Глубина + цитаты</td><td><strong>DeepSeek V3.2</strong></td><td>$0.26 / $0.38</td><td>анализ, нюансы, цитаты</td></tr>
+<tr><td>Второе мнение</td><td><strong>Kimi K2.5</strong> (Moonshot)</td><td>$0.38 / $1.72</td><td>свежий трейн, другой взгляд</td></tr>
+<tr><td>Цифры + факты</td><td><strong>Gemini 2.5 Pro</strong></td><td>$1.25 / $10</td><td>1M контекст, источники</td></tr>
+<tr><td>Контрольный голос</td><td><strong>Grok 4 Fast</strong></td><td>$0.20 / $0.50</td><td>подтверждение/опровержение</td></tr>
+<tr><td>Синтез + отчёт</td><td><strong>Claude Sonnet 4.6</strong></td><td>—</td><td>структура, эмпатия, язык</td></tr>
+</table>
+
+<p>Плюс <strong>локальные источники</strong>: Telegram-экспорты, интервью, опросы. Читаются в Claude Code напрямую.</p>
+
+<h2>Требования</h2>
+<p><strong>Обязательно:</strong> Claude Code + Exa MCP</p>
+<p><strong>Желательно:</strong> OpenAI MCP + Gemini MCP (для полного «Метода Франкенштейна»). Без них скилл работает, но чуть беднее.</p>
+
+<hr class="sep">
+
+<h2>Процесс</h2>
+
+<h3>Шаг 0: Сбор входных данных</h3>
+<p>Claude спросит один раз:</p>
+<ol>
+<li><strong>Продукт / услуга</strong> — что исследуем?</li>
+<li><strong>Цель</strong> — позиционирование / новый продукт / лендинг / рассылка?</li>
+<li><strong>Что уже есть?</strong> — TG-экспорты JSON, интервью, опросы, ссылки на конкурентов</li>
+</ol>
+
+<h3>Шаг 1: Метапромптинг (1 мин)</h3>
+<p>Claude <em>сам</em> пишет оптимальный промпт для исследования, перед тем как запускать субагенты. Вы смотрите, одобряете или корректируете.</p>
+<blockquote>«Ты — senior research strategist. Напиши оптимальный промпт для исследования ЦА продукта [X] с целью [Y]...»</blockquote>
+
+<h3>Шаг 2: Параллельный запрос — 3 субагента</h3>
+
+<h4>Субагент 1 — Claude (структура и портреты)</h4>
+<pre><code>3-5 портретов ЦА (ФИО условное, возраст, роль, день из жизни)
+Для каждого: 3 боли, 3 возражения, 3 триггера покупки
+Язык аудитории: 10 фраз
+Анти-аудитория: кому НЕ нужен</code></pre>
+
+<h4>Субагент 2 — ChatGPT Deep Research (через OpenAI MCP)</h4>
+<pre><code>Найти реальные цитаты, посты, обсуждения аудитории
+(форумы, reddit, TG-каналы, отзывы)
+15-20 цитат дословно + источник + контекст</code></pre>
+
+<h4>Субагент 3 — Gemini (через Gemini MCP)</h4>
+<pre><code>Цифры, статистика, размер рынка, тренды
+10-15 фактов с цифрами + ссылка на источник
+Не верь памяти — ищи через поиск</code></pre>
+
+<h3>Шаг 3: Обработка закрытых источников</h3>
+<p>Если есть TG-экспорт JSON, интервью, опросы — 4-й субагент анализирует их <strong>локально</strong> (не загружает в сторонние сервисы). Это заменяет NotebookLM-хак из статьи.</p>
+
+<h3>Шаг 4: Синтез (2-3 мин)</h3>
+<p>Claude получает результаты от 3-4 субагентов:</p>
+<ol>
+<li><strong>Сверка противоречий</strong> — где модели не согласны? (часто самый сильный инсайт)</li>
+<li><strong>Приоритизация болей</strong> — какие повторяются у 2+ источников?</li>
+<li><strong>Язык аудитории</strong> — топ-20 фраз</li>
+<li><strong>Финальный отчёт</strong></li>
+</ol>
+
+<h3>Шаг 5: Шаблон отчёта</h3>
+<pre><code>═══════════════════════════════════════
+ИССЛЕДОВАНИЕ ЦА: [продукт] — [дата]
+═══════════════════════════════════════
+
+🎯 ГЛАВНЫЙ ИНСАЙТ
+[1 абзац — что самое важное]
+
+👤 ПОРТРЕТЫ (3-5)
+Портрет 1: [Имя, возраст, роль]
+- День из жизни · Боли · Возражения
+- Триггер покупки · Где найти
+
+🗣️ ЯЗЫК АУДИТОРИИ (топ-20 фраз)
+Используй в лендинге, рассылке, постах. Дословно.
+
+📊 ЦИФРЫ И ФАКТЫ
+Размер рынка · Средний чек · Каналы
+
+🚫 АНТИ-АУДИТОРИЯ
+Кому НЕ продавать
+
+🔄 ПРОТИВОРЕЧИЯ
+Где источники не согласны — точка роста
+
+📋 ПЛАН ДЕЙСТВИЙ (3-5 шагов)
+═══════════════════════════════════════</code></pre>
+
+<hr class="sep">
+
+<h2>Правила</h2>
+<ol>
+<li><strong>Всегда метапромптинг</strong> на Шаге 1. Модель улучшает промпт на 30-40%.</li>
+<li><strong>3 модели параллельно</strong>, не последовательно. Экономия x3.</li>
+<li><strong>Локальные данные — локально.</strong> Не загружай TG-экспорты в сторонние сервисы.</li>
+<li><strong>Не верить цифрам из памяти</strong> любой модели. Требовать источник.</li>
+<li><strong>Противоречия ≠ ошибки.</strong> Там часто инсайт.</li>
+<li><strong>15 минут — пол исследования.</strong> Второй подход через день часто находит ещё слой.</li>
+</ol>
+
+<div class="warning">
+<h3>⚠️ Проверка данных перед публикацией</h3>
+<p>Модели иногда галлюцинируют — особенно на цифрах. Перед использованием в лендинге / продающем тексте — проверь: конкретные цифры, имена, кейсы, ссылки. Чужая цифра без проверки = твоя репутация при ошибке.</p>
+</div>
+
+<h2>Рекомендации ≠ решения</h2>
+<p>Скилл возвращает <strong>углы зрения и гипотезы</strong>, не готовые решения. Финальное решение — за тобой. У тебя есть контекст жизни, интуиция и ответственность за результат.</p>
+
+<h2>Сравнение</h2>
+<table>
+<tr><th>Параметр</th><th>Руками (Хабр)</th><th>Через скилл</th></tr>
+<tr><td>Время</td><td>~2 часа</td><td>~15 минут</td></tr>
+<tr><td>Окон</td><td>4</td><td>1</td></tr>
+<tr><td>Ручная пересадка</td><td>JSON → конвертер → NotebookLM</td><td>нет</td></tr>
+<tr><td>Повторяемость</td><td>каждый раз заново</td><td>одна команда</td></tr>
+<tr><td>Приватность TG</td><td>данные в NotebookLM (Google)</td><td>локально</td></tr>
+</table>
+
+<h2>Troubleshooting</h2>
+<ul>
+<li><strong>«MCP не настроен»</strong> — скилл работает в урезанном режиме (Claude + Exa). Результат ~70%.</li>
+<li><strong>«TG-экспорт слишком большой»</strong> — разбей на куски по 50 MB.</li>
+<li><strong>«3 модели дали разное»</strong> — это фича, не баг. Проси Claude выделить расхождения.</li>
+<li><strong>«Отчёт получился общим»</strong> — входные данные слабые. Уточни продукт, добавь источники.</li>
+</ul>
+
+<hr class="sep">
+
+<div class="footer">
+<p>v1.0 · Апрель 2026 · MIT License</p>
+<p>Автор: <a href="https://t.me/ira_and_ai">Ира Буян</a> + Клод · <a href="https://iraai.ru">iraai.ru</a></p>
+<p><a href="research-icp.md">Скачать .md файл</a> · <a href="./">Все скиллы</a></p>
+</div>
+
+</body>
+</html>

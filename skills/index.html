@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRA AI — Публичные скиллы для Claude Code</title>
+<meta property="og:title" content="IRA AI — Публичные скиллы для Claude Code">
+<meta property="og:description" content="Бесплатные AI-скиллы от Иры Буян. Начало: исследование ЦА за 15 минут.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://iraai.ru/skills/">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#e0e0e0;font-family:'SF Mono','Fira Code','Consolas',monospace;line-height:1.7;padding:2rem;max-width:740px;margin:0 auto}
+a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+a:hover{color:#ccc}
+h1{font-size:2rem;font-weight:900;letter-spacing:-.02em;margin-bottom:.5rem;color:#fff}
+h2{font-size:1.2rem;font-weight:700;margin-top:2.5rem;margin-bottom:1rem;color:#fff;border-bottom:1px solid #333;padding-bottom:.5rem}
+h3{font-size:1rem;font-weight:700;margin-top:1.5rem;margin-bottom:.5rem;color:#fff}
+p{margin-bottom:1rem;color:#bbb}
+.tag{display:inline-block;background:#1a1a1a;border:1px solid #333;padding:2px 10px;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:#888;margin-right:.5rem}
+.skill-card{border:1px solid #333;padding:1.5rem;margin:1.5rem 0;transition:border-color .2s}
+.skill-card:hover{border-color:#fff}
+.skill-card h3{margin-top:0}
+.skill-card .meta{color:#666;font-size:.85rem;margin-bottom:.75rem}
+.btn{display:inline-block;background:#fff;color:#0a0a0a;padding:10px 24px;text-decoration:none;font-weight:700;font-size:.9rem;letter-spacing:.02em;margin-top:.75rem;transition:background .2s}
+.btn:hover{background:#ccc;color:#0a0a0a}
+.footer{margin-top:4rem;padding-top:1.5rem;border-top:1px solid #222;color:#555;font-size:.8rem}
+.footer a{color:#777}
+ul{list-style:none;padding-left:0}
+ul li{padding:.3rem 0;color:#bbb}
+ul li::before{content:"→ ";color:#555}
+code{background:#1a1a1a;padding:2px 6px;font-size:.85rem;border:1px solid #333}
+</style>
+</head>
+<body>
+
+<p class="tag">FREE</p> <p class="tag">MIT License</p>
+
+<h1>IRA AI · СКИЛЛЫ</h1>
+<p>Публичная коллекция AI-скиллов, промптов и инструментов от <a href="https://t.me/ira_and_ai">Иры Буян</a>.</p>
+<p>Здесь — то, что я использую сама и отдаю людям. Бесплатно.</p>
+
+<h2>Что такое «скилл»</h2>
+<p>Скилл — это markdown-файл, который можно положить в Claude Code (или Claude Projects) как инструкцию. Claude читает, выполняет. Никакого кода, только текст + структура.</p>
+
+<h2>Скиллы</h2>
+
+<div class="skill-card">
+<h3>🔍 Исследование ЦА за 15 минут</h3>
+<div class="meta">v1.0 · апрель 2026 · для маркетологов, продуктологов, экспертов</div>
+<p>Портрет целевой аудитории через 3 нейросети параллельно + локальные источники. В одном окне Claude Code. Вдохновлено <a href="https://habr.com/ru/articles/1018360/">статьёй на Хабре</a> — там то же самое делают руками за 2 часа, здесь — за 15 минут.</p>
+<a href="research-icp.html" class="btn">ОТКРЫТЬ СКИЛЛ</a>
+<a href="research-icp.md" class="btn" style="background:#1a1a1a;color:#fff;border:1px solid #333;margin-left:.5rem">СКАЧАТЬ .MD</a>
+</div>
+
+<h2>Как использовать — 3 уровня</h2>
+
+<h3>L1 — Ручной (любой чат с AI)</h3>
+<p>Claude.ai / ChatGPT / Gemini — работают как есть. Открой скилл, найди раздел «Процесс», скопируй промпты вручную. Время: 2-4 часа.</p>
+
+<h3>L2 — Облегчённый (Claude Code + Exa)</h3>
+<p>Нужен <a href="https://www.anthropic.com/claude-code">Claude Code</a> + <a href="https://github.com/exa-labs/exa-mcp-server">Exa MCP</a> (10 минут настройки). Скачай скилл → положи в <code>~/.claude/skills/</code> → запусти. Время: ~25 минут.</p>
+
+<h3>L3 — Полный (Claude Code + PAL MCP + OpenRouter)</h3>
+<p>Всё как у меня. 4 модели параллельно, синтез за 15 минут. Настройка один раз ~20 минут + $5 на OpenRouter хватит на 2-3 месяца. Подробности внутри скилла.</p>
+
+<h2>Обратная связь</h2>
+<ul>
+<li>Telegram: <a href="https://t.me/ira_and_ai">@ira_and_ai</a></li>
+<li>Сайт: <a href="https://iraai.ru">iraai.ru</a></li>
+</ul>
+
+<div class="footer">
+<p>© 2026 IRA AI · <a href="https://t.me/ira_and_ai">Telegram</a> · MIT License — бери, используй, адаптируй</p>
+<p>Автор: Ира Буян + Клод</p>
+</div>
+
+</body>
+</html>
