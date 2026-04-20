@@ -1101,6 +1101,116 @@
     </div>
 </section>
 
+<!-- ==================== TESTIMONIALS ==================== -->
+<style>
+    .home-testimonials { padding: 80px 24px; background: var(--white); }
+    .home-testimonials .section-inner { max-width: 960px; margin: 0 auto; }
+    .home-testimonials-head { text-align: center; margin-bottom: 40px; }
+    .home-testimonial-pull {
+        background: var(--warm-gray);
+        border: 1px solid var(--light-gray);
+        border-radius: 20px;
+        padding: 40px;
+        margin-bottom: 24px;
+    }
+    .home-testimonial-pull .quote {
+        font-size: clamp(20px, 2.5vw, 26px);
+        font-weight: 800;
+        line-height: 1.4;
+        letter-spacing: -0.01em;
+        margin-bottom: 20px;
+        color: var(--text);
+    }
+    .home-testimonial-pull .quote::before { content: '\201C'; color: var(--accent); font-size: 1.2em; }
+    .home-testimonial-pull .quote::after { content: '\201D'; color: var(--accent); font-size: 1.2em; }
+    .home-testimonial-pull .full {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+    .home-testimonial-pull .author {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+    }
+    .home-testimonial-pull .role {
+        font-size: 13px;
+        color: var(--text-dim);
+    }
+    .home-testimonials-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .home-testimonial-card {
+        background: var(--white);
+        border: 1px solid var(--light-gray);
+        border-radius: 16px;
+        padding: 28px;
+    }
+    .home-testimonial-card p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-bottom: 16px;
+    }
+    .home-testimonial-card .author {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+    }
+    .home-testimonial-card .role {
+        font-size: 12px;
+        color: var(--text-dim);
+    }
+    @media (max-width: 768px) {
+        .home-testimonials-grid { grid-template-columns: 1fr; }
+        .home-testimonial-pull { padding: 28px; }
+    }
+</style>
+<section class="home-testimonials">
+    <div class="section-inner">
+        <div class="home-testimonials-head">
+            <div class="section-label">Отзывы</div>
+            <h2 class="section-title" style="font-size: 32px;">Что говорят ученики</h2>
+            <p class="section-desc">100+ выпускников. Корпоративные клиенты, копирайтеры, маркетологи, продюсеры контента.</p>
+        </div>
+
+        <!-- VIDEO SLOT — добавить завтра -->
+
+        <div class="home-testimonial-pull">
+            <div class="quote">Созданный инструмент сокращает рабочую нагрузку аналитиков не на часы, а на дни</div>
+            <div class="full">Ирина продемонстрировала исключительный уровень экспертизы в разработке стратегии работы с B2B-сегментом и значительно превзошла наши первоначальные ожидания. За три недели совместной работы нам удалось достичь такой степени автоматизации и оптимизации, которая существенно повысила производительность отдела.</div>
+            <div class="author">Сергей Ткачев</div>
+            <div class="role">Начальник направления продаж, CUBQ (международная логистика)</div>
+        </div>
+
+        <div class="home-testimonials-grid">
+            <div class="home-testimonial-card">
+                <p>Каждый вложенный рубль в&nbsp;твой продукт на выходе превращается минимум в&nbsp;сто. Одно обучение закрывает сразу несколько запросов: нейросети, дизайн, тексты, смыслы, креатив.</p>
+                <div class="author">Наташа Кончик</div>
+                <div class="role">Ведущий копирайтер</div>
+            </div>
+            <div class="home-testimonial-card">
+                <p>В середине обучения моя компания объявила мне благодарность за визуальный контент в&nbsp;Instagram. Это напрямую связано с&nbsp;тем, что я&nbsp;училась у&nbsp;Иры и&nbsp;сразу применяла всё на практике.</p>
+                <div class="author">Сауле Ахметова</div>
+                <div class="role">Продюсер контента, международная логистическая компания</div>
+            </div>
+            <div class="home-testimonial-card">
+                <p>Настолько основательно подходишь к&nbsp;созданию контента&nbsp;&mdash; начинаешь со&nbsp;смыслов. Подход допиливания всего открыл для меня новые горизонты. Много промтов забрала себе.</p>
+                <div class="author">Дарья</div>
+                <div class="role">Маркетинг-стратег, диджитал-агентство</div>
+            </div>
+            <div class="home-testimonial-card">
+                <p>Ребята вышли с&nbsp;пониманием, как правильно формулировать промты и&nbsp;какие AI использовать для своих задач. Увидела на их лицах искренний восторг от того, что AI может стать полезным инструментом.</p>
+                <div class="author">Анастасия</div>
+                <div class="role">Руководитель отдела бренд-стратегии, диджитал-агентство</div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ==================== PRODUCTS ==================== -->
 <section id="products" style="padding: 80px 24px; background: var(--off-white);">
     <div class="section-inner">
