@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Промпт для аудита сайта — Ира Буян</title>
+    <meta name="description" content="Промпт, который проводит аудит вашего сайта как маркетолог, который купил его и хочет вернуть деньги за 90 дней. Работает в Claude, ChatGPT и Perplexity.">
+    <link rel="canonical" href="https://iraai.ru/prompt-audit/">
+
+    <meta property="og:title" content="Промпт для аудита сайта — Ира Буян">
+    <meta property="og:description" content="Аудит сайта за один прогон: 9 блоков со скорингом, топ-проблемы, точки роста, 30-дневный план.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iraai.ru/prompt-audit/">
+    <meta property="og:image" content="https://iraai.ru/ira-photo.png">
+    <meta property="og:locale" content="ru_RU">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --off-white: #FAFAF8;
+            --warm-gray: #F5F3F0;
+            --light-gray: #E8E5E0;
+            --mid-gray: #B0ACA6;
+            --text: #1A1A1A;
+            --text-secondary: #5C5856;
+            --text-dim: #8A8580;
+            --accent: #C4654E;
+            --accent-soft: #E8917A;
+            --accent-bg: #FFF5F2;
+            --deep: #2C2926;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--off-white);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(250, 250, 248, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-back {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .nav-back:hover { color: var(--accent); }
+
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 140px 24px 80px;
+        }
+
+        .label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        .lead {
+            font-size: 19px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 680px;
+            margin-bottom: 48px;
+        }
+        .lead strong { color: var(--text); }
+
+        .story {
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 40px;
+        }
+        .story p { margin-bottom: 16px; color: var(--text-secondary); font-size: 16px; }
+        .story p:last-child { margin-bottom: 0; }
+        .story p strong { color: var(--text); }
+
+        .prompt-card {
+            background: var(--deep);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+        }
+        .prompt-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .prompt-head-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .copy-btn {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: -0.01em;
+        }
+        .copy-btn:hover { background: var(--accent-soft); }
+        .copy-btn.copied { background: #5A7A60; }
+        .copy-btn.copied::before { content: "✓ "; }
+
+        pre.prompt-body {
+            padding: 28px 24px 32px;
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.92);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 520px;
+            overflow-y: auto;
+        }
+        pre.prompt-body::-webkit-scrollbar { width: 8px; }
+        pre.prompt-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+        pre.prompt-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 4px; }
+
+        .launch {
+            margin-bottom: 56px;
+        }
+        .launch-title {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+        }
+        .launch-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .launch-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 18px 20px;
+            text-decoration: none;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            text-align: left;
+        }
+        .launch-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .launch-btn-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-dim);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .launch-btn-name {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .tip {
+            background: var(--accent-bg);
+            border-left: 3px solid var(--accent);
+            padding: 18px 22px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 56px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        .tip strong { color: var(--text); }
+
+        footer {
+            border-top: 1px solid var(--light-gray);
+            padding: 48px 24px 56px;
+            background: var(--white);
+        }
+        .footer-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .footer-author {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .footer-author strong { color: var(--text); }
+        .footer-links {
+            display: flex;
+            gap: 14px;
+        }
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border: 1.5px solid var(--light-gray);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .footer-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        @media (max-width: 640px) {
+            main { padding: 120px 20px 60px; }
+            .story { padding: 24px; }
+            .prompt-head { padding: 14px 18px; }
+            pre.prompt-body { padding: 22px 18px; font-size: 12.5px; max-height: 440px; }
+            .launch-buttons { grid-template-columns: 1fr; }
+            .footer-inner { justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">ira&amp;ai</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="label">Бесплатный промпт</div>
+        <h1>Аудит вашего сайта за один прогон</h1>
+        <p class="lead">Промпт, который работает как <strong>senior-маркетолог, купивший ваш сайт и желающий вернуть деньги за 90 дней</strong>. 9 блоков со скорингом, топ-проблемы с оценкой потерь, точки роста и 30-дневный план. Один раз вставил — получил отчёт.</p>
+
+        <div class="story">
+            <p><strong>Как получился этот промпт.</strong> Я нашла в интернете готовый промпт для аудита сайта и прогнала его на iraai.ru. Получила 4.6 из 10 и три дыры, через которые утекают деньги. Спасибо, дорогой промпт.</p>
+            <p>Пока я читала его вердикт про мой сайт, у меня копился вердикт про сам промпт. Насчитала 8 слабых мест: плейсхолдеры в квадратных скобках, нет якорей скоринга, «будь конкретным» в конце (это не защита, это молитва), мобайл и Hero в одной куче, точки роста без цифр влияния.</p>
+            <p>Переписала. Добавила роль с мотивацией, якоря скоринга (10 / 7 / 5 / 3 / 1), оценку масштаба у каждой проблемы, 30-дневный план в конце и self-check — три вопроса, на которые модель обязана ответить себе перед выдачей. <strong>Это убирает 70% воды.</strong></p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-head">
+                <span class="prompt-head-title">Промпт — нажмите «скопировать»</span>
+                <button class="copy-btn" id="copyBtn">Скопировать</button>
+            </div>
+<pre class="prompt-body" id="promptBody">Ты — senior-маркетолог с 10+ лет в performance и SaaS/инфопродуктах.
+Проводишь полный аудит сайта так, как будто ты его купил и хочешь
+вернуть деньги вложения за 90 дней.
+
+── ВХОДНЫЕ ДАННЫЕ ──
+URL: [вставь URL]
+Если ниже какие-то поля пустые — собери их сам из сайта,
+соцсетей и поиска. Не проси меня уточнять, действуй.
+
+Тип бизнеса: [опционально]
+Целевая аудитория: [опционально]
+Главный продукт и цена: [опционально]
+Основные конкуренты: [опционально — если пусто, найди 3-х сам]
+
+── ЧТО СДЕЛАТЬ ──
+
+ШАГ 1. Открой сайт. Отдельно проверь:
+- Десктопную и мобильную версию (мобильная критична)
+- Hero-экран (первое, что видит человек без скролла)
+- Все страницы продуктов, формы оплаты, корзину
+- Футер (контакты, реквизиты, соцсети)
+- Блог / полезные материалы, если есть
+- Скорость загрузки (ориентировочно, по ощущению)
+
+ШАГ 2. Выставь балл от 1 до 10 по каждому блоку.
+Критерий скоринга:
+  10 = лучший в категории,
+  7 = всё на месте, но есть что улучшить,
+  5 = работает, но теряет деньги,
+  3 = серьёзные дыры,
+  1 = катастрофа.
+
+Блоки:
+  • Позиционирование и УТП — ясно ли за 5 секунд, для кого это и что я получу
+  • Hero-экран и первый скролл — один ли фокус, есть ли ясный CTA
+  • Конверсионная механика — CTA, формы, путь, трения, sticky-элементы, exit-intent
+  • Продуктовая линейка и цена — лестница ценностей, апсейлы, нет ли пропасти по чекам
+  • Email / CRM воронка — лид-магнит, захват email, welcome-серия, сегментация, ретаргетинг
+  • Доверие и авторитет — отзывы, кейсы с цифрами, лого клиентов, пресса, фото автора
+  • SEO и органический трафик — мета, структура, блог, ключи (сделай 3 поисковых запроса под нишу)
+  • Мобайл и скорость — юзабилити на телефоне, размеры тапов, скорость первого экрана
+  • Ясность продукта — понятно ли новичку с чего начать и в каком порядке покупать
+
+ШАГ 3. Топ-3 проблемы, которые прямо сейчас теряют деньги.
+Отсортируй по оценочному объёму потерь (максимальные сверху).
+Для каждой:
+  - что конкретно сломано (с цитатой или описанием места на сайте)
+  - почему это стоит денег (какая метрика проседает)
+  - оценка масштаба («минус 20-40% к конверсии формы захвата»)
+
+ШАГ 4. Топ-4 точки роста выручки.
+Для каждой:
+  - что сделать (конкретное действие, не лозунг)
+  - на какую метрику влияет
+  - ожидаемый эффект в диапазоне («+15–30% к LTV»)
+  - сложность: низкая / средняя / высокая
+  - срок: 1 день / 1 неделя / 1 месяц
+Отсортируй по соотношению эффект/усилие — самое быстрое и денежное сверху.
+
+ШАГ 5. Что работает хорошо и не трогать.
+Минимум 3 пункта. Здесь нужна защита от ремонта того, что и так даёт результат.
+
+ШАГ 6. 30-дневный план действий.
+Неделя 1 — что сделать. Неделя 2 — что сделать. И так далее.
+Конкретно, в формате «задача → ответственный → результат».
+
+── ПРАВИЛА ОТВЕТА ──
+- Начни с одного числа (средний балл) и одним предложением —
+  главный вывод аудита
+- Далее — таблицей по блокам
+- Никакой воды, канцеляризма и «это важно, потому что важно»
+- Если какой-то блок нельзя оценить без доступа к аналитике
+  или технических инструментов — так и напиши «нужен доступ к GA/Метрике»
+- Где данные собраны из поиска, а не с сайта — ставь пометку [из поиска]
+- Длина ответа — ровно столько, сколько нужно, чтобы закрыть 6 шагов
+  без повторов
+
+── ПРОВЕРКА ──
+Перед тем как выдать ответ, спроси себя:
+1. Я могу назвать конкретные места на сайте, которые сломаны?
+2. Мои точки роста имеют цифры, а не общие слова?
+3. План на 30 дней реально исполним одному человеку или маленькой команде?
+Если хотя бы на один ответ «нет» — перепиши.</pre>
+        </div>
+
+        <div class="launch">
+            <div class="launch-title">Скопировал — открывай и вставляй</div>
+            <div class="launch-buttons">
+                <a class="launch-btn" href="https://chatgpt.com/" target="_blank" rel="noopener" data-launch>
+                    <span class="launch-btn-label">Открыть в</span>
+                    <span class="launch-btn-name">ChatGPT →</span>
+                </a>
+                <a class="launch-btn" href="https://claude.ai/new" target="_blank" rel="noopener" data-launch>
+                    <span class="launch-btn-label">Открыть в</span>
+                    <span class="launch-btn-name">Claude →</span>
+                </a>
+                <a class="launch-btn" href="https://www.perplexity.ai/" target="_blank" rel="noopener" data-launch>
+                    <span class="launch-btn-label">Открыть в</span>
+                    <span class="launch-btn-name">Perplexity →</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>Совет.</strong> Работает даже в бесплатных версиях — но в платных, конечно, лучше: Claude Sonnet/Opus, ChatGPT Plus, Perplexity Pro дают глубже аудит и точнее цифры.
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-author">Промпт собрала <strong>Ира Буян</strong> · ira&amp;ai</div>
+            <div class="footer-links">
+                <a class="footer-link" href="https://t.me/ira_and_ai" target="_blank" rel="noopener">Telegram @ira_and_ai</a>
+                <a class="footer-link" href="https://instagram.com/ira.and.ai" target="_blank" rel="noopener">Instagram @ira.and.ai</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const copyBtn = document.getElementById('copyBtn');
+        const promptBody = document.getElementById('promptBody');
+        const promptText = promptBody.textContent;
+
+        function copyPrompt() {
+            return navigator.clipboard.writeText(promptText).then(() => true).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = promptText;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); } catch (e) {}
+                document.body.removeChild(ta);
+                return true;
+            });
+        }
+
+        copyBtn.addEventListener('click', () => {
+            copyPrompt().then(() => {
+                const original = copyBtn.textContent;
+                copyBtn.textContent = 'Скопировано';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = original;
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+        document.querySelectorAll('[data-launch]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                copyPrompt();
+            });
+        });
+    </script>
+</body>
+</html>
