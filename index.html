@@ -1101,42 +1101,11 @@
     </div>
 </section>
 
-<!-- ==================== HERO: КАРУСЕЛИ 2.0 ==================== -->
-<section id="products" style="background: linear-gradient(135deg, #FFF5F2 0%, #FFE8E0 100%); padding: 80px 24px;">
-    <div class="section-inner" style="max-width: 900px;">
-        <div style="text-align: center; margin-bottom: 48px;">
-            <div style="display: inline-block; background: #C4654E; color: white; padding: 8px 20px; border-radius: 24px; font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-bottom: 24px; text-transform: uppercase;">
-                🔴 Набор открыт
-            </div>
-            <h2 style="font-size: 48px; font-weight: 900; color: var(--text); margin-bottom: 16px; line-height: 1.1;">Карусели 2.0</h2>
-            <p style="font-size: 20px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.5;">AI пишет вашим голосом. 3 недели, 3 урока.<br>Старт 15 марта • Финиш 4 апреля</p>
-
-            <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 24px;">
-                    <div>
-                        <div style="font-size: 14px; color: var(--text-dim); margin-bottom: 4px;">Формат</div>
-                        <div style="font-size: 16px; font-weight: 600; color: var(--text);">3 живых урока + фидбек</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 14px; color: var(--text-dim); margin-bottom: 4px;">Доступ</div>
-                        <div style="font-size: 16px; font-weight: 600; color: var(--text);">До 15 мая</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 14px; color: var(--text-dim); margin-bottom: 4px;">Цена</div>
-                        <div style="font-size: 24px; font-weight: 900; color: var(--accent);">5,500 ₽</div>
-                    </div>
-                </div>
-                <a href="/karuseli-2/" style="display: block; background: var(--accent); color: white; padding: 18px 48px; border-radius: 12px; font-size: 18px; font-weight: 700; text-decoration: none; text-align: center; transition: all 0.2s; box-shadow: 0 4px 16px rgba(196, 101, 78, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 24px rgba(196, 101, 78, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 16px rgba(196, 101, 78, 0.3)'">Узнать подробнее →</a>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- ==================== PRODUCTS: В ЗАПИСИ ==================== -->
-<section style="padding: 64px 24px; background: var(--off-white);">
+<section id="products" style="padding: 80px 24px; background: var(--off-white);">
     <div class="section-inner">
         <div style="text-align: center; margin-bottom: 40px;">
-            <div class="section-label">Также доступно</div>
+            <div class="section-label">Курсы</div>
             <h2 class="section-title" style="font-size: 32px;">В записи</h2>
             <p class="section-desc">Готовые курсы. Смотрите в своём темпе.</p>
         </div>
@@ -1398,6 +1367,7 @@
 <canvas id="voxelWalker"></canvas>
 
 <!-- ==================== SCRIPTS ==================== -->
+<script src="/scripts/subscribe.js"></script>
 <script>
 // Nav scroll effect
 window.addEventListener('scroll', () => {
@@ -1436,14 +1406,7 @@ function handleSubscribe(form) {
     btn.textContent = '...';
     btn.disabled = true;
 
-    const url = 'https://api.unisender.com/ru/api/subscribe?format=json'
-        + '&api_key=6969h5yp3ohwypfirjiw8hcunh1j8ykguo9657fo'
-        + '&list_ids=1'
-        + '&fields[email]=' + encodeURIComponent(email)
-        + '&double_optin=3'
-        + '&overwrite=2';
-
-    fetch(url, { mode: 'no-cors' })
+    window.IraSubscribe.subscribe({ email })
         .then(() => {
             input.value = '';
             input.style.display = 'none';
