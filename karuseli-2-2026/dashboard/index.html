@@ -47,20 +47,19 @@
     <div class="container">
         <div class="welcome">
             <div class="glitch">КАРУСЕЛИ 2.0</div>
-            <p class="countdown-label">ДО ПЕРВОГО УРОКА ОСТАЛОСЬ:</p>
-            <div id="countdown"></div>
+            <p class="countdown-label">ПРАКТИКУМ В ЗАПИСИ · ВСЕ УРОКИ ДОСТУПНЫ</p>
         </div>
 
         <div class="schedule">
-            <h3>РАСПИСАНИЕ</h3>
+            <h3>КАК ПРОХОДИТЬ</h3>
             <div class="schedule-item">
-                <strong>15 МАРТА И КАЖДОЕ ВОСКРЕСЕНЬЕ, 10:00 МСК</strong> — Выходят новые уроки
+                <strong>Доступ сразу.</strong> Проходите в своём темпе: сначала фундамент, потом продакшен, потом система.
             </div>
             <div class="schedule-item">
-                <strong>СРЕДЫ, 8:00-10:00 МСК</strong> — Обратная связь от Иры
+                <strong>Видео выложены на YouTube.</strong> Лучше всего открывать уроки в Chrome; иногда для YouTube, ChatGPT или Claude нужен VPN.
             </div>
             <div class="schedule-item" style="color: var(--accent); margin-top: 25px;">
-                ⚠️ Чтобы получить фидбек гарантированно — отправьте домашку в канал в Telegram до восьми утра среды
+                ⚠️ В этой версии нет чата поддержки, обратной связи, живых созвонов, дедлайнов и проверки работ.
             </div>
         </div>
 
@@ -84,19 +83,22 @@
                 <p>Контент-машина на автопилоте. Один промпт — от идеи до готовых слайдов.</p>
                 <a href="/karuseli-2-2026/urok-03/">ОТКРЫТЬ УРОК</a>
             </div>
-            <div class="card">
+            <div class="card special">
                 <span>[ ДОСТУПЕН СЕЙЧАС ]</span>
-                <h3>КАНАЛ В TELEGRAM</h3>
-                <p>Чтобы гарантированно получить обратную связь — отправьте домашку или вопрос до 8:00 МСК среды</p>
-                <a href="https://t.me/+nJOk-JZvVfIzOTVi">ПЕРЕЙТИ В КАНАЛ</a>
+                <h3>ИНСТРУМЕНТЫ</h3>
+                <p>Конструктор каруселей, анализатор конкурентов, Apify и SaveAsBot лежат внутри первого урока.</p>
+                <a href="/karuseli-2-2026/urok-01/">ОТКРЫТЬ ИНСТРУМЕНТЫ</a>
             </div>
         </div>
 
         <div style="margin-top: 40px; text-align: center;">
             <div style="background: #1a1a1a; padding: 30px; border: 1px solid #333;">
-                <h3 style="color: var(--accent); margin-bottom: 20px; font-size: 18px; font-weight: 900;">ЧТО ВНУТРИ КУРСА</h3>
+                <h3 style="color: var(--accent); margin-bottom: 20px; font-size: 18px; font-weight: 900;">ЧТО ВНУТРИ ПРАКТИКУМА</h3>
                 <p style="font-size: 16px; line-height: 1.8;">
-                    <strong>Агенты</strong> • <strong>Скиллы</strong> • <strong>Гемы</strong> • <strong>Промты</strong>
+                    <strong>3 видеоурока</strong> • <strong>4 промпта фундамента</strong> • <strong>2 больших Claude-промпта</strong> • <strong>конструктор</strong> • <strong>анализатор конкурентов</strong>
+                </p>
+                <p style="font-size: 13px; line-height: 1.7; color: #888; margin-top: 16px;">
+                    После оплаты письмо приходит на почту: ссылка на кабинет и код доступа. Если YouTube или нейросети не открываются, попробуйте Chrome и VPN.
                 </p>
             </div>
         </div>
@@ -107,21 +109,6 @@
             window.location.href = '/karuseli-2-2026/'
         }
 
-        const targetDate = new Date('2026-03-15T10:00:00+03:00');
-        function updateCountdown() {
-            const now = new Date();
-            const diff = targetDate - now;
-            if (diff <= 0) {
-                document.querySelector('.welcome').classList.add('hidden');
-                return;
-            }
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById('countdown').textContent = `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-        }
-        updateCountdown();
-        setInterval(updateCountdown, 60000);
     </script>
 </body>
 </html>
