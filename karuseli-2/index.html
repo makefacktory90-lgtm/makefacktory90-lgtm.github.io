@@ -1,514 +1,270 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>КАРУСЕЛИ 2.0 // ПУЛЬТ УПРАВЛЕНИЯ РОСТОМ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-light: #E8E6E1;
-            --device-body: #D1CEC7;
-            --screen-bg: #1A1C1E;
-            --accent: #FF0000;
-            --text-dark: #000;
-            --text-light: #FFF;
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Карусели 2.0 — Ira&AI</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="shell topbar__inner">
+        <a class="brand" href="./index.html">Ira&AI</a>
+        <nav class="nav" aria-label="Навигация">
+          <a href="#inside">Что внутри</a>
+          <a href="#level">Для кого</a>
+          <a href="#price">Цена</a>
+          <a href="/karuseli-2-2026/">Вход</a>
+        </nav>
+        <a class="button button--red" href="#price">Забрать практикум</a>
+      </div>
+    </header>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: crosshair; }
-        body { background: var(--bg-light); color: var(--text-dark); transition: background 0.5s ease; overflow-x: hidden; }
-        body.dark-mode { background: #000; --text-dark: #FFF; --bg-light: #000; }
-
-        .wrapper { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 20px 80px 20px; }
-
-        h1 {
-            animation: float 3s ease-in-out infinite;
-            text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .device {
-            width: 90%;
-            max-width: 900px;
-            background: var(--device-body);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 20px 20px 60px #bebab3, -20px -20px 60px #ffffff, inset 0 0 0 3px rgba(0,0,0,0.1);
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 3px solid #AAA;
-        }
-        .device.dark { background: #1a1a1a; box-shadow: 10px 10px 30px #000; }
-
-        .screen {
-            width: 100%;
-            height: 160px;
-            background: var(--screen-bg);
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            position: relative;
-            border: 2px solid #333;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-            animation: screenGlow 2s ease-in-out infinite;
-        }
-
-        .slide-counter {
-            position: absolute;
-            bottom: 8px;
-            right: 15px;
-            font-size: 11px;
-            color: #FFF;
-            font-family: monospace;
-            z-index: 10;
-            opacity: 0.7;
-        }
-
-        @keyframes screenGlow {
-            0%, 100% { box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
-            50% { box-shadow: inset 0 0 30px rgba(255,0,0,0.1); }
-        }
-
-        .screen::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: repeating-linear-gradient(0deg, rgba(0,255,65,0.03) 0px, transparent 2px);
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .screen-content {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            height: 100%;
-        }
-
-        .slide {
-            min-width: 100%;
-            color: #FFF;
-            font-family: monospace;
-            font-size: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-transform: uppercase;
-        }
-
-        .slide p { margin: 5px 0; }
-        .cursor { animation: blink 1s infinite; }
-        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
-
-        .controls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .btn-phys {
-            background: #D1CEC7;
-            border: 1px solid #AAA;
-            padding: 15px 8px;
-            font-weight: 700;
-            font-size: 11px;
-            box-shadow: 4px 4px 0px #AAA;
-            text-transform: uppercase;
-            text-align: center;
-            transition: all 0.1s;
-        }
-        .btn-phys:hover { transform: translateY(-2px); box-shadow: 6px 6px 0px #AAA; }
-        .btn-phys:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #AAA; }
-        .btn-red { background: var(--accent); color: #fff; border: none; box-shadow: 4px 4px 0px #900; }
-        .btn-big { grid-column: span 4; padding: 20px; font-size: 15px; font-weight: 900; }
-        .btn-half { grid-column: span 2; }
-
-        .calc-input {
-            grid-column: span 4;
-            padding: 12px;
-            background: #000;
-            border: 1px solid #FFF;
-            color: #FFF;
-            outline: none;
-            text-align: center;
-            font-family: monospace;
-            text-transform: uppercase;
-            font-size: 12px;
-        }
-        .calc-input::placeholder { color: #FFF; opacity: 0.5; }
-
-        .buy-area { display: none; }
-        .password-zone { display: none; }
-        .buy-btn {
-            width: 100%;
-            padding: 20px;
-            border: 1px solid #000;
-            background: #fff;
-            font-weight: 900;
-            text-transform: uppercase;
-            text-align: center;
-            text-decoration: none;
-            color: #000;
-            transition: all 0.2s;
-        }
-        .buy-btn:hover { background: #000; color: #fff; }
-        .buy-btn.promo { background: #000; color: #fff; }
-        .buy-btn.promo:hover { background: #fff; color: #000; }
-
-        .password-zone {
-            margin-top: 20px;
-            width: 100%;
-            max-width: 900px;
-        }
-        .password-zone input {
-            width: 100%;
-            padding: 15px;
-            background: #000;
-            border: 1px solid #00FF41;
-            color: #00FF41;
-            outline: none;
-            text-align: center;
-            font-family: monospace;
-            text-transform: lowercase;
-        }
-        .password-zone input::placeholder { color: #00FF41; opacity: 0.5; }
-        .hint { font-size: 10px; text-align: center; margin-top: 10px; opacity: 0.6; }
-
-        .ticker-wrapper {
-            position: fixed;
-            bottom: 50px;
-            left: 0;
-            width: 100%;
-            background: #000;
-            color: #fff;
-            padding: 12px 0;
-            overflow: hidden;
-            z-index: 1000;
-            border-top: 2px solid #FF0000;
-        }
-        .ticker {
-            display: flex;
-            white-space: nowrap;
-            animation: scroll 30s linear infinite;
-            font-size: 11px;
-            font-weight: 700;
-            opacity: 0.7;
-        }
-        .ticker span { padding: 0 40px; }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        #dashboard { display: none; width: 100%; max-width: 1200px; padding: 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: #333; border: 1px solid #333; }
-        .card { background: #000; padding: 40px; min-height: 300px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
-        .card.locked { opacity: 0.4; }
-
-        .welcome-screen {
-            text-align: center;
-            color: #fff;
-            max-width: 600px;
-            margin: 0 auto 60px;
-        }
-        .glitch {
-            font-size: 120px;
-            font-weight: 900;
-            position: relative;
-            animation: glitch 1s infinite;
-        }
-        @keyframes glitch {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-        }
-        .schedule {
-            background: #1a1a1a;
-            padding: 30px;
-            margin-bottom: 40px;
-            border: 1px solid #333;
-        }
-        .schedule h3 { color: var(--accent); margin-bottom: 20px; font-size: 14px; }
-        .schedule-item { margin: 15px 0; font-size: 13px; line-height: 1.6; }
-        .schedule-item strong { color: #fff; }
-
-        @media (max-width: 480px) {
-            .device {
-                width: 95%;
-                max-width: none;
-                border-radius: 10px;
-                box-shadow: none;
-                padding: 20px;
-            }
-            .screen { height: 300px; }
-            .slide { font-size: 16px; }
-            .btn-phys { padding: 20px 5px; font-size: 14px; }
-            .glitch { font-size: 80px; }
-        }
-    </style>
-</head>
-<body id="main-body">
-
-    <div class="wrapper" id="page-content">
-        <a href="/" style="display: inline-block; margin-bottom: 20px; font-size: 14px; font-weight: 700; color: #000; text-decoration: none; opacity: 0.6; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">← Назад на главную</a>
-        <h1 style="font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -2px; font-size: 48px;">КАРУСЕЛИ 2.0</h1>
-        <p style="margin-bottom: 30px; opacity: 0.8; font-size: 16px; font-weight: 700;">Практикум в записи для тех, кто хочет быстро собирать сильные карусели с AI<br>Без живых созвонов, проверки работ и чата поддержки</p>
-
-        <div class="device" id="omni-device">
-            <div class="screen">
-                <div class="slide-counter" id="slide-indicator">01/08</div>
-                <div class="screen-content" id="screen-slider">
-                    <div class="slide">
-                        <p>$ КАРУСЕЛИ 2.0</p>
-                        <p>> AI пишет вашим голосом. Не "в стиле" — вашим.</p>
-                        <p>> 5 минут на вычитку вместо 3 часов с нуля</p>
-                        <p>> Для экспертов, которым некогда</p>
-                    </div>
-                    <div class="slide">
-                        <p>$ ПРАКТИКУМ В ЗАПИСИ</p>
-                        <p>> Урок 1: Фундамент (4 файла)</p>
-                        <p>> Урок 2: Продакшен (быстрое производство)</p>
-                        <p>> Урок 3: Система (контент-машина)</p>
-                        <p>> Доступ сразу после оплаты и письма</p>
-                    </div>
-                    <div class="slide">
-                        <p>$ ЧТО ВНУТРИ</p>
-                        <p>> 3 видеоурока на YouTube</p>
-                        <p>> 4 промпта фундамента + 2 больших промпта</p>
-                        <p>> Конструктор каруселей и анализатор конкурентов</p>
-                    </div>
-                    <div class="slide">
-                        <p>$ ДЛЯ КОГО</p>
-                        <p>> Эксперты: знаете тему, но создавать контент — мучение</p>
-                        <p>> Основатели: контент нужен, времени нет</p>
-                        <p>> Пробовали AI: получается шаблонная вода</p>
-                    </div>
-                    <div class="slide">
-                        <p>$ РЕЗУЛЬТАТ</p>
-                        <p>> AI пишет вашим голосом, не шаблонами</p>
-                        <p>> Есть система: от идеи до готовых слайдов</p>
-                        <p>> Контент становится быстрее, спокойнее и понятнее</p>
-                    </div>
-                    <div class="slide">
-                        <p>$ ОТЗЫВ: БЛАГОДАРНОСТЬ ОТ КОМПАНИИ</p>
-                        <p>> "В середине хаба компания объявила мне</p>
-                        <p>> благодарность за визуальный контент</p>
-                        <p>> Это связано с тем, что училась у Иры"</p>
-                    </div>
-                    <div class="slide">
-                        <p>$ ОТЗЫВ: ОДИН ХАБ = ТРИ КУРСА</p>
-                        <p>> "Каждый вложенный рубль превращается</p>
-                        <p>> минимум в сто. Закрывает сразу несколько</p>
-                        <p>> профессиональных запросов в одном месте"</p>
-                    </div>
-                    <div class="slide">
-                        <p>$ ЦЕНА: 3500₽</p>
-                        <p>> Доступ к записи и материалам</p>
-                        <p>> После оплаты на почту придёт ссылка на кабинет</p>
-                        <p>> Уроки лучше открывать в Chrome, иногда нужен VPN</p>
-                    </div>
-                </div>
+    <main>
+      <section class="hero">
+        <div class="shell hero__grid">
+          <div>
+            <p class="eyebrow">Практикум в записи · доступ сразу</p>
+            <h1>Карусели с AI, которые помогают расти в Instagram</h1>
+            <p class="lead">
+              Как превращать свои мысли, опыт и экспертность в карусели, которые читают, сохраняют и по которым на вас подписываются.
+            </p>
+            <div class="hero__actions">
+              <a class="button button--red" href="#price">Забрать за 3 500 ₽</a>
+              <span class="note">Без сопровождения и проверки работ</span>
             </div>
-
-            <div class="controls">
-                <div class="btn-phys" onclick="moveSlide(-1)" style="background: #fff; font-weight: 900; font-size: 9px; line-height: 1.2;">ЛИСТАЙ<br>НАЗАД</div>
-                <div class="btn-phys" onclick="moveSlide(1)" style="background: #fff; font-weight: 900; font-size: 9px; line-height: 1.2;">ЛИСТАЙ<br>ВПЕРЁД</div>
-                <div class="btn-phys" onclick="toggleDark()" style="font-size: 9px; line-height: 1.2;">ЧЁРНЫЙ<br>КАЛЬКУЛЯТОР</div>
-                <div class="btn-phys" onclick="toggleLight()" style="font-size: 9px; line-height: 1.2;">БЕЛЫЙ<br>КАЛЬКУЛЯТОР</div>
-
-                <a href="#" class="btn-phys btn-big" style="background: #D32F2F; color: #fff; text-decoration: none; box-shadow: 4px 4px 0px #8B1F1F; border: none;">КУПИТЬ — 3 500 ₽</a>
-
-                <div class="btn-phys btn-half" style="background: #000; color: #fff; box-shadow: 4px 4px 0px #333; font-size: 9px; line-height: 1.2;">ПИСЬМО<br>НА ПОЧТУ</div>
-                <div class="btn-phys btn-half" style="opacity: 0.3;">÷</div>
-
-                <input type="text" id="promo-code" class="calc-input" placeholder="ВВЕДИТЕ ПРОМОКОД" style="display: none;" onkeypress="if(event.key==='Enter')checkPromo()">
-
-                <div class="btn-phys" style="opacity: 0.3;">7</div>
-                <div class="btn-phys" style="opacity: 0.3;">8</div>
-                <div class="btn-phys" style="opacity: 0.3;">9</div>
-                <div class="btn-phys" style="opacity: 0.3;">×</div>
-
-                <div class="btn-phys" style="opacity: 0.3;">4</div>
-                <div class="btn-phys" style="opacity: 0.3;">5</div>
-                <div class="btn-phys" style="opacity: 0.3;">6</div>
-                <div class="btn-phys" style="opacity: 0.3;">−</div>
-
-                <div class="btn-phys" style="opacity: 0.3;">1</div>
-                <div class="btn-phys" style="opacity: 0.3;">2</div>
-                <div class="btn-phys" style="opacity: 0.3;">3</div>
-                <div class="btn-phys" style="opacity: 0.3;">+</div>
-
-                <div class="btn-phys" style="opacity: 0.3;">0</div>
-                <div class="btn-phys" style="opacity: 0.3;">.</div>
-                <div class="btn-phys" style="opacity: 0.3;">=</div>
-                <div class="btn-phys" style="opacity: 0.3;">?</div>
+            <div class="proof-strip" aria-label="Ключевые факты">
+              <div class="proof-strip__item">
+                <strong>+12 000</strong>
+                подписчиков на каруселях
+              </div>
+              <div class="proof-strip__item">
+                <strong>3 модуля</strong>
+                фундамент, продакшен, система
+              </div>
+              <div class="proof-strip__item">
+                <strong>2 инструмента</strong>
+                для быстрого контент-продукта
+              </div>
             </div>
+          </div>
+
+          <div class="device" aria-label="Демо карусели">
+            <div class="device__screen">
+              <div class="slide slide--black">
+                <div class="slide__num">01/03</div>
+                <div class="slide__title">Мысль → структура</div>
+                <p class="slide__body">Сначала вытаскиваем смысл. Потом собираем слайды. Не наоборот.</p>
+              </div>
+              <div class="slide">
+                <div class="slide__num">02/03</div>
+                <div class="slide__title">Голос → доверие</div>
+                <p class="slide__body">AI помогает быстрее, но позиция остаётся вашей.</p>
+              </div>
+              <div class="slide slide--red">
+                <div class="slide__num">03/03</div>
+                <div class="slide__title">Система → рост</div>
+                <p class="slide__body">Не один удачный пост, а повторяемый процесс.</p>
+              </div>
+              <div class="ticker">КАРУСЕЛИ 2.0 · Ira&AI · запись · 3 500 ₽</div>
+            </div>
+          </div>
         </div>
+      </section>
 
-
-    </div>
-
-    <div id="dashboard">
-        <div class="welcome-screen">
-            <div class="glitch" style="font-size: 72px;">КАРУСЕЛИ 2.0</div>
-            <p style="margin-top: 30px; opacity: 0.6; font-size: 14px;">ПРАКТИКУМ УЖЕ В ЗАПИСИ</p>
-            <div id="countdown" style="font-size: 48px; font-weight: 900; margin: 20px 0; color: var(--accent);"></div>
+      <section class="section" id="level">
+        <div class="shell">
+          <div class="section__head">
+            <p class="eyebrow">Для кого</p>
+            <h2>Если вы эксперт, вам есть что сказать. Вопрос — как это упаковать.</h2>
+            <p>
+              Практикум лучше всего подходит стартовому пользователю: человеку, который хочет быстро и качественно делать контент, но пока не работает уверенно с кодом, Git и вайбкодингом.
+            </p>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <h3>Есть опыт, но сложно собрать</h3>
+              <p>У вас есть продукт, метод, насмотренность или сильная тема, но карусель получается долго и тяжело.</p>
+            </article>
+            <article class="card">
+              <h3>AI нужен как помощник</h3>
+              <p>Не как замена голоса, а как способ быстрее думать, структурировать, переписывать и собирать.</p>
+            </article>
+            <article class="card">
+              <h3>Нужен контент-продукт</h3>
+              <p>Не папка с промптами, а процесс: тема, угол, структура, голос, слайды, повторяемость.</p>
+            </article>
+          </div>
         </div>
+      </section>
 
-        <div class="schedule">
-            <h3>РАСПИСАНИЕ</h3>
-            <div class="schedule-item">
-                <strong>ДОСТУП СРАЗУ</strong> — после оплаты на почту приходит ссылка на кабинет и код доступа
-            </div>
-            <div class="schedule-item">
-                <strong>3 ВИДЕОУРОКА НА YOUTUBE</strong> — лучше открывать в Chrome, иногда нужен VPN
-            </div>
-            <div class="schedule-item" style="color: var(--accent); margin-top: 25px;">
-                ⚠️ В этой версии нет чата поддержки, обратной связи, живых созвонов и проверки работ
-            </div>
+      <section class="section section--dark">
+        <div class="shell">
+          <div class="section__head">
+            <p class="eyebrow">Не про код</p>
+            <h2>Внутри есть мои вайбкодинг-инструменты. Но здесь не учим их создавать.</h2>
+            <p>
+              Внутри есть два инструмента, которые я навайбкодила для работы с контентом. Вы увидите, как они помогают быстрее собирать карусели и контент-продукты. Здесь мы используем их как часть процесса, а не разбираем разработку.
+            </p>
+          </div>
+          <div class="grid grid--2">
+            <article class="card">
+              <h3>Подойдёт</h3>
+              <ul class="list">
+                <li>если вы хотите быстро делать карусели;</li>
+                <li>если техническая часть пока непривычна;</li>
+                <li>если вам нужен понятный контент-процесс.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Скорее не подойдёт</h3>
+              <ul class="list">
+                <li>если вы ищете обучение вайбкодингу;</li>
+                <li>если хотите разбор, как создавать такие инструменты;</li>
+                <li>если уже уверенно работаете с Git и кодом.</li>
+              </ul>
+            </article>
+          </div>
         </div>
+      </section>
 
-        <h2 style="color: #fff; margin-bottom: 40px; font-weight: 900;">ПРОГРАММА</h2>
-        <div class="grid">
-            <div class="card">
-                <span style="font-size: 10px;">[ ДОСТУПЕН СЕЙЧАС ]</span>
-                <h3>01. ФУНДАМЕНТ</h3>
-                <p style="font-size: 12px; color: #888;">4 файла: Голос, Аудитория, Продукт, Стоп-лист</p>
-                <a href="lesson-1.html" style="margin-top: 15px; padding: 12px; background: #FF0000; color: #fff; text-decoration: none; text-align: center; font-weight: 700; font-size: 12px; display: block;">ОТКРЫТЬ УРОК</a>
-            </div>
-            <div class="card">
-                <span style="font-size: 10px;">[ ДОСТУПЕН СЕЙЧАС ]</span>
-                <h3>02. ПРОДАКШЕН</h3>
-                <p style="font-size: 12px; color: #888;">Быстрое производство каруселей</p>
-                <a href="/urok-02-prodakshen/" style="margin-top: 15px; padding: 12px; background: #FF0000; color: #fff; text-decoration: none; text-align: center; font-weight: 700; font-size: 12px; display: block;">ОТКРЫТЬ УРОК</a>
-            </div>
-            <div class="card locked">
-                <span style="font-size: 10px;">[ 29 МАРТА, 10:00 МСК ]</span>
-                <h3>03. СИСТЕМА</h3>
-                <p style="font-size: 12px; color: #888;">Контент-машина на автопилоте</p>
-            </div>
-            <div class="card">
-                <span style="font-size: 10px;">[ ДОСТУПЕН СЕЙЧАС ]</span>
-                <h3>ДОСТУП И ТЕХНИКА</h3>
-                <p style="font-size: 12px; color: #888;">После оплаты письмо приходит на почту. Уроки выложены на YouTube, лучше работают в Chrome, иногда нужен VPN.</p>
-            </div>
+      <section class="section" id="inside">
+        <div class="shell">
+          <div class="section__head">
+            <p class="eyebrow">Что внутри</p>
+            <h2>Не одна карусель. Система.</h2>
+            <p>
+              Вам не нужен ещё один разовый пост, после которого снова белый лист. Нужен процесс, к которому можно возвращаться.
+            </p>
+          </div>
+          <div class="modules">
+            <article class="module">
+              <div class="module__num">01</div>
+              <div>
+                <h3>Фундамент</h3>
+                <p>Голос, аудитория, продукт, стоп-лист. Собираем опору: кому говорим, про что, зачем и где ваша территория смыслов.</p>
+              </div>
+            </article>
+            <article class="module">
+              <div class="module__num">02</div>
+              <div>
+                <h3>Продакшен</h3>
+                <p>Как взять идею и превратить её в структуру: крючок, конфликт, слайды, вывод, действие.</p>
+              </div>
+            </article>
+            <article class="module">
+              <div class="module__num">03</div>
+              <div>
+                <h3>Система</h3>
+                <p>Как использовать промпты, скиллы и AI-помощников, чтобы карусели стали процессом, а не редким вдохновением.</p>
+              </div>
+            </article>
+          </div>
         </div>
-    </div>
+      </section>
 
-    <div class="ticker-wrapper">
-        <div class="ticker">
-            <span>ПРАКТИКУМ В ЗАПИСИ // 3 500 ₽ // YOUTUBE // CHROME // ИНОГДА НУЖЕН VPN // БЕЗ СОПРОВОЖДЕНИЯ</span>
-            <span>ПРАКТИКУМ В ЗАПИСИ // 3 500 ₽ // YOUTUBE // CHROME // ИНОГДА НУЖЕН VPN // БЕЗ СОПРОВОЖДЕНИЯ</span>
+      <section class="section">
+        <div class="shell">
+          <div class="section__head">
+            <p class="eyebrow">Что внутри</p>
+            <h2>Внутри правда много материалов</h2>
+            <p>Не просто «посмотрите урок и придумайте сами». Внутри есть видео, промпты, агент, два инструмента и система для регулярного контент-продукта.</p>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <h3>3 видео / инструкции</h3>
+              <p>Базовая лекция по каруселям, урок по продакшену и отдельная видео-инструкция к анализатору конкурентов.</p>
+            </article>
+            <article class="card">
+              <h3>4 промпта фундамента</h3>
+              <p>Боли аудитории, генератор карусели, tone of voice, продукт и стоп-лист для контента.</p>
+            </article>
+            <article class="card">
+              <h3>1 ChatGPT-агент</h3>
+              <p>Детектор болей CustDev: помогает сформулировать реальные боли аудитории словами клиента.</p>
+            </article>
+            <article class="card">
+              <h3>2 больших Claude-промпта</h3>
+              <p>Промпт для быстрого продакшена и системный промпт с 16 формулами каруселей.</p>
+            </article>
+            <article class="card">
+              <h3>2 контент-инструмента</h3>
+              <p>Конструктор каруселей и анализатор конкурентов. Их можно использовать в процессе, но здесь не обучаем их созданию вайбкодингом.</p>
+            </article>
+            <article class="card">
+              <h3>Дополнительные связки</h3>
+              <p>Apify для скачивания данных, SaveAsBot для сохранения постов и подсказки, как использовать всё это в контент-процессе.</p>
+            </article>
+          </div>
         </div>
-    </div>
+      </section>
 
-    <script>
-        let currentSlide = 0;
-        const slider = document.getElementById('screen-slider');
-        const totalSlides = 8;
+      <section class="section section--red">
+        <div class="shell">
+          <div class="section__head">
+            <p class="eyebrow">Почему верить</p>
+            <h2>Я сама выросла на этом формате: +12 000 подписчиков на каруселях.</h2>
+            <p>
+              Карусель хорошо упаковывает экспертность: человек листает, понимает вашу мысль, видит систему и остаётся, если ему это попало.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        function moveSlide(dir) {
-            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
-            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-            document.getElementById('slide-indicator').textContent = `${String(currentSlide + 1).padStart(2, '0')}/08`;
-            playClick();
-        }
+      <section class="section" id="price">
+        <div class="shell">
+          <div class="price">
+            <div>
+              <p class="eyebrow">Короткое окно</p>
+              <h2>Карусели 2.0 в записи</h2>
+              <p class="lead">Доступ сразу. После оплаты на почту приходит ссылка на кабинет и код доступа.</p>
+              <ul class="list">
+                <li>3 модуля практикума;</li>
+                <li>4 промпта фундамента + 2 больших Claude-промпта;</li>
+                <li>конструктор каруселей и анализатор конкурентов;</li>
+                <li>система для регулярных каруселей;</li>
+                <li>уроки выложены на YouTube, лучше открывать в Chrome, иногда нужен VPN.</li>
+              </ul>
+            </div>
+            <div>
+              <div class="price__value">3 500 ₽</div>
+              <p class="note">Потом цена будет 3 900 ₽.</p>
+              <a class="button button--red" href="#">Оплатить</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        function toggleDark() {
-            document.getElementById('omni-device').classList.add('dark');
-            playClick();
-        }
+      <section class="section">
+        <div class="shell">
+          <div class="section__head">
+            <p class="eyebrow">FAQ</p>
+            <h2>Честно про формат</h2>
+          </div>
+          <div class="faq">
+            <details open>
+              <summary>Это живой формат?</summary>
+              <p>Нет. Это серия уроков в записи. Без сопровождения и проверки работ.</p>
+            </details>
+            <details>
+              <summary>Там будет обучение вайбкодингу?</summary>
+              <p>Нет. Внутри есть два инструмента, которые я навайбкодила для работы с контентом, но практикум не про разработку таких инструментов.</p>
+            </details>
+            <details>
+              <summary>Если я уже умею работать с Git и кодом?</summary>
+              <p>Скорее всего, практикум будет для вас базовым. Если нужна система контента, а не разработка инструментов, тогда подходит.</p>
+            </details>
+            <details>
+              <summary>Я не дизайнер. Мне подойдёт?</summary>
+              <p>Да. Практикум не про дизайн ради дизайна. Он про смысл, структуру и AI-процесс.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
 
-        function toggleLight() {
-            document.getElementById('omni-device').classList.remove('dark');
-            playClick();
-        }
-
-        function togglePromo() {
-            const field = document.getElementById('promo-code');
-            field.style.display = field.style.display === 'none' ? 'grid' : 'none';
-            document.getElementById('pass-code').style.display = 'none';
-            playClick();
-        }
-
-        function toggleKey() {
-            const field = document.getElementById('pass-code');
-            field.style.display = field.style.display === 'none' ? 'grid' : 'none';
-            document.getElementById('promo-code').style.display = 'none';
-            playClick();
-        }
-
-        function checkPromo() {
-            const code = document.getElementById('promo-code').value.toLowerCase().trim();
-            if(code === 'alfred20') {
-                playSuccess();
-                window.location.href = '#';
-            } else {
-                playError();
-                document.getElementById('promo-code').value = '';
-            }
-        }
-
-        function checkKey() {
-            const code = document.getElementById('pass-code').value.trim();
-            if(code === '16100') {
-                playSuccess();
-                setTimeout(launchSystem, 500);
-            } else {
-                playError();
-                document.getElementById('pass-code').value = '';
-            }
-        }
-
-        function launchSystem() {
-            document.getElementById('main-body').classList.add('dark-mode');
-            document.getElementById('page-content').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            showRecordedAccess();
-        }
-
-        function showRecordedAccess() {
-            const countdown = document.getElementById('countdown');
-            if (countdown) countdown.textContent = 'ДОСТУП ОТКРЫТ';
-        }
-
-        function playClick() {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(1200, ctx.currentTime);
-            gain.gain.setValueAtTime(0.1, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
-            osc.start(); osc.stop(ctx.currentTime + 0.05);
-        }
-
-        function playSuccess() {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            [800, 1000, 1200].forEach((freq, i) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.connect(gain); gain.connect(ctx.destination);
-                osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
-                gain.gain.setValueAtTime(0.1, ctx.currentTime + i * 0.1);
-                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.1 + 0.1);
-                osc.start(ctx.currentTime + i * 0.1);
-                osc.stop(ctx.currentTime + i * 0.1 + 0.1);
-            });
-        }
-
-        function playError() {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.frequency.setValueAtTime(200, ctx.currentTime);
-            gain.gain.setValueAtTime(0.15, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
-            osc.start(); osc.stop(ctx.currentTime + 0.2);
-        }
-    </script>
-</body>
+    <footer class="footer">
+      <div class="shell">Ira&AI · Карусели 2.0 · практикум в записи</div>
+    </footer>
+  </body>
 </html>
