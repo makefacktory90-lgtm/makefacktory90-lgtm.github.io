@@ -418,6 +418,12 @@
             padding: 100px 24px;
         }
 
+        #products,
+        #rehab,
+        #about {
+            scroll-margin-top: 88px;
+        }
+
         .section-inner {
             max-width: 1080px;
             margin: 0 auto;
@@ -528,17 +534,72 @@
             gap: 24px;
         }
 
+        .product-lanes {
+            display: grid;
+            gap: 34px;
+        }
+
+        .product-lane {
+            border-top: 1px solid var(--light-gray);
+            padding-top: 24px;
+        }
+
+        .product-lane-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 24px;
+            margin-bottom: 18px;
+        }
+
+        .product-lane-kicker {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .product-lane-title {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .product-lane-copy {
+            max-width: 430px;
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .products-grid--free {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .products-grid--paid {
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            align-items: stretch;
+        }
+
         .product-card {
             background: var(--white);
             border: 1px solid var(--light-gray);
-            border-radius: 20px;
-            padding: 36px;
+            border-radius: 18px;
+            padding: 28px;
             transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
-            display: block;
+            display: flex;
+            flex-direction: column;
             position: relative;
             overflow: hidden;
+            min-height: 100%;
         }
 
         .product-card:hover {
@@ -560,21 +621,6 @@
 
         .product-card--featured {
             border: 2px solid var(--accent);
-        }
-
-        .product-card--featured::after {
-            content: "можно купить сразу";
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: var(--accent);
-            color: var(--white);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
         }
 
         .product-tag {
@@ -608,6 +654,22 @@
             color: var(--white);
         }
 
+        .product-tag.accent {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .product-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .product-meta .product-tag {
+            margin-bottom: 0;
+        }
+
         .product-tag.new {
             background: #1a1a1a;
             color: #00ff41;
@@ -623,7 +685,8 @@
             font-size: 22px;
             font-weight: 800;
             letter-spacing: -0.01em;
-            margin-bottom: 8px;
+            line-height: 1.2;
+            margin-bottom: 10px;
         }
 
         .product-card p {
@@ -631,6 +694,7 @@
             color: var(--text-secondary);
             line-height: 1.6;
             margin-bottom: 20px;
+            flex: 1;
         }
 
         .product-price {
@@ -643,7 +707,8 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 4px;
+            align-self: flex-start;
+            margin-top: auto;
             padding: 8px 12px;
             border-radius: 10px;
             background: var(--white);
@@ -663,6 +728,18 @@
             color: var(--accent);
             font-size: 14px;
             font-weight: 800;
+        }
+
+        .product-card--paid .product-cta {
+            align-self: flex-start;
+            padding: 11px 14px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .product-card--featured h3 {
+            font-size: 26px;
         }
 
         /* ===================== ABOUT ===================== */
@@ -1076,6 +1153,38 @@
                 grid-template-columns: 1fr;
             }
 
+            .product-lanes {
+                gap: 28px;
+            }
+
+            .product-lane-head {
+                display: block;
+            }
+
+            .product-lane-title {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+
+            #products {
+                padding-top: 86px !important;
+            }
+
+            .products-grid--free,
+            .products-grid--paid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card--featured h3 {
+                font-size: 23px;
+            }
+
+            #voxelWalker,
+            .trail-word,
+            .cursor-glow {
+                display: none !important;
+            }
+
             .hero-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -1269,52 +1378,82 @@
     <div class="section-inner">
         <div style="text-align: center; margin-bottom: 40px;">
             <div class="section-label">Бесплатно и в записи</div>
-            <h2 class="section-title" style="font-size: 32px;">Сначала попробуйте. Потом заберите систему.</h2>
-            <p class="section-desc">Бесплатные промпты — чтобы быстро проверить подход. Платные практикумы — чтобы собрать результат в записи, без ожидания потока.</p>
+            <h2 class="section-title" style="font-size: 32px;">Сначала попробуйте. Потом заберите запись.</h2>
+            <p class="section-desc">Бесплатное — чтобы быстро понять подход. Платные практикумы — когда хочется не просто «о, прикольно», а открыть уроки и собрать нормальный результат.</p>
         </div>
 
-        <div class="products-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            <!-- Card 1: Carousel lead magnet (free) -->
-            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card product-card--free fallable" style="opacity: 0.94;">
-                <div class="product-tag free">Бесплатно</div>
-                <h3 style="font-size: 20px;">Промпт: карусель за 20 минут</h3>
-                <p style="font-size: 14px;">Один бесплатный промпт, чтобы превратить тему в структуру карусели и понять, как работает подход.</p>
-                <span class="product-cta">Попробовать бесплатно →</span>
-            </a>
+        <div class="product-lanes">
+            <div class="product-lane">
+                <div class="product-lane-head">
+                    <div>
+                        <span class="product-lane-kicker">Попробовать бесплатно</span>
+                        <h3 class="product-lane-title">Быстрые штуки на вечер</h3>
+                    </div>
+                    <p class="product-lane-copy">Откройте, проверьте на своей теме, поймите механику. Без большого входа и без «сейчас открою сто вкладок, а потом красиво исчезну до ноября».</p>
+                </div>
 
-            <!-- Card 2: Prompt Audit (free) -->
-            <a href="/prompt-audit/" class="product-card product-card--free fallable" style="opacity: 0.94;">
-                <div class="product-tag free">Бесплатно</div>
-                <h3 style="font-size: 20px;">Промпт: аудит сайта</h3>
-                <p style="font-size: 14px;">Аудит вашего сайта за один прогон: 9 блоков со скорингом, топ-проблемы и 30-дневный план. Работает в Claude, ChatGPT, Perplexity.</p>
-                <span class="product-cta">Забрать промпт →</span>
-            </a>
+                <div class="products-grid products-grid--free">
+                    <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card product-card--free" style="opacity: 0.94;">
+                        <div class="product-meta">
+                            <span class="product-tag free">Бесплатно</span>
+                        </div>
+                        <h3>Промпт: карусель за 20 минут</h3>
+                        <p>Один промпт, чтобы превратить тему в структуру карусели и увидеть, как работает подход Ira&amp;AI.</p>
+                        <span class="product-cta">Попробовать бесплатно →</span>
+                    </a>
 
-            <!-- Card 3: Research ICP Skill (free) -->
-            <a href="/skills/research-icp.html" class="product-card product-card--free fallable" style="opacity: 0.94;">
-                <div class="product-tag free">Бесплатно</div>
-                <h3 style="font-size: 20px;">Скилл: портрет клиента за 15 минут</h3>
-                <p style="font-size: 14px;">Узнай, кто твой клиент — за 15 минут вместо двух часов. Готовый промпт, сразу в работу.</p>
-                <span class="product-cta">Открыть скилл →</span>
-            </a>
+                    <a href="/prompt-audit/" class="product-card product-card--free" style="opacity: 0.94;">
+                        <div class="product-meta">
+                            <span class="product-tag free">Бесплатно</span>
+                        </div>
+                        <h3>Промпт: аудит сайта</h3>
+                        <p>Один прогон: 9 блоков со скорингом, топ-проблемы и 30-дневный план. Работает в Claude, ChatGPT, Perplexity.</p>
+                        <span class="product-cta">Забрать промпт →</span>
+                    </a>
 
-            <!-- Card 4: Karuseli 2 (paid) -->
-            <a href="https://iraai.ru/karuseli-2/" class="product-card product-card--paid product-card--featured fallable">
-                <div class="product-tag paid">В записи</div>
-                <h3 style="font-size: 20px;">Карусели 2.0</h3>
-                <p style="font-size: 14px;">3 урока, промпты и инструменты, чтобы быстрее превращать идеи и экспертность в карусели с AI. Для тех, кто хочет делать контент, а не жить в пустом документе.</p>
-                <div class="product-price">3 500 &#8381;</div>
-                <span class="product-cta">Купить практикум →</span>
-            </a>
+                    <a href="/skills/research-icp.html" class="product-card product-card--free" style="opacity: 0.94;">
+                        <div class="product-meta">
+                            <span class="product-tag free">Бесплатно</span>
+                        </div>
+                        <h3>Скилл: портрет клиента за 15 минут</h3>
+                        <p>Готовый промпт, чтобы быстрее увидеть, кто ваш клиент и что ему на самом деле надо. Не магия, просто нормальная сборка.</p>
+                        <span class="product-cta">Открыть скилл →</span>
+                    </a>
+                </div>
+            </div>
 
-            <!-- Card 5: Workshop Presentations (paid) -->
-            <a href="/workshop-presentations/" class="product-card product-card--paid fallable">
-                <div class="product-tag paid">В записи</div>
-                <h3 style="font-size: 20px;">Презентации с AI</h3>
-                <p style="font-size: 14px;">Через 4 часа вы сделаете презентацию, которую не отличить от работы дизайнера. С нуля. Без Figma и Canva.</p>
-                <div class="product-price">6,500 &#8381;</div>
-                <span class="product-cta">Смотреть практикум →</span>
-            </a>
+            <div class="product-lane">
+                <div class="product-lane-head">
+                    <div>
+                        <span class="product-lane-kicker">Практикумы в записи</span>
+                        <h3 class="product-lane-title">Когда хочется уже делать, а не собирать закладки</h3>
+                    </div>
+                    <p class="product-lane-copy">Купили, открыли, смотрите в своем темпе. Это не живой поток и не чат с поддержкой, а рабочая запись с промптами и инструментами.</p>
+                </div>
+
+                <div class="products-grid products-grid--paid">
+                    <a href="https://iraai.ru/karuseli-2/" class="product-card product-card--paid product-card--featured">
+                        <div class="product-meta">
+                            <span class="product-tag paid">В записи</span>
+                            <span class="product-tag accent">Можно купить сразу</span>
+                        </div>
+                        <h3>Карусели 2.0</h3>
+                        <p>3 урока, готовые промпты, анализатор конкурентов и HTML-конструктор каруселей. Для экспертов, которым нужно быстро превращать идеи в контент, который сохраняют и пересылают.</p>
+                        <div class="product-price">3 500 &#8381;</div>
+                        <span class="product-cta">Купить практикум →</span>
+                    </a>
+
+                    <a href="/workshop-presentations/" class="product-card product-card--paid">
+                        <div class="product-meta">
+                            <span class="product-tag paid">В записи</span>
+                        </div>
+                        <h3>Презентации с AI</h3>
+                        <p>За 4 часа соберете презентацию с AI: от структуры до визуала. Без Figma и Canva, но с ощущением «а что, так можно было?».</p>
+                        <div class="product-price">6 500 &#8381;</div>
+                        <span class="product-cta">Смотреть практикум →</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
