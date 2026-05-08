@@ -547,6 +547,36 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
 
+        .product-card--free {
+            border-style: dashed;
+            background: linear-gradient(180deg, var(--white) 0%, #FFFBF8 100%);
+        }
+
+        .product-card--paid {
+            border-color: rgba(196, 101, 78, 0.45);
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFF5F2 100%);
+            box-shadow: 0 14px 38px rgba(196, 101, 78, 0.1);
+        }
+
+        .product-card--featured {
+            border: 2px solid var(--accent);
+        }
+
+        .product-card--featured::after {
+            content: "можно купить сразу";
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: var(--white);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
         .product-tag {
             display: inline-block;
             font-size: 11px;
@@ -571,6 +601,11 @@
         .product-tag.free {
             background: var(--accent-bg);
             color: var(--accent);
+        }
+
+        .product-tag.paid {
+            background: var(--deep);
+            color: var(--white);
         }
 
         .product-tag.new {
@@ -604,9 +639,30 @@
             color: var(--text);
         }
 
+        .product-card--paid .product-price {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--accent);
+            font-size: 18px;
+            font-weight: 900;
+        }
+
         .product-price span {
             color: var(--text-dim);
             font-weight: 400;
+        }
+
+        .product-cta {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 800;
         }
 
         /* ===================== ABOUT ===================== */
@@ -1067,7 +1123,7 @@
     <div class="nav-inner">
         <a href="#" class="nav-logo">Ира Буян <span style="color:var(--mid-gray);font-weight:400;font-size:14px">(ira&amp;ai)</span></a>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#products">Курсы</a></li>
+            <li><a href="#products">Продукты</a></li>
             <li><a href="/services/">Услуги</a></li>
             <li><a href="#rehab">AI реХАБ</a></li>
             <li><a href="#about">Обо мне</a></li>
@@ -1088,10 +1144,10 @@
     <div class="hero-content">
         <div class="hero-tag">Для экспертов, которым некогда</div>
         <h1 class="hero-title">Ваши знания стоят лучшей упаковки</h1>
-        <p class="hero-subtitle">Научитесь сами за 3 900 &#8381; или закажите под ключ.<br>Контент, сайты, презентации — с AI, без агентства.</p>
+        <p class="hero-subtitle">Научитесь сами от 3 500 &#8381; или закажите под ключ.<br>Контент, сайты, презентации — с AI, без агентства.</p>
 
         <div class="hero-buttons">
-            <a href="#products" class="btn btn-primary">Курсы от 3 900 &#8381;</a>
+            <a href="#products" class="btn btn-primary">Продукты от 3 500 &#8381;</a>
             <a href="/services/" class="btn btn-secondary">Проект под ключ</a>
         </div>
         <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Или начните бесплатно: <a href="#rehab" style="color:var(--accent);font-weight:600;">AI реХАБ</a> — рассылка с промптами и инструментами</p>
@@ -1212,32 +1268,52 @@
 <section id="products" style="padding: 80px 24px; background: var(--off-white);">
     <div class="section-inner">
         <div style="text-align: center; margin-bottom: 40px;">
-            <div class="section-label">Попробовать бесплатно</div>
-            <h2 class="section-title" style="font-size: 32px;">Инструменты и курсы</h2>
-            <p class="section-desc">Два промпта — заберите бесплатно. Один курс в записи.</p>
+            <div class="section-label">Бесплатно и в записи</div>
+            <h2 class="section-title" style="font-size: 32px;">Сначала попробуйте. Потом заберите систему.</h2>
+            <p class="section-desc">Бесплатные промпты — чтобы быстро проверить подход. Платные практикумы — чтобы собрать результат в записи, без ожидания потока.</p>
         </div>
 
         <div class="products-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            <!-- Card 1: Prompt Audit (free) -->
-            <a href="/prompt-audit/" class="product-card fallable" style="opacity: 0.9;">
-                <div class="product-tag">Бесплатно</div>
+            <!-- Card 1: Carousel lead magnet (free) -->
+            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="product-card product-card--free fallable" style="opacity: 0.94;">
+                <div class="product-tag free">Бесплатно</div>
+                <h3 style="font-size: 20px;">Промпт: карусель за 20 минут</h3>
+                <p style="font-size: 14px;">Один бесплатный промпт, чтобы превратить тему в структуру карусели и понять, как работает подход.</p>
+                <span class="product-cta">Попробовать бесплатно →</span>
+            </a>
+
+            <!-- Card 2: Prompt Audit (free) -->
+            <a href="/prompt-audit/" class="product-card product-card--free fallable" style="opacity: 0.94;">
+                <div class="product-tag free">Бесплатно</div>
                 <h3 style="font-size: 20px;">Промпт: аудит сайта</h3>
                 <p style="font-size: 14px;">Аудит вашего сайта за один прогон: 9 блоков со скорингом, топ-проблемы и 30-дневный план. Работает в Claude, ChatGPT, Perplexity.</p>
+                <span class="product-cta">Забрать промпт →</span>
             </a>
 
-            <!-- Card 2: Research ICP Skill (free) -->
-            <a href="/skills/research-icp.html" class="product-card fallable" style="opacity: 0.9;">
-                <div class="product-tag">Бесплатно</div>
+            <!-- Card 3: Research ICP Skill (free) -->
+            <a href="/skills/research-icp.html" class="product-card product-card--free fallable" style="opacity: 0.94;">
+                <div class="product-tag free">Бесплатно</div>
                 <h3 style="font-size: 20px;">Скилл: портрет клиента за 15 минут</h3>
                 <p style="font-size: 14px;">Узнай, кто твой клиент — за 15 минут вместо двух часов. Готовый промпт, сразу в работу.</p>
+                <span class="product-cta">Открыть скилл →</span>
             </a>
 
-            <!-- Card 3: Workshop Presentations (paid) -->
-            <a href="/workshop-presentations/" class="product-card fallable" style="opacity: 0.9;">
-                <div class="product-tag">В записи</div>
+            <!-- Card 4: Karuseli 2 (paid) -->
+            <a href="https://iraai.ru/karuseli-2/" class="product-card product-card--paid product-card--featured fallable">
+                <div class="product-tag paid">В записи</div>
+                <h3 style="font-size: 20px;">Карусели 2.0</h3>
+                <p style="font-size: 14px;">3 урока, промпты и инструменты, чтобы быстрее превращать идеи и экспертность в карусели с AI. Для тех, кто хочет делать контент, а не жить в пустом документе.</p>
+                <div class="product-price">3 500 &#8381;</div>
+                <span class="product-cta">Купить практикум →</span>
+            </a>
+
+            <!-- Card 5: Workshop Presentations (paid) -->
+            <a href="/workshop-presentations/" class="product-card product-card--paid fallable">
+                <div class="product-tag paid">В записи</div>
                 <h3 style="font-size: 20px;">Презентации с AI</h3>
                 <p style="font-size: 14px;">Через 4 часа вы сделаете презентацию, которую не отличить от работы дизайнера. С нуля. Без Figma и Canva.</p>
                 <div class="product-price">6,500 &#8381;</div>
+                <span class="product-cta">Смотреть практикум →</span>
             </a>
         </div>
     </div>
@@ -1404,7 +1480,7 @@
                 </div>
 
                 <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
-                    <a href="#products" class="btn btn-primary" style="font-size: 14px; padding: 12px 24px;">Курсы от 3 900 &#8381;</a>
+                    <a href="#products" class="btn btn-primary" style="font-size: 14px; padding: 12px 24px;">Продукты от 3 500 &#8381;</a>
                     <a href="/services/" class="btn btn-secondary" style="font-size: 14px; padding: 12px 24px;">Проект под ключ</a>
                 </div>
             </div>
