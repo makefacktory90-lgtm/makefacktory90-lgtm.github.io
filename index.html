@@ -527,6 +527,108 @@
             margin-bottom: 12px;
         }
 
+        /* ===================== SALES OFFER ===================== */
+        .sales-offer {
+            padding: 52px 24px;
+            background: var(--white);
+        }
+
+        .sales-offer-card {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+            gap: 32px;
+            align-items: center;
+            padding: 36px;
+            border: 2px solid var(--accent);
+            border-radius: 18px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFF5F2 100%);
+            box-shadow: 0 18px 50px rgba(196, 101, 78, 0.12);
+        }
+
+        .sales-offer-kicker {
+            display: inline-flex;
+            margin-bottom: 14px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: var(--deep);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .sales-offer h2 {
+            margin-bottom: 12px;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+        }
+
+        .sales-offer p {
+            max-width: 620px;
+            color: var(--text-secondary);
+            font-size: 17px;
+            line-height: 1.65;
+        }
+
+        .sales-offer-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 22px;
+            list-style: none;
+        }
+
+        .sales-offer-list li {
+            padding: 11px 12px;
+            border: 1px solid rgba(196, 101, 78, 0.18);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.72);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .sales-offer-buy {
+            padding: 24px;
+            border-radius: 16px;
+            background: var(--white);
+            border: 1px solid rgba(196, 101, 78, 0.24);
+        }
+
+        .sales-offer-price {
+            margin-bottom: 6px;
+            color: var(--accent);
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .sales-offer-note {
+            margin-bottom: 18px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .sales-offer-buy .btn {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .sales-offer-small {
+            display: block;
+            margin-top: 12px;
+            color: var(--text-dim);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
         /* ===================== PRODUCTS ===================== */
         .products-grid {
             display: grid;
@@ -695,6 +797,32 @@
             line-height: 1.6;
             margin-bottom: 20px;
             flex: 1;
+        }
+
+        .product-card-list {
+            display: grid;
+            gap: 8px;
+            margin: 0 0 20px;
+            list-style: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .product-card-list li {
+            position: relative;
+            padding-left: 14px;
+        }
+
+        .product-card-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.68em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
         }
 
         .product-price {
@@ -1140,6 +1268,24 @@
                 grid-template-columns: 1fr;
             }
 
+            .sales-offer {
+                padding: 28px 16px;
+            }
+
+            .sales-offer-card {
+                grid-template-columns: 1fr;
+                padding: 24px 20px;
+                gap: 22px;
+            }
+
+            .sales-offer-list {
+                grid-template-columns: 1fr;
+            }
+
+            .sales-offer-price {
+                font-size: 30px;
+            }
+
             .about-photo {
                 max-width: 200px;
                 aspect-ratio: 1;
@@ -1251,15 +1397,38 @@
     </div>
 
     <div class="hero-content">
-        <div class="hero-tag">Для экспертов, которым некогда</div>
-        <h1 class="hero-title">Ваши знания стоят лучшей упаковки</h1>
-        <p class="hero-subtitle">Научитесь сами от 3 500 &#8381; или закажите под ключ.<br>Контент, сайты, презентации с AI, без агентства.</p>
+        <div class="hero-tag">Сейчас в записи: Карусели 2.0</div>
+        <h1 class="hero-title">Делайте карусели, которые сохраняют</h1>
+        <p class="hero-subtitle">3 урока, промпты, анализатор конкурентов и HTML-конструктор.<br>Для экспертов, которым нужен контент с AI без подвига на три дня.</p>
 
         <div class="hero-buttons">
-            <a href="#products" class="btn btn-primary">Продукты от 3 500 &#8381;</a>
-            <a href="/services/" class="btn btn-secondary">Проект под ключ</a>
+            <a href="https://payform.ru/6vbrgiV/" class="btn btn-primary">Купить запись за 3 500 &#8381;</a>
+            <a href="https://makefacktory90-lgtm.github.io/carousel-lead-magnet/" class="btn btn-secondary">Сначала бесплатный промпт</a>
         </div>
-        <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Или начните бесплатно: <a href="#rehab" style="color:var(--accent);font-weight:600;">AI реХАБ</a>, рассылка с промптами и инструментами</p>
+        <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Доступ сразу после оплаты. Уроки смотрите в своем темпе, лучше в Chrome.</p>
+    </div>
+</section>
+
+<!-- ==================== SALES OFFER ==================== -->
+<section class="sales-offer">
+    <div class="sales-offer-card">
+        <div>
+            <span class="sales-offer-kicker">Главный продукт сейчас</span>
+            <h2>Карусели 2.0 в записи</h2>
+            <p>Практикум для экспертов, которые хотят быстро превращать идеи в карусели с AI. Без живого потока, без домашек, без чата. Открыли, повторили, собрали свой контент. Красота, порядок, никаких обрядов вокруг пустого документа.</p>
+            <ul class="sales-offer-list">
+                <li>3 урока в записи</li>
+                <li>Готовые промпты</li>
+                <li>Анализатор конкурентов</li>
+                <li>HTML-конструктор каруселей</li>
+            </ul>
+        </div>
+        <div class="sales-offer-buy">
+            <div class="sales-offer-price">3 500 &#8381;</div>
+            <div class="sales-offer-note">Оплатили, получили доступ, пошли делать карусели. YouTube лучше открывать в Chrome, иногда нужен VPN.</div>
+            <a href="https://payform.ru/6vbrgiV/" class="btn btn-primary">Забрать практикум</a>
+            <span class="sales-offer-small">Это стартовый продукт для тех, кто хочет делать контент быстрее. Если вы уже живете в Git и кодите по утрам вместо зарядки, будет просто.</span>
+        </div>
     </div>
 </section>
 
@@ -1377,19 +1546,58 @@
 <section id="products" style="padding: 80px 24px; background: var(--off-white);">
     <div class="section-inner">
         <div style="text-align: center; margin-bottom: 40px;">
-            <div class="section-label">Бесплатно и в записи</div>
-            <h2 class="section-title" style="font-size: 32px;">Сначала попробуйте. Потом заберите запись.</h2>
-            <p class="section-desc">Бесплатное помогает быстро понять подход. Платные практикумы нужны, когда хочется не просто «о, прикольно», а открыть уроки и собрать нормальный результат.</p>
+            <div class="section-label">Купить в записи</div>
+            <h2 class="section-title" style="font-size: 32px;">Практикумы, которые можно открыть сегодня</h2>
+            <p class="section-desc">Если нужен быстрый результат, начинайте с записей. Бесплатное оставила ниже: оно отлично разогревает мозг, но покупка живет вот тут.</p>
         </div>
 
         <div class="product-lanes">
             <div class="product-lane">
                 <div class="product-lane-head">
                     <div>
+                        <span class="product-lane-kicker">Купить сейчас</span>
+                        <h3 class="product-lane-title">Записи для тех, кто хочет сделать руками</h3>
+                    </div>
+                    <p class="product-lane-copy">Смотрите в своем темпе, повторяйте на своей теме, забирайте промпты и инструменты. Без живого расписания и без героизма.</p>
+                </div>
+
+                <div class="products-grid products-grid--paid">
+                    <a href="https://payform.ru/6vbrgiV/" class="product-card product-card--paid product-card--featured">
+                        <div class="product-meta">
+                            <span class="product-tag paid">В записи</span>
+                            <span class="product-tag accent">Главный оффер</span>
+                        </div>
+                        <h3>Карусели 2.0</h3>
+                        <p>Практикум, чтобы быстро превращать экспертность в карусели с AI. Для тех, кому нужен контент, который сохраняют и пересылают, а не еще один красивый план в заметках.</p>
+                        <ul class="product-card-list">
+                            <li>3 урока в записи</li>
+                            <li>Готовые промпты и связки</li>
+                            <li>Анализатор конкурентов</li>
+                            <li>HTML-конструктор каруселей</li>
+                        </ul>
+                        <div class="product-price">3 500 &#8381;</div>
+                        <span class="product-cta">Купить запись →</span>
+                    </a>
+
+                    <a href="/workshop-presentations/" class="product-card product-card--paid">
+                        <div class="product-meta">
+                            <span class="product-tag paid">В записи</span>
+                        </div>
+                        <h3>Презентации с AI</h3>
+                        <p>За 4 часа соберете презентацию с AI: от структуры до визуала. Без Figma и Canva, но с ощущением «а что, так можно было?».</p>
+                        <div class="product-price">6 500 &#8381;</div>
+                        <span class="product-cta">Смотреть практикум →</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-lane">
+                <div class="product-lane-head">
+                    <div>
                         <span class="product-lane-kicker">Попробовать бесплатно</span>
                         <h3 class="product-lane-title">Быстрые штуки на вечер</h3>
                     </div>
-                    <p class="product-lane-copy">Откройте, проверьте на своей теме, поймите механику. Без большого входа и без «сейчас открою сто вкладок, а потом красиво исчезну до ноября».</p>
+                    <p class="product-lane-copy">Если хочется сначала проверить подход, заберите бесплатные промпты. Открыли, вставили свою тему, посмотрели, как это работает.</p>
                 </div>
 
                 <div class="products-grid products-grid--free">
@@ -1418,39 +1626,6 @@
                         <h3>Скилл: портрет клиента за 15 минут</h3>
                         <p>Готовый промпт, чтобы быстрее увидеть, кто ваш клиент и что ему на самом деле надо. Не магия, просто нормальная сборка.</p>
                         <span class="product-cta">Открыть скилл →</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-lane">
-                <div class="product-lane-head">
-                    <div>
-                        <span class="product-lane-kicker">Практикумы в записи</span>
-                        <h3 class="product-lane-title">Когда хочется уже делать, а не собирать закладки</h3>
-                    </div>
-                    <p class="product-lane-copy">Купили, открыли, смотрите в своем темпе. Это не живой поток и не чат с поддержкой, а рабочая запись с промптами и инструментами.</p>
-                </div>
-
-                <div class="products-grid products-grid--paid">
-                    <a href="https://iraai.ru/karuseli-2/" class="product-card product-card--paid product-card--featured">
-                        <div class="product-meta">
-                            <span class="product-tag paid">В записи</span>
-                            <span class="product-tag accent">Можно купить сразу</span>
-                        </div>
-                        <h3>Карусели 2.0</h3>
-                        <p>3 урока, готовые промпты, анализатор конкурентов и HTML-конструктор каруселей. Для экспертов, которым нужно быстро превращать идеи в контент, который сохраняют и пересылают.</p>
-                        <div class="product-price">3 500 &#8381;</div>
-                        <span class="product-cta">Купить практикум →</span>
-                    </a>
-
-                    <a href="/workshop-presentations/" class="product-card product-card--paid">
-                        <div class="product-meta">
-                            <span class="product-tag paid">В записи</span>
-                        </div>
-                        <h3>Презентации с AI</h3>
-                        <p>За 4 часа соберете презентацию с AI: от структуры до визуала. Без Figma и Canva, но с ощущением «а что, так можно было?».</p>
-                        <div class="product-price">6 500 &#8381;</div>
-                        <span class="product-cta">Смотреть практикум →</span>
                     </a>
                 </div>
             </div>
