@@ -8,8 +8,6 @@
     <meta name="keywords" content="AI стратег, ИИ для бизнеса, искусственный интеллект обучение, ChatGPT промпты, AI реХАБ, Ира Буян, нейросети для контента, карусели AI">
     <meta name="author" content="Ира Буян">
     <link rel="canonical" href="https://iraai.ru/">
-    <meta name="subscribe-worker-url" content="https://subscribe.iraai.ru/">
-
     <!-- Geo & Language -->
     <meta name="geo.region" content="RU">
     <meta name="geo.placename" content="Russia">
@@ -1713,7 +1711,7 @@
             <div class="rehab-cta-box immune">
                 <h3>Попробуйте AI <span style="color:var(--accent)">реХАБ</span></h3>
                 <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. В своём темпе.</p>
-                <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" name="subscribtion_form" us_mode="embed" target="unisender-subscribe-target" onsubmit="return handleSubscribe(this)">
+                <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" name="subscribtion_form" us_mode="embed" onsubmit="return handleSubscribe(this)">
                     <input type="email" name="email" placeholder="Ваш email" required>
                     <input type="hidden" name="charset" value="UTF-8">
                     <input type="hidden" name="default_list_id" value="1">
@@ -1727,7 +1725,6 @@
                         </label>
                     </div>
                 </form>
-                <iframe name="unisender-subscribe-target" title="Unisender subscribe" style="display:none;width:0;height:0;border:0;"></iframe>
                 <p class="email-note">Присоединяйтесь к AI реХАБу.</p>
             </div>
         </div>
@@ -1845,7 +1842,6 @@
 <canvas id="voxelWalker"></canvas>
 
 <!-- ==================== SCRIPTS ==================== -->
-<script src="/scripts/subscribe.js"></script>
 <script>
 // Nav scroll effect
 window.addEventListener('scroll', () => {
@@ -1872,80 +1868,24 @@ function toggleSubmit(checkbox) {
     btn.disabled = !checkbox.checked;
 }
 
-// Email form handler — tries our Worker first, then falls back to the legacy Unisender form.
+// Email form handler: posts directly to Unisender so the subscriber sees the confirmation step.
 function handleSubscribe(form) {
     const input = form.querySelector('input[name="email"]');
     const email = input.value.trim();
     if (!email) return false;
 
     const btn = form.querySelector('button');
-    const origText = btn.textContent;
-    const consent = form.querySelector('.consent-row');
     const note = form.parentElement.querySelector('.email-note');
 
-    const showSuccess = () => {
-        input.value = '';
-        input.style.display = 'none';
-        if (consent) consent.style.display = 'none';
-        btn.textContent = 'Рассылка будет в четверг';
-        btn.style.background = '#5A7A60';
-        btn.style.width = '100%';
-        btn.style.fontSize = '17px';
-        btn.disabled = true;
-        if (note && note.classList.contains('email-note')) {
-            note.textContent = 'Добро пожаловать в AI реХАБ';
-            note.style.color = '#5A7A60';
-            note.style.fontWeight = '600';
-        }
-
-        setTimeout(() => {
-            input.style.display = '';
-            if (consent) consent.style.display = '';
-            input.placeholder = 'Ваш email';
-            input.style.borderColor = '';
-            btn.textContent = origText;
-            btn.style.background = '';
-            btn.style.width = '';
-            btn.style.fontSize = '';
-            var cb = form.querySelector('input[type="checkbox"]');
-            btn.disabled = cb ? !cb.checked : false;
-            if (note && note.dataset.orig) {
-                note.textContent = note.dataset.orig;
-                note.style.color = '';
-                note.style.fontWeight = '';
-            }
-        }, 5000);
-    };
-
-    btn.textContent = '...';
+    btn.textContent = 'Проверьте почту';
     btn.disabled = true;
     if (note && note.classList.contains('email-note')) {
-        note.dataset.orig = note.dataset.orig || note.textContent;
-        note.textContent = 'Добавляю в AI реХАБ...';
-        note.style.color = '';
-        note.style.fontWeight = '';
+        note.textContent = 'Сейчас откроется страница Unisender. Там нужно подтвердить подписку по письму.';
+        note.style.color = '#5A7A60';
+        note.style.fontWeight = '600';
     }
 
-    const workerSubscribe = window.IraSubscribe && window.IraSubscribe.subscribe;
-    const subscribePromise = workerSubscribe ? workerSubscribe({
-        email,
-        tags: ['rehab_newsletter'],
-    }) : Promise.reject(new Error('Subscribe worker script is not loaded'));
-
-    subscribePromise.then(() => {
-        showSuccess();
-    }).catch((error) => {
-        console.error(error);
-        if (note && note.classList.contains('email-note')) {
-            note.textContent = 'Добавляю через резервный канал...';
-            note.style.color = '';
-            note.style.fontWeight = '';
-        }
-        form.submit();
-        showSuccess();
-    });
-
-    return false;
+    return true;
 }
 
 // ==================== AI CHAT ====================
