@@ -419,6 +419,7 @@
         }
 
         #products,
+        #rehub,
         #rehab,
         #about {
             scroll-margin-top: 88px;
@@ -455,9 +456,18 @@
             margin-bottom: 48px;
         }
 
-        /* ===================== REHAB (Newsletter) ===================== */
-        #rehab {
+        /* ===================== REHUB (Newsletter) ===================== */
+        #rehub {
+            position: relative;
             background: var(--off-white);
+        }
+
+        .legacy-anchor {
+            position: absolute;
+            top: 0;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
         }
 
         .rehab-grid {
@@ -1395,7 +1405,7 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#products">Продукты</a></li>
             <li><a href="/services/">Услуги</a></li>
-            <li><a href="#rehab">AI реХАБ</a></li>
+            <li><a href="#rehub">AI реХАБ</a></li>
             <li><a href="#about">Обо мне</a></li>
         </ul>
         <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Меню">
@@ -1649,17 +1659,18 @@
     </div>
 </section>
 
-<!-- ==================== BRIDGE: Products → Rehab ==================== -->
+<!-- ==================== BRIDGE: Products -> ReHub ==================== -->
 <section style="padding: 48px 24px; text-align: center; background: var(--off-white);">
     <div style="max-width: 520px; margin: 0 auto;">
         <p style="font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px;">Хотите больше?</p>
         <p style="font-size: 16px; color: var(--text-secondary); line-height: 1.6;">AI реХАБ: рассылка раз в неделю. Свежие промпты, лайфхаки и инструменты. Забирайте и применяйте сразу.</p>
-        <a href="#rehab" style="display: inline-block; margin-top: 16px; font-size: 15px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px;">Подписаться бесплатно &darr;</a>
+        <a href="#rehub" style="display: inline-block; margin-top: 16px; font-size: 15px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px;">Подписаться бесплатно &darr;</a>
     </div>
 </section>
 
-<!-- ==================== REHAB ==================== -->
-<section id="rehab">
+<!-- ==================== REHUB ==================== -->
+<section id="rehub">
+    <span id="rehab" class="legacy-anchor" aria-hidden="true"></span>
     <div class="section-inner">
         <div class="rehab-grid">
             <div>
