@@ -8,6 +8,7 @@
     <meta name="keywords" content="AI стратег, ИИ для бизнеса, искусственный интеллект обучение, ChatGPT промпты, AI реХАБ, Ира Буян, нейросети для контента, карусели AI">
     <meta name="author" content="Ира Буян">
     <link rel="canonical" href="https://iraai.ru/">
+    <meta name="subscribe-worker-url" content="https://subscribe.iraai.ru/">
 
     <!-- Geo & Language -->
     <meta name="geo.region" content="RU">
@@ -1663,8 +1664,8 @@
         <div class="rehab-grid">
             <div>
                 <div class="section-label">Рассылка</div>
-                <h2 class="section-title">AI ре<span style="color:var(--accent)">ХАБ</span></h2>
-                <p class="section-desc">В ХАБах работаем. В AI ре<strong>ХАБ</strong>е восстанавливаемся. В своём темпе, без давления. Фишки, которые можно применить прямо сейчас.</p>
+                <h2 class="section-title">AI <span style="color:var(--accent)">реХАБ</span></h2>
+                <p class="section-desc">В ХАБах работаем. В AI реХАБе восстанавливаемся. В своём темпе, без давления. Фишки, которые можно применить прямо сейчас.</p>
 
                 <ul class="rehab-features">
                     <li>
@@ -1699,7 +1700,7 @@
             </div>
 
             <div class="rehab-cta-box immune">
-                <h3>Попробуйте AI ре<span style="color:var(--accent)">ХАБ</span></h3>
+                <h3>Попробуйте AI <span style="color:var(--accent)">реХАБ</span></h3>
                 <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. В своём темпе.</p>
                 <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" name="subscribtion_form" us_mode="embed" target="unisender-subscribe-target" onsubmit="return handleSubscribe(this)">
                     <input type="email" name="email" placeholder="Ваш email" required>
@@ -1833,6 +1834,7 @@
 <canvas id="voxelWalker"></canvas>
 
 <!-- ==================== SCRIPTS ==================== -->
+<script src="/scripts/subscribe.js"></script>
 <script>
 // Nav scroll effect
 window.addEventListener('scroll', () => {
@@ -1859,7 +1861,7 @@ function toggleSubmit(checkbox) {
     btn.disabled = !checkbox.checked;
 }
 
-// Email form handler: posts directly to Unisender in a hidden iframe.
+// Email form handler — tries our Worker first, then falls back to the legacy Unisender form.
 function handleSubscribe(form) {
     const input = form.querySelector('input[name="email"]');
     const email = input.value.trim();
@@ -1867,25 +1869,19 @@ function handleSubscribe(form) {
 
     const btn = form.querySelector('button');
     const origText = btn.textContent;
-    btn.textContent = '...';
-    btn.disabled = true;
+    const consent = form.querySelector('.consent-row');
+    const note = form.parentElement.querySelector('.email-note');
 
-    setTimeout(() => {
+    const showSuccess = () => {
         input.value = '';
         input.style.display = 'none';
-        var consent = form.querySelector('.consent-row');
         if (consent) consent.style.display = 'none';
-        btn.textContent = 'Спасибо! Проверьте почту \u2615';
+        btn.textContent = 'Рассылка будет в четверг';
         btn.style.background = '#5A7A60';
         btn.style.width = '100%';
         btn.style.fontSize = '17px';
         btn.disabled = true;
-        var note = form.nextElementSibling;
-        if (note && note.tagName === 'IFRAME') {
-            note = note.nextElementSibling;
-        }
         if (note && note.classList.contains('email-note')) {
-            note.dataset.orig = note.textContent;
             note.textContent = 'Добро пожаловать в AI реХАБ';
             note.style.color = '#5A7A60';
             note.style.fontWeight = '600';
@@ -1908,9 +1904,37 @@ function handleSubscribe(form) {
                 note.style.fontWeight = '';
             }
         }, 5000);
-    }, 300);
+    };
 
-    return true;
+    btn.textContent = '...';
+    btn.disabled = true;
+    if (note && note.classList.contains('email-note')) {
+        note.dataset.orig = note.dataset.orig || note.textContent;
+        note.textContent = 'Добавляю в AI реХАБ...';
+        note.style.color = '';
+        note.style.fontWeight = '';
+    }
+
+    const workerSubscribe = window.IraSubscribe && window.IraSubscribe.subscribe;
+    const subscribePromise = workerSubscribe ? workerSubscribe({
+        email,
+        tags: ['rehab_newsletter'],
+    }) : Promise.reject(new Error('Subscribe worker script is not loaded'));
+
+    subscribePromise.then(() => {
+        showSuccess();
+    }).catch((error) => {
+        console.error(error);
+        if (note && note.classList.contains('email-note')) {
+            note.textContent = 'Добавляю через резервный канал...';
+            note.style.color = '';
+            note.style.fontWeight = '';
+        }
+        form.submit();
+        showSuccess();
+    });
+
+    return false;
 }
 
 // ==================== AI CHAT ====================
