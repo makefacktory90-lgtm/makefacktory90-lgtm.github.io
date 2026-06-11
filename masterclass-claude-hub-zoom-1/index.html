@@ -170,12 +170,19 @@ section { padding: 80px 32px; border-bottom: var(--border); max-width: 1400px; m
 .step-body p { font-size: 15px; max-width: 720px; color: var(--gray-dark); font-weight: 300; }
 .step:hover .step-body p { color: #ccc; }
 .step-body .prompt {
-    margin-top: 16px; padding: 12px 16px;
+    margin-top: 16px; padding: 16px 18px;
     border: 1px solid var(--gray-light);
     font-family: var(--font-mono); font-size: 12px;
     background: #FAFAFA; color: var(--gray-dark);
-    max-width: 720px;
+    max-width: 720px; line-height: 1.6;
+    white-space: pre-wrap; word-wrap: break-word;
 }
+.step-body .prompt-label {
+    margin-top: 16px; font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: var(--letter-spacing);
+    text-transform: uppercase; color: var(--gray-mid);
+}
+.step-body .prompt-label a { color: inherit; }
 .step:hover .step-body .prompt { border-color: #333; background: #111; color: #ccc; }
 
 /* Stack */
@@ -425,24 +432,26 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
 <section>
     <div class="section-tag">SEGMENT 01 // CORE PROTOCOL</div>
     <h2>6 шагов pipeline</h2>
-    <p class="lead">Если задача сложнее «напиши пост» — кнопки нет. Есть маршрут. Шесть шагов, отработанная последовательность. Шорткаты дают игрушки, последовательность даёт инструмент, с которым работаешь.</p>
+    <p class="lead">Если задача сложнее «напиши пост» — кнопки нет. Есть маршрут. Шесть шагов, отработанная последовательность. Шорткаты дают игрушки, последовательность даёт инструмент, с которым работаешь.<br><br>Промпты по каждому шагу — отработанные у Сергея Риса, курс <a href="https://vibecoding.phd" target="_blank" rel="noopener">vibecoding.phd</a>. Один из лучших фидеров по вайб-кодингу в России. Учусь у него сама.</p>
 
     <div class="pipeline">
         <div class="step reveal">
             <div class="step-num">01</div>
             <div class="step-body">
                 <h3>Идея // надиктовка голосом</h3>
-                <p>Открываем <a href="https://wisprflow.ai/" target="_blank" rel="noopener">Wispr Flow</a> или голос в ChatGPT/Claude и просто наговариваем идею. Не пишем — говорим. Просим агента быть собеседником, а не исполнителем: «помоги докрутить мою идею».</p>
-                <div class="prompt">> open wispr → "у меня в голове идея сервиса, который…" → claude/codex слушает</div>
+                <p>Открываем <a href="https://wisprflow.ai/" target="_blank" rel="noopener">Wispr Flow</a> или голос в ChatGPT/Claude и просто наговариваем идею. Не пишем — говорим. Просим агента быть собеседником, а не исполнителем: «помоги докрутить мою идею через интервью».</p>
+                <div class="prompt-label">PROMPT.01 // БАЗОВЫЙ</div>
+                <div class="prompt">У меня в голове идея: [своими словами]. Помоги её кристаллизовать через интервью. Задай мне 5–7 вопросов с тремя вариантами ответов, по одному. Вопросы задавай строго по одному и дожидайся моего ответа. В конце дай мне структурированный промпт в формате markdown.</div>
             </div>
         </div>
 
         <div class="step reveal">
             <div class="step-num">02</div>
             <div class="step-body">
-                <h3>Промпт // кристаллизация</h3>
-                <p>Простой стартовый промпт: «у меня вот такая идея, помоги её кристаллизировать. Задай мне 5 вопросов с 3 вариантами ответов, строго по одному, дожидайся ответа. В конце дай структурированный промпт в markdown».</p>
-                <div class="prompt">> "задай 5 вопросов по одному, 3 варианта ответа, на выходе — md-промпт"</div>
+                <h3>Промпт // версия с экспертами</h3>
+                <p>Когда хочется не вариться в собственной голове — просим агента подключить «комментарии экспертов» к каждому вопросу. Внешний контекст, чужие точки зрения, рамки. Часто именно тут идея ломается и собирается заново.</p>
+                <div class="prompt-label">PROMPT.02 // С ЭКСПЕРТАМИ</div>
+                <div class="prompt">У меня в голове идея: [своими словами]. Помоги её кристаллизовать через интервью. Задай мне 5–7 вопросов с тремя вариантами ответов, по одному. С каждым вопросом давай комментарии экспертов, которые могли бы это обсудить, и что бы они сказали — внешний контекст, чтобы я не варился в своей голове. Вопросы задавай строго по одному и дожидайся моего ответа. В конце дай мне структурированный промпт в формате markdown.</div>
             </div>
         </div>
 
@@ -450,8 +459,9 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="step-num">03</div>
             <div class="step-body">
                 <h3>PRD // продакт-менеджер челленджит</h3>
-                <p>Идём в формат «разговор с product manager». Нейронка вытаскивает из тебя: цель, ценность, юзеры, сценарии, KPI, риски. На выходе — реальное продуктовое ТЗ. Формат — markdown (нейронки лучше понимают).</p>
-                <div class="prompt">> структура: цель → ЦА → сценарии → метрики успеха → риски → формат md</div>
+                <p>Идём в формат «разговор с product manager». Нейронка вытаскивает из тебя: цель, ценность, юзеры, сценарии, KPI, риски. На выходе — реальное продуктовое ТЗ. Формат — markdown (нейронки лучше понимают). Максимум 2 страницы — иначе теряется фокус.</p>
+                <div class="prompt-label">PROMPT.03 // PRD</div>
+                <div class="prompt">Вот идея: [описание]. Создай PRD со следующей структурой: Purpose, Target Users (персоны), User Scenarios (3–5), Success Metrics, Constraints, Risks. Формат: markdown, максимум 2 страницы.</div>
             </div>
         </div>
 
@@ -459,8 +469,9 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="step-num">04</div>
             <div class="step-body">
                 <h3>Архитектура // карта проекта</h3>
-                <p>«Предложи минимальную архитектуру: структура папок, описание каждого файла, какие API подключить». Если задача серьёзная — одного Claude не хватит, заранее закладываем внешние источники.</p>
-                <div class="prompt">> "минимальная архитектура: папки + файлы + внешние API"</div>
+                <p>Из PRD строим минимальную карту: что где лежит, какие сущности в базе, какие endpoints наружу. Если задача серьёзная — одного Claude не хватит, заранее закладываем внешние API. Чем чётче карта — тем меньше блужданий на шаге кода.</p>
+                <div class="prompt-label">PROMPT.04 // ARCHITECTURE</div>
+                <div class="prompt">Вот PRD: [вставить]. Предложи минимальную архитектуру. Нужно: 1) Структура папок, 2) Описание каждого файла (1 строка), 3) Data model, 4) Список API endpoints. Стек: [constraint из PRD].</div>
             </div>
         </div>
 
@@ -468,8 +479,11 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="step-num">05</div>
             <div class="step-body">
                 <h3>Код // агент кодит сам</h3>
-                <p>Отдаём всё предыдущее в <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> или <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">Codex</a>. Модель сама генерит, сама запускает, показывает demo. Тестим, ловим баги, говорим голосом «исправь это, не нравится то».</p>
-                <div class="prompt">> claude code: "вот PRD + архитектура, реализуй и покажи demo"</div>
+                <p>Отдаём всё предыдущее в <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> или <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">Codex</a>. Не вываливаем всё сразу — режем на чанки и даём по одному, с релевантным контекстом. На каждом куске спрашиваем «что нужно для следующего шага» — модель сама ведёт.<br><br>Когда что-то сломалось — отдельный промпт для диагностики (см. ниже).</p>
+                <div class="prompt-label">PROMPT.05 // CODE</div>
+                <div class="prompt">Роль: Fullstack developer. Задача: [конкретный чанк функционала]. Контекст: [только релевантные файлы]. Когда закончишь — скажи что нужно для следующего.</div>
+                <div class="prompt-label">PROMPT.05B // DEBUG</div>
+                <div class="prompt">Ошибка: [полный текст ошибки]. Как воспроизвести ошибку — среда, тулы и т.д. Код: [релевантный фрагмент]. Что я уже пробовал: [список]. Объясни вероятную причину и предложи 2–3 варианта решения с объяснением, почему каждый может помочь.</div>
             </div>
         </div>
 
@@ -477,8 +491,9 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="step-num">06</div>
             <div class="step-body">
                 <h3>Деплой // онлайн или локально</h3>
-                <p>Если сервис только для тебя — можно жить локально, запускаться командой прямо в Claude или Codex. Если онлайн — <a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a> (бесплатно) или <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>. Регистрируешься руками один раз, дальше агент сам пушит.</p>
-                <div class="prompt">> "хочу разместить на vercel" → агент сам деплоит, регистрация — один клик</div>
+                <p>Если сервис только для тебя — можно жить локально, запускаться командой прямо в Claude или Codex. Если онлайн — <a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a> (бесплатно) или <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>. Регистрируешься руками один раз, дальше агент сам пушит.<br><br>Сразу просим пошаговую инструкцию — с env vars, билдом и планом отката. Если сломается ночью — не паникуем.</p>
+                <div class="prompt-label">PROMPT.06 // DEPLOY</div>
+                <div class="prompt">Проект: [стек]. Нужно задеплоить на [платформа]. Создай пошаговую инструкцию. Укажи: 1) Какие env vars нужны, 2) Команды для билда, 3) Как проверить что работает, 4) Как откатить если сломается.</div>
             </div>
         </div>
     </div>
