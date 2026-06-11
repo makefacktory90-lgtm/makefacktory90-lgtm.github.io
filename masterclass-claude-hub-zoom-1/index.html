@@ -432,7 +432,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
 <section>
     <div class="section-tag">SEGMENT 01 // CORE PROTOCOL</div>
     <h2>6 шагов pipeline</h2>
-    <p class="lead">Если задача сложнее «напиши пост» — кнопки нет. Есть маршрут. Шесть шагов, отработанная последовательность. Шорткаты дают игрушки, последовательность даёт инструмент, с которым работаешь.<br><br>Промпты по каждому шагу — отработанные у Сергея Риса, курс <a href="https://vibecoding.phd" target="_blank" rel="noopener">vibecoding.phd</a>. Один из лучших фидеров по вайб-кодингу в России. Учусь у него сама.</p>
+    <p class="lead">Если задача сложнее «напиши пост» — кнопки нет. Есть маршрут. Шесть шагов, отработанная последовательность. Шорткаты дают игрушки, последовательность даёт инструмент.<br><br>Промпты по каждому шагу — отработанные у Сергея Риса, курс <a href="https://vibecoding.phd" target="_blank" rel="noopener">vibecoding.phd</a>. Один из лучших фидеров по вайб-кодингу в России.</p>
 
     <div class="pipeline">
         <div class="step reveal">
@@ -459,7 +459,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="step-num">03</div>
             <div class="step-body">
                 <h3>PRD // продакт-менеджер челленджит</h3>
-                <p>Идём в формат «разговор с product manager». Нейронка вытаскивает из тебя: цель, ценность, юзеры, сценарии, KPI, риски. На выходе — реальное продуктовое ТЗ. Формат — markdown (нейронки лучше понимают). Максимум 2 страницы — иначе теряется фокус.</p>
+                <p>Идём в формат «разговор с product manager». Нейронка вытягивает наружу: цель, ценность, юзеры, сценарии, KPI, риски. На выходе — реальное продуктовое ТЗ. Формат — markdown (нейронки лучше понимают). Максимум 2 страницы — иначе теряется фокус.</p>
                 <div class="prompt-label">PROMPT.03 // PRD</div>
                 <div class="prompt">Вот идея: [описание]. Создай PRD со следующей структурой: Purpose, Target Users (персоны), User Scenarios (3–5), Success Metrics, Constraints, Risks. Формат: markdown, максимум 2 страницы.</div>
             </div>
@@ -479,7 +479,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="step-num">05</div>
             <div class="step-body">
                 <h3>Код // агент кодит сам</h3>
-                <p>Отдаём всё предыдущее в <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> или <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">Codex</a>. Не вываливаем всё сразу — режем на чанки и даём по одному, с релевантным контекстом. На каждом куске спрашиваем «что нужно для следующего шага» — модель сама ведёт.<br><br>Когда что-то сломалось — отдельный промпт для диагностики (см. ниже).</p>
+                <p>Отдаём всё предыдущее в <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> или <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">Codex</a>. Не отдаём всё сразу — делим на чанки и подаём по одному, с релевантным контекстом. На каждом куске уточняем у модели «что нужно для следующего шага» — она сама ведёт.<br><br>Если что-то сломалось — отдельный промпт для диагностики (ниже).</p>
                 <div class="prompt-label">PROMPT.05 // CODE</div>
                 <div class="prompt">Роль: Fullstack developer. Задача: [конкретный чанк функционала]. Контекст: [только релевантные файлы]. Когда закончишь — скажи что нужно для следующего.</div>
                 <div class="prompt-label">PROMPT.05B // DEBUG</div>
@@ -491,7 +491,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="step-num">06</div>
             <div class="step-body">
                 <h3>Деплой // онлайн или локально</h3>
-                <p>Если сервис только для тебя — можно жить локально, запускаться командой прямо в Claude или Codex. Если онлайн — <a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a> (бесплатно) или <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>. Регистрируешься руками один раз, дальше агент сам пушит.<br><br>Сразу просим пошаговую инструкцию — с env vars, билдом и планом отката. Если сломается ночью — не паникуем.</p>
+                <p>Если сервис только для внутреннего использования — можно жить локально, запускать командой прямо в Claude или Codex. Если онлайн — <a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a> (бесплатно) или <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>. Регистрация руками один раз, дальше агент сам пушит.<br><br>Сразу просим пошаговую инструкцию — с env vars, билдом и планом отката. Если что-то сломается ночью — план отката уже готов.</p>
                 <div class="prompt-label">PROMPT.06 // DEPLOY</div>
                 <div class="prompt">Проект: [стек]. Нужно задеплоить на [платформа]. Создай пошаговую инструкцию. Укажи: 1) Какие env vars нужны, 2) Команды для билда, 3) Как проверить что работает, 4) Как откатить если сломается.</div>
             </div>
@@ -516,21 +516,21 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <div class="code">AGENT_02</div>
             <h3>CODEX</h3>
             <div class="role">EXECUTOR / DEBUGGER</div>
-            <p>Часть GPT-5, $20/мес, большой запас токенов. Чище работает в коде, отлично чистит ошибки за Claude. Если что-то не сработало в Claude — переноси в Codex, докрутит.</p>
+            <p>Часть GPT-5, $20/мес, большой запас токенов. Чище работает в коде, отлично чистит ошибки за Claude. Если что-то не получилось в Claude — переносится в Codex, докрутит.</p>
             <div class="link-row">→ <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a></div>
         </div>
         <div class="stack-cell">
             <div class="code">AGENT_03</div>
             <h3>GEMINI</h3>
             <div class="role">DESIGNER / VISUAL</div>
-            <p>Лучший дизайн. <a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch</a> (Google) заточен под мобильные интерфейсы — голосом говоришь, он рисует. Промпт от Gemini забираешь и кладёшь в Claude/Codex для реализации.</p>
+            <p>Лучший дизайн. <a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch</a> (Google) заточен под мобильные интерфейсы — описываете голосом, он рисует. Готовый промпт от Gemini переносится в Claude/Codex для реализации.</p>
             <div class="link-row">→ <a href="https://gemini.google.com/" target="_blank" rel="noopener">gemini.google.com</a></div>
         </div>
         <div class="stack-cell">
             <div class="code">AGENT_04</div>
             <h3>KIMI</h3>
             <div class="role">MARKETING / COPY</div>
-            <p>Китайский блокбастер. Маркетинговые хуки, упаковка, тексты. Готовый продукт от Codex прогоняешь через Kimi — докручивает копирайт и упаковку.</p>
+            <p>Китайский блокбастер. Маркетинговые хуки, упаковка, тексты. Готовый продукт от Codex прогоняется через Kimi — докручивает копирайт и упаковку.</p>
             <div class="link-row">→ <a href="https://www.kimi.com/" target="_blank" rel="noopener">kimi.com</a></div>
         </div>
     </div>
@@ -544,17 +544,17 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="principle reveal">
             <div class="pcode">PRINCIPLE.01</div>
             <h3>Кнопок нет</h3>
-            <p>Готовых правильных решений не существует. Вайб-кодингу чуть больше года. Есть только маршруты других — берёшь и адаптируешь под себя. Один-в-один не получится никогда.</p>
+            <p>Готовых правильных решений не существует. Вайб-кодингу чуть больше года. Есть только маршруты других — их берут и адаптируют под себя. Один-в-один не получится никогда.</p>
         </div>
         <div class="principle reveal">
             <div class="pcode">PRINCIPLE.02</div>
             <h3>Советоваться, а не приказывать</h3>
-            <p>Не «сходи и возьми это». А «у меня вот такая задача, давай подумаем, как решить». Claude Code начинает спрашивать, предлагать варианты, восстанавливать ресурсы. Скажешь «я новичок, помоги» — поведёт за руку с нуля.</p>
+            <p>Не «сходи и возьми это». А «у меня вот такая задача, давай подумаем, как решить». Claude Code начинает спрашивать, предлагать варианты, восстанавливать ресурсы. Если сказать «я новичок, помоги мне» — поведёт за руку с нуля.</p>
         </div>
         <div class="principle reveal">
             <div class="pcode">PRINCIPLE.03</div>
             <h3>Доступ есть — самовольство нет</h3>
-            <p>У агента доступ ко всем папкам компьютера. Но он ничего не сделает без твоего разрешения. Каждое действие переспросит. Поэтому новичкам — начни с «разбери папку Downloads», просто для калибровки мышления.</p>
+            <p>У агента доступ ко всем папкам компьютера. Но он ничего не сделает без вашего разрешения. Каждое действие переспросит. Новичкам — стоит начать с «разбери папку Downloads», просто для калибровки мышления.</p>
         </div>
     </div>
 </section>
@@ -587,7 +587,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
                 <li>Делает приложения, проекты, сам деплоит</li>
                 <li>Разворачивает 30–45 подагентов параллельно</li>
                 <li>MCP-интеграции — Higgsfield, Figma, Premiere и т.д.</li>
-                <li>Зашиваешь промпты в проект (CLAUDE.md, скиллы)</li>
+                <li>Промпты зашиваются в проект (CLAUDE.md, скиллы)</li>
                 <li>Для серьёзной автоматизации и реальных сервисов</li>
             </ul>
             <div class="verdict">VERDICT: для производства, не для болтовни</div>
@@ -616,7 +616,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="a">
             <strong><a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a></strong> — генерирует картинки и видео во всех топ-моделях одновременно (Nano Banana, Veo, Kling). Подключается через MCP к Claude или Codex.<br><br>
             <strong>Альтернативы:</strong> <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a>, <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> — те же возможности, у каждого своя фишка.<br><br>
-            <strong>Как:</strong> заходим на сайт сервиса → копируем MCP-ссылку → кидаем агенту → он сам подключается, мы подтверждаем доступ. Дальше — голосом: «сделай мне картинку в стиле Кристофера Нолана, вертикально, на Nano Banana».
+            <strong>Как:</strong> заходим на сайт сервиса → копируем MCP-ссылку → отдаём агенту → он сам подключается, мы подтверждаем доступ. Дальше — голосом: «сделай мне картинку в стиле Кристофера Нолана, вертикально, на Nano Banana».
         </div>
     </div>
 
@@ -629,8 +629,8 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="q">Зачем зашивать промпты в проект</div>
         <div class="a-text">Setup</div>
         <div class="a">
-            В проекте Claude можно прописать <strong>свою стилистику, художников, ракурсы, камеры</strong> — отработанные промпты. После этого агент знает, как делать картинки «в твоём стиле». По описанию поста сам нарисует иллюстрацию.<br><br>
-            Высший пилотаж — <strong>flow внутри одного чата</strong>: агент 1 ищет новости → агент 2 пишет текст твоим голосом → агент 3 генерит картинку. Ты только говоришь «окей / не окей».
+            В проекте Claude можно прописать <strong>свою стилистику, художников, ракурсы, камеры</strong> — отработанные промпты. После этого агент знает, как делать картинки «в вашем стиле». По описанию поста сам нарисует иллюстрацию.<br><br>
+            Высший пилотаж — <strong>flow внутри одного чата</strong>: агент 1 ищет новости → агент 2 пишет текст вашим голосом → агент 3 генерит картинку. Остаётся только говорить «окей / не окей».
         </div>
     </div>
 </section>
@@ -655,7 +655,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="v-a">
             Всё это <strong>реально</strong>, и всё это — <strong>чистый вайб-кодинг</strong>. Готовой кнопки и магического промпта нет: вы это <strong>настраиваете сами</strong> под свою задачу.<br><br>
             Идём по pipeline: <strong>идея → промпт → PRD → архитектура → код → деплой</strong>. На каждом этапе разговариваем с агентом голосом, он сам подбирает структуру и инструменты.<br><br>
-            <strong>SEO и аналитика конкурентов</strong> — Claude делает приложение, которое ходит по нужным метрикам, забирает данные, складывает в дашборд. <strong>Дашборд соцсетей</strong> — туда же, агент через API/коннекторы собирает Insta/TG/YouTube в одну панель. <strong>Мессенджеры</strong> — Claude сам не лезет в чужие приложения без API, но может оркестрировать ботов (<a href="https://core.telegram.org/bots" target="_blank" rel="noopener">Telegram Bot API</a>) и подтягивать данные, где есть доступ. Где доступа нет — собираем полу-ручной flow с твоими подтверждениями.<br><br>
+            <strong>SEO и аналитика конкурентов</strong> — Claude делает приложение, которое ходит по нужным метрикам, забирает данные, складывает в дашборд. <strong>Дашборд соцсетей</strong> — туда же, агент через API/коннекторы собирает Insta/TG/YouTube в одну панель. <strong>Мессенджеры</strong> — Claude сам не лезет в чужие приложения без API, но может оркестрировать ботов (<a href="https://core.telegram.org/bots" target="_blank" rel="noopener">Telegram Bot API</a>) и подтягивать данные, где есть доступ. Где доступа нет — собирается полу-ручной flow с вашими подтверждениями.<br><br>
             Для серьёзных вещей с базой клиентов — нужен сайт не на GitHub Pages, а на <a href="https://bubble.io/" target="_blank" rel="noopener">Bubble</a> / <a href="https://supabase.com/" target="_blank" rel="noopener">Supabase</a>. Это следующий уровень вайб-кодинга, проводит тот же агент.
         </div>
     </div>
@@ -670,10 +670,10 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         </ul>
         <div class="v-a-label">RESPONSE // IRA</div>
         <div class="v-a">
-            Логика правильная — <strong>контекст приоритетнее инструмента</strong>. Claude уже знает твой стиль, профиль, голос — и это переиспользуется во всех направлениях.<br><br>
-            <strong>Визуал сайтов:</strong> Claude Code открывает сайт конкурента, разбирает разметку, типографику, цветовые решения, сравнивает с твоим. Дальше — <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a> или <a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch</a> для визуальных макетов, обратно в Claude Code для реализации в коде.<br><br>
-            <strong>Видео:</strong> через MCP подключаются <a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a>, <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a>, <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> прямо в Claude. <a href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">Premiere</a> уже имеет плагины Claude — чистит звук, режет паузы. <a href="https://www.figma.com/" target="_blank" rel="noopener">Figma</a> подключается. Multi-camera AI: 4 камеры → 1 ролик без тебя.<br><br>
-            Главное — в проекте Claude зашиваешь стилистику, ракурсы, цвета, приёмы оператора, любимых художников. После этого по короткому описанию сам делает то, что нравится тебе.
+            Логика правильная — <strong>контекст приоритетнее инструмента</strong>. Claude уже знает ваш стиль, профиль, голос — и это переиспользуется во всех направлениях.<br><br>
+            <strong>Визуал сайтов:</strong> Claude Code открывает сайт конкурента, разбирает разметку, типографику, цветовые решения, сравнивает с вашим. Дальше — <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a> или <a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch</a> для визуальных макетов, обратно в Claude Code для реализации в коде.<br><br>
+            <strong>Видео:</strong> через MCP подключаются <a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a>, <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a>, <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> прямо в Claude. <a href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">Premiere</a> уже имеет плагины Claude — чистит звук, режет паузы. <a href="https://www.figma.com/" target="_blank" rel="noopener">Figma</a> подключается. Multi-camera AI: 4 камеры → 1 ролик без вашего участия.<br><br>
+            Главное — в проекте Claude зашиваются стилистика, ракурсы, цвета, приёмы оператора, любимые художники. После этого по короткому описанию агент сам делает то, что нравится вам.
         </div>
     </div>
 
@@ -684,7 +684,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="v-a">
             И то, и другое. <strong>Claude в чате — не картиночная модель</strong>, ему просто прикручен сторонний генератор. Сильные картиночники — это <a href="https://www.midjourney.com/" target="_blank" rel="noopener">Midjourney</a>, GPT-Image, Nano Banana, Flux, Kling — у каждого свой характер. <strong>Промпт тоже важен</strong>: для Midjourney пишешь короткими образами, для Nano Banana — длинными описательными.<br><br>
             <strong>Решение — подключить эти модели к Claude через MCP.</strong> <a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a> отдаёт сразу пачку топ-моделей внутри агента, включая Nano Banana, Midjourney-стиль, Kling, Veo, Flux. <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a> и <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> работают так же.<br><br>
-            <strong>Сшивка в контент-план:</strong> в одном проекте Claude зашиваешь стилистику, голос, типы постов. Дальше flow: агент 1 находит инфоповод → агент 2 пишет текст под твой голос → агент 3 (через MCP) генерит обложку в нужной модели → агент 4 раскладывает в контент-план / Obsidian / календарь. Ты в чате только говоришь «окей / переделай».<br><br>
+            <strong>Сшивка в контент-план:</strong> в одном проекте Claude зашиваются стилистика, голос, типы постов. Дальше flow: агент 1 находит инфоповод → агент 2 пишет текст под ваш голос → агент 3 (через MCP) генерит обложку в нужной модели → агент 4 раскладывает в контент-план / Obsidian / календарь. В чате остаётся только сказать «окей / переделай».<br><br>
             Контекст один (Claude), руки — у моделей-художников.
         </div>
     </div>
@@ -705,7 +705,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="q">«Создал один проект, и под него — папки About Me, About Past Times, Plates. Если создаю новый проект, нужно эти три папки заново создавать. Правильно понимаю?»</div>
         <div class="a-text">Ответ Иры</div>
         <div class="a">
-            Правильно. Если ведёшь разные домены — психотерапевт + преподаватель психологов + IFS-практик + личное саморазвитие — это <strong>разные папки</strong>, не одна. У каждой свой About Me. Не смешивать. Клиенты — отдельной папкой внутри.
+            Правильно. Если у вас разные домены — психотерапевт + преподаватель психологов + IFS-практик + личное саморазвитие — это <strong>разные папки</strong>, не одна. У каждой свой About Me. Не смешивать. Клиенты — отдельной папкой внутри.
         </div>
     </div>
 
@@ -719,7 +719,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="q">«А эти агенты — откуда они возьмутся?»</div>
         <div class="a-text">Ответ Иры</div>
         <div class="a">
-            Агент — это Claude или Codex. <strong>Подагентов ты настраиваешь сам</strong> под задачу. Сначала пилишь каждый поисковик / писатель / художник отдельно. Когда нравится, как работает — соединяешь в один flow. Делается не за час, но потом запускается одной голосовой командой.<br><br>
+            Агент — это Claude или Codex. <strong>Подагенты настраиваются вручную</strong> под задачу. Сначала каждый поисковик / писатель / художник пилится отдельно. Когда нравится, как работает — соединяется в один flow. Делается не за час, но потом запускается одной голосовой командой.<br><br>
             Полезно: <strong>Deep Research-скилл</strong>, <a href="https://exa.ai/" target="_blank" rel="noopener">Exa</a> как поисковик для нейронок ($5–10 = ~10K запросов).
         </div>
     </div>
@@ -734,7 +734,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="q">«В Telegram очень много заявок, устал отвечать один и тот же текст каждому. Могу создать в Claude Code агента, который зайдёт в мой телеграм и будет отвечать?»</div>
         <div class="a-text">Ответ Иры</div>
         <div class="a">
-            Это <strong>не агент, это бот</strong>. Можно сделать самому через Claude Code (он проведёт по <a href="https://t.me/BotFather" target="_blank" rel="noopener">BotFather</a> пошагово), но рекомендую <a href="https://app.aifromspace.com/" target="_blank" rel="noopener"><strong>IFromSpace</strong></a> — русская платформа, все большие нейронки на российских серверах. Готовые ботики подключаются за минуты, ~1000 ₽ токенов хватает надолго. Альфред Иры работает на красном (Claude) мозге через IFromSpace.<br><br>
+            Это <strong>не агент, это бот</strong>. Можно сделать самому через Claude Code (он проведёт по <a href="https://t.me/BotFather" target="_blank" rel="noopener">BotFather</a> пошагово), но рекомендую <a href="https://app.aifromspace.com/" target="_blank" rel="noopener"><strong>AIFromSpace</strong></a> — русская платформа, все большие нейронки на российских серверах. Готовые ботики подключаются за минуты, ~1000 ₽ токенов хватает надолго. Например, бот «Альфред» работает на красном (Claude) мозге через AIFromSpace.<br><br>
             <em>→ <a href="https://app.aifromspace.com/" target="_blank" rel="noopener">app.aifromspace.com</a></em>
         </div>
     </div>
@@ -749,7 +749,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="q">«У меня то же самое в Claude.ai получается — задание начинаю, дополнительные вопросы, он отвечает. Какая разница между Codex и Claude.ai?»</div>
         <div class="a-text">Ответ Иры</div>
         <div class="a">
-            <a href="https://claude.ai/" target="_blank" rel="noopener">Claude.ai</a> <strong>не сделает приложение</strong>. Не пойдёт сам ничего устанавливать. <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> умеет: внутри одного агента подключить ещё 30+ подагентов и работать с твоими папками. Кейс: у девушки Claude Code развернул 45 подагентов на одну задачу — съел все $30 экстра-токенов.<br><br>
+            <a href="https://claude.ai/" target="_blank" rel="noopener">Claude.ai</a> <strong>не сделает приложение</strong>. Не пойдёт сам ничего устанавливать. <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> умеет: внутри одного агента подключить ещё 30+ подагентов и работать с вашими папками. Кейс: у одной из студенток Claude Code развернул 45 подагентов на одну задачу — съел все $30 экстра-токенов.<br><br>
             Полное сравнение — см. сегмент 04 выше.
         </div>
     </div>
@@ -795,7 +795,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
     </div>
 
     <div class="quote">
-        <blockquote>Задача упирается уже не в инструменты, а в твои когнитивные способности.</blockquote>
+        <blockquote>Задача упирается уже не в инструменты, а в ваши когнитивные способности.</blockquote>
         <cite>— Ира, 36:19</cite>
     </div>
 
@@ -824,7 +824,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="gloss-row"><div class="term">VERCEL</div><div class="def"><a href="https://vercel.com/" target="_blank" rel="noopener">vercel.com</a> — бесплатный хостинг. Агент сам деплоит.</div></div>
         <div class="gloss-row"><div class="term">GITHUB PAGES</div><div class="def"><a href="https://pages.github.com/" target="_blank" rel="noopener">pages.github.com</a> — простые статические страницы. Без VPN.</div></div>
         <div class="gloss-row"><div class="term">BUBBLE / SUPABASE</div><div class="def"><a href="https://bubble.io/" target="_blank" rel="noopener">bubble.io</a>, <a href="https://supabase.com/" target="_blank" rel="noopener">supabase.com</a> — для сложных сайтов с базой.</div></div>
-        <div class="gloss-row"><div class="term">IFROMSPACE</div><div class="def"><a href="https://app.aifromspace.com/" target="_blank" rel="noopener">app.aifromspace.com</a> — русская платформа, все большие нейронки на росс. серверах. Готовые боты.</div></div>
+        <div class="gloss-row"><div class="term">AIFromSpace</div><div class="def"><a href="https://app.aifromspace.com/" target="_blank" rel="noopener">app.aifromspace.com</a> — русская платформа, все большие нейронки на росс. серверах. Готовые боты.</div></div>
         <div class="gloss-row"><div class="term">EXA</div><div class="def"><a href="https://exa.ai/" target="_blank" rel="noopener">exa.ai</a> — поисковик для нейронок. $5–10 = ~10K запросов.</div></div>
         <div class="gloss-row"><div class="term">OBSIDIAN</div><div class="def"><a href="https://obsidian.md/" target="_blank" rel="noopener">obsidian.md</a> — папка для скиллов и промптов в markdown.</div></div>
         <div class="gloss-row"><div class="term">FIGMA / PREMIERE</div><div class="def"><a href="https://www.figma.com/" target="_blank" rel="noopener">figma.com</a>, <a href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">Premiere</a> — оба подключаются к Claude.</div></div>
@@ -839,7 +839,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="qnum">QUESTION 01 / 04</div>
         <div class="qtext">С чего начинается pipeline вайб-кодинга?</div>
         <div class="quiz-options">
-            <button class="quiz-opt" data-opt="a">Сразу кидаешь промпт в Claude Code и просишь сделать сервис</button>
+            <button class="quiz-opt" data-opt="a">Сразу отправляется промпт в Claude Code с просьбой сделать сервис</button>
             <button class="quiz-opt" data-opt="b">Голосом надиктовываешь идею и просишь агента её докрутить вопросами</button>
             <button class="quiz-opt" data-opt="c">Сначала рисуешь дизайн в Figma, потом отдаёшь его кодеру</button>
         </div>
@@ -854,7 +854,7 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
             <button class="quiz-opt" data-opt="b">Codex быстрее работает с математикой и всегда лучше Claude</button>
             <button class="quiz-opt" data-opt="c">Codex чище в коде и докручивает то, что не сработало в Claude</button>
         </div>
-        <div class="quiz-explain">→ Codex — исполнитель и дебаггер. Когда у Claude что-то не получилось — переносишь задачу в Codex, он докручивает. Деплоить умеют оба.</div>
+        <div class="quiz-explain">→ Codex — исполнитель и дебаггер. Когда у Claude что-то не получилось — задача переносится в Codex, он докручивает. Деплоить умеют оба.</div>
     </div>
 
     <div class="quiz-item" data-correct="a">
@@ -872,11 +872,11 @@ footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--
         <div class="qnum">QUESTION 04 / 04</div>
         <div class="qtext">Главное отличие работы с агентом от обычного промпта нейронке?</div>
         <div class="quiz-options">
-            <button class="quiz-opt" data-opt="a">С агентом ты пишешь промпты длиннее, поэтому результат лучше</button>
-            <button class="quiz-opt" data-opt="b">С агентом советуешься и обсуждаешь, а не приказываешь</button>
-            <button class="quiz-opt" data-opt="c">Агент сам ставит задачи и работает за тебя без участия</button>
+            <button class="quiz-opt" data-opt="a">При работе с агентом промпты длиннее, поэтому результат лучше</button>
+            <button class="quiz-opt" data-opt="b">С агентом советуются и обсуждают задачу, а не приказывают</button>
+            <button class="quiz-opt" data-opt="c">Агент сам ставит задачи и работает без вашего участия</button>
         </div>
-        <div class="quiz-explain">→ Принцип 02. «У меня вот такая задача, давай подумаем, как её решить». Тогда агент начинает спрашивать, предлагать варианты и вести тебя.</div>
+        <div class="quiz-explain">→ Принцип 02. «У меня вот такая задача, давай подумаем, как её решить». Тогда агент начинает спрашивать, предлагать варианты и вести вас за руку.</div>
     </div>
 </section>
 
