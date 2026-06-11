@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE HUB // ZOOM 1 — Вайб-кодинг для бизнес-сервисов | Ира Буян</title>
+<meta name="description" content="Интерактивный разбор первой Zoom-сессии Claude Hub: 6-шаговый pipeline вайб-кодинга, стек агентов Claude/Codex/Gemini/Kimi, MCP-интеграции, разбор вопросов студентов.">
+<meta name="keywords" content="вайб-кодинг, Claude Code, Codex, MCP, Higgsfield, AI агенты, Ира Буян, Claude Hub">
+<meta property="og:title" content="CLAUDE HUB // ZOOM 1 — Вайб-кодинг для бизнес-сервисов">
+<meta property="og:description" content="Pipeline из 6 шагов, стек из 4 агентов, MCP-интеграции и разбор кейсов студентов.">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ru_RU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #FFFFFF;
+    --text: #000000;
+    --gray-light: #E5E5E5;
+    --gray-mid: #999999;
+    --gray-dark: #333333;
+    --tiffany: #7FFFD4;
+    --tiffany-dark: #00C9A7;
+    --accent: #000000;
+    --border: 1px solid #000000;
+    --hair: 1px solid #E5E5E5;
+    --font-heading: 'Inter', 'Helvetica Neue', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+    --letter-spacing: 0.15em;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    line-height: 1.5;
+    overflow-x: hidden;
+    cursor: crosshair;
+}
+
+a { color: inherit; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+
+.progress {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: #000; width: 0%; z-index: 100;
+    transition: width 0.1s linear;
+}
+
+/* Top bar */
+.topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 32px; border-bottom: var(--border);
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    background: #fff; position: sticky; top: 0; z-index: 50;
+}
+.topbar .left { display: flex; gap: 24px; align-items: center; }
+.topbar .dot { width: 8px; height: 8px; background: #000; animation: blink 1.2s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Hero */
+.hero { padding: 80px 32px 60px; border-bottom: var(--border); position: relative; }
+.hero .meta {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    color: var(--gray-mid); margin-bottom: 24px;
+    display: flex; gap: 24px; flex-wrap: wrap;
+}
+.hero h1 {
+    font-size: clamp(40px, 7vw, 96px);
+    font-weight: 900; line-height: 0.95;
+    letter-spacing: -0.02em; text-transform: uppercase;
+    margin-bottom: 24px;
+}
+.hero .sub {
+    font-size: clamp(14px, 1.4vw, 18px); max-width: 780px;
+    color: var(--gray-dark); font-weight: 300; margin-bottom: 32px;
+}
+.hero .core-msg {
+    background: var(--tiffany); padding: 24px 28px;
+    max-width: 780px; border: var(--border);
+    font-size: clamp(16px, 1.6vw, 20px); font-weight: 600;
+    line-height: 1.35; letter-spacing: -0.005em;
+}
+.hero .core-msg::before {
+    content: 'CORE MESSAGE //'; display: block;
+    font-family: var(--font-mono); font-size: 11px;
+    font-weight: 400; letter-spacing: var(--letter-spacing);
+    margin-bottom: 12px; color: #000;
+}
+
+/* Zoom block */
+.zoom-block {
+    padding: 40px 32px; border-bottom: var(--border);
+    background: #000; color: #fff;
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: 32px; align-items: center;
+}
+.zoom-block .label {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    color: var(--tiffany);
+}
+.zoom-block .links { display: flex; flex-direction: column; gap: 12px; }
+.zoom-block .zoom-link {
+    color: #fff; text-decoration: none;
+    font-family: var(--font-mono); font-size: 12px;
+    border-bottom: 1px solid #444; padding-bottom: 6px;
+    word-break: break-all; transition: color 0.15s;
+}
+.zoom-block .zoom-link:hover { color: var(--tiffany); border-color: var(--tiffany); }
+.zoom-block .pwd {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono); font-size: 13px;
+}
+.zoom-block .pwd-code {
+    background: #fff; color: #000; padding: 6px 14px;
+    font-weight: 700; letter-spacing: 0.05em;
+}
+.zoom-block .copy-btn {
+    background: var(--tiffany); color: #000; border: 0;
+    padding: 14px 22px; cursor: crosshair;
+    font-family: var(--font-mono); font-size: 11px;
+    font-weight: 700; letter-spacing: var(--letter-spacing);
+    text-transform: uppercase; transition: all 0.15s;
+}
+.zoom-block .copy-btn:hover { background: #fff; }
+.zoom-block .copy-btn.copied { background: #fff; }
+@media(max-width: 800px) {
+    .zoom-block { grid-template-columns: 1fr; gap: 16px; padding: 32px 20px; }
+}
+
+/* Section */
+section { padding: 80px 32px; border-bottom: var(--border); max-width: 1400px; margin: 0 auto; }
+.section-tag {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    color: var(--gray-mid); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+}
+.section-tag::before { content: ''; width: 24px; height: 1px; background: var(--gray-mid); }
+.section h2 {
+    font-size: clamp(28px, 4vw, 52px); font-weight: 800;
+    text-transform: uppercase; letter-spacing: -0.01em;
+    line-height: 1; margin-bottom: 40px;
+}
+.section .lead {
+    font-size: clamp(15px, 1.3vw, 18px); max-width: 780px;
+    color: var(--gray-dark); margin-bottom: 48px; font-weight: 300;
+}
+
+/* Pipeline */
+.pipeline { display: grid; gap: 0; border-top: var(--border); }
+.step {
+    display: grid; grid-template-columns: 100px 1fr;
+    border-bottom: var(--border); padding: 32px 0;
+    transition: background 0.2s; cursor: crosshair;
+}
+.step:hover { background: #000; color: #fff; }
+.step:hover .step-num { color: #fff; }
+.step:hover a { color: var(--tiffany); }
+.step-num { font-family: var(--font-mono); font-size: 48px; font-weight: 300; color: var(--gray-mid); line-height: 1; }
+.step-body h3 { font-size: 22px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 12px; }
+.step-body p { font-size: 15px; max-width: 720px; color: var(--gray-dark); font-weight: 300; }
+.step:hover .step-body p { color: #ccc; }
+.step-body .prompt {
+    margin-top: 16px; padding: 12px 16px;
+    border: 1px solid var(--gray-light);
+    font-family: var(--font-mono); font-size: 12px;
+    background: #FAFAFA; color: var(--gray-dark);
+    max-width: 720px;
+}
+.step:hover .step-body .prompt { border-color: #333; background: #111; color: #ccc; }
+
+/* Stack */
+.stack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: var(--border); border-left: var(--border); }
+.stack-cell {
+    border-right: var(--border); border-bottom: var(--border);
+    padding: 32px 24px; min-height: 320px;
+    transition: background 0.2s;
+    display: flex; flex-direction: column;
+}
+.stack-cell:hover { background: #000; color: #fff; }
+.stack-cell:hover a { color: var(--tiffany); }
+.stack-cell .code { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--letter-spacing); text-transform: uppercase; color: var(--gray-mid); margin-bottom: 16px; }
+.stack-cell:hover .code { color: #999; }
+.stack-cell h3 { font-size: 28px; font-weight: 800; text-transform: uppercase; margin-bottom: 16px; line-height: 1; }
+.stack-cell .role { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid var(--gray-light); padding-top: 12px; margin-bottom: 16px; }
+.stack-cell:hover .role { border-color: #333; }
+.stack-cell p { font-size: 14px; color: var(--gray-dark); font-weight: 300; }
+.stack-cell:hover p { color: #ccc; }
+.stack-cell .link-row { margin-top: auto; padding-top: 16px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; }
+@media(max-width: 900px) { .stack { grid-template-columns: 1fr 1fr; } }
+@media(max-width: 500px) { .stack { grid-template-columns: 1fr; } }
+
+/* Principles */
+.principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: var(--border); }
+.principle { padding: 40px 24px; border-right: var(--border); border-bottom: var(--border); }
+.principle:last-child { border-right: 0; }
+.principle .pcode { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--letter-spacing); color: var(--gray-mid); margin-bottom: 24px; }
+.principle h3 { font-size: 24px; font-weight: 800; text-transform: uppercase; line-height: 1.05; margin-bottom: 20px; }
+.principle p { font-size: 14px; color: var(--gray-dark); font-weight: 300; }
+@media(max-width: 800px) { .principles { grid-template-columns: 1fr; } .principle { border-right: 0; } }
+
+/* Quotes */
+.quote { border: var(--border); padding: 48px 40px; margin: 32px 0; position: relative; }
+.quote::before { content: '«'; font-size: 96px; line-height: 1; position: absolute; top: -8px; left: 16px; font-family: Georgia, serif; }
+.quote blockquote { font-size: clamp(20px, 2.5vw, 32px); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; padding-left: 80px; }
+.quote cite { display: block; margin-top: 24px; padding-left: 80px; font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--letter-spacing); text-transform: uppercase; color: var(--gray-mid); font-style: normal; }
+@media(max-width: 600px) { .quote { padding: 32px 20px; } .quote blockquote, .quote cite { padding-left: 50px; } }
+
+/* Comparison: Claude Code vs Claude.ai */
+.compare { display: grid; grid-template-columns: 1fr 1fr; border-top: var(--border); }
+.compare-col { padding: 40px 32px; }
+.compare-col.left { background: #FAFAFA; border-right: var(--border); border-bottom: var(--border); }
+.compare-col.right { background: #000; color: #fff; border-bottom: var(--border); }
+.compare-col .ccode { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--letter-spacing); color: var(--gray-mid); margin-bottom: 16px; }
+.compare-col h3 { font-size: 28px; font-weight: 800; text-transform: uppercase; margin-bottom: 24px; line-height: 1; }
+.compare-col ul { list-style: none; }
+.compare-col li {
+    padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-size: 14px; font-weight: 300;
+    display: grid; grid-template-columns: 20px 1fr; gap: 12px;
+}
+.compare-col.right li { border-bottom: 1px solid rgba(255,255,255,0.08); }
+.compare-col li::before { content: '—'; color: var(--gray-mid); }
+.compare-col.right li::before { color: var(--tiffany); }
+.compare-col .verdict { margin-top: 24px; padding-top: 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; }
+@media(max-width: 800px) { .compare { grid-template-columns: 1fr; } .compare-col.left { border-right: 0; } }
+
+/* Viewer Q&A (colored blocks) */
+.viewer-qa {
+    background: var(--tiffany); color: #000;
+    border: var(--border); margin-bottom: 32px;
+    padding: 36px 40px;
+}
+.viewer-qa .v-label {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    margin-bottom: 16px; font-weight: 700;
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+}
+.viewer-qa .v-label::before {
+    content: ''; width: 8px; height: 8px; background: #000;
+    display: inline-block;
+}
+.viewer-qa .v-q {
+    font-size: clamp(18px, 1.8vw, 22px); font-weight: 600;
+    line-height: 1.35; margin-bottom: 12px;
+}
+.viewer-qa .v-q-items { margin-bottom: 24px; padding-left: 0; list-style: none; }
+.viewer-qa .v-q-items li {
+    padding: 8px 0; font-size: 15px; font-weight: 400;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    display: grid; grid-template-columns: 24px 1fr; gap: 8px;
+}
+.viewer-qa .v-q-items li::before {
+    content: '?'; font-family: var(--font-mono); font-weight: 700;
+}
+.viewer-qa .v-a-label {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    margin: 24px 0 12px; font-weight: 700;
+    border-top: 1px solid rgba(0,0,0,0.25); padding-top: 20px;
+}
+.viewer-qa .v-a {
+    font-size: 15px; line-height: 1.65; font-weight: 400;
+    color: #000;
+}
+.viewer-qa .v-a strong { font-weight: 700; }
+.viewer-qa .v-a a { color: #000; font-weight: 700; }
+@media(max-width: 600px) { .viewer-qa { padding: 28px 24px; } }
+
+/* Student Q&A (regular case discussions) */
+.qa-item { border-bottom: var(--border); padding: 32px 0; }
+.qa-item .qcode {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    color: var(--gray-mid); margin-bottom: 16px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+}
+.qa-item .q-text {
+    font-family: var(--font-mono); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--gray-mid); margin-bottom: 8px;
+}
+.qa-item .q {
+    font-size: 22px; font-weight: 700; margin-bottom: 24px;
+    line-height: 1.3; padding-bottom: 20px;
+    border-bottom: 1px solid var(--gray-light);
+}
+.qa-item .a-text {
+    font-family: var(--font-mono); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--gray-mid); margin-bottom: 12px;
+}
+.qa-item .a {
+    font-size: 15px; color: var(--gray-dark);
+    max-width: 860px; font-weight: 300; line-height: 1.65;
+}
+.qa-item .a strong { color: var(--text); font-weight: 600; }
+
+/* Glossary */
+.glossary { border-top: var(--border); }
+.gloss-row {
+    display: grid; grid-template-columns: 220px 1fr;
+    border-bottom: var(--hair); padding: 16px 0;
+    font-family: var(--font-mono); font-size: 13px;
+    align-items: start;
+}
+.gloss-row .term { text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; }
+.gloss-row .def { color: var(--gray-dark); font-weight: 300; }
+@media(max-width: 700px) { .gloss-row { grid-template-columns: 1fr; gap: 8px; } }
+
+/* Quiz */
+.quiz-item { border: var(--border); padding: 32px; margin-bottom: 24px; }
+.quiz-item .qnum { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--letter-spacing); color: var(--gray-mid); margin-bottom: 12px; }
+.quiz-item .qtext { font-size: 20px; font-weight: 700; margin-bottom: 24px; line-height: 1.3; }
+.quiz-options { display: grid; gap: 8px; }
+.quiz-opt {
+    border: 1px solid var(--gray-light); padding: 14px 20px;
+    cursor: crosshair; font-size: 14px;
+    font-family: var(--font-heading);
+    background: #fff; color: #000; text-align: left;
+    transition: all 0.15s; font-weight: 400;
+}
+.quiz-opt:hover { border-color: #000; }
+.quiz-opt.correct { background: var(--tiffany); color: #000; border-color: #000; font-weight: 600; }
+.quiz-opt.wrong { background: #fff; color: #000; border-color: #000; text-decoration: line-through; opacity: 0.5; }
+.quiz-explain { margin-top: 16px; padding-top: 16px; border-top: var(--hair); font-family: var(--font-mono); font-size: 12px; color: var(--gray-dark); display: none; }
+.quiz-item.answered .quiz-explain { display: block; }
+
+/* CTA */
+.cta { padding: 80px 32px; text-align: center; border-bottom: var(--border); background: #000; color: #fff; }
+.cta h2 { font-size: clamp(32px, 5vw, 72px); font-weight: 900; text-transform: uppercase; line-height: 0.95; margin-bottom: 24px; letter-spacing: -0.02em; }
+.cta p { font-size: 16px; max-width: 600px; margin: 0 auto 32px; color: #999; font-weight: 300; }
+.cta-btn {
+    display: inline-block; padding: 18px 40px;
+    border: 1px solid #fff; color: #fff; text-decoration: none;
+    font-family: var(--font-mono); font-size: 13px;
+    letter-spacing: var(--letter-spacing); text-transform: uppercase;
+    transition: all 0.2s; margin: 0 6px 6px;
+}
+.cta-btn.primary { background: var(--tiffany); color: #000; border-color: var(--tiffany); }
+.cta-btn:hover { background: #fff; color: #000; }
+.cta-btn.primary:hover { background: #fff; }
+.cta .zoom-cta {
+    margin-top: 32px; padding: 24px; border: 1px solid #444;
+    max-width: 600px; margin-left: auto; margin-right: auto;
+    text-align: left;
+}
+.cta .zoom-cta .l { font-family: var(--font-mono); font-size: 11px; color: var(--tiffany); letter-spacing: var(--letter-spacing); margin-bottom: 8px; }
+.cta .zoom-cta a { color: #fff; font-family: var(--font-mono); font-size: 12px; word-break: break-all; }
+.cta .zoom-cta .p { margin-top: 8px; font-family: var(--font-mono); font-size: 13px; color: #999; }
+.cta .zoom-cta .p code { background: #fff; color: #000; padding: 3px 8px; font-weight: 700; }
+
+/* Footer */
+footer {
+    padding: 40px 32px; font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: var(--letter-spacing);
+    text-transform: uppercase; color: var(--gray-mid);
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px; border-top: var(--border);
+}
+footer .blink::after { content: '_'; animation: blink 1s infinite; color: var(--text); }
+@media(max-width: 700px) { footer { grid-template-columns: 1fr; } }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+@media(max-width: 700px) {
+    section { padding: 60px 20px; }
+    .hero { padding: 60px 20px 40px; }
+    .topbar { padding: 12px 20px; font-size: 10px; }
+    .topbar .left { gap: 12px; }
+    .step { grid-template-columns: 60px 1fr; }
+    .step-num { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+    <div class="left">
+        <span class="dot"></span>
+        <span>CLAUDE_HUB // ZOOM_01</span>
+        <span>STATUS: ACTIVE</span>
+    </div>
+    <div class="right">
+        <span>EST. 2026.06.10</span>
+    </div>
+</div>
+
+<section class="hero">
+    <div class="meta">
+        <span>TRANSMISSION // 001</span>
+        <span>DURATION: 63 MIN</span>
+        <span>PARTICIPANTS: 5</span>
+        <span>FORMAT: LIVE Q&amp;A</span>
+    </div>
+    <h1>CLAUDE HUB<br>// ZOOM 1</h1>
+    <p class="sub">Первая живая сессия. Шесть шагов от идеи до задеплоенного бизнес-сервиса, стек из четырёх агентов, MCP-подключения и три принципа, которые ломают привычку работать с нейронкой как с поисковиком.</p>
+    <div class="core-msg">
+        Готового сервиса под ваши задачи — нет. Всё, что вы спрашиваете, — это <u>вайб-кодинг</u>. Вы строите его под себя через pipeline из шести шагов. Кнопок нет, но есть маршрут.
+    </div>
+</section>
+
+<div class="zoom-block">
+    <div class="label">RECORDING //<br>ACCESS</div>
+    <div class="links">
+        <a class="zoom-link" href="https://us06web.zoom.us/rec/share/87y74SPj-0Acrhk_uUugucRTwB22xHqJHpKNWm9iW_431UoFtDUooN460w9ff6Dn.JV0WP2_A1Gx_6NKb" target="_blank" rel="noopener" id="zoomTopLink">→ us06web.zoom.us/rec/share/87y74SPj-0Acrhk_…</a>
+        <div class="pwd">PASSCODE: <span class="pwd-code" id="zoomTopPwd">o&amp;1NiL=k</span></div>
+    </div>
+    <button class="copy-btn" data-copy="o&amp;1NiL=k">Copy passcode</button>
+</div>
+
+<section>
+    <div class="section-tag">SEGMENT 01 // CORE PROTOCOL</div>
+    <h2>6 шагов pipeline</h2>
+    <p class="lead">Если задача сложнее «напиши пост» — кнопки нет. Есть маршрут. Шесть шагов, отработанная последовательность. Шорткаты дают игрушки, последовательность даёт инструмент, с которым работаешь.</p>
+
+    <div class="pipeline">
+        <div class="step reveal">
+            <div class="step-num">01</div>
+            <div class="step-body">
+                <h3>Идея // надиктовка голосом</h3>
+                <p>Открываем <a href="https://wisprflow.ai/" target="_blank" rel="noopener">Wispr Flow</a> или голос в ChatGPT/Claude и просто наговариваем идею. Не пишем — говорим. Просим агента быть собеседником, а не исполнителем: «помоги докрутить мою идею».</p>
+                <div class="prompt">> open wispr → "у меня в голове идея сервиса, который…" → claude/codex слушает</div>
+            </div>
+        </div>
+
+        <div class="step reveal">
+            <div class="step-num">02</div>
+            <div class="step-body">
+                <h3>Промпт // кристаллизация</h3>
+                <p>Простой стартовый промпт: «у меня вот такая идея, помоги её кристаллизировать. Задай мне 5 вопросов с 3 вариантами ответов, строго по одному, дожидайся ответа. В конце дай структурированный промпт в markdown».</p>
+                <div class="prompt">> "задай 5 вопросов по одному, 3 варианта ответа, на выходе — md-промпт"</div>
+            </div>
+        </div>
+
+        <div class="step reveal">
+            <div class="step-num">03</div>
+            <div class="step-body">
+                <h3>PRD // продакт-менеджер челленджит</h3>
+                <p>Идём в формат «разговор с product manager». Нейронка вытаскивает из тебя: цель, ценность, юзеры, сценарии, KPI, риски. На выходе — реальное продуктовое ТЗ. Формат — markdown (нейронки лучше понимают).</p>
+                <div class="prompt">> структура: цель → ЦА → сценарии → метрики успеха → риски → формат md</div>
+            </div>
+        </div>
+
+        <div class="step reveal">
+            <div class="step-num">04</div>
+            <div class="step-body">
+                <h3>Архитектура // карта проекта</h3>
+                <p>«Предложи минимальную архитектуру: структура папок, описание каждого файла, какие API подключить». Если задача серьёзная — одного Claude не хватит, заранее закладываем внешние источники.</p>
+                <div class="prompt">> "минимальная архитектура: папки + файлы + внешние API"</div>
+            </div>
+        </div>
+
+        <div class="step reveal">
+            <div class="step-num">05</div>
+            <div class="step-body">
+                <h3>Код // агент кодит сам</h3>
+                <p>Отдаём всё предыдущее в <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> или <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">Codex</a>. Модель сама генерит, сама запускает, показывает demo. Тестим, ловим баги, говорим голосом «исправь это, не нравится то».</p>
+                <div class="prompt">> claude code: "вот PRD + архитектура, реализуй и покажи demo"</div>
+            </div>
+        </div>
+
+        <div class="step reveal">
+            <div class="step-num">06</div>
+            <div class="step-body">
+                <h3>Деплой // онлайн или локально</h3>
+                <p>Если сервис только для тебя — можно жить локально, запускаться командой прямо в Claude или Codex. Если онлайн — <a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a> (бесплатно) или <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>. Регистрируешься руками один раз, дальше агент сам пушит.</p>
+                <div class="prompt">> "хочу разместить на vercel" → агент сам деплоит, регистрация — один клик</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 02 // AGENT STACK</div>
+    <h2>Четыре головы</h2>
+    <p class="lead">Высший пилотаж — ширить одну задачу между моделями. У каждой свой характер. Стратег → исполнитель → дизайнер → маркетолог. Дешевле любого человеческого подрядчика.</p>
+
+    <div class="stack">
+        <div class="stack-cell">
+            <div class="code">AGENT_01</div>
+            <h3>CLAUDE</h3>
+            <div class="role">STRATEG / ARCHITECT</div>
+            <p>Более креативный, лучше держит контекст, проще для входа новичку. Главный мозг проекта. Может развернуть под собой 30–45 подагентов параллельно — но съест токены, следить.</p>
+            <div class="link-row">→ <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">anthropic.com/claude-code</a></div>
+        </div>
+        <div class="stack-cell">
+            <div class="code">AGENT_02</div>
+            <h3>CODEX</h3>
+            <div class="role">EXECUTOR / DEBUGGER</div>
+            <p>Часть GPT-5, $20/мес, большой запас токенов. Чище работает в коде, отлично чистит ошибки за Claude. Если что-то не сработало в Claude — переноси в Codex, докрутит.</p>
+            <div class="link-row">→ <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a></div>
+        </div>
+        <div class="stack-cell">
+            <div class="code">AGENT_03</div>
+            <h3>GEMINI</h3>
+            <div class="role">DESIGNER / VISUAL</div>
+            <p>Лучший дизайн. <a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch</a> (Google) заточен под мобильные интерфейсы — голосом говоришь, он рисует. Промпт от Gemini забираешь и кладёшь в Claude/Codex для реализации.</p>
+            <div class="link-row">→ <a href="https://gemini.google.com/" target="_blank" rel="noopener">gemini.google.com</a></div>
+        </div>
+        <div class="stack-cell">
+            <div class="code">AGENT_04</div>
+            <h3>KIMI</h3>
+            <div class="role">MARKETING / COPY</div>
+            <p>Китайский блокбастер. Маркетинговые хуки, упаковка, тексты. Готовый продукт от Codex прогоняешь через Kimi — докручивает копирайт и упаковку.</p>
+            <div class="link-row">→ <a href="https://www.kimi.com/" target="_blank" rel="noopener">kimi.com</a></div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 03 // KEY PRINCIPLES</div>
+    <h2>Три отличия от обычной нейронки</h2>
+
+    <div class="principles">
+        <div class="principle reveal">
+            <div class="pcode">PRINCIPLE.01</div>
+            <h3>Кнопок нет</h3>
+            <p>Готовых правильных решений не существует. Вайб-кодингу чуть больше года. Есть только маршруты других — берёшь и адаптируешь под себя. Один-в-один не получится никогда.</p>
+        </div>
+        <div class="principle reveal">
+            <div class="pcode">PRINCIPLE.02</div>
+            <h3>Советоваться, а не приказывать</h3>
+            <p>Не «сходи и возьми это». А «у меня вот такая задача, давай подумаем, как решить». Claude Code начинает спрашивать, предлагать варианты, восстанавливать ресурсы. Скажешь «я новичок, помоги» — поведёт за руку с нуля.</p>
+        </div>
+        <div class="principle reveal">
+            <div class="pcode">PRINCIPLE.03</div>
+            <h3>Доступ есть — самовольство нет</h3>
+            <p>У агента доступ ко всем папкам компьютера. Но он ничего не сделает без твоего разрешения. Каждое действие переспросит. Поэтому новичкам — начни с «разбери папку Downloads», просто для калибровки мышления.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 04 // CLAUDE CODE vs CLAUDE.AI</div>
+    <h2>Где живёт разница</h2>
+    <p class="lead">Часто путают. Claude.ai в браузере и Claude Code в терминале — разные звери, хотя у обоих одна голова. Один — собеседник. Второй — исполнитель с руками.</p>
+
+    <div class="compare">
+        <div class="compare-col left">
+            <div class="ccode">// CLAUDE.AI (WEB)</div>
+            <h3>Собеседник</h3>
+            <ul>
+                <li>Чат в браузере — claude.ai</li>
+                <li>Нет доступа к файлам компьютера</li>
+                <li>Не делает приложения, не устанавливает ничего</li>
+                <li>Не запускает подагентов</li>
+                <li>Нет MCP-интеграций со сторонними сервисами</li>
+                <li>Хорош для размышлений, текстов, разовых разборов</li>
+            </ul>
+            <div class="verdict">VERDICT: для разговора, не для производства</div>
+        </div>
+        <div class="compare-col right">
+            <div class="ccode">// CLAUDE CODE (CLI)</div>
+            <h3>Исполнитель</h3>
+            <ul>
+                <li>Терминал на компьютере — claude-code</li>
+                <li>Полный доступ к файловой системе (с разрешением)</li>
+                <li>Делает приложения, проекты, сам деплоит</li>
+                <li>Разворачивает 30–45 подагентов параллельно</li>
+                <li>MCP-интеграции — Higgsfield, Figma, Premiere и т.д.</li>
+                <li>Зашиваешь промпты в проект (CLAUDE.md, скиллы)</li>
+                <li>Для серьёзной автоматизации и реальных сервисов</li>
+            </ul>
+            <div class="verdict">VERDICT: для производства, не для болтовни</div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 05 // MCP &amp; INTEGRATIONS</div>
+    <h2>Подключаемся через MCP</h2>
+    <p class="lead">MCP-сервер — это коннектор, который пристёгивает сторонний сервис прямо к агенту. После этого <a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a>, <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a> или <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> живут внутри Claude. Картинки и видео генерятся прямо в чате, голосом.</p>
+
+    <div class="quote">
+        <blockquote>Если раньше в Canva мы делали всё руками — теперь и в Canva руками делать необязательно. Всё может делать Claude по голосовому заданию.</blockquote>
+        <cite>— Ира, 39:50</cite>
+    </div>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>USE_CASE</span>
+            <span>VIDEO &amp; IMAGE</span>
+        </div>
+        <div class="q-text">Use-case</div>
+        <div class="q">Что подключить и зачем</div>
+        <div class="a-text">Setup</div>
+        <div class="a">
+            <strong><a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a></strong> — генерирует картинки и видео во всех топ-моделях одновременно (Nano Banana, Veo, Kling). Подключается через MCP к Claude или Codex.<br><br>
+            <strong>Альтернативы:</strong> <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a>, <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> — те же возможности, у каждого своя фишка.<br><br>
+            <strong>Как:</strong> заходим на сайт сервиса → копируем MCP-ссылку → кидаем агенту → он сам подключается, мы подтверждаем доступ. Дальше — голосом: «сделай мне картинку в стиле Кристофера Нолана, вертикально, на Nano Banana».
+        </div>
+    </div>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>USE_CASE</span>
+            <span>PROJECT WORKFLOW</span>
+        </div>
+        <div class="q-text">Use-case</div>
+        <div class="q">Зачем зашивать промпты в проект</div>
+        <div class="a-text">Setup</div>
+        <div class="a">
+            В проекте Claude можно прописать <strong>свою стилистику, художников, ракурсы, камеры</strong> — отработанные промпты. После этого агент знает, как делать картинки «в твоём стиле». По описанию поста сам нарисует иллюстрацию.<br><br>
+            Высший пилотаж — <strong>flow внутри одного чата</strong>: агент 1 ищет новости → агент 2 пишет текст твоим голосом → агент 3 генерит картинку. Ты только говоришь «окей / не окей».
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 06 // VIEWER QUESTIONS</div>
+    <h2>Вопросы из чата</h2>
+    <p class="lead">Что приходило в чат до начала и в процессе. Сложные. Не на один промпт. На все ответ один — это вайб-кодинг. Готового сервиса нет, строится под себя.</p>
+
+    <div class="viewer-qa">
+        <div class="v-label"><span>VIEWER QUESTION // 01</span><span>BUSINESS AUTOMATION</span></div>
+        <div class="v-q">Хочу поднять серьёзную бизнес-автоматизацию через Claude. Можно?</div>
+        <ul class="v-q-items">
+            <li>SEO-автоматизация сайта</li>
+            <li>Поиск успешных кампаний у конкурентов + улучшение своих на основе данных</li>
+            <li>Анализ и настройка собственных кампаний</li>
+            <li>Дашборд соцсетей (Instagram, Telegram, YouTube) — автоматизация аналитики</li>
+            <li>Законный парсинг клиентов и/или ведение продажной переписки</li>
+            <li>База клиентов разбросана по 3-4 мессенджерам — как Claude может её собрать, найти каждого, добавить в контакты</li>
+        </ul>
+        <div class="v-a-label">RESPONSE // IRA</div>
+        <div class="v-a">
+            Всё это <strong>реально</strong>, и всё это — <strong>чистый вайб-кодинг</strong>. Готовой кнопки и магического промпта нет: вы это <strong>настраиваете сами</strong> под свою задачу.<br><br>
+            Идём по pipeline: <strong>идея → промпт → PRD → архитектура → код → деплой</strong>. На каждом этапе разговариваем с агентом голосом, он сам подбирает структуру и инструменты.<br><br>
+            <strong>SEO и аналитика конкурентов</strong> — Claude делает приложение, которое ходит по нужным метрикам, забирает данные, складывает в дашборд. <strong>Дашборд соцсетей</strong> — туда же, агент через API/коннекторы собирает Insta/TG/YouTube в одну панель. <strong>Мессенджеры</strong> — Claude сам не лезет в чужие приложения без API, но может оркестрировать ботов (<a href="https://core.telegram.org/bots" target="_blank" rel="noopener">Telegram Bot API</a>) и подтягивать данные, где есть доступ. Где доступа нет — собираем полу-ручной flow с твоими подтверждениями.<br><br>
+            Для серьёзных вещей с базой клиентов — нужен сайт не на GitHub Pages, а на <a href="https://bubble.io/" target="_blank" rel="noopener">Bubble</a> / <a href="https://supabase.com/" target="_blank" rel="noopener">Supabase</a>. Это следующий уровень вайб-кодинга, проводит тот же агент.
+        </div>
+    </div>
+
+    <div class="viewer-qa">
+        <div class="v-label"><span>VIEWER QUESTION // 02</span><span>REUSE CLAUDE CONTEXT</span></div>
+        <div class="v-q">Хочу переиспользовать Claude шире — он уже знает мой стиль и профиль. Использовать его для дизайна и видео тоже?</div>
+        <ul class="v-q-items">
+            <li>Проанализировать визуал своего сайта и сайтов конкурентов на предмет оптимизации</li>
+            <li>Оптимизировать дизайн своего сайта силами Claude</li>
+            <li>Видео: упростить работу через Claude — раз уже оплачены подписки и накоплен контекст</li>
+        </ul>
+        <div class="v-a-label">RESPONSE // IRA</div>
+        <div class="v-a">
+            Логика правильная — <strong>контекст приоритетнее инструмента</strong>. Claude уже знает твой стиль, профиль, голос — и это переиспользуется во всех направлениях.<br><br>
+            <strong>Визуал сайтов:</strong> Claude Code открывает сайт конкурента, разбирает разметку, типографику, цветовые решения, сравнивает с твоим. Дальше — <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a> или <a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch</a> для визуальных макетов, обратно в Claude Code для реализации в коде.<br><br>
+            <strong>Видео:</strong> через MCP подключаются <a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a>, <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a>, <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> прямо в Claude. <a href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">Premiere</a> уже имеет плагины Claude — чистит звук, режет паузы. <a href="https://www.figma.com/" target="_blank" rel="noopener">Figma</a> подключается. Multi-camera AI: 4 камеры → 1 ролик без тебя.<br><br>
+            Главное — в проекте Claude зашиваешь стилистику, ракурсы, цвета, приёмы оператора, любимых художников. После этого по короткому описанию сам делает то, что нравится тебе.
+        </div>
+    </div>
+
+    <div class="viewer-qa">
+        <div class="v-label"><span>VIEWER QUESTION // 03</span><span>CREATIVES &amp; CROSS-MODEL</span></div>
+        <div class="v-q">Картинка в Claude вышла паршивая. Это промпт или сам Claude слабее в визуале? И как связать его с другими ИИ, чтобы сшивать креативы в контент-план?</div>
+        <div class="v-a-label">RESPONSE // IRA</div>
+        <div class="v-a">
+            И то, и другое. <strong>Claude в чате — не картиночная модель</strong>, ему просто прикручен сторонний генератор. Сильные картиночники — это <a href="https://www.midjourney.com/" target="_blank" rel="noopener">Midjourney</a>, GPT-Image, Nano Banana, Flux, Kling — у каждого свой характер. <strong>Промпт тоже важен</strong>: для Midjourney пишешь короткими образами, для Nano Banana — длинными описательными.<br><br>
+            <strong>Решение — подключить эти модели к Claude через MCP.</strong> <a href="https://higgsfield.ai/" target="_blank" rel="noopener">Higgsfield</a> отдаёт сразу пачку топ-моделей внутри агента, включая Nano Banana, Midjourney-стиль, Kling, Veo, Flux. <a href="https://www.krea.ai/" target="_blank" rel="noopener">Krea</a> и <a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a> работают так же.<br><br>
+            <strong>Сшивка в контент-план:</strong> в одном проекте Claude зашиваешь стилистику, голос, типы постов. Дальше flow: агент 1 находит инфоповод → агент 2 пишет текст под твой голос → агент 3 (через MCP) генерит обложку в нужной модели → агент 4 раскладывает в контент-план / Obsidian / календарь. Ты в чате только говоришь «окей / переделай».<br><br>
+            Контекст один (Claude), руки — у моделей-художников.
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 07 // STUDENT CASES</div>
+    <h2>Живые кейсы студентов</h2>
+    <p class="lead">Что спрашивали в эфире — и как я отвечала. Точные таймкоды.</p>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>CASE 01</span>
+            <span>TIGRAN PETROSYAN</span>
+            <span>04:14</span>
+        </div>
+        <div class="q-text">Вопрос</div>
+        <div class="q">«Создал один проект, и под него — папки About Me, About Past Times, Plates. Если создаю новый проект, нужно эти три папки заново создавать. Правильно понимаю?»</div>
+        <div class="a-text">Ответ Иры</div>
+        <div class="a">
+            Правильно. Если ведёшь разные домены — психотерапевт + преподаватель психологов + IFS-практик + личное саморазвитие — это <strong>разные папки</strong>, не одна. У каждой свой About Me. Не смешивать. Клиенты — отдельной папкой внутри.
+        </div>
+    </div>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>CASE 02</span>
+            <span>EUGENE CHOUTKO</span>
+            <span>37:57</span>
+        </div>
+        <div class="q-text">Вопрос</div>
+        <div class="q">«А эти агенты — откуда они возьмутся?»</div>
+        <div class="a-text">Ответ Иры</div>
+        <div class="a">
+            Агент — это Claude или Codex. <strong>Подагентов ты настраиваешь сам</strong> под задачу. Сначала пилишь каждый поисковик / писатель / художник отдельно. Когда нравится, как работает — соединяешь в один flow. Делается не за час, но потом запускается одной голосовой командой.<br><br>
+            Полезно: <strong>Deep Research-скилл</strong>, <a href="https://exa.ai/" target="_blank" rel="noopener">Exa</a> как поисковик для нейронок ($5–10 = ~10K запросов).
+        </div>
+    </div>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>CASE 03</span>
+            <span>TIGRAN PETROSYAN</span>
+            <span>40:00</span>
+        </div>
+        <div class="q-text">Вопрос</div>
+        <div class="q">«В Telegram очень много заявок, устал отвечать один и тот же текст каждому. Могу создать в Claude Code агента, который зайдёт в мой телеграм и будет отвечать?»</div>
+        <div class="a-text">Ответ Иры</div>
+        <div class="a">
+            Это <strong>не агент, это бот</strong>. Можно сделать самому через Claude Code (он проведёт по <a href="https://t.me/BotFather" target="_blank" rel="noopener">BotFather</a> пошагово), но рекомендую <a href="https://app.aifromspace.com/" target="_blank" rel="noopener"><strong>IFromSpace</strong></a> — русская платформа, все большие нейронки на российских серверах. Готовые ботики подключаются за минуты, ~1000 ₽ токенов хватает надолго. Альфред Иры работает на красном (Claude) мозге через IFromSpace.<br><br>
+            <em>→ <a href="https://app.aifromspace.com/" target="_blank" rel="noopener">app.aifromspace.com</a></em>
+        </div>
+    </div>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>CASE 04</span>
+            <span>@SVETASHOVN</span>
+            <span>31:16</span>
+        </div>
+        <div class="q-text">Вопрос</div>
+        <div class="q">«У меня то же самое в Claude.ai получается — задание начинаю, дополнительные вопросы, он отвечает. Какая разница между Codex и Claude.ai?»</div>
+        <div class="a-text">Ответ Иры</div>
+        <div class="a">
+            <a href="https://claude.ai/" target="_blank" rel="noopener">Claude.ai</a> <strong>не сделает приложение</strong>. Не пойдёт сам ничего устанавливать. <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Claude Code</a> умеет: внутри одного агента подключить ещё 30+ подагентов и работать с твоими папками. Кейс: у девушки Claude Code развернул 45 подагентов на одну задачу — съел все $30 экстра-токенов.<br><br>
+            Полное сравнение — см. сегмент 04 выше.
+        </div>
+    </div>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>CASE 05</span>
+            <span>@SVETASHOVN</span>
+            <span>45:21</span>
+        </div>
+        <div class="q-text">Вопрос</div>
+        <div class="q">«Если размещаем что-то на GitHub — по сути эти ссылки будут работать только с VPN?»</div>
+        <div class="a-text">Ответ Иры</div>
+        <div class="a">
+            Работает <strong>без VPN</strong>. Иногда некоторые VPN-сервера наоборот блокируют доступ. <a href="https://vercel.com/" target="_blank" rel="noopener">Vercel</a> — альтернатива, тоже бесплатно. Ссылку можно <strong>переименовать</strong> — никто не увидит, что это GitHub.<br><br>
+            <strong>Ограничения GitHub Pages:</strong> простые страницы, без базы, без клиентских систем. Для сложных проектов с базами — <a href="https://bubble.io/" target="_blank" rel="noopener">Bubble</a>, <a href="https://supabase.com/" target="_blank" rel="noopener">Supabase</a>.
+        </div>
+    </div>
+
+    <div class="qa-item">
+        <div class="qcode">
+            <span>CASE 06</span>
+            <span>@SVETASHOVN</span>
+            <span>56:37</span>
+        </div>
+        <div class="q-text">Вопрос</div>
+        <div class="q">«С изображениями — фото-обработка, сортировка, выборка. Это можно через Codex / Claude?»</div>
+        <div class="a-text">Ответ Иры</div>
+        <div class="a">
+            Да. Для фильмов / роликов делают так: проект → подпапки → отдельно <strong>стилистика, герои, цветовая гамма, ракурсы, приёмы оператора</strong> в виде промптов. Нейронка генерит одного и того же персонажа во всех нужных сценах согласно промптам.<br><br>
+            <strong><a href="https://www.adobe.com/" target="_blank" rel="noopener">Adobe</a> полностью подключается к Claude.</strong> <a href="https://www.figma.com/" target="_blank" rel="noopener">Figma</a> работает. <a href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">Premiere</a> — есть плагины (звук чистят, паузы убирают). Есть отдельные нейронки для <strong>multi-camera монтажа</strong>: 4 камеры → 1 ролик автоматически.
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 08 // PROPHECY</div>
+    <h2>Куда всё едет</h2>
+
+    <div class="quote">
+        <blockquote>Сервисы по подписке умрут. Каждый под себя соберёт комплект тех возможностей, которые нужны только ему.</blockquote>
+        <cite>— Ира, 47:14</cite>
+    </div>
+
+    <div class="quote">
+        <blockquote>Задача упирается уже не в инструменты, а в твои когнитивные способности.</blockquote>
+        <cite>— Ира, 36:19</cite>
+    </div>
+
+    <div class="quote">
+        <blockquote>Контекст приоритетнее инструмента.</blockquote>
+        <cite>— Ира, 44:45</cite>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 09 // GLOSSARY</div>
+    <h2>Словарь</h2>
+    <div class="glossary">
+        <div class="gloss-row"><div class="term">CLAUDE CODE</div><div class="def"><a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">anthropic.com/claude-code</a> — CLI-агент. Доступ к файлам компьютера. Главный инструмент урока.</div></div>
+        <div class="gloss-row"><div class="term">CLAUDE.AI</div><div class="def"><a href="https://claude.ai/" target="_blank" rel="noopener">claude.ai</a> — веб-чат. Без доступа к файлам. Для разговоров и текстов, не для производства.</div></div>
+        <div class="gloss-row"><div class="term">CODEX</div><div class="def"><a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a> — кодинг-агент GPT-5. $20/мес. Чистит ошибки за Claude.</div></div>
+        <div class="gloss-row"><div class="term">GEMINI</div><div class="def"><a href="https://gemini.google.com/" target="_blank" rel="noopener">gemini.google.com</a> — Google. Сильный дизайн. <a href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">Stitch</a> — заточен под мобильные UI.</div></div>
+        <div class="gloss-row"><div class="term">KIMI</div><div class="def"><a href="https://www.kimi.com/" target="_blank" rel="noopener">kimi.com</a> — китайский AI. Маркетинговые хуки и упаковка.</div></div>
+        <div class="gloss-row"><div class="term">MCP</div><div class="def">Model Context Protocol. Стандарт подключения сторонних сервисов к агенту.</div></div>
+        <div class="gloss-row"><div class="term">HIGGSFIELD</div><div class="def"><a href="https://higgsfield.ai/" target="_blank" rel="noopener">higgsfield.ai</a> — картинки + видео во всех топ-моделях через MCP.</div></div>
+        <div class="gloss-row"><div class="term">KREA / FREEPIK</div><div class="def"><a href="https://www.krea.ai/" target="_blank" rel="noopener">krea.ai</a>, <a href="https://www.freepik.com/" target="_blank" rel="noopener">freepik.com</a> — конкуренты Higgsfield. Та же логика — MCP.</div></div>
+        <div class="gloss-row"><div class="term">NANO BANANA</div><div class="def">Топовая модель для картинок внутри Higgsfield.</div></div>
+        <div class="gloss-row"><div class="term">MIDJOURNEY</div><div class="def"><a href="https://www.midjourney.com/" target="_blank" rel="noopener">midjourney.com</a> — классика для художественной генерации картинок.</div></div>
+        <div class="gloss-row"><div class="term">WISPR FLOW</div><div class="def"><a href="https://wisprflow.ai/" target="_blank" rel="noopener">wisprflow.ai</a> — голосовой ввод. Надиктовка идей без печати.</div></div>
+        <div class="gloss-row"><div class="term">NOTEBOOK LM</div><div class="def"><a href="https://notebooklm.google.com/" target="_blank" rel="noopener">notebooklm.google.com</a> — Google. Работает по загруженным данным.</div></div>
+        <div class="gloss-row"><div class="term">VERCEL</div><div class="def"><a href="https://vercel.com/" target="_blank" rel="noopener">vercel.com</a> — бесплатный хостинг. Агент сам деплоит.</div></div>
+        <div class="gloss-row"><div class="term">GITHUB PAGES</div><div class="def"><a href="https://pages.github.com/" target="_blank" rel="noopener">pages.github.com</a> — простые статические страницы. Без VPN.</div></div>
+        <div class="gloss-row"><div class="term">BUBBLE / SUPABASE</div><div class="def"><a href="https://bubble.io/" target="_blank" rel="noopener">bubble.io</a>, <a href="https://supabase.com/" target="_blank" rel="noopener">supabase.com</a> — для сложных сайтов с базой.</div></div>
+        <div class="gloss-row"><div class="term">IFROMSPACE</div><div class="def"><a href="https://app.aifromspace.com/" target="_blank" rel="noopener">app.aifromspace.com</a> — русская платформа, все большие нейронки на росс. серверах. Готовые боты.</div></div>
+        <div class="gloss-row"><div class="term">EXA</div><div class="def"><a href="https://exa.ai/" target="_blank" rel="noopener">exa.ai</a> — поисковик для нейронок. $5–10 = ~10K запросов.</div></div>
+        <div class="gloss-row"><div class="term">OBSIDIAN</div><div class="def"><a href="https://obsidian.md/" target="_blank" rel="noopener">obsidian.md</a> — папка для скиллов и промптов в markdown.</div></div>
+        <div class="gloss-row"><div class="term">FIGMA / PREMIERE</div><div class="def"><a href="https://www.figma.com/" target="_blank" rel="noopener">figma.com</a>, <a href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">Premiere</a> — оба подключаются к Claude.</div></div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 10 // SELF-CHECK</div>
+    <h2>Проверь себя</h2>
+
+    <div class="quiz-item" data-correct="b">
+        <div class="qnum">QUESTION 01 / 04</div>
+        <div class="qtext">С чего начинается pipeline вайб-кодинга?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">Сразу кидаешь промпт в Claude Code и просишь сделать сервис</button>
+            <button class="quiz-opt" data-opt="b">Голосом надиктовываешь идею и просишь агента её докрутить вопросами</button>
+            <button class="quiz-opt" data-opt="c">Сначала рисуешь дизайн в Figma, потом отдаёшь его кодеру</button>
+        </div>
+        <div class="quiz-explain">→ Шаг 01 — голосом наговариваешь идею (Wispr / голос в ChatGPT). Никакого письма. Агент задаёт уточняющие вопросы.</div>
+    </div>
+
+    <div class="quiz-item" data-correct="c">
+        <div class="qnum">QUESTION 02 / 04</div>
+        <div class="qtext">Зачем нужен Codex, если есть Claude?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">Codex дешевле и поэтому им стоит пользоваться в первую очередь</button>
+            <button class="quiz-opt" data-opt="b">Codex быстрее работает с математикой и всегда лучше Claude</button>
+            <button class="quiz-opt" data-opt="c">Codex чище в коде и докручивает то, что не сработало в Claude</button>
+        </div>
+        <div class="quiz-explain">→ Codex — исполнитель и дебаггер. Когда у Claude что-то не получилось — переносишь задачу в Codex, он докручивает. Деплоить умеют оба.</div>
+    </div>
+
+    <div class="quiz-item" data-correct="a">
+        <div class="qnum">QUESTION 03 / 04</div>
+        <div class="qtext">Чем Claude Code отличается от Claude.ai (веб)?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">Claude Code делает приложения, запускает подагентов, имеет доступ к файлам</button>
+            <button class="quiz-opt" data-opt="b">Это одно и то же, отличия только в интерфейсе</button>
+            <button class="quiz-opt" data-opt="c">Claude.ai мощнее, потому что в браузере</button>
+        </div>
+        <div class="quiz-explain">→ Claude.ai не сделает приложение и ничего не установит. Claude Code умеет — и может развернуть 30+ подагентов под задачу.</div>
+    </div>
+
+    <div class="quiz-item" data-correct="b">
+        <div class="qnum">QUESTION 04 / 04</div>
+        <div class="qtext">Главное отличие работы с агентом от обычного промпта нейронке?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">С агентом ты пишешь промпты длиннее, поэтому результат лучше</button>
+            <button class="quiz-opt" data-opt="b">С агентом советуешься и обсуждаешь, а не приказываешь</button>
+            <button class="quiz-opt" data-opt="c">Агент сам ставит задачи и работает за тебя без участия</button>
+        </div>
+        <div class="quiz-explain">→ Принцип 02. «У меня вот такая задача, давай подумаем, как её решить». Тогда агент начинает спрашивать, предлагать варианты и вести тебя.</div>
+    </div>
+</section>
+
+<div class="cta">
+    <h2>Продолжение —<br>в Telegram</h2>
+    <p>Следующий Zoom, ссылки, прорывы и косяки — в канале «ИРА И AI». Каждый день про вайб-кодинг и автоматизацию бизнеса нейросетями.</p>
+    <a class="cta-btn primary" href="https://t.me/ira_and_ai" target="_blank" rel="noopener">→ T.ME/IRA_AND_AI</a>
+
+    <div class="zoom-cta">
+        <div class="l">// ZOOM RECORDING</div>
+        <a href="https://us06web.zoom.us/rec/share/87y74SPj-0Acrhk_uUugucRTwB22xHqJHpKNWm9iW_431UoFtDUooN460w9ff6Dn.JV0WP2_A1Gx_6NKb" target="_blank" rel="noopener">us06web.zoom.us/rec/share/87y74SPj-0Acrhk_uUugucRTwB22xHqJHpKNWm9iW_431UoFtDUooN460w9ff6Dn.JV0WP2_A1Gx_6NKb</a>
+        <div class="p">PASSCODE: <code>o&amp;1NiL=k</code></div>
+    </div>
+</div>
+
+<footer>
+    <div>DESIGNATION: CLAUDE_HUB_ZOOM_01</div>
+    <div>CREDITS: MADE BY <span class="blink">IRA &amp; AI</span></div>
+    <div>ACCESS: OPEN_SOURCE_EDUCATION</div>
+</footer>
+
+<script>
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progress.style.width = pct + '%';
+});
+
+const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+document.querySelectorAll('.quiz-item').forEach(item => {
+    const correct = item.dataset.correct;
+    item.querySelectorAll('.quiz-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (item.classList.contains('answered')) return;
+            item.classList.add('answered');
+            item.querySelectorAll('.quiz-opt').forEach(b => {
+                if (b.dataset.opt === correct) b.classList.add('correct');
+                else if (b === btn) b.classList.add('wrong');
+                else b.classList.add('wrong');
+            });
+        });
+    });
+});
+
+document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const text = btn.dataset.copy;
+        navigator.clipboard.writeText(text).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = 'Copied ✓';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+        });
+    });
+});
+</script>
+</body>
+</html>
