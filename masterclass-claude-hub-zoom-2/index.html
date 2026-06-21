@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE HUB // ZOOM 2 — Skills, OpenRouter, API и агенты</title>
+<meta name="description" content="Интерактивный разбор второй Zoom-сессии Claude Hub: свои skills, презентации, OpenRouter, API-доступ, обновления рынка, обучение агентам и визуальные модели.">
+<meta property="og:title" content="CLAUDE HUB // ZOOM 2 — Skills, OpenRouter, API и агенты">
+<meta property="og:description" content="Финальный Q&A по Claude Hub: как прикручивать Claude к своим процессам, когда нужен OpenRouter, где хранить контекст и чему учиться дальше.">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%237fffd4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #fff;
+    --text: #000;
+    --muted: #777;
+    --gray-light: #e8e8e8;
+    --gray-mid: #999;
+    --gray-dark: #2d2d2d;
+    --tiffany: #7fffd4;
+    --tiffany-dark: #00c9a7;
+    --border: 1px solid #000;
+    --hair: 1px solid #e5e5e5;
+    --font-heading: "Inter", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --track: .14em;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    min-width: 320px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-heading);
+    line-height: 1.5;
+    overflow-x: hidden;
+    cursor: crosshair;
+}
+a { color: inherit; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+.progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 0%;
+    height: 2px;
+    background: #000;
+    transition: width .1s linear;
+}
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 32px;
+    border-bottom: var(--border);
+    background: #fff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+}
+.topbar .left { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.dot { width: 8px; height: 8px; background: #000; animation: blink 1.2s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero {
+    position: relative;
+    padding: 78px 32px 58px;
+    border-bottom: var(--border);
+}
+.hero .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+    color: var(--gray-mid);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+}
+.hero h1 {
+    margin-bottom: 24px;
+    font-size: clamp(40px, 7.5vw, 104px);
+    font-weight: 900;
+    line-height: .92;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+}
+.hero .sub {
+    max-width: 860px;
+    margin-bottom: 32px;
+    color: var(--gray-dark);
+    font-size: clamp(15px, 1.45vw, 19px);
+    font-weight: 300;
+}
+.core-msg {
+    max-width: 880px;
+    padding: 24px 28px;
+    border: var(--border);
+    background: var(--tiffany);
+    font-size: clamp(16px, 1.65vw, 21px);
+    font-weight: 650;
+    line-height: 1.35;
+}
+.core-msg::before {
+    content: "CORE MESSAGE //";
+    display: block;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: var(--track);
+}
+.zoom-block {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 40px 32px;
+    border-bottom: var(--border);
+    background: #000;
+    color: #fff;
+}
+.zoom-block .label {
+    color: var(--tiffany);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+}
+.zoom-block .links { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.zoom-link {
+    overflow-wrap: anywhere;
+    border-bottom: 1px solid #444;
+    padding-bottom: 6px;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-decoration: none;
+}
+.zoom-link:hover { color: var(--tiffany); border-color: var(--tiffany); }
+.pwd { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 13px; }
+.pwd-code { background: #fff; color: #000; padding: 6px 14px; font-weight: 700; letter-spacing: .05em; }
+.copy-btn,
+.prompt-copy {
+    border: 0;
+    background: var(--tiffany);
+    color: #000;
+    cursor: crosshair;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+    transition: background .15s, color .15s;
+}
+.copy-btn { padding: 14px 22px; white-space: nowrap; }
+.copy-btn:hover,
+.prompt-copy:hover,
+.copy-btn.copied,
+.prompt-copy.copied { background: #fff; color: #000; }
+section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 32px;
+    border-bottom: var(--border);
+}
+.section-tag {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    color: var(--gray-mid);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+}
+.section-tag::before { content: ""; width: 24px; height: 1px; background: var(--gray-mid); }
+h2 {
+    margin-bottom: 40px;
+    font-size: clamp(28px, 4.2vw, 54px);
+    font-weight: 850;
+    line-height: 1;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+}
+.lead {
+    max-width: 840px;
+    margin-bottom: 48px;
+    color: var(--gray-dark);
+    font-size: clamp(15px, 1.3vw, 18px);
+    font-weight: 300;
+}
+.timeline {
+    display: grid;
+    border-top: var(--border);
+}
+.time-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: var(--border);
+}
+.time {
+    color: var(--gray-mid);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1;
+}
+.time-body h3 {
+    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+.time-body p { max-width: 880px; color: var(--gray-dark); font-size: 15px; font-weight: 300; }
+.pipeline,
+.card-grid,
+.stack,
+.risk-grid {
+    display: grid;
+    border-top: var(--border);
+    border-left: var(--border);
+}
+.pipeline { grid-template-columns: repeat(3, 1fr); }
+.card-grid { grid-template-columns: repeat(2, 1fr); }
+.stack { grid-template-columns: repeat(4, 1fr); }
+.risk-grid { grid-template-columns: repeat(3, 1fr); }
+.cell,
+.step-card,
+.stack-cell,
+.risk-card {
+    min-height: 230px;
+    padding: 28px 24px;
+    border-right: var(--border);
+    border-bottom: var(--border);
+    transition: background .18s, color .18s;
+}
+.cell:hover,
+.step-card:hover,
+.stack-cell:hover,
+.risk-card:hover { background: #000; color: #fff; }
+.cell:hover p,
+.step-card:hover p,
+.stack-cell:hover p,
+.risk-card:hover p,
+.cell:hover li,
+.risk-card:hover li { color: #ccc; }
+.code {
+    margin-bottom: 18px;
+    color: var(--gray-mid);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+}
+.num {
+    margin-bottom: 18px;
+    color: var(--gray-mid);
+    font-family: var(--font-mono);
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1;
+}
+.cell h3,
+.step-card h3,
+.stack-cell h3,
+.risk-card h3 {
+    margin-bottom: 14px;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+.cell p,
+.step-card p,
+.stack-cell p,
+.risk-card p,
+.risk-card li {
+    color: var(--gray-dark);
+    font-size: 14px;
+    font-weight: 300;
+}
+.risk-card ul { padding-left: 18px; }
+.risk-card li + li { margin-top: 8px; }
+.prompt-box {
+    margin-top: 18px;
+    border: 1px solid var(--gray-light);
+    background: #fafafa;
+}
+.prompt-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--gray-light);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+}
+.prompt-copy { padding: 9px 12px; background: #000; color: #fff; }
+.prompt-text {
+    padding: 16px;
+    color: var(--gray-dark);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+}
+.quote {
+    position: relative;
+    margin: 32px 0;
+    padding: 46px 40px 36px;
+    border: var(--border);
+}
+.quote::before {
+    content: "«";
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    font-family: Georgia, serif;
+    font-size: 96px;
+    line-height: 1;
+}
+.quote blockquote {
+    max-width: 980px;
+    font-size: clamp(20px, 2.5vw, 34px);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+}
+.quote cite {
+    display: block;
+    margin-top: 20px;
+    color: var(--gray-mid);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-style: normal;
+}
+.qa-item {
+    margin-top: 24px;
+    border: var(--border);
+}
+.qcode {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: var(--border);
+    background: #000;
+    color: var(--tiffany);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+}
+.q,
+.a {
+    padding: 24px;
+}
+.q {
+    border-bottom: var(--hair);
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 800;
+    line-height: 1.2;
+}
+.a {
+    color: var(--gray-dark);
+    font-size: 15px;
+    font-weight: 300;
+}
+.a strong { color: #000; font-weight: 750; }
+.split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: var(--border);
+}
+.split-col { padding: 34px 28px; }
+.split-col + .split-col { border-left: var(--border); }
+.split-col h3 {
+    margin-bottom: 18px;
+    font-size: 28px;
+    font-weight: 850;
+    text-transform: uppercase;
+}
+.split-col ul { padding-left: 18px; color: var(--gray-dark); font-size: 15px; font-weight: 300; }
+.split-col li + li { margin-top: 10px; }
+.verdict {
+    margin-top: 24px;
+    padding: 12px 14px;
+    background: #000;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+.glossary { border-top: var(--border); }
+.gloss-row {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    border-bottom: var(--border);
+}
+.term {
+    padding: 18px 18px 18px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+.def {
+    padding: 18px 0 18px 24px;
+    border-left: var(--border);
+    color: var(--gray-dark);
+    font-size: 14px;
+    font-weight: 300;
+}
+.quiz-item {
+    margin-bottom: 24px;
+    padding: 26px;
+    border: var(--border);
+}
+.qnum {
+    margin-bottom: 12px;
+    color: var(--gray-mid);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+}
+.qtext {
+    margin-bottom: 18px;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.15;
+}
+.quiz-options { display: grid; gap: 10px; }
+.quiz-opt {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: crosshair;
+    font-family: var(--font-heading);
+    font-size: 15px;
+    text-align: left;
+    transition: background .15s, color .15s;
+}
+.quiz-opt:hover { background: #000; color: #fff; }
+.quiz-item.answered .quiz-opt.correct { background: var(--tiffany); color: #000; }
+.quiz-item.answered .quiz-opt.wrong { background: #eee; color: #888; border-color: #ddd; }
+.quiz-explain {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: var(--hair);
+    color: var(--gray-dark);
+    font-size: 14px;
+}
+.quiz-item.answered .quiz-explain { display: block; }
+.cta {
+    padding: 76px 32px;
+    background: #000;
+    color: #fff;
+    text-align: center;
+}
+.cta h2 {
+    margin-bottom: 18px;
+    color: #fff;
+    font-size: clamp(36px, 7vw, 86px);
+}
+.cta p {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    color: #ccc;
+    font-size: 16px;
+    font-weight: 300;
+}
+.cta-btn {
+    display: inline-block;
+    padding: 16px 24px;
+    background: var(--tiffany);
+    color: #000;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: var(--track);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.zoom-cta {
+    max-width: 900px;
+    margin: 38px auto 0;
+    padding: 18px;
+    border: 1px solid #333;
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    word-break: break-word;
+}
+.zoom-cta .l { margin-bottom: 8px; color: var(--tiffany); letter-spacing: .08em; text-transform: uppercase; }
+.zoom-cta .p { margin-top: 10px; color: #ccc; }
+footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 32px;
+    border-top: var(--border);
+    background: #fff;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+@media (max-width: 1000px) {
+    .pipeline,
+    .stack,
+    .risk-grid { grid-template-columns: repeat(2, 1fr); }
+    .card-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 800px) {
+    .topbar { align-items: flex-start; flex-direction: column; padding: 12px 20px; font-size: 10px; }
+    .hero { padding: 60px 20px 40px; }
+    .zoom-block { grid-template-columns: 1fr; gap: 18px; padding: 32px 20px; }
+    section { padding: 60px 20px; }
+    .pipeline,
+    .stack,
+    .risk-grid { grid-template-columns: 1fr; }
+    .time-row { grid-template-columns: 70px 1fr; gap: 16px; }
+    .time { font-size: 22px; }
+    .split { grid-template-columns: 1fr; }
+    .split-col + .split-col { border-left: 0; border-top: var(--border); }
+    .gloss-row { grid-template-columns: 1fr; }
+    .def { padding-left: 0; border-left: 0; }
+    footer { flex-direction: column; }
+}
+@media (max-width: 480px) {
+    .hero h1 { font-size: 38px; }
+    .qcode { flex-direction: column; }
+    .quote { padding: 42px 24px 28px; }
+    .quiz-item { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+    <div class="left">
+        <span class="dot"></span>
+        <span>CLAUDE_HUB // ZOOM_02</span>
+        <span>STATUS: Q&A ARCHIVE</span>
+    </div>
+    <div>EST. 2026.06.21</div>
+</div>
+
+<section class="hero">
+    <div class="meta">
+        <span>TRANSMISSION // 002</span>
+        <span>DURATION: 32 MIN</span>
+        <span>PARTICIPANTS: 3</span>
+        <span>FORMAT: FINAL LIVE Q&A</span>
+    </div>
+    <h1>CLAUDE HUB<br>// ZOOM 2</h1>
+    <p class="sub">Финальный разбор по вопросам студентов: как превращать свои повторяющиеся процессы в skills, когда нужен OpenRouter и API, почему важное хранится на компьютере, где следить за обновлениями и чему учиться, если хочется настоящих агентов.</p>
+    <div class="core-msg">
+        Не ищем «одну кнопку». Берём свой повторяющийся процесс, превращаем его в понятный маршрут, сохраняем в файлах и подключаем к Claude/Codex. Модели меняются, но ваша система должна жить у вас.
+    </div>
+</section>
+
+<div class="zoom-block">
+    <div class="label">RECORDING //<br>ACCESS</div>
+    <div class="links">
+        <a class="zoom-link" href="https://us06web.zoom.us/rec/share/zd-PUNx3JgMlpVlt-kgnLCisEv6TxIqAkPatApODP1ubZivzr3S7h5UEM4xDlP8g.llZIEW0O26r0LyNn" target="_blank" rel="noopener">→ us06web.zoom.us/rec/share/zd-PUNx3JgMlpVlt-kgnLCisEv6TxIqAkPatApODP1ubZivzr3S7h5UEM4xDlP8g.llZIEW0O26r0LyNn</a>
+        <div class="pwd">PASSCODE: <span class="pwd-code">3jYYZc$3</span></div>
+    </div>
+    <button class="copy-btn" data-copy="3jYYZc$3">Copy passcode</button>
+</div>
+
+<section>
+    <div class="section-tag">SEGMENT 01 // FAST MAP</div>
+    <h2>Карта эфира</h2>
+    <p class="lead">Это не лекция с новой теорией, а живая распаковка «как прикрутить к себе». Поэтому главная ценность — не отдельные сервисы, а логика решений: где делать руками, где подключать API, где не усложнять и где уже пора идти в вайб-кодинг.</p>
+
+    <div class="timeline">
+        <div class="time-row reveal">
+            <div class="time">00:00</div>
+            <div class="time-body">
+                <h3>Свои skills вместо абстрактных</h3>
+                <p>Урок 8 про «контент-машину» объясняется как процесс приземления Claude под ваши повторяющиеся задачи. Не копируем чужие skills один-в-один, а анализируем свой рабочий процесс и превращаем его в инструкцию для агента.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">02:39</div>
+            <div class="time-body">
+                <h3>Презентации: skill + голос + деплой</h3>
+                <p>Для презентаций можно поставить готовый skill, например <a href="https://github.com/op7418/guizang-ppt-skill" target="_blank" rel="noopener">guizang-ppt-skill</a>, надиктовать структуру, получить HTML или PowerPoint и дальше либо отправить файл, либо разместить онлайн через GitHub Pages/Vercel.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">05:04</div>
+            <div class="time-body">
+                <h3>Поддержка и самостоятельность</h3>
+                <p>Вопросы лучше задавать после ручного прохождения уроков. Когда вы знаете, что возможность существует, Claude уже способен помочь развернуть её под вашу задачу.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">05:59</div>
+            <div class="time-body">
+                <h3>OpenRouter и много моделей</h3>
+                <p>OpenRouter объясняется как продвинутая фишка на вырост: один API-ключ, много моделей, возможность собрать один мыслительный процесс из Claude, Gemini, Kimi, Grok или ChatGPT.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">09:16</div>
+            <div class="time-body">
+                <h3>Когда нужны разные мозги</h3>
+                <p>Обычные задачи часто закрываются связкой Claude, ChatGPT/Codex и Kimi. Multi-model нужен там, где исследование сложное: тренды, свежие новости, глубина анализа, маркетинговая упаковка.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">14:30</div>
+            <div class="time-body">
+                <h3>Альтернативный доступ к Claude</h3>
+                <p>Разобран резервный API-доступ через сторонний шлюз: может спасти при блокировках, но дороже и с техническими хвостами. Это не базовый путь для новичка.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">17:15</div>
+            <div class="time-body">
+                <h3>Контекст живёт в файлах</h3>
+                <p>Терминальный Claude забывает сессии. Важное хранится в проектах, папках, markdown-файлах, About Me и инструкциях. Тогда не страшно менять компьютер, аккаунт или способ подключения.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">18:14</div>
+            <div class="time-body">
+                <h3>Где следить за обновлениями</h3>
+                <p>Для рынка AI первичны X/Twitter и Reddit: там новости появляются раньше, чем их переварят курсы и пересказы. Следить стоит за крупными моделями и продуктами, а не за случайными подборками.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">21:21</div>
+            <div class="time-body">
+                <h3>Где учиться агентам</h3>
+                <p>Если хочется не готовую коробку, а понять механику, это вайб-кодинг: от замысла к продукту. Ссылки из чата: <a href="https://t.me/ris_ai" target="_blank" rel="noopener">Сергей Рис</a> и <a href="https://aimindset.org/" target="_blank" rel="noopener">AI Mindset</a>.</p>
+            </div>
+        </div>
+        <div class="time-row reveal">
+            <div class="time">25:22</div>
+            <div class="time-body">
+                <h3>Midjourney, Higgsfield и MCP</h3>
+                <p>У Midjourney официального MCP-пути на момент эфира нет. Higgsfield удобен тем, что работает внутри контекста Claude, но живёт на токенах. Визуальный workflow выбирается по экономике и удобству.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 02 // OWN SKILLS</div>
+    <h2>Как прикрутить Claude к себе</h2>
+    <p class="lead">Главный ответ на вопрос «а где взять ваши промпты?» — не взять, а собрать свои. Чужие skills показывают принцип. Работать стабильно будет то, что описывает именно ваш процесс, ваш стиль, ваши материалы и ваши ограничения.</p>
+
+    <div class="pipeline">
+        <div class="step-card reveal">
+            <div class="num">01</div>
+            <h3>Выбрать повтор</h3>
+            <p>Найдите задачу, которую вы делаете постоянно: посты, разборы, презентации, клиентские ответы, анализ документов, подготовка эфиров.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="num">02</div>
+            <h3>Разобрать руками</h3>
+            <p>Опишите порядок действий: входные данные, решения по ходу, критерии качества, частые ошибки, финальный формат.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="num">03</div>
+            <h3>Сделать skill</h3>
+            <p>Превратите процесс в markdown-инструкцию: роль агента, шаги, стиль, запреты, чеклист приёмки, примеры хорошего результата.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="num">04</div>
+            <h3>Положить в проект</h3>
+            <p>Skill должен лежать рядом с вашим рабочим контекстом: About Me, папки проекта, примеры, шаблоны, источники.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="num">05</div>
+            <h3>Прогнать на задаче</h3>
+            <p>Не верьте описанию, верьте прогону. Дайте реальную задачу, посмотрите, где агент тупит, и перепишите инструкцию.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="num">06</div>
+            <h3>Закрепить маршрут</h3>
+            <p>Когда результат повторяется, превращайте это в команду, чеклист или отдельный мини-workflow. Вот тут начинается настоящая машина.</p>
+        </div>
+    </div>
+
+    <div class="prompt-box">
+        <div class="prompt-head">
+            <span>PROMPT // сделать skill из процесса</span>
+            <button class="prompt-copy" data-copy="У меня есть повторяющийся рабочий процесс: [описание]. Проведи меня через интервью и помоги превратить его в skill для Claude Code. Сначала задай 7 уточняющих вопросов по одному. Затем собери markdown-инструкцию: роль агента, входные данные, шаги, критерии качества, запреты, примеры хорошего результата и чеклист проверки.">Copy</button>
+        </div>
+        <div class="prompt-text">У меня есть повторяющийся рабочий процесс: [описание]. Проведи меня через интервью и помоги превратить его в skill для Claude Code. Сначала задай 7 уточняющих вопросов по одному. Затем собери markdown-инструкцию: роль агента, входные данные, шаги, критерии качества, запреты, примеры хорошего результата и чеклист проверки.</div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 03 // PRESENTATIONS</div>
+    <h2>Презентации без героизма</h2>
+    <p class="lead">Презентационный workflow в эфире звучит очень просто: ставим адекватный skill, голосом даём задачу, получаем HTML/PPT, дорабатываем вкус и решаем, нужен ли онлайн-деплой. Конкретная ссылка из чата: <a href="https://github.com/op7418/guizang-ppt-skill" target="_blank" rel="noopener">github.com/op7418/guizang-ppt-skill</a>.</p>
+
+    <div class="split">
+        <div class="split-col">
+            <div class="code">LOCAL FILE</div>
+            <h3>Когда достаточно файла</h3>
+            <ul>
+                <li>Презентацию надо отправить одному человеку или команде.</li>
+                <li>Не нужна публичная ссылка.</li>
+                <li>Можно скачать HTML или PowerPoint и переслать.</li>
+                <li>Дизайн докручивается прямо в Claude/Codex по замечаниям.</li>
+            </ul>
+            <div class="verdict">VERDICT: быстрее, меньше технических хвостов</div>
+        </div>
+        <div class="split-col">
+            <div class="code">ONLINE LINK</div>
+            <h3>Когда нужен деплой</h3>
+            <ul>
+                <li>Нужна ссылка для студентов, клиентов или публичного доступа.</li>
+                <li>Страница должна жить после эфира.</li>
+                <li>Подходят GitHub Pages или Vercel.</li>
+                <li>Агент может помочь с публикацией, если аккаунты уже настроены.</li>
+            </ul>
+            <div class="verdict">VERDICT: чуть сложнее, зато можно открыть в браузере</div>
+        </div>
+    </div>
+
+    <div class="qa-item reveal">
+        <div class="qcode">
+            <span>RESOURCE // CHAT</span>
+            <span>10:32</span>
+        </div>
+        <div class="q">Skill по дизайну презентаций</div>
+        <div class="a"><strong><a href="https://github.com/op7418/guizang-ppt-skill" target="_blank" rel="noopener">guizang-ppt-skill</a></strong> — готовый skill для генерации презентаций. Его можно поставить первым, чтобы не начинать с пустого места, а потом уже искать другие skills под свой дизайн и формат.</div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 04 // OPENROUTER</div>
+    <h2>OpenRouter — не первый шаг</h2>
+    <p class="lead">OpenRouter нужен не потому, что «так умнее», а когда реально не хватает одного мозга. Он даёт единый API-доступ к разным моделям и позволяет оркестрировать их внутри одного процесса. Но это платно, сложнее и точно не нужно, пока базовая система ещё не стоит на рельсах.</p>
+
+    <div class="stack">
+        <div class="stack-cell reveal">
+            <div class="code">MODEL ROLE</div>
+            <h3>Claude</h3>
+            <p>Архитектура, контекст, проектное мышление, разговор с задачей. Хорош как главный мозг и как среда, где живёт процесс.</p>
+        </div>
+        <div class="stack-cell reveal">
+            <div class="code">MODEL ROLE</div>
+            <h3>ChatGPT / Codex</h3>
+            <p>Документы, код, дебаг, структурирование. В эфире звучит мысль: некоторые задачи сразу выгоднее отдавать сюда.</p>
+        </div>
+        <div class="stack-cell reveal">
+            <div class="code">MODEL ROLE</div>
+            <h3>Gemini / Grok</h3>
+            <p>Gemini полезен для трендов и отдельных визуальных задач. Grok упоминается как быстрый источник свежей повестки.</p>
+        </div>
+        <div class="stack-cell reveal">
+            <div class="code">MODEL ROLE</div>
+            <h3>Kimi</h3>
+            <p>Маркетинговая упаковка, хуки, формулировки. Хорош как отдельный слой после продукта или исследования.</p>
+        </div>
+    </div>
+
+    <div class="quote">
+        <blockquote>OpenRouter — это фишка на вырост. Сначала поставьте систему на рельсы.</blockquote>
+        <cite>— смысловой вывод из блока 05:59–14:18</cite>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 05 // API ACCESS</div>
+    <h2>Резервный доступ без романтики</h2>
+    <p class="lead">В эфире разобран альтернативный доступ к Claude через сторонний API-шлюз. Конкретная ссылка из чата: <a href="https://plati.market/seller/ai-prime-store/1415333/" target="_blank" rel="noopener">AI Prime Store на Plati.Market</a>. Это не базовый вариант «ставить всем», а аварийный сценарий, когда Claude нужен прямо сейчас, а нормальный доступ нестабилен. Тут важны риски.</p>
+
+    <div class="risk-grid">
+        <div class="risk-card reveal">
+            <div class="code">PLUS</div>
+            <h3>Может спасти</h3>
+            <p>Если обычные аккаунты блокируются или не пускают, API-шлюз может дать рабочий доступ к Claude Code через терминал.</p>
+        </div>
+        <div class="risk-card reveal">
+            <div class="code">MINUS</div>
+            <h3>Дороже подписки</h3>
+            <p>При плотной работе токены улетают быстро. Это не способ «сэкономить», а резервный технический проход.</p>
+        </div>
+        <div class="risk-card reveal">
+            <div class="code">RISK</div>
+            <h3>Сложно удалить</h3>
+            <p>Сторонняя программа может глубоко прописаться в системе. Если потом понадобится вернуться на обычный вход, удаление может потребовать отдельной технической чистки.</p>
+        </div>
+    </div>
+
+    <div class="qa-item reveal">
+        <div class="qcode">
+            <span>RESOURCE // CHAT</span>
+            <span>10:33</span>
+        </div>
+        <div class="q">Claude через API</div>
+        <div class="a"><strong><a href="https://plati.market/seller/ai-prime-store/1415333/" target="_blank" rel="noopener">plati.market/seller/ai-prime-store/1415333</a></strong> — ссылка из чата к блоку про альтернативный доступ. Перед установкой стоит внимательно прочитать инструкцию и помнить: это резервный технический путь, а не базовый вариант для старта.</div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 06 // CONTEXT</div>
+    <h2>Контекст должен жить у вас</h2>
+    <p class="lead">Самая важная техническая мысль эфира: терминальный Claude не обязан помнить вчерашнюю сессию. Это нормально. Поэтому память проекта надо строить не в надежде на чат, а в файлах на компьютере.</p>
+
+    <div class="card-grid">
+        <div class="cell reveal">
+            <div class="code">DO</div>
+            <h3>Хранить локально</h3>
+            <p>About Me, инструкции, skills, примеры, папки клиентов, шаблоны и решения должны лежать в проекте на компьютере.</p>
+        </div>
+        <div class="cell reveal">
+            <div class="code">DO</div>
+            <h3>Читать перед работой</h3>
+            <p>В начале сессии агенту надо дать контекст: какие файлы прочитать, кто вы, что за проект, какие правила результата.</p>
+        </div>
+        <div class="cell reveal">
+            <div class="code">DON'T</div>
+            <h3>Не держать в чате</h3>
+            <p>Если важное осталось только в истории Claude, оно не является системой. Чат может забыться, аккаунт может смениться.</p>
+        </div>
+        <div class="cell reveal">
+            <div class="code">RESULT</div>
+            <h3>Не страшно менять вход</h3>
+            <p>Если контекст в файлах, вам не принципиально, с какого аккаунта, компьютера или агента вы заходите в работу.</p>
+        </div>
+    </div>
+
+    <div class="quote">
+        <blockquote>Ваш Claude ничего не потеряет, если всё важное лежит на компьютере.</blockquote>
+        <cite>— смысловой вывод из блока 17:15–18:13</cite>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 07 // MARKET WATCH</div>
+    <h2>Как следить за обновлениями</h2>
+    <p class="lead">В AI-рынке новости сначала появляются в первичных источниках, а потом уже превращаются в посты, курсы и пересказы. Поэтому базовый навык — не «найти идеальный канал», а настроить наблюдение за ключевыми игроками.</p>
+
+    <div class="pipeline">
+        <div class="step-card reveal">
+            <div class="num">01</div>
+            <h3>X / Twitter</h3>
+            <p>Самый быстрый слой: релизы, обсуждения, бесплатные лимиты, временные окна доступа, первые жалобы на качество моделей.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="num">02</div>
+            <h3>Reddit</h3>
+            <p>Практические наблюдения пользователей: что сломалось, что работает, где новые обходные пути, где хайп без результата.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="num">03</div>
+            <h3>Крупные игроки</h3>
+            <p>Claude, ChatGPT/Codex, Gemini, Kimi, Grok, Cursor и соседние инструменты. Не надо читать всех, надо видеть движение рынка.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 08 // NEXT PATH</div>
+    <h2>Если хочется глубже</h2>
+    <p class="lead">Если хочется именно агентных систем, это уже траектория вайб-кодинга: от замысла к работающему продукту. Не готовая коробка, а навык собирать свои инструменты под свои задачи.</p>
+
+    <div class="qa-item reveal">
+        <div class="qcode">
+            <span>QUESTION // NATALYA</span>
+            <span>21:21</span>
+        </div>
+        <div class="q">Хочу агентов: сайт-трекинг, база, соцсети, предложения клиентам. Где этому учиться?</div>
+        <div class="a"><strong>Ответ:</strong> это не курс «куда нажать», а вайб-кодинг от замысла к продукту. Сначала собирается один агент под конкретный процесс, потом по аналогии делаются остальные. Готовые агенты редко совпадают с реальной задачей, потому что бизнес-процессы слишком разные.</div>
+    </div>
+
+    <div class="qa-item reveal">
+        <div class="qcode">
+            <span>LINKS FROM CHAT</span>
+            <span>LEARNING ROUTE</span>
+        </div>
+        <div class="q">Кого смотреть, если хочется глубже?</div>
+        <div class="a">Ссылки из чата: <strong><a href="https://t.me/ris_ai" target="_blank" rel="noopener">Сергей Рис</a></strong> — сильная траектория «от замысла к продукту»; <strong><a href="https://aimindset.org/" target="_blank" rel="noopener">AI Mindset</a></strong> — плотная среда для глобального и фундаментального погружения. Это маршруты для тех, кто хочет расширяться дальше и собирать более сложные системы.</div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 09 // VISUAL MODELS</div>
+    <h2>Midjourney и Higgsfield</h2>
+    <p class="lead">Визуальный блок сводится к трезвой экономике. Higgsfield удобен тем, что возвращает картинки прямо в контекст Claude. Midjourney уже может быть оплачен и нравиться по стилю, но официального прямого MCP-пути в эфире не подтверждается.</p>
+
+    <div class="split">
+        <div class="split-col">
+            <div class="code">HIGGSFIELD</div>
+            <h3>Внутри контекста</h3>
+            <ul>
+                <li>Удобно обсуждать визуальный ряд прямо в хронологии проекта.</li>
+                <li>Claude видит, что уже было сгенерировано, и можно сразу комментировать.</li>
+                <li>Минус — токены и стоимость генераций.</li>
+            </ul>
+        </div>
+        <div class="split-col">
+            <div class="code">MIDJOURNEY</div>
+            <h3>Сильный отдельный инструмент</h3>
+            <ul>
+                <li>Можно готовить промпты в Claude, а генерировать отдельно.</li>
+                <li>Если промпты не нравятся, показываем примеры и просим докрутить язык.</li>
+                <li>Прямого официального MCP-моста в эфире не найдено.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 10 // STUDENT PROOF</div>
+    <h2>Что уже получилось</h2>
+
+    <div class="qa-item reveal">
+        <div class="qcode">
+            <span>CASE 01</span>
+            <span>NATALYA // 27:34</span>
+        </div>
+        <div class="q">Русская страница-помощник для китайского портала</div>
+        <div class="a">Наталья сделала параллельную страницу, которая переводит китайский интерфейс на русский, подсказывает, какие данные куда вставлять, позволяет выгружать PDF на проверку и переносить данные дальше. Важный момент: она не кодер, но смогла увидеть результат своей идеи в виде работающей страницы.</div>
+    </div>
+
+    <div class="qa-item reveal">
+        <div class="qcode">
+            <span>CASE 02</span>
+            <span>NATALYA // 28:43</span>
+        </div>
+        <div class="q">Бот, база данных и API</div>
+        <div class="a">Следующий эксперимент — бот с моделью, базой данных и подключением API. Первый визуальный результат ещё не идеален, но сама архитектура уже собрана. Это хороший пример: сначала мыслительная сборка, потом отдельный цикл визуальной доводки.</div>
+    </div>
+
+    <div class="qa-item reveal">
+        <div class="qcode">
+            <span>CASE 03</span>
+            <span>NIKOLAY // 30:04</span>
+        </div>
+        <div class="q">Презентация за полчаса</div>
+        <div class="a">Николай отмечает, что презентации и одностраничники быстро затягивают: сделал основу за полчаса, поправил пару слайдов и пошёл дальше. Главная трудность — не скорость генерации, а понять, как прикрутить всё это к собственным задачам.</div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 11 // GLOSSARY</div>
+    <h2>Словарь</h2>
+    <div class="glossary">
+        <div class="gloss-row"><div class="term">Skill</div><div class="def">Файл-инструкция для агента: роль, процесс, стиль, ограничения, критерии результата. Нужен, чтобы Claude повторял ваш рабочий маршрут.</div></div>
+        <div class="gloss-row"><div class="term">guizang-ppt-skill</div><div class="def"><a href="https://github.com/op7418/guizang-ppt-skill" target="_blank" rel="noopener">github.com/op7418/guizang-ppt-skill</a> — skill из чата для дизайна и генерации презентаций.</div></div>
+        <div class="gloss-row"><div class="term">Claude Code</div><div class="def">Терминальный агент Claude с доступом к файлам и проектам. Важное хранится не в чате, а в локальных папках.</div></div>
+        <div class="gloss-row"><div class="term">Codex</div><div class="def">Кодинг-агент ChatGPT. В эфире упоминается как инструмент, который может работать с теми же файлами и иногда лучше подходит для кода/документов.</div></div>
+        <div class="gloss-row"><div class="term">OpenRouter</div><div class="def">Платформа API-доступа к разным моделям через один ключ. Полезна для продвинутых multi-model процессов.</div></div>
+        <div class="gloss-row"><div class="term">API key</div><div class="def">Ключ доступа к модели или сервису. Даёт гибкость, но переводит работу в токены и расходы по фактическому использованию.</div></div>
+        <div class="gloss-row"><div class="term">AI Prime Store</div><div class="def"><a href="https://plati.market/seller/ai-prime-store/1415333/" target="_blank" rel="noopener">plati.market/seller/ai-prime-store/1415333</a> — ссылка из чата к теме Claude через API. Использовать как резервный технический путь, не как базовую установку для новичка.</div></div>
+        <div class="gloss-row"><div class="term">MCP</div><div class="def">Model Context Protocol: способ подключить внешние сервисы к агенту, чтобы они работали внутри его контекста.</div></div>
+        <div class="gloss-row"><div class="term">Higgsfield</div><div class="def">Визуальный сервис, который удобно подключать к Claude для генерации картинок/видео внутри проекта.</div></div>
+        <div class="gloss-row"><div class="term">Midjourney</div><div class="def">Сильный отдельный инструмент для изображений. В эфире не подтверждается официальный прямой MCP-путь.</div></div>
+        <div class="gloss-row"><div class="term">GitHub Pages</div><div class="def">Бесплатный хостинг для статических HTML-страниц, презентаций и интерактивных уроков.</div></div>
+        <div class="gloss-row"><div class="term">Vercel</div><div class="def">Хостинг для сайтов и приложений. Подходит, когда нужно быстро дать онлайн-ссылку.</div></div>
+        <div class="gloss-row"><div class="term">Сергей Рис</div><div class="def"><a href="https://t.me/ris_ai" target="_blank" rel="noopener">t.me/ris_ai</a> — ссылка из чата: сильный русскоязычный вход в вайб-кодинг.</div></div>
+        <div class="gloss-row"><div class="term">AI Mindset</div><div class="def"><a href="https://aimindset.org/" target="_blank" rel="noopener">aimindset.org</a> — ссылка из чата для глобального и фундаментального погружения.</div></div>
+    </div>
+</section>
+
+<section>
+    <div class="section-tag">SEGMENT 12 // SELF-CHECK</div>
+    <h2>Проверь себя</h2>
+
+    <div class="quiz-item" data-correct="b">
+        <div class="qnum">QUESTION 01 / 05</div>
+        <div class="qtext">Что нужно загружать в проект вместо чужих абстрактных skills?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">Все найденные skills с GitHub подряд</button>
+            <button class="quiz-opt" data-opt="b">Свои skills, собранные из повторяющихся рабочих процессов</button>
+            <button class="quiz-opt" data-opt="c">Только официальные инструкции Anthropic без изменений</button>
+        </div>
+        <div class="quiz-explain">Правильный ответ — свои процессы. Чужие skills помогают понять формат, но машина работает стабильно, когда описан ваш реальный маршрут.</div>
+    </div>
+
+    <div class="quiz-item" data-correct="c">
+        <div class="qnum">QUESTION 02 / 05</div>
+        <div class="qtext">Когда имеет смысл думать про OpenRouter?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">Сразу, до первых уроков, чтобы всё было максимально сложно</button>
+            <button class="quiz-opt" data-opt="b">Только для презентаций в PowerPoint</button>
+            <button class="quiz-opt" data-opt="c">Когда базовый процесс уже стоит на рельсах и реально нужны разные модели</button>
+        </div>
+        <div class="quiz-explain">OpenRouter — продвинутый слой. Пока не выстроена база, он добавляет расходы и сложность, а не ясность.</div>
+    </div>
+
+    <div class="quiz-item" data-correct="a">
+        <div class="qnum">QUESTION 03 / 05</div>
+        <div class="qtext">Где должен храниться главный контекст проекта?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">В файлах и папках на компьютере</button>
+            <button class="quiz-opt" data-opt="b">Только в истории чата Claude</button>
+            <button class="quiz-opt" data-opt="c">В памяти Zoom-записи</button>
+        </div>
+        <div class="quiz-explain">Терминальный Claude может забывать сессии. Поэтому About Me, правила, skills и материалы должны жить локально.</div>
+    </div>
+
+    <div class="quiz-item" data-correct="b">
+        <div class="qnum">QUESTION 04 / 05</div>
+        <div class="qtext">Почему готовые агенты редко решают задачу «как надо»?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">Потому что агенты в принципе не работают</button>
+            <button class="quiz-opt" data-opt="b">Потому что реальные бизнес-процессы нужно собирать под себя</button>
+            <button class="quiz-opt" data-opt="c">Потому что Claude запрещает автоматизацию</button>
+        </div>
+        <div class="quiz-explain">Именно поэтому в эфире звучит «это вайб-кодинг»: от замысла к своему продукту, а не покупка универсальной коробки.</div>
+    </div>
+
+    <div class="quiz-item" data-correct="c">
+        <div class="qnum">QUESTION 05 / 05</div>
+        <div class="qtext">Что выбрать для Midjourney, если нет прямого официального MCP-пути?</div>
+        <div class="quiz-options">
+            <button class="quiz-opt" data-opt="a">Удалить Midjourney и больше не пользоваться</button>
+            <button class="quiz-opt" data-opt="b">Платить за любой кастомный мост, даже если дорого</button>
+            <button class="quiz-opt" data-opt="c">Готовить и улучшать промпты в Claude, а генерацию делать отдельно</button>
+        </div>
+        <div class="quiz-explain">Это трезвый маршрут: Claude помогает с промптами и критикой, Midjourney остаётся отдельным сильным инструментом.</div>
+    </div>
+</section>
+
+<div class="cta">
+    <h2>Вы прошли это.<br>Теперь можно больше.</h2>
+    <p>Ребята, вы крутые. Вы прошли большой путь и теперь умеете гораздо больше: из идеи может получиться страница, презентация, бот, процесс, своя система. Для вас открыто много новых дверей — берите свои задачи, собирайте под них инструменты и спокойно идите в новые горизонты.</p>
+
+    <div class="zoom-cta">
+        <div class="l">// ZOOM RECORDING</div>
+        <a href="https://us06web.zoom.us/rec/share/zd-PUNx3JgMlpVlt-kgnLCisEv6TxIqAkPatApODP1ubZivzr3S7h5UEM4xDlP8g.llZIEW0O26r0LyNn" target="_blank" rel="noopener">https://us06web.zoom.us/rec/share/zd-PUNx3JgMlpVlt-kgnLCisEv6TxIqAkPatApODP1ubZivzr3S7h5UEM4xDlP8g.llZIEW0O26r0LyNn</a>
+        <div class="p">PASSCODE: <code>3jYYZc$3</code></div>
+    </div>
+</div>
+
+<footer>
+    <div>DESIGNATION: CLAUDE_HUB_ZOOM_02</div>
+    <div>CREDITS: CLAUDE HUB</div>
+    <div>SOURCE: ZOOM_TRANSCRIPT_VTT</div>
+</footer>
+
+<script>
+const progress = document.getElementById("progress");
+window.addEventListener("scroll", () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    progress.style.width = pct + "%";
+});
+
+const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("in");
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+document.querySelectorAll(".quiz-item").forEach((item) => {
+    const correct = item.dataset.correct;
+    item.querySelectorAll(".quiz-opt").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            if (item.classList.contains("answered")) return;
+            item.classList.add("answered");
+            item.querySelectorAll(".quiz-opt").forEach((option) => {
+                if (option.dataset.opt === correct) option.classList.add("correct");
+                else option.classList.add("wrong");
+            });
+        });
+    });
+});
+
+function copyWithFeedback(btn, text) {
+    const original = btn.textContent;
+    const done = () => {
+        btn.textContent = "Copied ✓";
+        btn.classList.add("copied");
+        setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove("copied");
+        }, 1800);
+    };
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+        fallbackCopy(text, done);
+    }
+}
+
+function fallbackCopy(text, done) {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(area);
+    done();
+}
+
+document.querySelectorAll(".copy-btn, .prompt-copy").forEach((btn) => {
+    btn.addEventListener("click", () => copyWithFeedback(btn, btn.dataset.copy || ""));
+});
+</script>
+</body>
+</html>
