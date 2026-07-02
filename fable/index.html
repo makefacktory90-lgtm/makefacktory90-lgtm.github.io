@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Фабл-помощник · скилл от Иры Буян</title>
+<meta name="description" content="Экономный режим работы с Claude Fable 5: скилл, который сам настроится под вас. Фабл думает, дешёвые модели делают. Переупаковка Иры Буян, основа Сергея Риса.">
+<style>
+  body{margin:0;background:#e7e4dd;color:#16140f;font-family:"Helvetica Neue",Arial,sans-serif;line-height:1.55;font-size:18px;}
+  .wrap{max-width:720px;margin:0 auto;padding:34px 20px 90px;}
+  .kick{color:#e8202a;font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:0 0 12px;}
+  h1{font-weight:800;font-size:32px;line-height:1.12;letter-spacing:-0.6px;margin:0 0 14px;}
+  p{margin:0 0 15px;}
+  .lead{font-size:19px;}
+  .card{background:#f4f1ea;border:1px solid #cfccc3;padding:22px 22px;margin:22px 0;}
+  .credit{font-size:15px;color:#5a564d;}
+  .credit a{color:#9a5b3b;}
+  h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:#16140f;display:inline-block;padding:6px 13px;margin:32px 0 16px;}
+  pre{background:#16140f;color:#e7e4dd;font-family:"SF Mono",Menlo,monospace;font-size:13px;line-height:1.5;padding:20px;overflow-x:auto;white-space:pre-wrap;border-radius:4px;margin:0;}
+  .btnrow{margin:16px 0 0;}
+  .btn{display:inline-block;background:#e8202a;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 24px;border:none;cursor:pointer;margin:0 8px 8px 0;}
+  .btn.dark{background:#16140f;}
+  .steps li{margin:0 0 8px;}
+  .foot{margin-top:40px;font-size:15px;color:#5a564d;border-top:1px solid #cfccc3;padding-top:20px;}
+  .foot a{color:#9a5b3b;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kick">// а вот это уже полезно</div>
+  <h1>Фабл-помощник</h1>
+  <p class="lead">Скилл для работы с Claude Fable 5, который сам расспросит вас и настроится под вашу работу. Фабл дорогой и его дают мало, поэтому он только думает и ставит задачи, а исполняют модели подешевле. Так окно не сгорает впустую.</p>
+
+  <div class="card credit">
+    Основа этого скилла, идея «Фабл думает, дешёвые модели делают», принадлежит <a href="https://github.com/serejaris/personal-corp-skills" target="_blank" rel="noopener">Сергею Рису</a>. У него он больше для программистов. Я упаковала попроще, добавила самонастройку под человека и разрешила пользоваться не-технарям. Ира Буян, <a href="https://iraai.ru">iraai.ru</a>.
+  </div>
+
+  <h2>Как поставить</h2>
+  <ol class="steps">
+    <li>Скопируйте текст ниже (кнопка «Скопировать») или скачайте файл.</li>
+    <li>Положите его в свой Claude Code как скилл (папка со скиллами, файл <code>SKILL.md</code>).</li>
+    <li>Скажите Фаблу «включи фабл-помощник». Дальше он сам расспросит вас и настроится.</li>
+  </ol>
+
+  <div class="btnrow">
+    <button class="btn" onclick="copySkill()">Скопировать скилл</button>
+    <a class="btn dark" href="fable-pomoshnik.md" download>Скачать файлом</a>
+  </div>
+
+  <h2>Текст скилла</h2>
+  <pre id="skill">ЗАГРУЗКА...</pre>
+
+  <div class="foot">
+    Если от слов «Claude Code» и «скилл» пока тревожно, это нормально. Начните с простого: откройте Fable, дайте контекст своей задачи и попросите «оспорь мою идею и задай мне вопросы». Уже одно это окупит окно.<br><br>
+    А если хотите по-человечески и с нуля разобраться с нейронками, у меня есть <a href="https://iraai.ru/claude-hub/">ClaudeHub</a>: записи, короткие уроки, сразу в руки.
+  </div>
+
+</div>
+
+<script>
+fetch('fable-pomoshnik.md').then(r=>r.text()).then(t=>{document.getElementById('skill').textContent=t;}).catch(()=>{document.getElementById('skill').textContent='Не удалось загрузить. Нажмите «Скачать файлом».';});
+function copySkill(){
+  var t=document.getElementById('skill').textContent;
+  navigator.clipboard.writeText(t).then(function(){
+    var b=document.querySelector('.btn'); var o=b.textContent; b.textContent='Скопировано ✓'; setTimeout(function(){b.textContent=o;},2000);
+  });
+}
+</script>
+</body>
+</html>
