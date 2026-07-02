@@ -1711,7 +1711,7 @@
             <div class="rehab-cta-box immune">
                 <h3>Попробуйте AI <span style="color:var(--accent)">реХАБ</span></h3>
                 <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. В своём темпе.</p>
-                <form class="email-form" method="POST" action="https://cp.unisender.com/ru/subscribe?hash=69ugxc7iibogwg56erupd3j7dwpmtayqgejreij6fogbxs9cdiqmy" name="subscribtion_form" us_mode="embed" onsubmit="return handleSubscribe(this)">
+                <form class="email-form" action="#" name="subscribtion_form" onsubmit="return handleSubscribe(this)">
                     <input type="email" name="email" placeholder="Ваш email" required>
                     <input type="hidden" name="charset" value="UTF-8">
                     <input type="hidden" name="default_list_id" value="1">
@@ -1868,24 +1868,50 @@ function toggleSubmit(checkbox) {
     btn.disabled = !checkbox.checked;
 }
 
-// Email form handler: posts directly to Unisender so the subscriber sees the confirmation step.
+// Email form handler: подписывает в один клик через функцию iraai-subscribe (без капчи и без письма-подтверждения).
 function handleSubscribe(form) {
     const input = form.querySelector('input[name="email"]');
-    const email = input.value.trim();
-    if (!email) return false;
-
+    const email = (input.value || '').trim();
     const btn = form.querySelector('button');
     const note = form.parentElement.querySelector('.email-note');
+    if (!email) return false;
 
-    btn.textContent = 'Проверьте почту';
     btn.disabled = true;
-    if (note && note.classList.contains('email-note')) {
-        note.textContent = 'Сейчас откроется страница Unisender. Там нужно подтвердить подписку по письму.';
-        note.style.color = '#5A7A60';
-        note.style.fontWeight = '600';
-    }
+    btn.textContent = 'Отправляю...';
 
-    return true;
+    fetch('https://iraai-subscribe.vercel.app/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+    }).then(function (r) {
+        return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+    }).then(function (res) {
+        if (res.ok && res.d && res.d.ok) {
+            btn.textContent = 'Готово ✓';
+            input.value = '';
+            if (note && note.classList.contains('email-note')) {
+                note.textContent = 'Готово, вы подписаны. Первое письмо уже летит.';
+                note.style.color = '#5A7A60';
+                note.style.fontWeight = '600';
+            }
+        } else {
+            btn.disabled = false;
+            btn.textContent = 'Подписаться';
+            if (note && note.classList.contains('email-note')) {
+                note.textContent = (res.d && res.d.error) ? res.d.error : 'Что-то пошло не так, попробуйте ещё раз.';
+                note.style.color = '#b03a2e';
+            }
+        }
+    }).catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Подписаться';
+        if (note && note.classList.contains('email-note')) {
+            note.textContent = 'Сеть недоступна, попробуйте ещё раз.';
+            note.style.color = '#b03a2e';
+        }
+    });
+
+    return false;
 }
 
 // ==================== AI CHAT ====================
