@@ -1887,10 +1887,10 @@ function handleSubscribe(form) {
         return r.json().then(function (d) { return { ok: r.ok, d: d }; });
     }).then(function (res) {
         if (res.ok && res.d && res.d.ok) {
-            btn.textContent = 'Готово ✓';
+            btn.textContent = 'Проверьте почту';
             input.value = '';
             if (note && note.classList.contains('email-note')) {
-                note.textContent = 'Готово, вы подписаны. Первое письмо уже летит.';
+                note.textContent = 'Почти готово. Мы отправили письмо, подтвердите подписку по ссылке в нём. Если письма нет через минуту, гляньте в папку Спам или Промоакции.';
                 note.style.color = '#5A7A60';
                 note.style.fontWeight = '600';
             }
