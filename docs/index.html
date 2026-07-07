@@ -35,7 +35,7 @@
             --text: #1A1A1A;
             --text-secondary: #5C5856;
             --text-dim: #8A8580;
-            --accent: #C4654E;
+            --accent: #E50914;
             --accent-soft: #E8917A;
             --accent-bg: #FFF5F2;
             --sage: #5A7A60;
@@ -1224,14 +1224,14 @@ scene.add(ambient);
 const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
 dirLight.position.set(5, 15, 10);
 scene.add(dirLight);
-const warmLight = new THREE.PointLight(0xC4654E, 0.4, 80);
+const warmLight = new THREE.PointLight(0xE50914, 0.4, 80);
 warmLight.position.set(0, 15, 5);
 scene.add(warmLight);
 
 // Colors
 const SKIN = 0xBD8E82;
 const HAIR = 0x3A2820;
-const SHIRT = 0xC4654E;
+const SHIRT = 0xE50914;
 const PANTS = 0x2C2926;
 const SHOE = 0x1A1A1A;
 const LAPTOP_BASE = 0x333333;
@@ -1484,7 +1484,7 @@ function spawnWord(screenX) {
     // Random size variation
     el.style.fontSize = (11 + Math.random() * 5) + 'px';
     // Random color from warm palette
-    const colors = ['#C4654E', '#B85A45', '#D4736E', '#8A8580', '#5C5856', '#5A7A60'];
+    const colors = ['#E50914', '#A30410', '#D4736E', '#8A8580', '#5C5856', '#5A7A60'];
     el.style.color = colors[Math.floor(Math.random() * colors.length)];
 
     document.body.appendChild(el);
