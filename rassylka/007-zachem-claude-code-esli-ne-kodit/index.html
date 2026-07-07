@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Зачем вам Claude Code, если вы не собирались кодить — AI reХАБ</title>
+<meta name="description" content="Одна маркетинговая задача — портреты ЦА для вуза — тремя путями: руками, через нейросети вручную и через мой скилл для Claude Code. С живым результатом и бесплатным скиллом на GitHub.">
+<style>
+  :root{
+    --bg:#faf8f5; --ink:#1c1a17; --muted:#6b655c; --line:#e6e0d6;
+    --accent:#C4654E; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:Inter,-apple-system,system-ui,sans-serif;line-height:1.65;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:680px;margin:0 auto;padding:48px 22px 90px}
+  .back{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.06em;
+    text-decoration:none;color:var(--accent)}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--accent);margin-top:30px}
+  h1{font-size:34px;line-height:1.12;margin:12px 0 24px;font-weight:800;letter-spacing:-.02em}
+  h2{font-weight:700;font-size:22px;margin:34px 0 14px;letter-spacing:-.01em}
+  p{font-size:17px;margin:0 0 18px}
+  ul,ol{font-size:17px;margin:0 0 18px;padding-left:22px}
+  li{margin:0 0 8px}
+  .box{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:18px 22px;margin:0 0 16px}
+  .box b{display:block;margin-bottom:4px;font-size:16px}
+  .box p{font-size:15px;color:var(--muted);margin:0 0 8px}
+  .box p:last-child{margin:0}
+  .kicker{font-weight:700;font-size:20px;margin:34px 0 14px;letter-spacing:-.01em}
+  .sub{margin-top:44px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:26px 24px}
+  .sub h3{margin:0 0 8px;font-size:20px}
+  .sub p{margin:0 0 14px;color:var(--muted);font-size:15px}
+  .stub{display:inline-block;background:var(--accent);color:#fff;border-radius:10px;
+    padding:12px 20px;font-weight:600;font-size:15px}
+  .note{margin-top:12px;font-size:12px;color:var(--muted);font-family:"JetBrains Mono",monospace}
+  .pon{margin-top:24px;font-size:15px;color:var(--muted)}
+  a.txt{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(196,101,78,.35)}
+  a{color:var(--accent)}
+  img{max-width:100%;height:auto;border-radius:8px;margin:16px 0}
+  strong,b{color:var(--ink)}
+  table.cmp{width:100%;border-collapse:collapse;font-size:15px;margin:14px 0}
+  table.cmp td{padding:10px 12px;border:1px solid var(--line)}
+  table.cmp tr.head td{background:var(--ink);color:#fff;font-weight:700;border-color:var(--ink)}
+  table.cmp td.hl{color:var(--accent);font-weight:700}
+  .tw{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/rassylka/">← Все выпуски</a>
+  <div class="mono">AI reХАБ · выпуск</div>
+  <h1>Зачем вам Claude Code, если вы не собирались кодить</h1>
+
+  <p>Я давно хотела написать это письмо. Всё тянула, потому что боялась, что прозвучит как реклама Claude Code.</p>
+
+  <p>Сегодня поняла, что по-другому не объяснить. Просто покажу на живой задаче.</p>
+
+  <p>Один из подписчиков прислал задачку: <strong>федеральный вуз в Калининграде</strong>, задача — переманивать научных сотрудников из Москвы, делать предложение конкурентоспособным по всей РФ.</p>
+
+  <p>Три пути решить одну и ту же задачу: руками, через нейросети руками, и через мой скилл.</p>
+
+  <h2>01 / Маркетолог без AI (руками)</h2>
+
+  <p>Как это делали ещё вчера:</p>
+
+  <ul>
+    <li>Составить бриф и анкету — 2-3 часа</li>
+    <li>10-15 глубинных интервью — 2-3 недели</li>
+    <li>1-2 фокус-группы — ещё неделя</li>
+    <li>Расшифровать, свести в Excel, написать отчёт — 3-5 дней</li>
+  </ul>
+
+  <div class="box">
+    <p><strong>Итого: 2-3 недели</strong>, помощники, логистика, голова дымится.</p>
+  </div>
+
+  <p>У 99% маркетологов столько времени нет. Поэтому это никто не делает. Портреты ЦА пишутся на коленке за 30 минут по воспоминаниям. Результат — слабый, угадательный.</p>
+
+  <h2>02 / Маркетолог с нейросетями (Хабр-метод)</h2>
+
+  <p>Недавно на Хабре вышла статья «Исследование ЦА за 2 часа через AI» — красивый метод, где тот же запрос прогоняется через три нейросети параллельно, руками. <a class="txt" href="https://habr.com/ru/articles/1018360/">Любопытным — сюда.</a></p>
+
+  <div class="box">
+    <p><strong>4 окна. Ручная пересадка. 2-4 часа с настройкой.</strong></p>
+  </div>
+
+  <p>Радикально быстрее, чем руками-без-AI. Но каждый раз всё заново: четыре вкладки, своя подписка на каждую модель, конспектирование в Google Docs и общая усталость к концу дня.</p>
+
+  <p>Я прошла этот метод один раз и задумалась: а почему нельзя всё в одном окне?</p>
+
+  <h2>03 / Маркетолог со скиллом (мой способ)</h2>
+
+  <p>Я вдохновилась методом Хабра и написала <strong>свой скилл для Claude Code</strong>.</p>
+
+  <p>Скилл — это markdown-файл с инструкцией. Claude Code его читает и выполняет. Никакого программирования. Никаких четырёх окон.</p>
+
+  <p>Клод читает инструкцию из скилла, сам опрашивает несколько AI-моделей, сам собирает локальные источники (если они есть), сам пишет финальный отчёт. Я сижу рядом и пью кофе.</p>
+
+  <div class="box">
+    <p><strong>Одна команда. Одно окно. На задаче про вуз справился примерно за час.</strong></p>
+  </div>
+
+  <p class="kicker">Живой результат на задаче про вуз в Калининграде</p>
+
+  <p>Выложила отдельной страницей, без регистрации и СМС:</p>
+
+  <p><a class="txt" href="https://iraai.ru/bfu-demo/">→ iraai.ru/bfu-demo</a></p>
+
+  <p>Там три портрета ЦА (включая «молодого постдока с женой-архитектором и ребёнком у тёщи»), пять углов позиционирования, контринтуитивные стратегии вроде «перестаньте продавать им работу, продавайте свободу и гранты под их именем».</p>
+
+  <p>Там же мои комментарии к каждому блоку — что проверила руками, с чем не согласна, где модель попала в точку.</p>
+
+  <h2>04 / Сравнение</h2>
+
+  <div class="tw">
+  <table class="cmp">
+    <tr class="head"><td>Параметр</td><td>Руками</td><td>Хабр</td><td>Скилл</td></tr>
+    <tr><td><strong>Время</strong></td><td>2-3 недели</td><td>2-4 часа</td><td class="hl">~1 час</td></tr>
+    <tr><td><strong>Стоимость</strong></td><td>много</td><td>4 подписки</td><td class="hl">$0.05 + подписка на Claude</td></tr>
+    <tr><td><strong>Окон</strong></td><td>~20</td><td>4</td><td class="hl">1</td></tr>
+    <tr><td><strong>Повторить</strong></td><td>с нуля</td><td>с нуля</td><td class="hl">одна команда</td></tr>
+  </table>
+  </div>
+
+  <h2>05 / Зачем вам Claude Code, если вы не собирались кодить</h2>
+
+  <p>Вот главная идея этого письма.</p>
+
+  <p>Claude Code придумали разработчики для разработчиков. Но выяснилось, что он <strong>радикально сильнее для всех остальных</strong> — если научиться писать или использовать скиллы.</p>
+
+  <p>Скилл — это обычный markdown-файл. Никакого программирования. Никакого терминала в вашей ежедневной работе с ним.</p>
+
+  <p>Зачем это маркетологу, эксперту, автору:</p>
+
+  <div class="box">
+    <b>1. AI работает ЗА вас, а не РЯДОМ с вами</b>
+    <p>В ChatGPT вы сидите и печатаете промпты. С Claude Code — запускаете один скилл, идёте за кофе, возвращаетесь к готовому отчёту.</p>
+  </div>
+
+  <div class="box">
+    <b>2. AI помнит контекст между сессиями</b>
+    <p>В ChatGPT каждая новая сессия — чистый лист. В Claude Code есть файл <em>about-me.md</em>: кто вы, ваша аудитория, ваш голос. Читает и применяет. Не нужно каждый раз объяснять заново.</p>
+  </div>
+
+  <div class="box">
+    <b>3. AI работает с вашими файлами</b>
+    <p>Telegram-экспорт, опросы, интервью, ваши статьи — Claude Code читает напрямую, с вашего компьютера. Не нужно ничего загружать в облака чужих сервисов.</p>
+  </div>
+
+  <div class="box">
+    <p>🍸 Короче: Claude Code — это не «ещё один чат». Это рабочее пространство, где вы ставите задачу и идёте заниматься своими делами. Я как человек, который искренне любит, когда за меня работают, просто не могу на это смотреть без нежности.</p>
+  </div>
+
+  <h2>06 / Забрать скилл</h2>
+
+  <p>Скилл — это просто markdown-файл с инструкцией. Работает двумя способами:</p>
+
+  <p><strong>Руками.</strong> Открываете любую нейросеть (Claude, ChatGPT, Gemini), копируете промпты из скилла по одному — получаете результат. Как в статье с Хабра. Дольше, но работает.</p>
+
+  <p><strong>Через Claude Code.</strong> Кладёте файл в папку — клод читает инструкцию и делает всё сам, пока вы занимаетесь своими делами. Быстрее, повторяемо, один клик.</p>
+
+  <p>Как именно подключать — написано внутри самого скилла на GitHub. Там же ссылки на всё нужное.</p>
+
+  <p><a class="txt" href="https://github.com/tiara111/ira-and-ai">→ github.com/tiara111/ira-and-ai</a></p>
+
+  <p>Лицензия MIT. Берите, используйте, адаптируйте под свою нишу.</p>
+
+  <p>Если улучшите — пришлите Pull Request. Добавлю в v2 с вашим именем.</p>
+
+  <h2>07 / Одно правило</h2>
+
+  <div class="box">
+    <p>Цифры, которые выдаст модель, — <strong>проверяйте сами</strong> перед тем как вставить в лендинг, продающий текст или инвестиционный документ.</p>
+  </div>
+
+  <p>Скилл возвращает <strong>углы зрения</strong>, не готовые решения. Финальное решение о стратегии, цене, приоритетах — ваше. Скилл — расширенный мозг, не замена вашему.</p>
+
+  <p>Это правило встроено в сам скилл. Прочитайте перед использованием.</p>
+
+  <h2>P.S.</h2>
+
+  <p>Это мой первый публичный скилл. Следующий выйдет летом.</p>
+
+  <p>Если скилл зашёл — поделитесь им с тем, кому он будет полезен. Если нет — просто забирайте скилл, он ваш.</p>
+
+  <div class="sub">
+    <h3>Получать такие письма на почту</h3>
+    <p>Новые выпуски приходят на почту. Без спама, обычно раз в неделю.</p>
+    <span class="stub">Подписаться</span>
+    <div class="note">[ФОРМА С ГЛАВНОЙ] — сюда встанет живая форма подписки с iraai.ru</div>
+  </div>
+
+  <p class="pon">Хотите не смотреть со стороны, а начать самим и по шагам? Это <a class="txt" href="/ponedelnik/">Понедельник</a>.</p>
+</div>
+</body>
+</html>
