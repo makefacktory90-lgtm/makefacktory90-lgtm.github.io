@@ -146,5 +146,26 @@
 
   <p class="pon">Хотите не смотреть со стороны, а начать самим и по шагам? Это <a class="txt" href="/ponedelnik/">Понедельник</a>.</p>
 </div>
+
+<script>
+function handleSubscribe(form){
+  var input=form.querySelector('input[name="email"]');
+  var email=(input.value||'').trim();
+  var btn=form.querySelector('button');
+  var note=form.closest('.sub').querySelector('.wl-note');
+  if(!email) return false;
+  btn.disabled=true; btn.textContent='Отправляю...';
+  fetch('https://iraai-subscribe.vercel.app/api/subscribe',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:email})
+  }).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+  .then(function(res){
+    if(res.ok&&res.d&&res.d.ok){btn.textContent='Готово';input.value='';note.textContent='Готово, проверьте почту.';note.style.color='#1a7a3a';}
+    else{btn.disabled=false;btn.textContent='Подписаться';note.textContent=(res.d&&res.d.error)?res.d.error:'Что-то пошло не так, попробуйте ещё раз.';note.style.color='#b03a2e';}
+  }).catch(function(){btn.disabled=false;btn.textContent='Подписаться';note.textContent='Сеть недоступна, попробуйте ещё раз.';note.style.color='#b03a2e';});
+  return false;
+}
+</script>
+
 </body>
 </html>
