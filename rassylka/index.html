@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Архив рассылки AI reХАБ — Ира Буян</title>
+<title>Архив рассылки AI reХАБ, Ира Буян</title>
 <meta name="description" content="Архив писем AI reХАБ: про AI-агентов, продуктивность, Claude Code, письмо вместе с ИИ и живые кейсы людей, у которых с нейросетями получилось. Без хайпа, человеческим языком.">
 <style>
   :root{
@@ -32,6 +32,17 @@
   .stub{display:inline-block;background:var(--accent);color:#fff;border-radius:10px;
     padding:12px 20px;font-weight:600;font-size:15px}
   .note{margin-top:12px;font-size:12px;color:var(--muted);font-family:"JetBrains Mono",monospace}
+  .email-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .email-form input[type=email]{flex:1;min-width:200px;padding:14px 16px;border:1px solid var(--line);
+    border-radius:10px;font-family:Inter,-apple-system,sans-serif;font-size:15px}
+  .email-form button{padding:14px 24px;background:var(--accent);color:#fff;border:none;
+    border-radius:10px;font-family:Inter,-apple-system,sans-serif;font-size:15px;font-weight:600;
+    cursor:pointer;white-space:nowrap}
+  .email-form button:disabled{opacity:.55;cursor:not-allowed}
+  .consent-row{margin-top:10px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+  .consent-row input{margin-top:3px}
+  .consent-row a{color:var(--accent)}
+  .email-note{margin-top:10px;font-size:13px;color:var(--muted)}
   footer{margin-top:40px;font-size:13px;color:var(--muted)}
   a.txt{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(196,101,78,.35)}
 </style>
@@ -74,7 +85,7 @@
 
   <a class="issue" href="/rassylka/002-ai-agenty-bez-kompyutera/">
     <h2>Нас отвязывают от компьютера: почему это важно</h2>
-    <p>Три компании за одну неделю выпустили одно и то же — агентов, которые работают без нас за экраном. Что произошло и что попробовать.</p>
+    <p>Три компании за одну неделю выпустили одно и то же: агентов, которые работают без нас за экраном. Что произошло и что попробовать.</p>
   </a>
 
   <a class="issue" href="/rassylka/001-ii-zanyatost-vs-produktivnost/">
@@ -83,15 +94,61 @@
   </a>
 
   <div class="sub">
-    <h3>Забрать письма к себе на почту</h3>
+    <h3>Прочитали и понравилось? Подпишитесь</h3>
     <p>Новые выпуски приходят на почту. Без спама, обычно раз в неделю.</p>
-    <span class="stub">Подписаться</span>
-    <div class="note">[ФОРМА С ГЛАВНОЙ] — сюда встанет живая форма подписки с iraai.ru</div>
+    <form class="email-form" onsubmit="return handleSubscribe(this)">
+      <input type="email" name="email" placeholder="Ваш email" required>
+      <button type="submit" disabled>Подписаться</button>
+    </form>
+    <div class="consent-row">
+      <label style="display:flex;gap:8px;align-items:flex-start">
+        <input type="checkbox" onchange="toggleSubmit(this)">
+        <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="/privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
+      </label>
+    </div>
+    <p class="email-note"></p>
   </div>
 
   <footer>
     Хотите с этого начать по-серьёзному? Загляните в <a class="txt" href="/ponedelnik/">Понедельник</a>.
   </footer>
 </div>
+
+<script>
+// Та же боевая функция подписки, что на главной iraai.ru. Тег archive-page для аналитики.
+function toggleSubmit(cb){
+  var btn = cb.closest('.sub').querySelector('.email-form button');
+  btn.disabled = !cb.checked;
+}
+function handleSubscribe(form){
+  var input = form.querySelector('input[name="email"]');
+  var email = (input.value || '').trim();
+  var btn = form.querySelector('button');
+  var note = form.closest('.sub').querySelector('.email-note');
+  if(!email) return false;
+  btn.disabled = true; btn.textContent = 'Отправляю...';
+  fetch('https://iraai-subscribe.vercel.app/api/subscribe', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ email: email, tags: ['archive-page'] })
+  }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
+  .then(function(res){
+    if(res.ok && res.d && res.d.ok){
+      btn.textContent = 'Готово';
+      input.value = '';
+      note.textContent = 'Готово, проверьте почту.';
+      note.style.color = '#1a7a3a';
+    } else {
+      btn.disabled = false; btn.textContent = 'Подписаться';
+      note.textContent = (res.d && res.d.error) ? res.d.error : 'Что-то пошло не так, попробуйте ещё раз.';
+      note.style.color = '#b03a2e';
+    }
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = 'Подписаться';
+    note.textContent = 'Сеть недоступна, попробуйте ещё раз.';
+    note.style.color = '#b03a2e';
+  });
+  return false;
+}
+</script>
 </body>
 </html>
