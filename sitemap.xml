@@ -136,4 +136,14 @@
         <priority>0.7</priority>
     </url>
 <url><loc>https://iraai.ru/pitch/</loc></url>
+    <url>
+        <loc>https://iraai.ru/gaidy/</loc>
+        <lastmod>2026-07-08</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://iraai.ru/kodovoe-slovo/</loc>
+        <lastmod>2026-07-08</lastmod>
+        <priority>0.7</priority>
+    </url>
 </urlset>
