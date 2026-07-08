@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Кто эти люди, у которых с нейросетями реально получилось — AI reХАБ</title>
+<title>Кто эти люди, у которых с нейросетями реально получилось, AI reХАБ</title>
 <meta name="description" content="Пять живых кейсов людей, которые взяли открытые нейросети и переписали себе бизнес: продукт на Claude Code, ролик для финала NBA за $2000, доход на AI-видео под $700k в год. Разбор ходов, которые можно повторить.">
 <style>
   :root{
@@ -67,7 +67,7 @@
   </div>
   <div class="case">
     <b>Автор ролика для Kalshi</b>
-    <p>Биржа заказала «самый безбашенный ролик для финала NBA». Сделал один за пару дней: сценарий через Gemini, видео в Google Veo 3, склеил. Вышел в эфире национального ТВ, 3 миллиона просмотров. Обычный бюджет такого — четверть-полмиллиона долларов. У него ушло около $2000.</p>
+    <p>Биржа заказала «самый безбашенный ролик для финала NBA». Сделал один за пару дней: сценарий через Gemini, видео в Google Veo 3, склеил. Вышел в эфире национального ТВ, 3 миллиона просмотров. Обычный бюджет такого, четверть-полмиллиона долларов. У него ушло около $2000.</p>
   </div>
   <div class="case">
     <b>22-летний с пятью YouTube-каналами</b>
@@ -75,15 +75,22 @@
   </div>
 
   <div class="kicker">Что тут нашего</div>
-  <p>Знаете, что общего у этих пятерых? Ни у кого не было секретного ИИ, которого нет у вас. Enhancor, Claude, Veo, ElevenLabs — всё открыто и прямо сейчас лежит у вас в браузере, в одной вкладке от этого письма. Больше того: те нейросети, что у вас под рукой сегодня, мощнее тех, на которых эти пятеро всё и сделали.</p>
+  <p>Знаете, что общего у этих пятерых? Ни у кого не было секретного ИИ, которого нет у вас. Enhancor, Claude, Veo, ElevenLabs, всё открыто и прямо сейчас лежит у вас в браузере, в одной вкладке от этого письма. Больше того: те нейросети, что у вас под рукой сегодня, мощнее тех, на которых эти пятеро всё и сделали.</p>
   <p>Разница не в инструментах. Один просто разговаривал с Claude. Другой выкатил сырое. Третий не стал ждать команду. Ни один из этих ходов не требует ни кода, ни гениальности, ни денег. Только в какой-то момент начать смотреть, что со всем этим можно сделать.</p>
   <p>Получится ли у нас с вами? Честно, не знаю. Но я сама сажусь и смотрю. И зову вас рядом: дальше будут ещё тома, будем разбирать вместе.</p>
 
   <div class="sub">
     <h3>Получать такие письма на почту</h3>
     <p>Новые тома приходят на почту. Без спама, обычно раз в неделю.</p>
-    <span class="stub">Подписаться</span>
-    <div class="note">[ФОРМА С ГЛАВНОЙ] — сюда встанет живая форма подписки с iraai.ru</div>
+    <form onsubmit="return handleSubscribe(this)" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+      <input type="email" name="email" placeholder="Ваш email" required style="flex:1;min-width:200px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:15px">
+      <button type="submit" disabled style="padding:14px 24px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap">Подписаться</button>
+    </form>
+    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:12.5px;color:var(--muted)">
+      <input type="checkbox" onchange="this.closest('.sub').querySelector('button').disabled=!this.checked" style="margin-top:3px">
+      <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="/privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
+    </label>
+    <p class="wl-note" style="margin-top:10px;font-size:13px"></p>
   </div>
 
   <p class="pon">Хотите не смотреть со стороны, а начать самим и по шагам? Это <a class="txt" href="/ponedelnik/">Понедельник</a>.</p>

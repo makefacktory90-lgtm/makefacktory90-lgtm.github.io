@@ -101,7 +101,9 @@ def page(title, desc, body, extra_head=""):
 </head><body>
 {TOPBAR}
 {body}
-<footer><div class="wrap"><p>iraai.ru · Ира Буян · «ИИ для взрослых» · открыто всем, без подписок</p></div></footer>
+<footer><div class="wrap">
+<p style="margin-bottom:10px;"><a href="https://iraai.ru/" style="color:var(--ink);text-decoration:none;font-weight:700;">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/" style="color:var(--ink);text-decoration:none;">Все гайды</a> &nbsp;·&nbsp; <a href="/rassylka/" style="color:var(--ink);text-decoration:none;">Рассылка</a> &nbsp;·&nbsp; <a href="https://t.me/ira_and_ai" style="color:var(--ink);text-decoration:none;">Телега</a></p>
+<p>iraai.ru · Ира Буян · «ИИ для взрослых» · открыто всем, без подписок</p></div></footer>
 </body></html>"""
 
 def extract_guide_body(src):
