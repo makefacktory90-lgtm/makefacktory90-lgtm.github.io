@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кто вам врёт: проверка любой «сенсации» за 10 минут с Клодом · Ира и ИИ</title>
+<meta name="description" content="Пять промптов, чтобы закинуть статью, исследование, эксперта или вирусную новость в ИИ и увидеть, что реально доказано, а что притянуто. Без академизма.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E50914; --red-dark:#b00710; --red-muted:rgba(229,9,20,0.08);
+  --black:#0F0D0C; --black-2:#1A1716; --off-white:#F5F1EC; --white:#fff;
+  --gray-1:#8A8580; --gray-2:#C5C0BB; --gray-3:#E8E4DF;
+  --head:'Inter',sans-serif; --body:'Outfit',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--black);line-height:1.6;-webkit-font-smoothing:antialiased}
+.lead,.divider h2,.tagline,.cta-block h3,.cta-block p,.varhead h3{text-wrap:balance;hyphens:none}
+h1{hyphens:none}
+h1 .l2{display:block}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px}
+.top{position:sticky;top:0;z-index:100;background:var(--black);height:60px;display:flex;align-items:center}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.brand{display:flex;align-items:center;gap:10px;color:var(--white);text-decoration:none;font-family:var(--head);font-weight:800;letter-spacing:.5px}
+.brand img{height:22px;filter:brightness(0) invert(1)}
+.top .cta{font-family:var(--mono);font-size:12px;color:var(--off-white);border:1px solid rgba(255,255,255,.25);border-radius:100px;padding:6px 14px;text-decoration:none}
+.hero{padding:76px 0 48px;border-bottom:1px solid var(--gray-3)}
+.kicker{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+h1{font-family:var(--head);font-weight:900;font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-1px;margin-bottom:22px}
+h1 .r{color:var(--red)}
+.lead{font-size:clamp(17px,2.4vw,21px);color:var(--black-2);max-width:680px;margin-bottom:28px}
+.meta{display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px;color:var(--gray-1)}
+.meta b{color:var(--black)}
+.divider{padding:60px 0 26px}
+.divider .num{font-family:var(--head);font-weight:900;font-size:clamp(52px,10vw,92px);color:var(--red);line-height:.9}
+.divider h2{font-family:var(--head);font-weight:800;font-size:clamp(26px,4.5vw,40px);letter-spacing:-.5px;margin:4px 0 8px}
+.divider .sub{font-family:var(--mono);font-size:13px;color:var(--red);letter-spacing:2px;text-transform:uppercase}
+.divider .rule{height:2px;background:var(--gray-3);margin-top:22px}
+.prose p{font-size:16.5px;margin:0 0 16px}
+.prose strong{font-weight:700}
+.tagline{font-family:var(--head);font-weight:800;font-size:clamp(19px,3vw,26px);line-height:1.25;margin:8px 0 18px}
+.formula{background:var(--white);border:1px solid var(--gray-3);border-radius:100px;padding:16px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;margin:26px 0;font-family:var(--mono);font-weight:600;font-size:15px}
+.formula .box{background:var(--gray-3);border-radius:10px;padding:8px 16px}
+.formula .plus{color:var(--red);font-weight:700}
+.formula .res{background:var(--black);color:var(--white);border-radius:10px;padding:8px 18px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:20px 0}
+.split p{margin-bottom:14px;font-size:16.5px}
+.split .visual{background:var(--gray-3);border-radius:16px;min-height:210px;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center}
+.split .visual .big{font-family:var(--head);font-weight:900;font-size:clamp(28px,5vw,48px);line-height:1.05}
+.split .visual .big em{font-style:normal;color:var(--red)}
+.varhead{margin:34px 0 10px;display:flex;align-items:baseline;gap:14px}
+.varhead .n{font-family:var(--mono);font-weight:600;color:var(--red);font-size:14px}
+.varhead h3{font-family:var(--head);font-weight:800;font-size:clamp(19px,3vw,24px)}
+.varsub{font-size:15px;color:var(--gray-1);margin:-2px 0 6px 0}
+.prompt{background:var(--black);border-radius:18px;padding:24px 24px 20px;margin:14px 0 8px;position:relative}
+.prompt .lbl{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.prompt pre{font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--off-white);white-space:pre-wrap}
+.prompt .field{color:#F5C518}
+.prompt .copy{position:absolute;top:20px;right:20px;font-family:var(--mono);font-size:12px;background:var(--white);color:var(--black);border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600}
+.prompt .copy:active{transform:scale(.96)}
+.tags{display:grid;gap:14px;margin:20px 0}
+.tag{display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--gray-3);border-radius:14px;padding:14px 18px}
+.tag .pill{background:var(--red);color:var(--white);font-family:var(--mono);font-weight:600;font-size:12.5px;letter-spacing:1px;border-radius:8px;padding:8px 14px;white-space:nowrap;text-transform:uppercase}
+.tag .txt{font-size:15.5px}
+.slam{background:var(--red);color:var(--white);text-align:center;padding:74px 24px;margin:52px 0}
+.slam .k{font-family:var(--mono);font-size:14px;letter-spacing:3px;text-transform:uppercase;opacity:.85;margin-bottom:10px}
+.slam .w{font-family:var(--head);font-weight:900;font-size:clamp(40px,10vw,104px);line-height:.95;letter-spacing:-2px}
+.cta-block{background:var(--black);color:var(--off-white);border-radius:22px;padding:44px 34px;text-align:center;margin:52px 0}
+.cta-block h3{font-family:var(--head);font-weight:800;font-size:clamp(22px,3.4vw,30px);color:var(--white);margin-bottom:12px}
+.cta-block p{max-width:540px;margin:0 auto 22px;font-size:16px;color:var(--gray-2)}
+.cta-block a{display:inline-block;background:var(--red);color:var(--white);text-decoration:none;font-family:var(--head);font-weight:700;border-radius:100px;padding:15px 34px;margin:0 6px 10px}
+.cta-block a.ghost{background:transparent;border:1px solid rgba(255,255,255,.3)}
+footer{border-top:1px solid var(--gray-3);padding:34px 0 60px;text-align:center;font-family:var(--mono);font-size:13px;color:var(--gray-1)}
+footer b{color:var(--black)}
+footer a{color:var(--red);text-decoration:none}
+@media(max-width:720px){.split{grid-template-columns:1fr;gap:20px}.split .visual{min-height:150px;order:-1}.formula{border-radius:20px}}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <a class="brand" href="https://iraai.ru"><img src="ira-pegasus.png" alt="">IRA&AI</a>
+  <a class="cta" href="https://t.me/ira_and_ai">@ira_and_ai →</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">// ИИ для взрослых</div>
+  <h1>Кто вам врёт?<span class="l2"><span class="r">Проверка любой «сенсации»</span> за&nbsp;10&nbsp;минут</span></h1>
+  <p class="lead">Вам кидают «учёные доказали», громкого эксперта или вирусную новость, и внутри ёкает: правда или красиво завернули? Ниже пять промптов. Закидываете это Клоду или ChatGPT и видите, что реально доказано, а что притянуто за уши. Без академизма, для нормального взрослого человека, который не хочет быть ни наивным, ни параноиком.</p>
+  <div class="meta">
+    <span>Читать: <b>10 минут</b></span>
+    <span>Применить: <b>сегодня же</b></span>
+    <span>Нужно: <b>Клод или ChatGPT + ссылка</b></span>
+  </div>
+</div></header>
+
+<section class="divider"><div class="wrap">
+  <div class="num">01</div>
+  <h2>Почему это вообще проблема</h2>
+  <div class="sub">// то, что все стесняются признать</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="split">
+    <div class="prose">
+      <p>Раньше врали в основном рекламщики. Теперь врёт всё: заголовок исследования, которое никто не читал дальше первого абзаца. Эксперт, который звучит уверенно, потому что уверенно, а не потому что прав. Новость, которую репостнули сорок тысяч раз, и от этого она не стала правдивее.</p>
+      <p>Проблема не в том, что вы наивны. Проблема в том, что <strong>проверять руками долго и скучно</strong>, а звучит всё складно. И вы либо верите, либо машете рукой. Оба варианта плохие: в первом вас разводят, во втором вы пропускаете и то, что было правдой.</p>
+      <p>Хорошая новость: у вас в кармане машина, которая читает первоисточник за секунды и не боится сказать «тут натянуто». Надо только правильно спросить. Ниже пять способов спросить, под разные ситуации.</p>
+    </div>
+    <div class="visual"><div class="big">«доказано»<br><em>кем?</em></div></div>
+  </div>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">02</div>
+  <h2>Главная логика</h2>
+  <div class="sub">// три слоя, которые обычно слиплись в один</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+  <p class="tagline">Не спрашивайте «это правда?». ИИ ответит вежливо и бесполезно. Заставьте его разделить три вещи.</p>
+  <p>Люди путают три слоя постоянно: <strong>что реально написано в источнике</strong>, <strong>что из этого доказано</strong>, и <strong>что автор дорисовал сверху</strong> ради ваших нервов. ИИ разводит эти слои, если попросить. На этом стоят все пять промптов ниже.</p>
+  <div class="formula">
+    <span class="box">ЧТО НАПИСАНО</span><span class="plus">+</span>
+    <span class="box">ЧТО ДОКАЗАНО</span><span class="plus">+</span>
+    <span class="box">ЧТО ДОРИСОВАНО</span>
+    <span class="plus">=</span><span class="res">ЧЕСТНАЯ КАРТИНА</span>
+  </div>
+  <p><strong>Живой пример.</strong> Мне прислали пост: «4 часа в телефоне снижают IQ на 10 пунктов». Апокалипсис, все репостят. Закидываю Клоду ссылку на само исследование, не на пост о нём, и прошу разложить по слоям. Через двадцать секунд: исследование про тест на внимание, не про IQ, выборка 60 подростков, связь, а не причина. «Минус 10 IQ» дорисовал автор поста. Не наврал в ноль, но накрутил из «есть корреляция» в «телефон жрёт мозг». Я не стала умнее в науке, я за десять минут отделила факт от упаковки и не понесла чужую панику дальше.</p>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">03</div>
+  <h2>Пять промптов</h2>
+  <div class="sub">// под разные ситуации, забирайте нужный</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+
+  <div class="varhead"><span class="n">01</span><h3>Быстрый разбор на три слоя</h3></div>
+  <p class="varsub">Базовый. Для любой статьи, поста, новости. С него начинайте.</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// быстрый разбор</div>
+<pre>Ты дотошный фактчекер с характером. Не подлизывай ни мне, ни источнику. Вежливость не нужна, нужна правда.
+
+Вот что мне прислали: <span class="field">[ссылка или текст]</span>
+Зацепило вот это: <span class="field">[утверждение]</span>
+
+Разбери так:
+1. ЗАГОЛОВОК ГОВОРИТ vs ЧТО РЕАЛЬНО ИЗМЕРИЛИ. Процитируй, что дословно в первоисточнике, и рядом что раздул пересказ. Формат: «в источнике X, а в посте уже Y».
+2. КТО И НА КОМ. Какие данные, сколько людей, причина или просто совпало по времени, кто это оплатил.
+3. ОДИНОКИЙ ФАКТ ИЛИ ПОДТВЕРЖДЁН. Единичный выброс или так же говорят другие.
+4. ЧЕМ ЭТО МОЖНО ОПРОВЕРГНУТЬ и есть ли это в тексте. Если опровергнуть нечем в принципе, честно скажи: это вера, а не доказанное.
+5. ВЕРДИКТ: раздутость 0-10 и одна человеческая фраза, верить или мимо.
+
+Чего в источнике нет, так и скажи, не додумывай.</pre>
+  </div>
+
+  <div class="varhead"><span class="n">02</span><h3>Заголовок против того, что измеряли</h3></div>
+  <p class="varsub">Когда прислали именно «научное исследование» или «учёные доказали».</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// анти-заголовок</div>
+<pre>Ты аналитик, который вскрывает, как наука превращается в кликбейт.
+
+Разбери вот это: <span class="field">[ссылка на исследование или новость]</span>
+
+По шагам:
+1. ЧТО ГОВОРИТ ЗАГОЛОВОК (дословно).
+2. ЧТО ОН НАМЕКАЕТ обычному читателю.
+3. ЧТО НА САМОМ ДЕЛЕ ИЗМЕРЯЛИ в исследовании (не то же самое).
+4. Это ПРИЧИНА или КОРРЕЛЯЦИЯ. Объясни простыми словами, без статистики.
+5. Кто ставил исследование и есть ли конфликт интересов (кто оплатил).
+6. ИТОГ: одна фраза, что тут правда, и рейтинг доверия 0-10.
+
+Не грузи меня p-value и терминами. Пиши для умного человека без научной степени.</pre>
+  </div>
+
+  <div class="varhead"><span class="n">03</span><h3>Чем это можно опровергнуть</h3></div>
+  <p class="varsub">Самый безжалостный. Отделяет доказанное от «веры».</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// критерий опровержения</div>
+<pre>Атакуй это утверждение как противник, а не как поддакивающий помощник.
+
+Утверждение: <span class="field">[что проверяем]</span>
+Источник: <span class="field">[ссылка или текст]</span>
+
+1. Назови главные допущения, на которых держится утверждение, от самого хрупкого к прочному.
+2. Для каждого: чем конкретно его можно было бы ОПРОВЕРГНУТЬ, и есть ли это в тексте.
+3. Если какое-то допущение нельзя опровергнуть в принципе ничем, помечай его: это ВЕРА, а не анализ.
+4. Процитируй самые манипулятивные места дословно (где давят авторитетом, страхом, «все же знают»).
+5. Вывод: на чём это реально стоит и где посыпется первым.</pre>
+  </div>
+
+  <div class="varhead"><span class="n">04</span><h3>Зеркало ясности</h3></div>
+  <p class="varsub">Для мнений, колонок, «экспертных» рассуждений, где нет цифр, а есть риторика.</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// разбор риторики</div>
+<pre>Ты мой партнёр по трезвому мышлению, а не группа поддержки. Твоя задача спорить, а не поддакивать.
+
+Вот текст/мнение: <span class="field">[вставь]</span>
+
+1. Какие допущения автор выдаёт за очевидное, хотя они спорные.
+2. Где логические подмены, натяжки, эмоциональные прыжки.
+3. Где расплывчатость вместо конкретики: требуй примеры и определения.
+4. Где подгонка под заранее известный вывод (confirmation bias).
+5. Сформулируй сильнейший контраргумент к тексту.
+
+Не смягчай. Мне нужна ясность, а не комфорт.</pre>
+  </div>
+
+  <div class="varhead"><span class="n">05</span><h3>Адвокат дьявола с баллом</h3></div>
+  <p class="varsub">Когда проверяете СВОЮ идею перед тем, как в неё вложиться.</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// проверь мою идею</div>
+<pre>Разнеси мою идею по-умному, не жалей. Веди себя как умный скептик на пре-мортеме.
+
+Моя идея: <span class="field">[идея]</span>
+
+1. Сначала сформулируй сильнейшую версию моей идеи (steelman), потом критикуй.
+2. Три сильнейших контраргумента, от самого разрушительного.
+3. Пара скрытых допущений или слабых мест.
+4. Что первым атакует умный скептик из смежной области.
+5. Оценка 1-10 по жизнеспособности, с одной конкретной причиной на балл.
+6. Заверши: «если всё равно делаешь, одно изменение, которое сильнее всего снижает риск, это ___».</pre>
+  </div>
+
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">04</div>
+  <h2>Три ловушки</h2>
+  <div class="sub">// где даже ИИ промахнётся, если вы зеваете</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="tags">
+    <div class="tag"><span class="pill">Ловушка 1</span><span class="txt"><strong>Проверяете пост, а не источник.</strong> Скормите ИИ пересказ, он разберёт пересказ. Всегда ищите первичную ссылку и давайте её.</span></div>
+    <div class="tag"><span class="pill">Ловушка 2</span><span class="txt"><strong>Спрашиваете «да или нет».</strong> Мир редко да-или-нет. Просите слои, оговорки и оценку, а не вердикт одним словом.</span></div>
+    <div class="tag"><span class="pill">Ловушка 3</span><span class="txt"><strong>Верите ИИ как оракулу.</strong> Он тоже может ошибиться на закрытом источнике. Просите помечать, где он не уверен, и там перепроверяйте сами.</span></div>
+  </div>
+</div></section>
+
+<div class="slam">
+  <div class="k">// запомнить одно</div>
+  <div class="w">УПАКОВКА<br>≠ ФАКТ</div>
+</div>
+
+<section><div class="wrap">
+  <div class="cta-block">
+    <h3>Это вход, а не вся система</h3>
+    <p>Проверять чужое за десять минут это один навык. Собрать из ИИ рабочего напарника под ваши задачи, чтобы он думал вашим голосом каждый день, это уже «Понедельник». Метод «Сначала человек» на ваших реальных задачах.</p>
+    <a href="https://iraai.ru/ponedelnik/">Что такое Понедельник →</a>
+    <a class="ghost" href="https://t.me/ira_and_ai">Забрать в телеге →</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <b>iraai.ru</b> &nbsp;·&nbsp; телега <a href="https://t.me/ira_and_ai">@ira_and_ai</a> &nbsp;·&nbsp; инста <a href="https://instagram.com/ira.and.ai">@ira.and.ai</a><br><br>
+  Сохраните и проверьте ближайшую «сенсацию» в ленте. Если переслали другу, вы уже сделали интернет чуть честнее.
+</div></footer>
+
+<script>
+function cp(btn){
+  var pre=btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(function(){
+    var old=btn.textContent; btn.textContent='скопировано ✓';
+    setTimeout(function(){btn.textContent=old;},1600);
+  });
+}
+</script>
+</body>
+</html>
