@@ -13,7 +13,6 @@
 <meta property="og:url" content="https://iraai.ru/gpt-hub/">
 <meta property="og:image" content="https://iraai.ru/ira-photo.jpg">
 <meta property="og:locale" content="ru_RU">
-<meta name="subscribe-worker-url" content="https://subscribe.iraai.ru/">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -245,7 +244,6 @@
   <p>iraai.ru · Ира Буян · «ИИ для взрослых» · перевожу AI на нормальный</p>
 </div></footer>
 
-<script src="/scripts/subscribe.js"></script>
 <script>
 (function(){
   var form = document.getElementById('hub-form');
@@ -266,7 +264,14 @@
     note.className = 'form-note';
     note.textContent = '';
     try {
-      await window.IraSubscribe.subscribe({ email: email, tags: ['gpt-hub-wait'] });
+      // Та же боевая Vercel-функция, что на главной и в архиве рассылки. Тег gpt-hub-wait.
+      var r = await fetch('https://iraai-subscribe.vercel.app/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, tags: ['gpt-hub-wait'] })
+      });
+      var d = await r.json().catch(function(){ return null; });
+      if (!r.ok || !d || !d.ok) { throw new Error((d && d.error) || 'subscribe failed'); }
       note.textContent = 'Готово, вы в листе. Письмо со ссылкой на оплату придёт до общего анонса.';
       note.className = 'form-note ok';
       form.reset();
