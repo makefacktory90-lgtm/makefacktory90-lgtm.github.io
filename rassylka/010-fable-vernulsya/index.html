@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фабл вернулся. На неделю, AI reХАБ</title>
+<meta name="description" content="Claude Fable 5 открыли на короткое окно. Семь приёмов работы с самой умной моделью для не-технарей: перескажи и найди дыры, проверь себя, иди до конца, копай причину, проси спорить, дай память. Плюс переупакованный скилл.">
+<style>
+  :root{--bg:#faf8f5;--ink:#1c1a17;--muted:#6b655c;--line:#e6e0d6;--accent:#E50914;--card:#ffffff;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:680px;margin:0 auto;padding:48px 22px 90px}
+  .back{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.06em;text-decoration:none;color:var(--accent)}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-top:30px}
+  h1{font-size:34px;line-height:1.12;margin:12px 0 24px;font-weight:800;letter-spacing:-.02em}
+  p{font-size:17px;margin:0 0 18px}
+  .kicker{font-weight:700;font-size:21px;margin:38px 0 14px;letter-spacing:-.01em}
+  .num{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:16px 20px;margin:0 0 14px}
+  .num b{display:block;margin-bottom:4px;font-size:16px}
+  .num p{font-size:15px;color:var(--muted);margin:0}
+  .cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:13px 24px;font-weight:600;font-size:15px;margin:6px 0 18px}
+  a.txt{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(229,9,20,.3)}
+  .quote{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 4px;font-style:italic;color:var(--muted);font-size:15px;margin:0 0 14px}
+  .sub{margin-top:44px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 24px}
+  .sub h3{margin:0 0 8px;font-size:20px}.sub p{margin:0 0 14px;color:var(--muted);font-size:15px}
+  .email-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .email-form input[type=email]{flex:1;min-width:200px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;font-family:Inter,-apple-system,sans-serif;font-size:15px}
+  .email-form button{padding:14px 24px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:Inter,sans-serif;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .email-form button:disabled{opacity:.55;cursor:not-allowed}
+  .consent-row{margin-top:10px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+  .consent-row input{margin-top:3px}.consent-row a{color:var(--accent)}
+  .email-note{margin-top:10px;font-size:13px;color:var(--muted)}
+  .vitrina{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+  .vitrina b{color:var(--ink)}.vitrina a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(229,9,20,.3)}
+  footer{margin-top:32px;font-size:13px;color:var(--muted)}
+  footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(229,9,20,.3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/rassylka/">← Все выпуски</a>
+  <div class="mono">AI reХАБ · выпуск · 2 июля 2026</div>
+  <h1>Фабл вернулся. На неделю. Я уже потратила его как ненормальная</h1>
+
+  <p>Доброго дня. Помните, я обещала рассказать, какой первый промпт задам Фаблу? Так вот, задала не один. Задала столько, что за один вечер съела 16% недельного лимита. Сижу теперь как человек, который дорвался до шведского стола и на второй тарелке узнал, что талон был один.</p>
+
+  <p>Что за Фабл, без занудства. Claude Fable 5, новая и самая умная на сегодня модель. Открыли на короткое окно. Дорогая, примерно вдвое дороже прошлой, и дают её мало. Это гость, который заходит редко и ест дорого, но за столом с ним внезапно хочется сидеть до утра.</p>
+
+  <p>Я села с ним не задачу решать, а думать вслух про свою стратегию. И он не кивал. Он спорил. Находил дыры, которые я обходила годами и делала вид, что их нет. Пару раз поймала своё любимое «а что, так можно было». За это, собственно, и люблю.</p>
+
+  <div class="kicker">Сначала про характер, чтобы не слить окно впустую</div>
+  <p>Он силён на большом и мутном. Не «поправь строчку», а «разберись сам и сделай». Сначала осматривается, потом делает, как приличный подрядчик, который сперва прошёл по квартире, а уже потом взялся за перфоратор. На мелочь его жалко: тут он как такси бизнес-класса за хлебом.</p>
+  <p>Отвечает не мгновенно, он думает. Это не тормоз, это он в это время работает. Поставили задачу, пошли пить чай, вернулись к готовому.</p>
+
+  <div class="kicker">Семь фишек, которые я подсмотрела у тех, кто гоняет его всерьёз</div>
+  <p>Просто добавляйте эти фразы к своим запросам:</p>
+  <div class="num"><b>1. «Перескажи, что я прошу, и найди дыры»</b><p>В самом начале. Он находит дыры в вашей же формулировке, которые вы не заметили. Экономит час переделок.</p></div>
+  <div class="num"><b>2. «Проверь свою работу сам»</b><p>Когда закончил: пройдись по результату и найди, где криво, чего не хватает, что сломано. Он реально находит и чинит. К себе строже, чем вы к нему.</p></div>
+  <div class="num"><b>3. «Не жди меня, иди до конца»</b><p>Если уходите: работай до результата, упрёшься в неясность, сделай разумное допущение, запиши и продолжай. Возвращаетесь к готовому.</p></div>
+  <div class="num"><b>4. «Копай причину, а не латай симптом»</b><p>Найди корень, а не залатай последнее, что вылезло. Разница между «починил на сегодня» и «больше не сломается».</p></div>
+  <div class="num"><b>5. Просите спорить</b><p>Прямо: «найди, где я не права». Мы полжизни мечтали о ком-то, кто скажет правду в лицо и не обидит. Дожили, это оказалась программа.</p></div>
+  <div class="num"><b>6. Дайте ему память</b><p>Заведите файлик, куда он пишет выводы и откуда читает в начале. На памяти он работает втрое лучше.</p></div>
+  <div class="num"><b>7. Две мелочи напоследок</b><p>Не просите «покажи ход мыслей», от этого он капризничает. А если засобирался прощаться посреди работы, скажите «у тебя достаточно контекста, продолжай».</p></div>
+  <p>Правило поверх всего: ставьте задачу и результат, а не шаги по рукам. Скажете «делай так, потом так», сузите его до себя. Скажете «вот что хочу на выходе», он найдёт путь короче вашего. <a class="txt" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5">Официальный гайд по промтингу Fable 5</a> (на английском, браузер переведёт в клик).</p>
+
+  <div class="kicker">И вам подарок: скилл, который сам под вас настроится</div>
+  <p>Серёжа Рис выложил классный скилл для работы с Фаблом. У него он больше для программистов. Я взяла и переупаковала его для нас с вами. И знаете, что мне тут понравилось: не изобретать с нуля, а взять хорошее у большого и докрутить под себя. По-моему, это самый недооценённый навык сейчас: не робеть перед большими, а спокойно брать их продукт и одевать под свою задачу.</p>
+  <p>Мой вариант сам вас расспросит: зачем вам Фабл, программируете вы или нет, что у вас есть под рукой. И настроится. И тоже бережёт лимит: Фабл думает, дешёвые машинки делают.</p>
+  <a class="cta" href="https://iraai.ru/fable">Забрать скилл →</a>
+  <p class="src" style="font-size:14px;color:var(--muted)">Оригинал Серёжи Риса: <a class="txt" href="https://github.com/serejaris/personal-corp-skills">github.com/serejaris/personal-corp-skills</a></p>
+
+  <p>Без придыхания. Я понимаю, что через полгода этот «великий мыслитель» будет выглядеть мило и наивно, как первый айфон рядом с новым. Так и будет. Но окно открыто сейчас, и я бы им пользовалась, пока дают.</p>
+
+  <div class="kicker">P.S. А если от слов «терминал» и «репозиторий» хочется закрыть письмо</div>
+  <p>Это нормально, значит вам просто рано в Фабла и в скиллы, и это не приговор. Начните с простого. У меня есть ClaudeHub: записи, 18 уроков по 10 минут моим голосом, где я не гружу теорией, а сразу сажаю фишку в руки. В записи работает до 31 августа.</p>
+  <div class="quote">«Лучший курс из всех, что я проходила лет за пять в принципе, а по нейронкам тем более. Ноль воды, максимум пользы с первого слова, понятно гуманитарию».</div>
+  <a class="cta" href="https://iraai.ru/claude-hub/">Забрать ClaudeHub до 31 августа →</a>
+
+  <div class="sub">
+    <h3>Читаете это в браузере? Подпишитесь, чтобы получать почтой</h3>
+    <p>Новые выпуски приходят на почту. Без спама, обычно раз в неделю.</p>
+    <form class="email-form" onsubmit="return handleSubscribe(this)">
+      <input type="email" name="email" placeholder="Ваш email" required>
+      <button type="submit" disabled>Подписаться</button>
+    </form>
+    <div class="consent-row">
+      <label style="display:flex;gap:8px;align-items:flex-start">
+        <input type="checkbox" onchange="toggleSubmit(this)">
+        <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="/privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
+      </label>
+    </div>
+    <p class="email-note"></p>
+  </div>
+
+  <div class="vitrina">
+    <p><b>Ира Буян.</b> Автор категории «ИИ для взрослых» и метода «Сначала человек». Перевожу нейросети на нормальный человеческий язык, без стыда и академизма. Иду чуть впереди и копаю продукт вживую, вы идёте рядом.</p>
+    <p>Телеграм: <a href="https://t.me/ira_and_ai">@ira_and_ai</a> &nbsp;·&nbsp; Гайды: <a href="/gaidy/">iraai.ru/gaidy</a> &nbsp;·&nbsp; Программа «Понедельник»: <a href="/ponedelnik/">iraai.ru/ponedelnik</a></p>
+  </div>
+
+  <footer>
+    <a href="/rassylka/">← Все выпуски</a> &nbsp;·&nbsp; <a href="https://iraai.ru/">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/">Гайды</a>
+  </footer>
+</div>
+
+<script>
+function toggleSubmit(cb){var btn=cb.closest('.sub').querySelector('.email-form button');btn.disabled=!cb.checked;}
+function handleSubscribe(form){
+  var input=form.querySelector('input[name="email"]');var email=(input.value||'').trim();
+  var btn=form.querySelector('button');var note=form.closest('.sub').querySelector('.email-note');
+  if(!email)return false;btn.disabled=true;btn.textContent='Отправляю...';
+  fetch('https://iraai-subscribe.vercel.app/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,tags:['archive-page']})})
+  .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+  .then(function(res){
+    if(res.ok&&res.d&&res.d.ok){btn.textContent='Готово';input.value='';note.textContent='Готово, проверьте почту.';note.style.color='#1a7a3a';}
+    else{btn.disabled=false;btn.textContent='Подписаться';note.textContent=(res.d&&res.d.error)?res.d.error:'Что-то пошло не так, попробуйте ещё раз.';note.style.color='#b03a2e';}
+  }).catch(function(){btn.disabled=false;btn.textContent='Подписаться';note.textContent='Сеть недоступна, попробуйте ещё раз.';note.style.color='#b03a2e';});
+  return false;
+}
+</script>
+</body>
+</html>

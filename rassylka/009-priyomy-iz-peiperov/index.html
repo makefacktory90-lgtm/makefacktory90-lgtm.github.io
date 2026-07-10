@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Промптинг умер? Учёные не в курсе, AI reХАБ</title>
+<meta name="description" content="Три приёма из свежих научных работ 2025, которые работают в обычном чате без кода: Verbalized Sampling (Стэнфорд), Chain of Draft (Zoom) и упрощённый GEPA. Промптинг не умер, он стал умением понятно попросить.">
+<style>
+  :root{
+    --bg:#faf8f5; --ink:#1c1a17; --muted:#6b655c; --line:#e6e0d6;
+    --accent:#E50914; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:Inter,-apple-system,system-ui,sans-serif;line-height:1.65;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:680px;margin:0 auto;padding:48px 22px 90px}
+  .back{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.06em;
+    text-decoration:none;color:var(--accent)}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--accent);margin-top:30px}
+  h1{font-size:34px;line-height:1.12;margin:12px 0 24px;font-weight:800;letter-spacing:-.02em}
+  p{font-size:17px;margin:0 0 18px}
+  .kicker{font-weight:700;font-size:21px;margin:38px 0 6px;letter-spacing:-.01em}
+  .tag{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  .schema{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:18px 22px;margin:0 0 18px;font-size:15px;color:var(--muted)}
+  .schema b{color:var(--ink)}
+  .prompt{background:#1c1a17;color:#f5efe6;border-radius:10px;padding:16px 18px;margin:0 0 18px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13.5px;line-height:1.6;white-space:pre-wrap}
+  .prompt .lbl{display:block;color:var(--accent);font-size:11px;letter-spacing:.08em;margin-bottom:8px}
+  .src{font-size:14px;color:var(--muted)}
+  .src a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(229,9,20,.3)}
+  .sub{margin-top:44px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:26px 24px}
+  .sub h3{margin:0 0 8px;font-size:20px}
+  .sub p{margin:0 0 14px;color:var(--muted);font-size:15px}
+  .email-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .email-form input[type=email]{flex:1;min-width:200px;padding:14px 16px;border:1px solid var(--line);
+    border-radius:10px;font-family:Inter,-apple-system,sans-serif;font-size:15px}
+  .email-form button{padding:14px 24px;background:var(--accent);color:#fff;border:none;
+    border-radius:10px;font-family:Inter,-apple-system,sans-serif;font-size:15px;font-weight:600;
+    cursor:pointer;white-space:nowrap}
+  .email-form button:disabled{opacity:.55;cursor:not-allowed}
+  .consent-row{margin-top:10px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+  .consent-row input{margin-top:3px}
+  .consent-row a{color:var(--accent)}
+  .email-note{margin-top:10px;font-size:13px;color:var(--muted)}
+  .vitrina{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+  .vitrina b{color:var(--ink)}
+  .vitrina a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(229,9,20,.3)}
+  footer{margin-top:32px;font-size:13px;color:var(--muted)}
+  footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(229,9,20,.3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/rassylka/">← Все выпуски</a>
+  <div class="mono">AI reХАБ · выпуск · 10 июля 2026</div>
+  <h1>Промптинг умер? Учёные не в курсе</h1>
+
+  <p>Привет. Промптинг сейчас модно хоронить. Мол, модели поумнели, пиши как хочешь, всё поймут. И это наполовину правда: заклинания вроде «ты эксперт мирового уровня, я дам тебе чаевые» действительно можно выбросить.</p>
+
+  <p>Но пока одни пишут некрологи, учёные спокойно публикуют работы, где показывают: форма запроса всё ещё меняет результат. Не магические слова, а именно форма: как вы просите.</p>
+
+  <p>Я выбрала три приёма из свежих научных работ. Каждый работает в обычном чате, без кода и настроек, проверяется за минуту. Забирайте.</p>
+
+  <div class="kicker">1. Просите не ответ, а карту вариантов</div>
+  <div class="tag">Стэнфорд · Verbalized Sampling</div>
+  <p>Когда вы просите «придумай заголовок», модель отдаёт самый типичный ответ из всех возможных. Тот самый, который получат ещё тысяча человек с тем же запросом. Исследователи из Стэнфорда нашли выход простой до обидного: попросите несколько вариантов и вероятности к ним. Модель перестаёт выдавать банальный центр и раскрывает края, где живут интересные идеи.</p>
+  <div class="schema">
+    <p style="margin:0 0 10px"><b>Обычный запрос:</b> «Расскажи шутку про кофе» → одна и та же шутка. У всех. Каждый раз.</p>
+    <p style="margin:0"><b>Запрос по-стэнфордски:</b> «Дай 5 шуток про кофе и вероятность каждой» → 70% банальная, 15% получше, 10% неожиданная, 5% вот это уже смешно. В хвосте распределения лежит то, что не написал бы никто другой.</p>
+  </div>
+  <div class="prompt"><span class="lbl">ПРОМПТ-КОПИПАСТ</span>Дай 5 разных вариантов ответа на задачу ниже. Для каждого укажи вероятность: насколько это типичный ответ. Сначала самый вероятный, потом 4 менее очевидных. В конце выбери один: не самый банальный, но понятный живому человеку.
+Задача: [ваша задача]</div>
+
+  <div class="kicker">2. Черновик вместо сочинения</div>
+  <div class="tag">Zoom · Chain of Draft</div>
+  <p>Знаете это чувство, когда просишь разобрать проблему, а модель выкатывает лекцию на три экрана? Исследователи из Zoom предложили противоположное: пусть модель думает как человек на полях блокнота, пометками по несколько слов. Качество то же или выше, воды в разы меньше. В их опытах короткий черновик тратил меньше десятой доли слов длинного рассуждения.</p>
+  <div class="schema">
+    <p style="margin:0 0 10px"><b>Было:</b> «Давайте подробно рассмотрим, почему ваш пост может не работать. Во-первых, важно учитывать особенности аудитории, которая…» и ещё три экрана.</p>
+    <p style="margin:0"><b>Стало:</b> хук общий, нет ставки, CTA поздно, пример слабый → план правки: 4 шага. Тот же разбор, только читается за десять секунд и сразу превращается в действия.</p>
+  </div>
+  <div class="prompt"><span class="lbl">ПРОМПТ-КОПИПАСТ</span>Реши задачу методом короткого черновика. Промежуточные шаги пиши максимум по 5 слов, не объясняй очевидное. В конце дай нормальный человеческий ответ.
+Задача: [ваша задача]</div>
+
+  <div class="kicker">3. Пусть модель сама чинит ваш промпт</div>
+  <div class="tag">ICLR 2026 · GEPA, упрощённая версия</div>
+  <p>Свежая работа GEPA показала: промпт, который модель улучшает сама, глядя на собственные ошибки, обгоняет промпты, натренированные дорогими методами. Для нас с вами это переводится в бытовой цикл из трёх шагов: сделай, найди слабые места, перепиши инструкцию. Через два-три круга у вас рабочий шаблон вместо ежедневного «сделай получше».</p>
+  <div class="prompt"><span class="lbl">ПРОМПТ-КОПИПАСТ</span>У меня есть повторяющаяся задача: [описание]. Сделай пробный результат. Потом сам найди 5 слабых мест. После этого перепиши мой исходный промпт так, чтобы в следующий раз этих ошибок было меньше. Дай: улучшенный промпт, что именно он чинит, и короткий тест, как понять, что стало лучше.</div>
+
+  <div class="kicker">Что тут нашего</div>
+  <p>Заметьте, что общего у всех трёх приёмов. Ни один не про «правильные слова». Все три про то, как вы организуете разговор: попросить веер вместо одного ответа, попросить пометки вместо лекции, попросить починить инструкцию вместо жалоб на результат.</p>
+  <p>Промптинг не умер. Он перестал быть заклинанием и стал тем, чем был всегда: умением понятно попросить. Сначала человек, потом машина.</p>
+  <p>Попробуйте первый приём прямо сегодня на любой рабочей задаче. А хотите практику за 10 секунд: скопируйте весь этот выпуск в свою нейросеть и попросите примерить каждый приём на вашу работу.</p>
+
+  <p class="src">Первоисточники, если захотите глубже:<br>
+  Verbalized Sampling (Стэнфорд): <a href="https://arxiv.org/abs/2510.01171">arxiv.org/abs/2510.01171</a><br>
+  Chain of Draft (Zoom): <a href="https://arxiv.org/abs/2502.18600">arxiv.org/abs/2502.18600</a><br>
+  GEPA (ICLR 2026): <a href="https://arxiv.org/abs/2507.19457">arxiv.org/abs/2507.19457</a></p>
+
+  <div class="sub">
+    <h3>Читаете это в браузере? Подпишитесь, чтобы получать почтой</h3>
+    <p>Новые выпуски приходят на почту. Без спама, обычно раз в неделю.</p>
+    <form class="email-form" onsubmit="return handleSubscribe(this)">
+      <input type="email" name="email" placeholder="Ваш email" required>
+      <button type="submit" disabled>Подписаться</button>
+    </form>
+    <div class="consent-row">
+      <label style="display:flex;gap:8px;align-items:flex-start">
+        <input type="checkbox" onchange="toggleSubmit(this)">
+        <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="/privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
+      </label>
+    </div>
+    <p class="email-note"></p>
+  </div>
+
+  <div class="vitrina">
+    <p><b>Ира Буян.</b> Автор категории «ИИ для взрослых» и метода «Сначала человек». Перевожу нейросети на нормальный человеческий язык, без стыда и академизма. Иду чуть впереди и копаю продукт вживую, вы идёте рядом.</p>
+    <p>Телеграм: <a href="https://t.me/ira_and_ai">@ira_and_ai</a> &nbsp;·&nbsp; Гайды: <a href="/gaidy/">iraai.ru/gaidy</a> &nbsp;·&nbsp; Программа «Понедельник»: <a href="/ponedelnik/">iraai.ru/ponedelnik</a></p>
+  </div>
+
+  <footer>
+    <a href="/rassylka/">← Все выпуски</a> &nbsp;·&nbsp; <a href="https://iraai.ru/">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/">Гайды</a>
+  </footer>
+</div>
+
+<script>
+function toggleSubmit(cb){
+  var btn = cb.closest('.sub').querySelector('.email-form button');
+  btn.disabled = !cb.checked;
+}
+function handleSubscribe(form){
+  var input = form.querySelector('input[name="email"]');
+  var email = (input.value || '').trim();
+  var btn = form.querySelector('button');
+  var note = form.closest('.sub').querySelector('.email-note');
+  if(!email) return false;
+  btn.disabled = true; btn.textContent = 'Отправляю...';
+  fetch('https://iraai-subscribe.vercel.app/api/subscribe', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ email: email, tags: ['archive-page'] })
+  }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
+  .then(function(res){
+    if(res.ok && res.d && res.d.ok){
+      btn.textContent = 'Готово';
+      input.value = '';
+      note.textContent = 'Готово, проверьте почту.';
+      note.style.color = '#1a7a3a';
+    } else {
+      btn.disabled = false; btn.textContent = 'Подписаться';
+      note.textContent = (res.d && res.d.error) ? res.d.error : 'Что-то пошло не так, попробуйте ещё раз.';
+      note.style.color = '#b03a2e';
+    }
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = 'Подписаться';
+    note.textContent = 'Сеть недоступна, попробуйте ещё раз.';
+    note.style.color = '#b03a2e';
+  });
+  return false;
+}
+</script>
+</body>
+</html>
