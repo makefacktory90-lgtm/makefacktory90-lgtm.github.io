@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT-хаб. 21 день, после которых ChatGPT работает, а не болтает</title>
+<meta name="description" content="GPT-хаб Иры Буян: 21 день по 10 минут, после которых ChatGPT перестаёт быть чатиком и становится сотрудником, который не болеет и работает, пока вы спите. Старт 1 августа.">
+<link rel="canonical" href="https://iraai.ru/gpt-hub/">
+<meta name="author" content="Ира Буян">
+<meta property="og:title" content="GPT-хаб. ChatGPT как сотрудник за 21 день">
+<meta property="og:description" content="21 день по 10 минут: ChatGPT из чатика в рабочего агента. Уроки на портале, чат потока, старт 1 августа.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://iraai.ru/gpt-hub/">
+<meta property="og:image" content="https://iraai.ru/ira-photo.jpg">
+<meta property="og:locale" content="ru_RU">
+<meta name="subscribe-worker-url" content="https://subscribe.iraai.ru/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "GPT-хаб",
+  "description": "21 день по 10 минут, после которых ChatGPT становится рабочим агентом. Уроки на портале, чат потока, публичные разборы домашек. Старт 1 августа 2026.",
+  "provider": {"@type": "Person", "name": "Ира Буян", "url": "https://iraai.ru"},
+  "inLanguage": "ru",
+  "url": "https://iraai.ru/gpt-hub/",
+  "offers": [
+    {"@type": "Offer", "name": "База", "price": "5500", "priceCurrency": "RUB", "url": "https://iraai.ru/gpt-hub/"},
+    {"@type": "Offer", "name": "PRO", "price": "12900", "priceCurrency": "RUB", "url": "https://iraai.ru/gpt-hub/"}
+  ],
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "startDate": "2026-08-01",
+    "endDate": "2026-08-21"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--white:#FFFFFF;--off-white:#FAFAF8;--warm-gray:#F5F3F0;--light-gray:#E8E5E0;
+    --text:#1A1A1A;--text-secondary:#5C5856;--text-dim:#8A8580;--accent:#E50914;--deep:#2C2926;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--white);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:48px 24px 40px;}
+  .back{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);text-decoration:none;letter-spacing:0.05em;}
+  .back:hover{color:var(--accent);}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:40px 0 14px;}
+  h1{font-size:clamp(40px,8vw,64px);line-height:0.98;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;}
+  .lead{font-size:clamp(19px,3vw,22px);font-weight:600;color:var(--text);margin-bottom:28px;line-height:1.35;text-wrap:pretty;}
+  h2{font-size:22px;font-weight:700;margin:44px 0 14px;letter-spacing:-0.01em;}
+  h3{font-size:17px;font-weight:700;margin:22px 0 6px;}
+  p{font-size:17px;color:var(--text);margin-bottom:16px;text-wrap:pretty;}
+  a{color:var(--text);}
+  ul{list-style:none;margin:8px 0 16px;}
+  ul li{font-size:17px;padding:12px 0;border-bottom:1px solid var(--light-gray);}
+  ul li b{color:var(--accent);}
+  .zero{background:var(--off-white);border:2px solid var(--text);border-radius:18px;padding:22px 24px;margin:28px 0;}
+  .zero h3{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;}
+  .fence{border:2px solid var(--text);border-radius:18px;padding:22px 24px;margin:26px 0;}
+  .fence h3{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;}
+  .fence p{margin-bottom:10px;}
+  .fence p:last-child{margin-bottom:0;}
+  .case{background:var(--warm-gray);border-radius:18px;padding:24px 26px;margin:26px 0;}
+  .case blockquote{font-size:19px;font-weight:600;line-height:1.4;margin:12px 0 6px;}
+  .case .who{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);}
+  .weeks{margin:8px 0 16px;}
+  .week{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:18px;}
+  .week .wn{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);}
+  .week h3{margin:2px 0 4px;}
+  .week p{margin-bottom:0;font-size:16px;color:var(--text-secondary);}
+  .facts{display:flex;gap:16px;flex-wrap:wrap;margin:30px 0;}
+  .fact{flex:1;min-width:140px;background:var(--off-white);border:1px solid var(--light-gray);border-radius:16px;padding:18px 20px;}
+  .fact strong{display:block;font-size:22px;font-weight:800;}
+  .fact span{font-size:14px;color:var(--text-dim);}
+  .plans{display:flex;gap:18px;flex-wrap:wrap;margin:26px 0;}
+  .plan{flex:1;min-width:260px;border:1px solid var(--light-gray);border-radius:20px;padding:26px;background:var(--off-white);}
+  .plan.pro{border:2px solid var(--text);}
+  .plan .pn{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+  .plan .price{font-size:34px;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
+  .plan .sub{font-size:14px;color:var(--text-dim);margin-bottom:14px;}
+  .plan ul li{font-size:15px;padding:9px 0;}
+  .cta{display:inline-block;margin-top:16px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:14px 26px;border-radius:999px;font-size:16px;}
+  .cta:hover{opacity:0.88;}
+  .cta.ghost{background:var(--text);}
+  details{border-bottom:1px solid var(--light-gray);padding:14px 0;}
+  details summary{font-size:17px;font-weight:600;cursor:pointer;list-style:none;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:"+";color:var(--accent);font-weight:800;margin-right:10px;}
+  details[open] summary::before{content:"–";}
+  details p{margin:10px 0 4px;font-size:16px;color:var(--text-secondary);}
+  .cta-box{background:var(--off-white);border:1px solid var(--light-gray);border-radius:20px;padding:26px;margin-top:36px;}
+  .email-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .email-form input{flex:1;min-width:220px;font-family:'Inter',sans-serif;font-size:16px;padding:13px 18px;border:1px solid var(--light-gray);border-radius:999px;background:#fff;color:var(--text);}
+  .email-form input:focus{outline:none;border-color:var(--text);}
+  .email-form button{font-family:'Inter',sans-serif;font-size:16px;font-weight:600;padding:13px 26px;border:none;border-radius:999px;background:var(--accent);color:#fff;cursor:pointer;}
+  .email-form button:disabled{opacity:0.6;cursor:default;}
+  .form-note{font-size:14px;margin-top:10px;color:var(--text-dim);}
+  .form-note.ok{color:#1a7a3c;}
+  .form-note.err{color:var(--accent);}
+  .fine{font-size:14px;color:var(--text-dim);margin-top:14px;}
+  .sign{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);margin-top:44px;}
+  footer{border-top:1px solid var(--light-gray);margin-top:40px;}
+  footer .wrap{padding:28px 24px 60px;}
+  footer p{font-size:14px;color:var(--text-dim);margin-bottom:8px;}
+  footer a{color:var(--text);text-decoration:none;}
+  footer a:hover{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">&larr; iraai.ru</a>
+  <div class="kicker">ИИ для взрослых · хаб-лаборатория</div>
+  <h1>GPT-хаб</h1>
+  <p class="lead">21 день по 10 минут, после которых ChatGPT перестаёт быть чатиком и становится сотрудником. Который не болеет, не выгорает и работает, пока вы спите.</p>
+
+  <p>ChatGPT у вас уже есть. Скорее всего, вы используете его процента на три: спросить, переписать, «сделай покороче». А за этот год он тихо стал другим существом: сам ведёт многошаговые задачи, сам ходит в ваши файлы и календарь, сам собирает документы, таблицы и страницы. Не «умный собеседник», а рабочий агент.</p>
+  <p>В GPT-хабе мы за три недели меняем не инструмент, а вашу роль: из человека, который печатает запросы, в человека, который ставит задачи и принимает работу. Урок в день, 10-12 минут, всё на живых демо. Воскресенья свободны: это правило, а не поблажка.</p>
+
+  <div class="zero">
+    <h3>Можно даже не покупать ChatGPT</h3>
+    <p>Обычно такие курсы начинаются с «сначала оплатите Plus». У нас нет. Агентный режим Work доступен в десктопном приложении даже на бесплатном тарифе, и весь базовый маршрут хаба проходится на нём. Порог входа: ноль рублей сверх цены хаба.</p>
+    <p style="margin-bottom:0;">А если захотите платный тариф, на предстартовой неделе 28-31 июля помогу с доступом из РФ: что с VPN, чем платить, куда нажимать. Никто не останется за бортом на старте.</p>
+  </div>
+
+  <h2>Как устроено</h2>
+  <ul>
+    <li><b>10-12 минут в день.</b> Один короткий урок с живым демо: я делаю задачу на экране, вы повторяете на своей. Никаких вебинаров на полтора часа.</li>
+    <li><b>Вау на третий день.</b> К третьему уроку вы кидаете агенту хаос своих заметок и получаете готовый документ. Дальше уже не остановиться.</li>
+    <li><b>Уроки на портале + канал потока.</b> Уроки живут на закрытом портале, доступ придёт письмом. В телеграм-канале потока: ежедневные анонсы, опросы и жизнь.</li>
+    <li><b>Чат потока + разборы, без личного куратора.</b> Вопросы задаёте в чате, а в уроках-итогах недели я публично разбираю избранные домашки. Домашки трёх уровней: от «повторить» до «сделать на своей задаче».</li>
+    <li><b>Воскресенья выходные.</b> 2, 9 и 16 августа ничего не выходит. Отдых встроен в программу, догонять не придётся.</li>
+  </ul>
+
+  <h2>Программа: три недели, три роли</h2>
+  <div class="weeks">
+    <div class="week">
+      <div class="wn">Неделя 1 · 1-8 августа</div>
+      <h3>ChatGPT, который вы не знали</h3>
+      <p>Новая роль инструмента: не чат, а рабочий агент. Desktop и Work без страха интерфейса, документы и презентации из хаоса материалов, таблицы без Excel-героизма, память и Projects: агент перестаёт каждый раз знакомиться с вами заново.</p>
+    </div>
+    <div class="week">
+      <div class="wn">Неделя 2 · 10-15 августа</div>
+      <h3>Нейро-сотрудник</h3>
+      <p>Смена вашей роли: вы руководитель. Agent mode и Plan mode, подключение календаря, почты и диска (только то, что нужно, с картой разрешений), задачи по расписанию, многошаговая работа в фоне: отдали, пошли жить, приняли результат. И чеклист приёмки, чтобы не отдавать агенту голову.</p>
+    </div>
+    <div class="week">
+      <div class="wn">Неделя 3 · 17-21 августа</div>
+      <h3>Инструмент вглубь</h3>
+      <p>Картинки в работе, интерактивные страницы одной ссылкой, чужие готовые агенты из каталога: как выбирать и не бояться. Честный разговор «ChatGPT и Клод: кто для чего». Финал: выпускной проект, одна ваша настоящая рабочая задача целиком через агента.</p>
+    </div>
+  </div>
+
+  <h2>Что это меняет: кейс Алины</h2>
+  <div class="case">
+    <p><b>Было:</b> Алина присылала мне «уродские Google Prezo» и просила переделать. <b>Стало</b> после хаба: сама придумала идею, сама собрала оффер, сама сверстала две продающие презентации и сама пошла продавать. Мне только показала. Сменилась не программа на компьютере, сменилась роль человека.</p>
+    <blockquote>«На середине потока пользы уже минимум в 3 раза больше, чем запрошено денег»</blockquote>
+    <p class="who">Алина, выпускница хаба</p>
+  </div>
+
+  <h2>Кому и кому нет</h2>
+  <p>Кому: экспертам, консультантам, маркетологам, руководителям. Тем, чья работа состоит из букв, документов, таблиц и решений, и кто хочет наконец добывать из ChatGPT пользу, а не вдохновение.</p>
+  <div class="fence">
+    <h3>Честный забор</h3>
+    <p>Здесь вы осваиваете инструмент: функции, агентов, фишки, готовые связки. Глубоко и на своих задачах, но инструмент.</p>
+    <p>Свою рабочую систему, собранную под вашу неделю и ваши процессы, мы строим на программе «Понедельник» (старт 7 сентября). GPT-хаб продаёт готовое, «Понедельник» строит своё. Это разные события, и я честно их не смешиваю: <a href="/ponedelnik/">про «Понедельник» здесь</a>.</p>
+  </div>
+
+  <h2>Вопросы, которые вы уже хотите задать</h2>
+  <details>
+    <summary>Нужен ли платный тариф ChatGPT?</summary>
+    <p>Нет. Базовый маршрут хаба проходится на бесплатном тарифе: агентный режим Work работает в десктопном приложении для всех. Платный тариф (там Work есть ещё и в браузере и на телефоне) удобнее, но не обязателен. Кто захочет подключить: на предстартовой неделе 28-31 июля разбираем доступ из РФ, VPN и оплату зарубежной картой.</p>
+  </details>
+  <details>
+    <summary>Что, если я пропущу день?</summary>
+    <p>Ничего страшного. Урок идёт 10-12 минут, все уроки остаются на портале до конца потока, догнать можно за один вечер. Плюс воскресенья выходные: три встроенных дня на «догнать и выдохнуть».</p>
+  </details>
+  <details>
+    <summary>Будет ли обратная связь?</summary>
+    <p>Чат потока и публичные разборы избранных домашек в уроках-итогах недели. Личного куратора нет: это честно заложено в цену. Личная работа со мной есть в тарифе PRO: полчаса один на один по вашему проекту.</p>
+  </details>
+  <details>
+    <summary>Я совсем новичок, потяну?</summary>
+    <p>Хаб рассчитан на нормальных взрослых людей, а не на айтишников. Первая неделя начинается с «где он живёт и куда нажимать». Если вы умеете отправить сообщение в мессенджере, вы потянете.</p>
+  </details>
+  <details>
+    <summary>Когда старт и сколько длится?</summary>
+    <p>Старт 1 августа, финал 21 августа. Перед этим предстартовая неделя 28-31 июля: помогаю всем с доступом, чтобы 1 августа никто не возился с настройками вместо первого урока.</p>
+  </details>
+
+  <h2>Цена</h2>
+  <div class="facts">
+    <div class="fact"><strong>1 августа</strong><span>старт потока</span></div>
+    <div class="fact"><strong>21 день</strong><span>по 10-12 минут</span></div>
+    <div class="fact"><strong>18 уроков</strong><span>воскресенья свободны</span></div>
+  </div>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="pn">База</div>
+      <div class="price">5&nbsp;500&nbsp;₽</div>
+      <div class="sub">живой поток 1-21 августа</div>
+      <ul>
+        <li>18 уроков на портале</li>
+        <li>Канал и чат потока</li>
+        <li>Публичные разборы домашек в итогах недель</li>
+        <li>Предстартовая неделя: помощь с доступом</li>
+      </ul>
+      <!-- [PRODAMUS-BAZA]: сюда вставить ссылку Продамуса на тариф База -->
+      <a class="cta" id="pay-baza" href="#zapis">Занять место &rarr;</a>
+    </div>
+    <div class="plan pro">
+      <div class="pn">PRO · 15 мест</div>
+      <div class="price">12&nbsp;900&nbsp;₽</div>
+      <div class="sub">всё из Базы + полчаса лично со мной</div>
+      <ul>
+        <li>Всё, что в Базе</li>
+        <li><b>30 минут один на один со мной</b> по вашему финальному проекту</li>
+        <li>Созвон-разбор в течение потока, по записи; окно закрывается 21 августа</li>
+        <li>Приоритетное окно в поток 0 «Понедельника»</li>
+      </ul>
+      <!-- [PRODAMUS-PRO]: сюда вставить ссылку Продамуса на тариф PRO -->
+      <a class="cta ghost" id="pay-pro" href="#zapis">Занять место PRO &rarr;</a>
+    </div>
+  </div>
+  <p>Про PRO скажу прямо: моя консультация стоит 25&nbsp;000&nbsp;₽. PRO это полчаса лично со мной за полцены, а хаб вы получаете в подарок. Мест 15, и это не маркетинговая цифра: столько личных созвонов я реально помещаю в три недели потока.</p>
+  <p class="fine">После живого потока хаб будет продаваться в записи, и дороже. Живая цена не повторится.</p>
+
+  <div class="cta-box" id="zapis">
+    <h2 style="margin-top:0;">Встать в лист записи</h2>
+    <p>Оплата открывается 15 июля. Оставьте почту: пришлю письмо со ссылкой на оплату первым, до общего анонса. Мест PRO всего 15, лист записи их и разберёт.</p>
+    <form class="email-form" id="hub-form" novalidate>
+      <input type="email" id="hub-email" name="email" placeholder="ваша@почта.ру" autocomplete="email" required>
+      <button type="submit" id="hub-btn">В лист записи &rarr;</button>
+    </form>
+    <p class="form-note" id="hub-note">Никакого спама: только письмо про открытие оплаты и старт потока.</p>
+  </div>
+
+  <p class="sign">Ира Буян · iraai.ru · @ira_and_ai</p>
+</div>
+
+<footer><div class="wrap">
+  <p><a href="/">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/">Гайды</a> &nbsp;·&nbsp; <a href="/rassylka/">Рассылка</a> &nbsp;·&nbsp; <a href="https://t.me/ira_and_ai">Телега</a> &nbsp;·&nbsp; <a href="/ponedelnik/">Понедельник</a></p>
+  <p>iraai.ru · Ира Буян · «ИИ для взрослых» · перевожу AI на нормальный</p>
+</div></footer>
+
+<script src="/scripts/subscribe.js"></script>
+<script>
+(function(){
+  var form = document.getElementById('hub-form');
+  var input = document.getElementById('hub-email');
+  var btn = document.getElementById('hub-btn');
+  var note = document.getElementById('hub-note');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var email = (input.value || '').trim();
+    if (!email || email.indexOf('@') === -1) {
+      note.textContent = 'Похоже, в почте опечатка. Проверьте адрес.';
+      note.className = 'form-note err';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Секунду...';
+    note.className = 'form-note';
+    note.textContent = '';
+    try {
+      await window.IraSubscribe.subscribe({ email: email, tags: ['gpt-hub-wait'] });
+      note.textContent = 'Готово, вы в листе. Письмо со ссылкой на оплату придёт до общего анонса.';
+      note.className = 'form-note ok';
+      form.reset();
+      btn.textContent = 'Вы в листе';
+    } catch (err) {
+      note.textContent = 'Что-то пошло не так. Попробуйте ещё раз или напишите в телегу @ira_and_ai.';
+      note.className = 'form-note err';
+      btn.disabled = false;
+      btn.textContent = 'В лист записи →';
+    }
+  });
+})();
+</script>
+</body>
+</html>
