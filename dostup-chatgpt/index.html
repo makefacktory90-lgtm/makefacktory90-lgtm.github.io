@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гайд: рабочий ChatGPT из России</title>
+<style>
+:root{--bg:#111114;--card:#1b1b20;--text:#eceae6;--muted:#9a978f;--accent:#e8563f;--green:#4caf7d;--border:#2c2c33}
+*{box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);margin:0;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:48px 20px 80px}
+.kicker{color:var(--accent);letter-spacing:.12em;font-size:12px;text-transform:uppercase;font-weight:700}
+h1{font-size:34px;line-height:1.2;margin:12px 0 8px}
+.sub{color:var(--muted);font-size:17px;margin-bottom:36px}
+h2{font-size:22px;margin:48px 0 12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin:16px 0}
+.lvl{display:inline-block;background:rgba(76,175,125,.15);color:var(--green);border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600;margin-bottom:10px}
+ol{padding-left:22px}ol li{margin:10px 0}
+.note{border-left:3px solid var(--accent);padding:12px 16px;background:rgba(232,86,63,.08);border-radius:0 10px 10px 0;margin:20px 0;font-size:15px}
+.check{color:#f2b643;font-weight:600}
+.muted{color:var(--muted);font-size:14px}
+a{color:var(--green)}
+table{width:100%;border-collapse:collapse;font-size:15px;margin:14px 0}
+td,th{border:1px solid var(--border);padding:9px 12px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.footer{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="kicker">IRA &amp; AI · GPT-хаб</div>
+<h1>Рабочий ChatGPT из России:<br>простой гайд по доступу</h1>
+<p class="sub">Три уровня подключения: от «просто попробовать» до «рабочая лошадка на каждый день». Выбирайте свой, это минут двадцать.</p>
+
+<div class="note">Сразу честно. Россия не входит в официальный список поддерживаемых стран OpenAI, поэтому прямого «нажал и заработало» нет. Но рабочие варианты есть, ниже все три. Этот гайд не инструкция по обходу законов: VPN в России легален для личного использования, а решения об оплате каждый принимает сам.</div>
+
+<h2>Уровень 1. Самый простой: аккаунт + VPN + десктоп</h2>
+<div class="card">
+<span class="lvl">🟢 для старта, хватит большинству</span>
+<ol>
+<li><b>Включите нормальный VPN.</b> Ключевое слово «нормальный»: бесплатные расширения из поиска часто медленные и ненадёжные. Я в постах показываю, где беру сама: это мои рекомендации, не реклама.</li>
+<li><b>Заведите аккаунт</b> на chatgpt.com: почта Gmail подходит, регистрация обычная. Телефон формально не требуется (хватает почты), но при входе через VPN проверку номером иногда триггерит антифрод: держите наготове виртуальный номер не из РФ, на всякий случай.</li>
+<li><b>Поставьте десктоп-приложение</b> для Mac или Windows. Это важно: новый агентный режим ChatGPT Work на бесплатном тарифе доступен именно на десктопе.</li>
+<li><b>Проверьте:</b> напишите «привет», загрузите любой файл, попросите что-то с ним сделать. Работает: вы подключены.</li>
+</ol>
+<p class="muted">Что даёт Free: базовые модели, ограниченные загрузки и память, ограниченный ChatGPT Work на десктопе. Для хаба на первые дни хватит.</p>
+</div>
+
+<h2>Уровень 2. Подписка Plus: полный набор</h2>
+<div class="card">
+<span class="lvl">🟢 рекомендую для хаба</span>
+<p>Plus открывает свежие модели (включая GPT-5.6), проекты, задачи по расписанию, свои GPT и расширенный ChatGPT Work на десктопе, вебе и телефоне. Это минимальный тариф, на котором хаб раскрывается целиком.</p>
+<p><b>Как платить из России.</b> Российские карты не принимаются. Варианты, которые существуют:</p>
+<ol>
+<li><b>Зарубежная банковская карта</b>, если у вас она есть: самый чистый путь.</li>
+<li><b>Посредники и сервисы оплаты подписок.</b> Их много, качество разное. На что смотреть: срок работы сервиса, живые отзывы, оплата за конкретную подписку, а не «пополнение баланса» непонятно чего. Я показываю, где беру сама, в постах хаба: это личный опыт, не гарантия.</li>
+</ol>
+<div class="note">Никаких «серых» схем в этом гайде нет и не будет. Если вариант вызывает у вас сомнения, не платите. Хаб проходим и на Free, просто с ограничениями.</div>
+</div>
+
+<h2>Уровень 3. Для тех, кто посерьёзнее: отдельный браузер + прокси</h2>
+<div class="card">
+<span class="lvl">🟢 профи-вариант</span>
+<p>Смысл: рабочий аккаунт живёт в своей чистой среде и не зависит от того, что происходит в основном браузере и с основным VPN.</p>
+<ol>
+<li>Отдельный браузер с профилями (например, антидетект-браузер типа Dolphin или просто отдельный профиль Chrome).</li>
+<li>Персональный прокси одной страны, а не бесплатный список из интернета.</li>
+<li>В этом профиле живёт только ChatGPT: один аккаунт, одна страна входа, никаких скачков по локациям.</li>
+</ol>
+<p class="muted">Зачем так сложно: аккаунты стабильнее живут, когда «приходят» из одного и того же места. Для большинства участников хаба этот уровень не обязателен.</p>
+</div>
+
+<h2>Что доступно на каком тарифе</h2>
+<table>
+<tr><th>Тариф</th><th>Что есть</th><th>Вывод</th></tr>
+<tr><td>Free · $0</td><td>Базовые модели, ограниченные загрузки и память. Work: только в новом десктоп-приложении, с ограничениями</td><td>Старт и первые дни хаба</td></tr>
+<tr><td>Go · $8</td><td>Дешёвый средний тариф, без Work</td><td>Для хаба не нужен</td></tr>
+<tr><td>Plus · $20</td><td>GPT-5.6, проекты, задачи по расписанию, свои GPT, расширенный Work на десктопе, вебе и телефоне</td><td>Рабочий тариф хаба</td></tr>
+<tr><td>Pro · от $100</td><td>Больше лимитов, Pro-модель, максимум deep research, Work без очереди</td><td>Для тяжёлых задач, для хаба не обязателен</td></tr>
+</table>
+<p class="muted">Цены и состав: официальные страницы OpenAI на 11.07.2026. OpenAI меняет таблицу часто, сверяйтесь с chatgpt.com/pricing.</p>
+
+<h2>Главное правило</h2>
+<div class="card">
+<p><b>Аккаунт это расходник. Результаты вашей работы: нет.</b></p>
+<p>Всё важное копируйте к себе: документы, тексты, наработки. Не храните единственный экземпляр внутри чата. Новый аккаунт заводится за вечер, наработанное за месяц не восстановит никто.</p>
+</div>
+
+<h2>Чек-лист «я готов к 1 августа»</h2>
+<div class="card">
+<ol>
+<li>VPN включается и держит соединение.</li>
+<li>Аккаунт создан, вход работает.</li>
+<li>Десктоп-приложение стоит.</li>
+<li>Загрузили файл, получили ответ.</li>
+<li>Решили для себя вопрос с Plus (или осознанно остались на Free).</li>
+</ol>
+</div>
+
+<p class="footer"><a href="/" style="color:inherit">На главную</a> · <a href="/gaidy/" style="color:inherit">Все гайды</a> · <a href="/rassylka/" style="color:inherit">Рассылка</a> · <a href="https://t.me/ira_and_ai" style="color:inherit">Телега</a></p>
+<p class="footer">Гайд собран для участников GPT-хаба IRA &amp; AI. Ссылки на конкретные сервисы: личные рекомендации автора, не партнёрские интеграции и не гарантии. Факты по тарифам: официальные страницы OpenAI, июль 2026. </p>
+
+<p class="footer">Компания Meta (владелец Instagram) признана экстремистской организацией и запрещена на территории РФ.</p>
+</div>
+</body>
+</html>
