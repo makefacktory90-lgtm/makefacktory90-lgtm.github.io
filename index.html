@@ -1963,7 +1963,7 @@ function handleSubscribe(form) {
         return r.json().then(function (d) { return { ok: r.ok, d: d }; });
     }).then(function (res) {
         if (res.ok && res.d && res.d.ok) {
-            btn.textContent = 'Проверьте почту';
+            btn.textContent = 'Подтвердите в почте';
             input.value = '';
             if (note && note.classList.contains('email-note')) {
                 note.textContent = 'Почти готово. Мы отправили письмо, подтвердите подписку по ссылке в нём. Если письма нет через минуту, гляньте в папку Спам или Промоакции.';
