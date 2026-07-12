@@ -98,6 +98,25 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
 </ol>
 </div>
 
+<!-- ТРУБА ПОДПИСКИ (единый блок машины роста рассылки) -->
+<div style="max-width:680px;margin:44px auto 8px;padding:0 20px;box-sizing:border-box">
+  <div style="background:#ffffff;border:1px solid #e6e0d6;border-radius:14px;padding:24px 26px;box-shadow:0 2px 10px rgba(0,0,0,.05)">
+    <div style="font:600 18px/1.3 -apple-system,Segoe UI,sans-serif;color:#1c1a17;margin-bottom:6px">Раз в неделю разбираю такое в рассылке: один приём целиком, по-человечески.</div>
+    <div style="font:400 15px/1.45 -apple-system,Segoe UI,sans-serif;color:#6b655c;margin-bottom:16px">Почта: и вы в списке.</div>
+    <form onsubmit="return __sub(this,'guide-dostup')" style="display:flex;gap:10px;flex-wrap:wrap">
+      <input type="email" name="email" placeholder="Ваш email" required style="flex:1;min-width:200px;padding:13px 16px;border:1px solid #d8d2c8;border-radius:10px;font-family:inherit;font-size:15px;box-sizing:border-box">
+      <button type="submit" disabled style="padding:13px 26px;background:#E50914;color:#fff;border:none;border-radius:10px;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;white-space:nowrap">Подписаться</button>
+    </form>
+    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:11px;font:400 12.5px/1.4 -apple-system,sans-serif;color:#6b655c">
+      <input type="checkbox" onchange="this.closest('label').previousElementSibling.querySelector('button').disabled=!this.checked" style="margin-top:2px">
+      <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и обработку персональных данных по <a href="/privacy.html" target="_blank" style="color:#E50914">Политике конфиденциальности</a>.</span>
+    </label>
+    <div class="__subnote" style="font-size:13px;color:#6b655c;margin-top:10px"></div>
+  </div>
+</div>
+<script>
+if(typeof window.__sub!=='function'){window.__sub=function(f,tag){var i=f.email,e=(i.value||'').trim(),b=f.querySelector('button'),n=f.parentNode.querySelector('.__subnote');if(!e)return false;b.disabled=true;b.textContent='...';fetch('https://iraai-subscribe.vercel.app/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,tags:[tag]})}).then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})}).then(function(x){if(x.ok&&x.d&&x.d.ok){b.textContent='Готово';i.value='';n.textContent='Готово, проверьте почту.';n.style.color='#1a7a3a'}else{b.disabled=false;b.textContent='Подписаться';n.textContent=(x.d&&x.d.error)||'Попробуйте ещё раз.';n.style.color='#b03a2e'}}).catch(function(){b.disabled=false;b.textContent='Подписаться';n.textContent='Сеть недоступна.';n.style.color='#b03a2e'});return false}}
+</script>
 <p class="footer"><a href="/" style="color:inherit">На главную</a> · <a href="/gaidy/" style="color:inherit">Все гайды</a> · <a href="/rassylka/" style="color:inherit">Рассылка</a> · <a href="https://t.me/ira_and_ai" style="color:inherit">Телега</a></p>
 <p class="footer">Гайд собран для участников GPT-хаба IRA &amp; AI. Ссылки на конкретные сервисы: личные рекомендации автора, не партнёрские интеграции и не гарантии. Факты по тарифам: официальные страницы OpenAI, июль 2026. </p>
 
