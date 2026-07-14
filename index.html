@@ -1963,10 +1963,10 @@ function handleSubscribe(form) {
         return r.json().then(function (d) { return { ok: r.ok, d: d }; });
     }).then(function (res) {
         if (res.ok && res.d && res.d.ok) {
-            btn.textContent = 'Подтвердите в почте';
+            btn.textContent = 'Готово, вы в списке';
             input.value = '';
             if (note && note.classList.contains('email-note')) {
-                note.textContent = 'Почти готово. Мы отправили письмо, подтвердите подписку по ссылке в нём. Если письма нет через минуту, гляньте в папку Спам или Промоакции.';
+                note.innerHTML = 'Вы в списке, подтверждать ничего не нужно. Ближайший выпуск придёт в четверг, а пока забирайте архив: <a href="/rassylka/" style="color:#E50914;font-weight:700;">все прошлые выпуски здесь</a>.';
                 note.style.color = '#5A7A60';
                 note.style.fontWeight = '600';
             }
