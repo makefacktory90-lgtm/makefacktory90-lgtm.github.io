@@ -1,6 +1,6 @@
 # ira-and-ai — публичные скиллы
 
-Публичная коллекция AI-скиллов, промптов и инструментов от [Иры Буян](https://t.me/ira_and_ai).
+Публичная коллекция AI-скиллов, промптов и инструментов от [Иры Буян](https://telegram.me/ira_and_ai).
 
 Здесь — то, что я использую сама и отдаю людям. Бесплатно, с лицензией MIT.
 
@@ -79,7 +79,7 @@ Claude.ai / ChatGPT / Gemini — работают как есть.
 
 ## Обратная связь
 
-- Telegram: [@ira_and_ai](https://t.me/ira_and_ai)
+- Telegram: [@ira_and_ai](https://telegram.me/ira_and_ai)
 - Сайт: [iraai.ru](https://iraai.ru)
 - Issues в этом репозитории — открыты для любого фидбэка
 

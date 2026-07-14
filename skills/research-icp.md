@@ -300,5 +300,5 @@ Claude получает выходы от 3-4 субагентов. Делает
 ## FEEDBACK
 
 Если попробовали — напишите что зашло / не зашло:
-- Telegram: [@ira_and_ai](https://t.me/ira_and_ai)
+- Telegram: [@ira_and_ai](https://telegram.me/ira_and_ai)
 - Сайт: [iraai.ru](https://iraai.ru)

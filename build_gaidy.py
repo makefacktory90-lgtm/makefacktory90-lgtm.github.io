@@ -85,7 +85,7 @@ TOPBAR = ('<div class="topbar"><div class="wrap">'
           '<a class="back" href="/gaidy/">Все гайды</a></div></div>')
 
 BRIDGE = ('<div class="bridge"><div class="row">'
-          '<p class="line">Живое и по делу каждый день в телеге: <a href="https://t.me/ira_and_ai">t.me/ira_and_ai</a></p>'
+          '<p class="line">Живое и по делу каждый день в телеге: <a href="https://telegram.me/ira_and_ai">telegram.me/ira_and_ai</a></p>'
           '<p class="line">Система целиком, а не один навык: программа «Понедельник» '
           '<a href="https://iraai.ru/ponedelnik/">iraai.ru/ponedelnik</a></p>'
           '</div></div>')
@@ -102,7 +102,7 @@ def page(title, desc, body, extra_head=""):
 {TOPBAR}
 {body}
 <footer><div class="wrap">
-<p style="margin-bottom:10px;"><a href="https://iraai.ru/" style="color:var(--ink);text-decoration:none;font-weight:700;">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/" style="color:var(--ink);text-decoration:none;">Все гайды</a> &nbsp;·&nbsp; <a href="/rassylka/" style="color:var(--ink);text-decoration:none;">Рассылка</a> &nbsp;·&nbsp; <a href="https://t.me/ira_and_ai" style="color:var(--ink);text-decoration:none;">Телега</a></p>
+<p style="margin-bottom:10px;"><a href="https://iraai.ru/" style="color:var(--ink);text-decoration:none;font-weight:700;">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/" style="color:var(--ink);text-decoration:none;">Все гайды</a> &nbsp;·&nbsp; <a href="/rassylka/" style="color:var(--ink);text-decoration:none;">Рассылка</a> &nbsp;·&nbsp; <a href="https://telegram.me/ira_and_ai" style="color:var(--ink);text-decoration:none;">Телега</a></p>
 <p>iraai.ru · Ира Буян · «ИИ для взрослых» · открыто всем, без подписок</p></div></footer>
 </body></html>"""
 
