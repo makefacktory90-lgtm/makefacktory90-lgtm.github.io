@@ -74,6 +74,26 @@
     50% { transform: translateY(-12px) rotate(1.2deg); }
   }
   .mascot-float { animation: mascotFloat 3.6s ease-in-out infinite; will-change: transform; }
+  @keyframes mascotWink {
+    0%, 88%, 100% { transform: rotate(0deg) scale(1); }
+    90% { transform: rotate(-7deg) scale(1.03, 0.97); }
+    93% { transform: rotate(5deg) scale(0.98, 1.04); }
+    96% { transform: rotate(-2deg) scale(1.01, 0.99); }
+  }
+  .mascot-wink { animation: mascotWink 7s ease-in-out infinite; transform-origin: 50% 88%; will-change: transform; }
+  @keyframes mascotBounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.12, 0.9) rotate(-4deg); }
+    55% { transform: scale(0.94, 1.08) rotate(3deg); }
+    75% { transform: scale(1.04, 0.98); }
+    100% { transform: scale(1); }
+  }
+  .mascot-bounce { animation: mascotBounce 0.7s ease-out; }
+  .mascot-glow {
+    position: absolute; inset: -18%;
+    background: radial-gradient(circle at 50% 55%, rgba(16,163,127,0.22) 0%, rgba(16,163,127,0.08) 42%, transparent 68%);
+    filter: blur(6px); pointer-events: none;
+  }
   .star-clip {
     clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38%);
   }
@@ -99,8 +119,11 @@
     <div class="mb-3 font-mono text-brand text-xs border border-brand/45 rounded px-4 py-2">ИИ для взрослых · хаб-лаборатория</div>
 
     <div id="avatar-container" class="relative w-48 h-48 md:w-[340px] md:h-[340px] mb-6 md:mb-8 cursor-pointer select-none transition-transform duration-200 ease-out" style="transform-style: preserve-3d;">
+      <div class="mascot-glow"></div>
       <div class="mascot-float w-full h-full">
-        <img id="mascot-img" src="/gpt-hub/mascot.png" alt="GPT-хаб" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(16,163,127,0.2)] transition-all duration-300">
+        <div class="mascot-wink w-full h-full">
+          <img id="mascot-img" src="/gpt-hub/mascot-transparent.png" alt="GPT-хаб" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(16,163,127,0.25)]">
+        </div>
       </div>
     </div>
 
@@ -371,8 +394,9 @@
   }
 
   container.addEventListener('click', function(){
-    mascot.style.transform = 'scale(1.05) rotate(360deg)';
-    setTimeout(function(){ mascot.style.transform = 'scale(1) rotate(0deg)'; }, 1000);
+    mascot.classList.remove('mascot-bounce');
+    void mascot.offsetWidth;
+    mascot.classList.add('mascot-bounce');
   });
 })();
 
