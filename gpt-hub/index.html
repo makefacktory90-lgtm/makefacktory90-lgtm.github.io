@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,227 +34,341 @@
   }
 }
 </script>
+<script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{--white:#FFFFFF;--off-white:#FAFAF8;--warm-gray:#F5F3F0;--light-gray:#E8E5E0;
-    --text:#1A1A1A;--text-secondary:#5C5856;--text-dim:#8A8580;--accent:#E50914;--deep:#2C2926;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--white);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:720px;margin:0 auto;padding:48px 24px 40px;}
-  .back{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);text-decoration:none;letter-spacing:0.05em;}
-  .back:hover{color:var(--accent);}
-  .kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:40px 0 14px;}
-  h1{font-size:clamp(40px,8vw,64px);line-height:0.98;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;}
-  .lead{font-size:clamp(19px,3vw,22px);font-weight:600;color:var(--text);margin-bottom:28px;line-height:1.35;text-wrap:pretty;}
-  h2{font-size:22px;font-weight:700;margin:44px 0 14px;letter-spacing:-0.01em;}
-  h3{font-size:17px;font-weight:700;margin:22px 0 6px;}
-  p{font-size:17px;color:var(--text);margin-bottom:16px;text-wrap:pretty;}
-  a{color:var(--text);}
-  ul{list-style:none;margin:8px 0 16px;}
-  ul li{font-size:17px;padding:12px 0;border-bottom:1px solid var(--light-gray);}
-  ul li b{color:var(--accent);}
-  .zero{background:var(--off-white);border:2px solid var(--text);border-radius:18px;padding:22px 24px;margin:28px 0;}
-  .zero h3{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;}
-  .fence{border:2px solid var(--text);border-radius:18px;padding:22px 24px;margin:26px 0;}
-  .fence h3{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;}
-  .fence p{margin-bottom:10px;}
-  .fence p:last-child{margin-bottom:0;}
-  .case{background:var(--warm-gray);border-radius:18px;padding:24px 26px;margin:26px 0;}
-  .case blockquote{font-size:19px;font-weight:600;line-height:1.4;margin:12px 0 6px;}
-  .case .who{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);}
-  .weeks{margin:8px 0 16px;}
-  .week{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:18px;}
-  .week .wn{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);}
-  .week h3{margin:2px 0 4px;}
-  .week p{margin-bottom:0;font-size:16px;color:var(--text-secondary);}
-  .facts{display:flex;gap:16px;flex-wrap:wrap;margin:30px 0;}
-  .fact{flex:1;min-width:140px;background:var(--off-white);border:1px solid var(--light-gray);border-radius:16px;padding:18px 20px;}
-  .fact strong{display:block;font-size:22px;font-weight:800;}
-  .fact span{font-size:14px;color:var(--text-dim);}
-  .plans{display:flex;gap:18px;flex-wrap:wrap;margin:26px 0;}
-  .plan{flex:1;min-width:260px;border:1px solid var(--light-gray);border-radius:20px;padding:26px;background:var(--off-white);}
-  .plan.pro{border:2px solid var(--text);}
-  .plan .pn{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
-  .plan .price{font-size:34px;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
-  .plan .sub{font-size:14px;color:var(--text-dim);margin-bottom:14px;}
-  .plan ul li{font-size:15px;padding:9px 0;}
-  .cta{display:inline-block;margin-top:16px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:14px 26px;border-radius:999px;font-size:16px;}
-  .cta:hover{opacity:0.88;}
-  .cta.ghost{background:var(--text);}
-  details{border-bottom:1px solid var(--light-gray);padding:14px 0;}
-  details summary{font-size:17px;font-weight:600;cursor:pointer;list-style:none;}
-  details summary::-webkit-details-marker{display:none;}
-  details summary::before{content:"+";color:var(--accent);font-weight:800;margin-right:10px;}
-  details[open] summary::before{content:"–";}
-  details p{margin:10px 0 4px;font-size:16px;color:var(--text-secondary);}
-  .cta-box{background:var(--off-white);border:1px solid var(--light-gray);border-radius:20px;padding:26px;margin-top:36px;}
-  .email-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
-  .email-form input{flex:1;min-width:220px;font-family:'Inter',sans-serif;font-size:16px;padding:13px 18px;border:1px solid var(--light-gray);border-radius:999px;background:#fff;color:var(--text);}
-  .email-form input:focus{outline:none;border-color:var(--text);}
-  .email-form button{font-family:'Inter',sans-serif;font-size:16px;font-weight:600;padding:13px 26px;border:none;border-radius:999px;background:var(--accent);color:#fff;cursor:pointer;}
-  .email-form button:disabled{opacity:0.6;cursor:default;}
-  .form-note{font-size:14px;margin-top:10px;color:var(--text-dim);}
-  .form-note.ok{color:#1a7a3c;}
-  .form-note.err{color:var(--accent);}
-  .fine{font-size:14px;color:var(--text-dim);margin-top:14px;}
-  .sign{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);margin-top:44px;}
-  footer{border-top:1px solid var(--light-gray);margin-top:40px;}
-  footer .wrap{padding:28px 24px 60px;}
-  footer p{font-size:14px;color:var(--text-dim);margin-bottom:8px;}
-  footer a{color:var(--text);text-decoration:none;}
-  footer a:hover{color:var(--accent);}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <a class="back" href="/">&larr; iraai.ru</a>
-  <div class="kicker">ИИ для взрослых · хаб-лаборатория</div>
-  <img src="/gpt-hub/mascot.png" alt="GPT-хаб" style="width:96px;height:96px;object-fit:contain;display:block;margin:8px 0 4px">
-  <h1>GPT-хаб</h1>
-  <p class="lead">21 день по 10 минут, после которых ChatGPT перестаёт быть чатиком и становится сотрудником. Который не болеет, не выгорает и работает, пока вы спите.</p>
-
-  <p>ChatGPT только что обновился, и там не косметика, а куча всего сразу: ChatGPT Work, агент, который сам ведёт многошаговые задачи, задачи по расписанию, готовые документы и таблицы из вашего хаоса. Я села разбираться и не могу оторваться. Зову вас разбираться вместе со мной.</p>
-  <p>ChatGPT у вас уже есть. Скорее всего, вы используете его процента на три: спросить, переписать, «сделай покороче». Три недели идём по обновлению вместе: урок в день, 10-12 минут, всё на живых демо. Я показываю на своих задачах, вы повторяете на своих. К финалу меняется не инструмент, а ваша роль: из человека, который печатает запросы, в человека, который ставит задачи и принимает работу. Воскресенья свободны: это правило, а не поблажка.</p>
-
-  <div class="zero">
-    <h3>Можно даже не покупать ChatGPT</h3>
-    <p>Обычно такие курсы начинаются с «сначала оплатите Plus». У нас нет. Агентный режим Work доступен в десктопном приложении даже на бесплатном тарифе, и весь базовый маршрут хаба проходится на нём. Порог входа: ноль рублей сверх цены хаба.</p>
-    <p style="margin-bottom:0;">А если захотите платный тариф, на предстартовой неделе 28-31 июля помогу с доступом из РФ: что с VPN, чем платить, куда нажимать. Никто не останется за бортом на старте.</p>
-  </div>
-
-  <h2>Как устроено</h2>
-  <ul>
-    <li><b>10-12 минут в день.</b> Один короткий урок с живым демо: я делаю задачу на экране, вы повторяете на своей. Никаких вебинаров на полтора часа.</li>
-    <li><b>Вау на третий день.</b> К третьему уроку вы кидаете агенту хаос своих заметок и получаете готовый документ. Дальше уже не остановиться.</li>
-    <li><b>Уроки на портале + канал потока.</b> Уроки живут на закрытом портале, доступ придёт письмом. В телеграм-канале потока: ежедневные анонсы, опросы и жизнь.</li>
-    <li><b>Чат потока + разборы, без личного куратора.</b> Вопросы задаёте в чате, а в уроках-итогах недели я публично разбираю избранные домашки. Домашки трёх уровней: от «повторить» до «сделать на своей задаче».</li>
-    <li><b>Воскресенья выходные.</b> 2, 9 и 16 августа ничего не выходит. Отдых встроен в программу, догонять не придётся.</li>
-  </ul>
-
-  <h2>Программа: три недели, три роли</h2>
-  <div class="weeks">
-    <div class="week">
-      <div class="wn">Неделя 1 · 1-8 августа</div>
-      <h3>ChatGPT, который вы не знали</h3>
-      <p>Новая роль инструмента: не чат, а рабочий агент. Desktop и Work без страха интерфейса, документы и презентации из хаоса материалов, таблицы без Excel-героизма, память и Projects: агент перестаёт каждый раз знакомиться с вами заново.</p>
-    </div>
-    <div class="week">
-      <div class="wn">Неделя 2 · 10-15 августа</div>
-      <h3>Нейро-сотрудник</h3>
-      <p>Смена вашей роли: вы руководитель. Agent mode и Plan mode, подключение календаря, почты и диска (только то, что нужно, с картой разрешений), задачи по расписанию, многошаговая работа в фоне: отдали, пошли жить, приняли результат. И чеклист приёмки, чтобы не отдавать агенту голову.</p>
-    </div>
-    <div class="week">
-      <div class="wn">Неделя 3 · 17-21 августа</div>
-      <h3>Инструмент вглубь</h3>
-      <p>Картинки в работе, интерактивные страницы одной ссылкой, чужие готовые агенты из каталога: как выбирать и не бояться. Честный разговор «ChatGPT и Клод: кто для чего». Финал: выпускной проект, одна ваша настоящая рабочая задача целиком через агента.</p>
-    </div>
-  </div>
-
-  <h2>Что это меняет: кейс Алины</h2>
-  <!-- ТЕКСТ КЕЙСА ПЕРЕПИШЕТ ИРА САМА: ниже черновик-рыба, структуру блока сохранить -->
-  <div class="case">
-    <p><b>Было:</b> Алина присылала мне «уродские Google Prezo» и просила переделать. <b>Стало</b> после хаба: сама придумала идею, сама собрала оффер, сама сверстала две продающие презентации и сама пошла продавать. Мне только показала. Сменилась не программа на компьютере, сменилась роль человека.</p>
-    <blockquote>«На середине потока пользы уже минимум в 3 раза больше, чем запрошено денег»</blockquote>
-    <p class="who">Алина, выпускница хаба</p>
-  </div>
-
-  <h2>Кому и кому нет</h2>
-  <p>Кому: экспертам, консультантам, маркетологам, руководителям. Тем, чья работа состоит из букв, документов, таблиц и решений, и кто хочет наконец добывать из ChatGPT пользу, а не вдохновение.</p>
-  <div class="fence">
-    <h3>Честный забор</h3>
-    <p>Здесь вы осваиваете инструмент: функции, агентов, фишки, готовые связки. Глубоко и на своих задачах, но инструмент.</p>
-    <p>Свою рабочую систему, собранную под вашу неделю и ваши процессы, мы строим на программе «Понедельник» (старт 7 сентября). GPT-хаб продаёт готовое, «Понедельник» строит своё. Это разные события, и я честно их не смешиваю: <a href="/ponedelnik/">про «Понедельник» здесь</a>.</p>
-  </div>
-
-  <h2>Вопросы, которые вы уже хотите задать</h2>
-  <details>
-    <summary>Нужен ли платный тариф ChatGPT?</summary>
-    <p>Нет. Базовый маршрут хаба проходится на бесплатном тарифе: агентный режим Work работает в десктопном приложении для всех. Платный тариф (там Work есть ещё и в браузере и на телефоне) удобнее, но не обязателен. Кто захочет подключить: на предстартовой неделе 28-31 июля разбираем доступ из РФ, VPN и оплату зарубежной картой.</p>
-  </details>
-  <details>
-    <summary>Что, если я пропущу день?</summary>
-    <p>Ничего страшного. Урок идёт 10-12 минут, все уроки остаются на портале до 30 сентября 2026, догнать можно за один вечер. Плюс воскресенья выходные: три встроенных дня на «догнать и выдохнуть».</p>
-  </details>
-  <details>
-    <summary>Будет ли обратная связь?</summary>
-    <p>Чат потока и публичные разборы избранных домашек в уроках-итогах недели. Личного куратора нет: это честно заложено в цену. Личная работа со мной есть в тарифе PRO: полчаса один на один по вашему проекту.</p>
-  </details>
-  <details>
-    <summary>Я совсем новичок, потяну?</summary>
-    <p>Хаб рассчитан на нормальных взрослых людей, а не на айтишников. Первая неделя начинается с «где он живёт и куда нажимать». Если вы умеете отправить сообщение в мессенджере, вы потянете.</p>
-  </details>
-  <details>
-    <summary>Когда старт и сколько длится?</summary>
-    <p>Старт 1 августа, финал 21 августа. Перед этим предстартовая неделя 28-31 июля: помогаю всем с доступом, чтобы 1 августа никто не возился с настройками вместо первого урока.</p>
-  </details>
-
-  <h2>Цена</h2>
-  <div class="facts">
-    <div class="fact"><strong>1 августа</strong><span>старт потока</span></div>
-    <div class="fact"><strong>21 день</strong><span>уроки до 15 минут</span></div>
-    <div class="fact"><strong>12 уроков</strong><span>день урока, день внедрения</span></div>
-  </div>
-
-  <div class="plans">
-    <div class="plan">
-      <div class="pn">База</div>
-      <div class="price">5&nbsp;500&nbsp;₽</div>
-      <div class="sub">живой поток 1-21 августа</div>
-      <ul>
-        <li>12 уроков на портале: вводный, десять рабочих, закрывающий</li>
-        <li>Канал и чат потока</li>
-        <li>Публичные разборы домашек в итогах недель</li>
-        <li>Предстартовая неделя: помощь с доступом</li>
-      </ul>
-      <a class="cta" id="pay-baza" href="https://payform.ru/l1c1wRE/">Занять место &rarr;</a>
-    </div>
-    <div class="plan pro">
-      <div class="pn">PRO · 15 мест</div>
-      <div class="price">14&nbsp;900&nbsp;₽</div>
-      <div class="sub">всё из Базы + полчаса лично со мной</div>
-      <ul>
-        <li>Всё, что в Базе</li>
-        <li><b>30 минут один на один со мной</b> по вашему финальному проекту</li>
-        <li>Созвон-разбор в течение потока, по записи; окно закрывается 21 августа</li>
-        <li>Приоритетное окно в поток 0 «Понедельника»</li>
-      </ul>
-      <a class="cta ghost" id="pay-pro" href="https://payform.ru/sqc1xbU/">Занять место PRO &rarr;</a>
-    </div>
-  </div>
-  <p>Про PRO скажу прямо: час моей консультации стоит 25&nbsp;000&nbsp;₽. В PRO полчаса лично со мной уже стоят почти всю цену тарифа, а хаб целиком идёт сверху. Мест 15, и это не маркетинговая цифра: столько личных созвонов я реально помещаю в три недели потока.</p>
-  <p class="fine">После живого потока хаб будет продаваться в записи, и дороже. Живая цена не повторится.</p>
-
-  <div class="cta-box" id="promo">
-    <h2 style="margin-top:0;">У меня есть промокод</h2>
-    <p>Если у вас есть кодовое слово для своих, введите его: цены и кнопки оплаты обновятся сами.</p>
-    <form class="email-form" id="promo-form" novalidate>
-      <input type="text" id="promo-input" name="promo" placeholder="промокод" autocomplete="off">
-      <button type="submit" id="promo-btn">Применить &rarr;</button>
-    </form>
-    <p class="form-note" id="promo-note"></p>
-  </div>
-
-  <div class="cta-box" id="zapis">
-    <h2 style="margin-top:0;">Не готовы решить прямо сейчас?</h2>
-    <p>Оставьте почту: пришлю напоминание перед стартом и буду писать про хаб и следующие потоки. Мест PRO всего 15, и первыми о движении мест узнают подписчики.</p>
-    <form class="email-form" id="hub-form" novalidate>
-      <input type="email" id="hub-email" name="email" placeholder="ваша@почта.ру" autocomplete="email" required>
-      <button type="submit" id="hub-btn">В лист записи &rarr;</button>
-    </form>
-    <p class="form-note" id="hub-note">Никакого спама: только про хаб, старт потока и рассылку «ИИ для взрослых».</p>
-  </div>
-
-  <p class="sign">Ира Буян · iraai.ru · @ira_and_ai</p>
-</div>
-
-<footer><div class="wrap">
-  <p><a href="/">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/">Гайды</a> &nbsp;·&nbsp; <a href="/rassylka/">Рассылка</a> &nbsp;·&nbsp; <a href="https://telegram.me/ira_and_ai">Телега</a> &nbsp;·&nbsp; <a href="/ponedelnik/">Понедельник</a></p>
-  <p>iraai.ru · Ира Буян · «ИИ для взрослых» · перевожу AI на нормальный</p>
-</div></footer>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
 <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: '#D97757',
+          bgMain: '#050505',
+          bgCard: '#111111',
+          textCream: '#F5F1EB'
+        },
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  .bg-grid {
+    background-size: 40px 40px;
+    background-image:
+      linear-gradient(to right, rgba(217, 119, 87, 0.015) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(217, 119, 87, 0.015) 1px, transparent 1px);
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #050505; }
+  ::-webkit-scrollbar-thumb { background: #1F1F1F; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #D97757; }
+  .star-clip {
+    clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38%);
+  }
+  details summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+<body class="bg-bgMain text-textCream font-sans selection:bg-brand selection:text-bgMain antialiased overflow-x-hidden bg-grid">
+
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex justify-between items-center gap-3 relative z-50 font-mono text-xs">
+    <a href="https://telegram.me/ira_and_ai" target="_blank" class="text-brand font-bold tracking-wider opacity-90 hover:opacity-100 transition-opacity">ira&ai</a>
+    <div class="hidden md:flex gap-8 text-zinc-500">
+      <a href="#about" class="hover:text-textCream transition-colors">о хабе</a>
+      <a href="#roadmap" class="hover:text-textCream transition-colors">программа</a>
+      <a href="#tariffs" class="hover:text-textCream transition-colors">тарифы</a>
+      <a href="#faq" class="hover:text-textCream transition-colors">faq</a>
+    </div>
+    <a href="#tariffs" class="hidden sm:inline-flex shrink-0 border border-zinc-800 text-zinc-400 rounded-full px-4 md:px-5 py-2 tracking-wide hover:border-brand hover:text-brand transition-all">
+      занять место
+    </a>
+  </nav>
+
+  <section class="relative min-h-[calc(100vh-64px)] md:min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 pt-4 md:pt-4 pb-10 md:pb-16 overflow-hidden">
+    <div class="mb-3 font-mono text-brand text-xs border border-brand/45 rounded px-4 py-2">ИИ для взрослых · хаб-лаборатория</div>
+
+    <div id="avatar-container" class="relative w-48 h-48 md:w-[340px] md:h-[340px] mb-6 md:mb-8 cursor-pointer select-none transition-transform duration-200 ease-out" style="transform-style: preserve-3d;">
+      <img id="mascot-img" src="/gpt-hub/mascot.png" alt="GPT-хаб" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(217,119,87,0.2)] transition-all duration-300">
+    </div>
+
+    <div class="font-mono text-brand text-xs sm:text-sm md:text-base mb-4 tracking-wider text-center break-words">
+      &gt; chatgpt --open-hub_
+    </div>
+
+    <h1 class="font-sans text-5xl sm:text-7xl md:text-[116px] font-black tracking-[-0.06em] text-white uppercase leading-[0.92] text-center mb-6 select-none flex flex-col sm:flex-row justify-center gap-x-6 md:gap-x-8 gap-y-1 max-w-full">
+      <span>GPT</span><span>ХАБ</span>
+    </h1>
+
+    <p class="font-mono text-sm sm:text-base md:text-xl xl:text-2xl text-zinc-400 text-center max-w-3xl mb-6 tracking-tight px-2 sm:px-4 leading-relaxed">
+      <span class="block sm:inline">21 день по 10 минут, после которых ChatGPT перестаёт быть чатиком</span>
+      <span class="inline-block bg-brand text-bgMain px-2 py-0.5 font-bold mx-0.5 my-1">и становится сотрудником.</span>
+      <span class="block sm:inline">Который не болеет, не выгорает и работает, пока вы спите.</span>
+    </p>
+
+    <div class="max-w-[92vw] sm:max-w-full font-mono text-xs md:text-sm text-zinc-300 font-semibold bg-zinc-950/80 border border-zinc-900/60 px-4 sm:px-5 py-2.5 rounded-[20px] sm:rounded-full mb-10 tracking-wide text-center leading-relaxed">
+      <span class="block sm:inline">&gt; старт 1 августа</span>
+      <span class="hidden sm:inline"> · </span>
+      <span class="block sm:inline">12 уроков</span>
+      <span class="hidden sm:inline"> · </span>
+      <span class="block sm:inline text-brand font-medium">ira&ai _</span>
+    </div>
+
+    <a href="#tariffs" class="bg-brand text-bgMain font-mono font-bold text-xs tracking-widest uppercase px-8 sm:px-12 py-4 rounded-xl hover:bg-opacity-95 transition-all shadow-lg shadow-brand/10">
+      ЗАНЯТЬ МЕСТО
+    </a>
+  </section>
+
+  <section id="about" class="max-w-3xl mx-auto px-6 py-24 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; cat intro.md</div>
+    <h2 class="font-sans text-3xl font-bold mb-6 text-white tracking-tight">Привет, это Ира&ai.</h2>
+    <div class="space-y-6 text-zinc-400 text-base md:text-lg font-normal leading-relaxed">
+      <p>ChatGPT только что обновился, и там не косметика, а куча всего сразу: ChatGPT Work, агент, который сам ведёт многошаговые задачи, задачи по расписанию, готовые документы и таблицы из вашего хаоса. Я села разбираться и не могу оторваться. Зову вас разбираться вместе со мной.</p>
+      <p>ChatGPT у вас уже есть. Скорее всего, вы используете его процента на три: спросить, переписать, «сделай покороче». Три недели идём по обновлению вместе: урок в день, 10-12 минут, всё на живых демо. Я показываю на своих задачах, вы повторяете на своих. К финалу меняется не инструмент, а ваша роль: из человека, который печатает запросы, в человека, который ставит задачи и принимает работу. Воскресенья свободны: это правило, а не поблажка.</p>
+    </div>
+
+    <div class="bg-zinc-950/50 border border-brand/40 rounded-2xl p-6 md:p-8 mt-10">
+      <div class="font-mono text-brand text-xs uppercase tracking-widest mb-4">// можно даже не покупать ChatGPT</div>
+      <div class="space-y-4 text-zinc-400 text-sm md:text-base leading-relaxed">
+        <p>Обычно такие курсы начинаются с «сначала оплатите Plus». У нас нет. Агентный режим Work доступен в десктопном приложении даже на бесплатном тарифе, и весь базовый маршрут хаба проходится на нём. Порог входа: ноль рублей сверх цены хаба.</p>
+        <p>А если захотите платный тариф, на предстартовой неделе 28-31 июля помогу с доступом из РФ: что с VPN, чем платить, куда нажимать. Никто не останется за бортом на старте.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 py-12 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; cat format.md</div>
+    <h2 class="font-sans text-3xl font-black mb-6 text-white uppercase tracking-tight">Как устроено</h2>
+
+    <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8">
+      <ul class="space-y-5 text-zinc-400 text-sm md:text-base leading-relaxed">
+        <li class="flex gap-3"><span class="text-brand shrink-0 font-mono">_</span><span><b class="text-textCream">10-12 минут в день.</b> Один короткий урок с живым демо: я делаю задачу на экране, вы повторяете на своей. Никаких вебинаров на полтора часа.</span></li>
+        <li class="flex gap-3"><span class="text-brand shrink-0 font-mono">_</span><span><b class="text-textCream">Вау на третий день.</b> К третьему уроку вы кидаете агенту хаос своих заметок и получаете готовый документ. Дальше уже не остановиться.</span></li>
+        <li class="flex gap-3"><span class="text-brand shrink-0 font-mono">_</span><span><b class="text-textCream">Уроки на портале + канал потока.</b> Уроки живут на закрытом портале, доступ придёт письмом. В телеграм-канале потока: ежедневные анонсы, опросы и жизнь.</span></li>
+        <li class="flex gap-3"><span class="text-brand shrink-0 font-mono">_</span><span><b class="text-textCream">Чат потока + разборы, без личного куратора.</b> Вопросы задаёте в чате, а в уроках-итогах недели я публично разбираю избранные домашки. Домашки трёх уровней: от «повторить» до «сделать на своей задаче».</span></li>
+        <li class="flex gap-3"><span class="text-brand shrink-0 font-mono">_</span><span><b class="text-textCream">Воскресенья выходные.</b> 2, 9 и 16 августа ничего не выходит. Отдых встроен в программу, догонять не придётся.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="roadmap" class="max-w-3xl mx-auto px-6 py-12 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; ./get-roadmap.sh</div>
+    <h2 class="font-sans text-3xl font-black mb-8 text-white uppercase tracking-tight">Программа: Три Недели, Три Роли</h2>
+
+    <div class="space-y-4">
+      <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8 border-l-4 border-l-brand">
+        <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest mb-2">Неделя 1 · 1-8 августа</div>
+        <h3 class="font-sans text-xl font-bold text-white mb-3">ChatGPT, который вы не знали</h3>
+        <p class="text-zinc-400 text-sm md:text-base leading-relaxed">Новая роль инструмента: не чат, а рабочий агент. Desktop и Work без страха интерфейса, документы и презентации из хаоса материалов, таблицы без Excel-героизма, память и Projects: агент перестаёт каждый раз знакомиться с вами заново.</p>
+      </div>
+      <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8 border-l-4 border-l-brand">
+        <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest mb-2">Неделя 2 · 10-15 августа</div>
+        <h3 class="font-sans text-xl font-bold text-white mb-3">Нейро-сотрудник</h3>
+        <p class="text-zinc-400 text-sm md:text-base leading-relaxed">Смена вашей роли: вы руководитель. Agent mode и Plan mode, подключение календаря, почты и диска (только то, что нужно, с картой разрешений), задачи по расписанию, многошаговая работа в фоне: отдали, пошли жить, приняли результат. И чеклист приёмки, чтобы не отдавать агенту голову.</p>
+      </div>
+      <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8 border-l-4 border-l-brand">
+        <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest mb-2">Неделя 3 · 17-21 августа</div>
+        <h3 class="font-sans text-xl font-bold text-white mb-3">Инструмент вглубь</h3>
+        <p class="text-zinc-400 text-sm md:text-base leading-relaxed">Картинки в работе, интерактивные страницы одной ссылкой, чужие готовые агенты из каталога: как выбирать и не бояться. Честный разговор «ChatGPT и Клод: кто для чего». Финал: выпускной проект, одна ваша настоящая рабочая задача целиком через агента.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 py-12 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; cat case-alina.md</div>
+    <h2 class="font-sans text-3xl font-black mb-6 text-white uppercase tracking-tight">Что Это Меняет: Кейс Алины</h2>
+    <!-- ТЕКСТ КЕЙСА ПЕРЕПИШЕТ ИРА САМА: ниже черновик-рыба, структуру блока сохранить -->
+    <div class="bg-bgCard/20 border border-zinc-900 rounded-2xl p-6 md:p-8">
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed mb-5"><b class="text-brand">Было:</b> Алина присылала мне «уродские Google Prezo» и просила переделать. <b class="text-brand">Стало</b> после хаба: сама придумала идею, сама собрала оффер, сама сверстала две продающие презентации и сама пошла продавать. Мне только показала. Сменилась не программа на компьютере, сменилась роль человека.</p>
+      <blockquote class="text-white text-lg md:text-xl font-bold leading-snug mb-3">«На середине потока пользы уже минимум в 3 раза больше, чем запрошено денег»</blockquote>
+      <p class="font-mono text-xs text-zinc-600">Алина, выпускница хаба</p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; audience.filter</div>
+    <h2 class="font-sans text-3xl font-black uppercase tracking-tight mb-10 text-white">Кому И Кому Нет</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-bgCard/10 border border-zinc-900 rounded-2xl p-6 md:p-8">
+        <div class="font-mono text-brand text-xs uppercase tracking-widest mb-6">// кому</div>
+        <p class="text-zinc-300 text-sm md:text-base leading-relaxed">Экспертам, консультантам, маркетологам, руководителям. Тем, чья работа состоит из букв, документов, таблиц и решений, и кто хочет наконец добывать из ChatGPT пользу, а не вдохновение.</p>
+      </div>
+
+      <div class="bg-bgCard/10 border border-zinc-900 rounded-2xl p-6 md:p-8">
+        <div class="font-mono text-zinc-500 text-xs uppercase tracking-widest mb-6">// честный забор</div>
+        <div class="space-y-4 text-zinc-400 text-sm md:text-base leading-relaxed">
+          <p>Здесь вы осваиваете инструмент: функции, агентов, фишки, готовые связки. Глубоко и на своих задачах, но инструмент.</p>
+          <p>Свою рабочую систему, собранную под вашу неделю и ваши процессы, мы строим на программе «Понедельник» (старт 7 сентября). GPT-хаб продаёт готовое, «Понедельник» строит своё. Это разные события, и я честно их не смешиваю: <a href="/ponedelnik/" class="text-brand underline hover:text-opacity-80 transition-opacity">про «Понедельник» здесь</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tariffs" class="max-w-6xl mx-auto px-6 py-24 border-t border-zinc-900/40">
+    <h2 class="font-sans text-3xl font-black uppercase tracking-tight text-center mb-10 text-white">
+      Цена
+    </h2>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 max-w-3xl mx-auto mb-12">
+      <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-4 md:p-5 text-center">
+        <div class="font-sans text-lg md:text-2xl font-black text-white">1 августа</div>
+        <div class="font-mono text-[10px] md:text-xs text-zinc-600 mt-1">старт потока</div>
+      </div>
+      <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-4 md:p-5 text-center">
+        <div class="font-sans text-lg md:text-2xl font-black text-white">21 день</div>
+        <div class="font-mono text-[10px] md:text-xs text-zinc-600 mt-1">уроки до 15 минут</div>
+      </div>
+      <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-4 md:p-5 text-center col-span-2 sm:col-span-1">
+        <div class="font-sans text-lg md:text-2xl font-black text-white">12 уроков</div>
+        <div class="font-mono text-[10px] md:text-xs text-zinc-600 mt-1">день урока, день внедрения</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div class="plan bg-bgCard/20 border border-zinc-900 rounded-[28px] p-8 flex flex-col justify-between relative transition-all">
+        <div class="w-full flex flex-col items-center">
+          <div class="w-12 h-12 bg-zinc-700 star-clip mb-6"></div>
+          <h3 class="font-sans text-2xl font-black text-white uppercase tracking-wide">База</h3>
+          <p class="font-mono text-xs text-zinc-600 mt-1 mb-8">// живой поток 1-21 августа</p>
+
+          <ul class="space-y-4 text-zinc-400 font-mono text-xs text-left w-full border-t border-zinc-900/60 pt-6">
+            <li class="flex items-start gap-3"><span class="text-zinc-700 font-bold">_</span><span>12 уроков на портале: вводный, десять рабочих, закрывающий</span></li>
+            <li class="flex items-start gap-3"><span class="text-zinc-700 font-bold">_</span><span>Канал и чат потока</span></li>
+            <li class="flex items-start gap-3"><span class="text-zinc-700 font-bold">_</span><span>Публичные разборы домашек в итогах недель</span></li>
+            <li class="flex items-start gap-3"><span class="text-zinc-700 font-bold">_</span><span>Предстартовая неделя: помощь с доступом</span></li>
+          </ul>
+        </div>
+
+        <div class="w-full mt-12 pt-6 border-t border-zinc-900/40">
+          <div class="price font-mono text-4xl font-black text-white tracking-tight text-center mb-6">5&nbsp;500&nbsp;₽</div>
+          <a id="pay-baza" href="https://payform.ru/l1c1wRE/" target="_blank" class="block w-full text-center font-mono text-xs font-bold text-zinc-300 border border-zinc-800 rounded-xl py-4 hover:border-zinc-500 hover:text-white transition-all uppercase tracking-widest">
+            Занять место &rarr;
+          </a>
+        </div>
+      </div>
+
+      <div class="plan bg-bgCard/20 border border-brand/60 rounded-[28px] p-8 flex flex-col justify-between relative transition-all">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand text-bgMain font-mono text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full">15 мест</div>
+        <div class="w-full flex flex-col items-center">
+          <div class="w-12 h-12 bg-brand star-clip mb-6"></div>
+          <h3 class="font-sans text-2xl font-black text-white uppercase tracking-wide">PRO</h3>
+          <p class="font-mono text-xs text-zinc-600 mt-1 mb-8">// всё из Базы + полчаса лично со мной</p>
+
+          <ul class="space-y-4 text-zinc-400 font-mono text-xs text-left w-full border-t border-zinc-900/60 pt-6">
+            <li class="flex items-start gap-3"><span class="text-brand font-bold">_</span><span>Всё, что в Базе</span></li>
+            <li class="flex items-start gap-3"><span class="text-brand font-bold">_</span><span class="text-zinc-200"><b>30 минут один на один со мной</b> по вашему финальному проекту</span></li>
+            <li class="flex items-start gap-3"><span class="text-brand font-bold">_</span><span>Созвон-разбор в течение потока, по записи; окно закрывается 21 августа</span></li>
+            <li class="flex items-start gap-3"><span class="text-brand font-bold">_</span><span>Приоритетное окно в поток 0 «Понедельника»</span></li>
+          </ul>
+        </div>
+
+        <div class="w-full mt-12 pt-6 border-t border-zinc-900/40">
+          <div class="price font-mono text-4xl font-black text-white tracking-tight text-center mb-6">14&nbsp;900&nbsp;₽</div>
+          <a id="pay-pro" href="https://payform.ru/sqc1xbU/" target="_blank" class="block w-full text-center font-mono text-xs font-bold text-bgMain bg-brand rounded-xl py-4 hover:bg-opacity-90 transition-all uppercase tracking-widest">
+            Занять место PRO &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto mt-10 text-zinc-400 text-sm md:text-base leading-relaxed">
+      <p>Про PRO скажу прямо: час моей консультации стоит 25&nbsp;000&nbsp;₽. В PRO полчаса лично со мной уже стоят почти всю цену тарифа, а хаб целиком идёт сверху. Мест 15, и это не маркетинговая цифра: столько личных созвонов я реально помещаю в три недели потока.</p>
+      <p class="font-mono text-xs text-zinc-600 mt-4">После живого потока хаб будет продаваться в записи, и дороже. Живая цена не повторится.</p>
+    </div>
+
+    <div id="promo" class="max-w-4xl mx-auto mt-10 bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8">
+      <div class="font-mono text-brand text-xs uppercase tracking-widest mb-4">// у меня есть промокод</div>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed mb-5">Если у вас есть кодовое слово для своих, введите его: цены и кнопки оплаты обновятся сами.</p>
+      <form id="promo-form" class="flex flex-wrap gap-3" novalidate>
+        <input type="text" id="promo-input" name="promo" placeholder="промокод" autocomplete="off"
+          class="flex-1 min-w-[200px] bg-bgMain border border-zinc-800 rounded-xl px-5 py-3.5 font-mono text-sm text-textCream placeholder-zinc-600 focus:outline-none focus:border-brand transition-colors">
+        <button type="submit" id="promo-btn" class="bg-brand text-bgMain font-mono font-bold text-xs tracking-widest uppercase px-8 py-3.5 rounded-xl hover:bg-opacity-90 transition-all cursor-pointer">Применить &rarr;</button>
+      </form>
+      <p class="form-note font-mono text-xs mt-4 text-zinc-500" id="promo-note"></p>
+    </div>
+
+    <div id="zapis" class="max-w-4xl mx-auto mt-6 bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8">
+      <div class="font-mono text-zinc-500 text-xs uppercase tracking-widest mb-4">// не готовы решить прямо сейчас?</div>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed mb-5">Оставьте почту: пришлю напоминание перед стартом и буду писать про хаб и следующие потоки. Мест PRO всего 15, и первыми о движении мест узнают подписчики.</p>
+      <form id="hub-form" class="flex flex-wrap gap-3" novalidate>
+        <input type="email" id="hub-email" name="email" placeholder="ваша@почта.ру" autocomplete="email" required
+          class="flex-1 min-w-[200px] bg-bgMain border border-zinc-800 rounded-xl px-5 py-3.5 font-mono text-sm text-textCream placeholder-zinc-600 focus:outline-none focus:border-brand transition-colors">
+        <button type="submit" id="hub-btn" class="bg-brand text-bgMain font-mono font-bold text-xs tracking-widest uppercase px-8 py-3.5 rounded-xl hover:bg-opacity-90 transition-all cursor-pointer disabled:opacity-60">В лист записи &rarr;</button>
+      </form>
+      <p class="form-note font-mono text-xs mt-4 text-zinc-500" id="hub-note">Никакого спама: только про хаб, старт потока и рассылку «ИИ для взрослых».</p>
+    </div>
+  </section>
+
+  <section id="faq" class="max-w-3xl mx-auto px-6 py-20 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; help --faq</div>
+    <h2 class="font-sans text-3xl font-black uppercase tracking-tight mb-8 text-white">Вопросы, Которые Вы Уже Хотите Задать</h2>
+    <div class="space-y-3">
+      <details class="border border-zinc-900 bg-bgCard/10 rounded-xl px-5 py-4">
+        <summary class="font-mono text-xs text-zinc-300 hover:text-brand transition-colors cursor-pointer flex justify-between items-center gap-4"><span>Нужен ли платный тариф ChatGPT?</span><span class="text-zinc-600 shrink-0">+</span></summary>
+        <p class="text-zinc-400 text-sm font-normal leading-relaxed pt-4">Нет. Базовый маршрут хаба проходится на бесплатном тарифе: агентный режим Work работает в десктопном приложении для всех. Платный тариф (там Work есть ещё и в браузере и на телефоне) удобнее, но не обязателен. Кто захочет подключить: на предстартовой неделе 28-31 июля разбираем доступ из РФ, VPN и оплату зарубежной картой.</p>
+      </details>
+      <details class="border border-zinc-900 bg-bgCard/10 rounded-xl px-5 py-4">
+        <summary class="font-mono text-xs text-zinc-300 hover:text-brand transition-colors cursor-pointer flex justify-between items-center gap-4"><span>Что, если я пропущу день?</span><span class="text-zinc-600 shrink-0">+</span></summary>
+        <p class="text-zinc-400 text-sm font-normal leading-relaxed pt-4">Ничего страшного. Урок идёт 10-12 минут, все уроки остаются на портале до 30 сентября 2026, догнать можно за один вечер. Плюс воскресенья выходные: три встроенных дня на «догнать и выдохнуть».</p>
+      </details>
+      <details class="border border-zinc-900 bg-bgCard/10 rounded-xl px-5 py-4">
+        <summary class="font-mono text-xs text-zinc-300 hover:text-brand transition-colors cursor-pointer flex justify-between items-center gap-4"><span>Будет ли обратная связь?</span><span class="text-zinc-600 shrink-0">+</span></summary>
+        <p class="text-zinc-400 text-sm font-normal leading-relaxed pt-4">Чат потока и публичные разборы избранных домашек в уроках-итогах недели. Личного куратора нет: это честно заложено в цену. Личная работа со мной есть в тарифе PRO: полчаса один на один по вашему проекту.</p>
+      </details>
+      <details class="border border-zinc-900 bg-bgCard/10 rounded-xl px-5 py-4">
+        <summary class="font-mono text-xs text-zinc-300 hover:text-brand transition-colors cursor-pointer flex justify-between items-center gap-4"><span>Я совсем новичок, потяну?</span><span class="text-zinc-600 shrink-0">+</span></summary>
+        <p class="text-zinc-400 text-sm font-normal leading-relaxed pt-4">Хаб рассчитан на нормальных взрослых людей, а не на айтишников. Первая неделя начинается с «где он живёт и куда нажимать». Если вы умеете отправить сообщение в мессенджере, вы потянете.</p>
+      </details>
+      <details class="border border-zinc-900 bg-bgCard/10 rounded-xl px-5 py-4">
+        <summary class="font-mono text-xs text-zinc-300 hover:text-brand transition-colors cursor-pointer flex justify-between items-center gap-4"><span>Когда старт и сколько длится?</span><span class="text-zinc-600 shrink-0">+</span></summary>
+        <p class="text-zinc-400 text-sm font-normal leading-relaxed pt-4">Старт 1 августа, финал 21 августа. Перед этим предстартовая неделя 28-31 июля: помогаю всем с доступом, чтобы 1 августа никто не возился с настройками вместо первого урока.</p>
+      </details>
+    </div>
+  </section>
+
+  <footer class="border-t border-zinc-900/60 py-10 px-6 text-center font-mono text-[11px] text-zinc-600">
+    <p class="mb-3">
+      <a href="/" class="hover:text-brand transition-colors">На главную</a> &nbsp;·&nbsp;
+      <a href="/gaidy/" class="hover:text-brand transition-colors">Гайды</a> &nbsp;·&nbsp;
+      <a href="/rassylka/" class="hover:text-brand transition-colors">Рассылка</a> &nbsp;·&nbsp;
+      <a href="https://telegram.me/ira_and_ai" target="_blank" class="text-brand hover:underline">Телега</a> &nbsp;·&nbsp;
+      <a href="/ponedelnik/" class="hover:text-brand transition-colors">Понедельник</a>
+    </p>
+    <p>Ира Буян · iraai.ru · «ИИ для взрослых» · перевожу AI на нормальный</p>
+  </footer>
+
+<script>
+(function(){
+  var container = document.getElementById('avatar-container');
+  var mascot = document.getElementById('mascot-img');
+  if (!container || !mascot) return;
+
+  if (window.innerWidth > 768) {
+    document.addEventListener('mousemove', function(e){
+      var rect = container.getBoundingClientRect();
+      var x = e.clientX - (rect.left + rect.width / 2);
+      var y = e.clientY - (rect.top + rect.height / 2);
+      var rotateX = (-y / rect.height) * 25;
+      var rotateY = (x / rect.width) * 25;
+      container.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+    });
+    document.addEventListener('mouseleave', function(){
+      container.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+  }
+
+  container.addEventListener('click', function(){
+    mascot.style.transform = 'scale(1.05) rotate(360deg)';
+    setTimeout(function(){ mascot.style.transform = 'scale(1) rotate(0deg)'; }, 1000);
+  });
+})();
+
 (function(){
   var form = document.getElementById('hub-form');
   var input = document.getElementById('hub-email');
@@ -266,12 +380,12 @@
     var email = (input.value || '').trim();
     if (!email || email.indexOf('@') === -1) {
       note.textContent = 'Похоже, в почте опечатка. Проверьте адрес.';
-      note.className = 'form-note err';
+      note.className = 'form-note font-mono text-xs mt-4 text-brand';
       return;
     }
     btn.disabled = true;
     btn.textContent = 'Секунду...';
-    note.className = 'form-note';
+    note.className = 'form-note font-mono text-xs mt-4 text-zinc-500';
     note.textContent = '';
     try {
       // Та же боевая Vercel-функция, что на главной и в архиве рассылки. Тег gpt-hub-wait.
@@ -283,12 +397,12 @@
       var d = await r.json().catch(function(){ return null; });
       if (!r.ok || !d || !d.ok) { throw new Error((d && d.error) || 'subscribe failed'); }
       note.textContent = 'Готово, вы в листе. Письмо со ссылкой на оплату придёт до общего анонса.';
-      note.className = 'form-note ok';
+      note.className = 'form-note font-mono text-xs mt-4 text-green-500';
       form.reset();
       btn.textContent = 'Вы в листе';
     } catch (err) {
       note.textContent = 'Что-то пошло не так. Попробуйте ещё раз или напишите в телегу @ira_and_ai.';
-      note.className = 'form-note err';
+      note.className = 'form-note font-mono text-xs mt-4 text-brand';
       btn.disabled = false;
       btn.textContent = 'В лист записи →';
     }
@@ -304,8 +418,8 @@
   var CODE = 'ЯСВОЙ';
   var DEADLINE = new Date('2026-07-19T23:59:59+03:00'); // до 19.07.2026 23:59 МСК включительно
   var DISCOUNT = {
-    baza: { url: 'https://payform.ru/soc1wVK/', price: '4 400 ₽', old: '5 500 ₽' },
-    pro:  { url: 'https://payform.ru/h3c1x5G/', price: '12 900 ₽', old: '14 900 ₽' }
+    baza: { url: 'https://payform.ru/soc1wVK/', price: '4 400 ₽', old: '5 500 ₽' },
+    pro:  { url: 'https://payform.ru/h3c1x5G/', price: '12 900 ₽', old: '14 900 ₽' }
   };
 
   form.addEventListener('submit', function(e){
@@ -313,17 +427,17 @@
     var code = (input.value || '').trim().toUpperCase();
     if (!code) {
       note.textContent = 'Введите промокод.';
-      note.className = 'form-note err';
+      note.className = 'form-note font-mono text-xs mt-4 text-brand';
       return;
     }
     if (code !== CODE) {
       note.textContent = 'Такого промокода не знаю. Проверьте написание.';
-      note.className = 'form-note err';
+      note.className = 'form-note font-mono text-xs mt-4 text-brand';
       return;
     }
     if (new Date() > DEADLINE) {
       note.textContent = 'Промокод истёк: он действовал до 19 июля включительно.';
-      note.className = 'form-note err';
+      note.className = 'form-note font-mono text-xs mt-4 text-brand';
       return;
     }
     var payBaza = document.getElementById('pay-baza');
@@ -332,10 +446,10 @@
     payPro.href = DISCOUNT.pro.url;
     var priceBaza = payBaza.closest('.plan').querySelector('.price');
     var pricePro = payPro.closest('.plan').querySelector('.price');
-    priceBaza.innerHTML = DISCOUNT.baza.price + ' <span style="font-size:18px;color:var(--text-dim);text-decoration:line-through;font-weight:400;">' + DISCOUNT.baza.old + '</span>';
-    pricePro.innerHTML = DISCOUNT.pro.price + ' <span style="font-size:18px;color:var(--text-dim);text-decoration:line-through;font-weight:400;">' + DISCOUNT.pro.old + '</span>';
+    priceBaza.innerHTML = DISCOUNT.baza.price + ' <span style="font-size:18px;color:#71717a;text-decoration:line-through;font-weight:400;">' + DISCOUNT.baza.old + '</span>';
+    pricePro.innerHTML = DISCOUNT.pro.price + ' <span style="font-size:18px;color:#71717a;text-decoration:line-through;font-weight:400;">' + DISCOUNT.pro.old + '</span>';
     note.textContent = 'Цены для своих активированы, действуют до воскресенья 19 июля';
-    note.className = 'form-note ok';
+    note.className = 'form-note font-mono text-xs mt-4 text-green-500';
   });
 })();
 </script>
