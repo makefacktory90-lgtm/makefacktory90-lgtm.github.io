@@ -44,8 +44,8 @@
     theme: {
       extend: {
         colors: {
-          brand: '#D97757',
-          bgMain: '#050505',
+          brand: '#10A37F',
+          bgMain: '#020817',
           bgCard: '#111111',
           textCream: '#F5F1EB'
         },
@@ -62,13 +62,18 @@
   .bg-grid {
     background-size: 40px 40px;
     background-image:
-      linear-gradient(to right, rgba(217, 119, 87, 0.015) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(217, 119, 87, 0.015) 1px, transparent 1px);
+      linear-gradient(to right, rgba(16, 163, 127, 0.015) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(16, 163, 127, 0.015) 1px, transparent 1px);
   }
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #050505; }
+  ::-webkit-scrollbar-track { background: #020817; }
   ::-webkit-scrollbar-thumb { background: #1F1F1F; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #D97757; }
+  ::-webkit-scrollbar-thumb:hover { background: #10A37F; }
+  @keyframes mascotFloat {
+    0%, 100% { transform: translateY(0) rotate(-1.2deg); }
+    50% { transform: translateY(-12px) rotate(1.2deg); }
+  }
+  .mascot-float { animation: mascotFloat 3.6s ease-in-out infinite; will-change: transform; }
   .star-clip {
     clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38%);
   }
@@ -94,7 +99,9 @@
     <div class="mb-3 font-mono text-brand text-xs border border-brand/45 rounded px-4 py-2">ИИ для взрослых · хаб-лаборатория</div>
 
     <div id="avatar-container" class="relative w-48 h-48 md:w-[340px] md:h-[340px] mb-6 md:mb-8 cursor-pointer select-none transition-transform duration-200 ease-out" style="transform-style: preserve-3d;">
-      <img id="mascot-img" src="/gpt-hub/mascot.png" alt="GPT-хаб" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(217,119,87,0.2)] transition-all duration-300">
+      <div class="mascot-float w-full h-full">
+        <img id="mascot-img" src="/gpt-hub/mascot.png" alt="GPT-хаб" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(16,163,127,0.2)] transition-all duration-300">
+      </div>
     </div>
 
     <div class="font-mono text-brand text-xs sm:text-sm md:text-base mb-4 tracking-wider text-center break-words">
