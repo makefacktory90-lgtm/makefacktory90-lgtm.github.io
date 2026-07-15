@@ -226,6 +226,16 @@
   <p>Про PRO скажу прямо: час моей консультации стоит 25&nbsp;000&nbsp;₽. В PRO полчаса лично со мной уже стоят почти всю цену тарифа, а хаб целиком идёт сверху. Мест 15, и это не маркетинговая цифра: столько личных созвонов я реально помещаю в три недели потока.</p>
   <p class="fine">После живого потока хаб будет продаваться в записи, и дороже. Живая цена не повторится.</p>
 
+  <div class="cta-box" id="promo">
+    <h2 style="margin-top:0;">У меня есть промокод</h2>
+    <p>Если у вас есть кодовое слово для своих, введите его: цены и кнопки оплаты обновятся сами.</p>
+    <form class="email-form" id="promo-form" novalidate>
+      <input type="text" id="promo-input" name="promo" placeholder="промокод" autocomplete="off">
+      <button type="submit" id="promo-btn">Применить &rarr;</button>
+    </form>
+    <p class="form-note" id="promo-note"></p>
+  </div>
+
   <div class="cta-box" id="zapis">
     <h2 style="margin-top:0;">Не готовы решить прямо сейчас?</h2>
     <p>Оставьте почту: пришлю напоминание перед стартом и буду писать про хаб и следующие потоки. Мест PRO всего 15, и первыми о движении мест узнают подписчики.</p>
@@ -282,6 +292,50 @@
       btn.disabled = false;
       btn.textContent = 'В лист записи →';
     }
+  });
+})();
+
+(function(){
+  var form = document.getElementById('promo-form');
+  var input = document.getElementById('promo-input');
+  var note = document.getElementById('promo-note');
+  if (!form) return;
+
+  var CODE = 'ЯСВОЙ';
+  var DEADLINE = new Date('2026-07-19T23:59:59+03:00'); // до 19.07.2026 23:59 МСК включительно
+  var DISCOUNT = {
+    baza: { url: 'https://payform.ru/soc1wVK/', price: '4 400 ₽', old: '5 500 ₽' },
+    pro:  { url: 'https://payform.ru/h3c1x5G/', price: '12 900 ₽', old: '14 900 ₽' }
+  };
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var code = (input.value || '').trim().toUpperCase();
+    if (!code) {
+      note.textContent = 'Введите промокод.';
+      note.className = 'form-note err';
+      return;
+    }
+    if (code !== CODE) {
+      note.textContent = 'Такого промокода не знаю. Проверьте написание.';
+      note.className = 'form-note err';
+      return;
+    }
+    if (new Date() > DEADLINE) {
+      note.textContent = 'Промокод истёк: он действовал до 19 июля включительно.';
+      note.className = 'form-note err';
+      return;
+    }
+    var payBaza = document.getElementById('pay-baza');
+    var payPro = document.getElementById('pay-pro');
+    payBaza.href = DISCOUNT.baza.url;
+    payPro.href = DISCOUNT.pro.url;
+    var priceBaza = payBaza.closest('.plan').querySelector('.price');
+    var pricePro = payPro.closest('.plan').querySelector('.price');
+    priceBaza.innerHTML = DISCOUNT.baza.price + ' <span style="font-size:18px;color:var(--text-dim);text-decoration:line-through;font-weight:400;">' + DISCOUNT.baza.old + '</span>';
+    pricePro.innerHTML = DISCOUNT.pro.price + ' <span style="font-size:18px;color:var(--text-dim);text-decoration:line-through;font-weight:400;">' + DISCOUNT.pro.old + '</span>';
+    note.textContent = 'Цены для своих активированы, действуют до воскресенья 19 июля';
+    note.className = 'form-note ok';
   });
 })();
 </script>
