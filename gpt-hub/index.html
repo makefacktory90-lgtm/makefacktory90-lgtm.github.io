@@ -313,17 +313,6 @@
       <p class="font-mono text-xs text-zinc-600 mt-4">После живого потока хаб будет продаваться в записи, и дороже. Живая цена не повторится.</p>
     </div>
 
-    <div id="promo" class="max-w-4xl mx-auto mt-10 bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8">
-      <div class="font-mono text-brand text-xs uppercase tracking-widest mb-4">// у меня есть промокод</div>
-      <p class="text-zinc-400 text-sm md:text-base leading-relaxed mb-5">Если у вас есть кодовое слово для своих, введите его: цены и кнопки оплаты обновятся сами.</p>
-      <form id="promo-form" class="flex flex-wrap gap-3" novalidate>
-        <input type="text" id="promo-input" name="promo" placeholder="промокод" autocomplete="off"
-          class="flex-1 min-w-[200px] bg-bgMain border border-zinc-800 rounded-xl px-5 py-3.5 font-mono text-sm text-textCream placeholder-zinc-600 focus:outline-none focus:border-brand transition-colors">
-        <button type="submit" id="promo-btn" class="bg-brand text-bgMain font-mono font-bold text-xs tracking-widest uppercase px-8 py-3.5 rounded-xl hover:bg-opacity-90 transition-all cursor-pointer">Применить &rarr;</button>
-      </form>
-      <p class="form-note font-mono text-xs mt-4 text-zinc-500" id="promo-note"></p>
-    </div>
-
     <div id="zapis" class="max-w-4xl mx-auto mt-6 bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8">
       <div class="font-mono text-zinc-500 text-xs uppercase tracking-widest mb-4">// не готовы решить прямо сейчас?</div>
       <p class="text-zinc-400 text-sm md:text-base leading-relaxed mb-5">Оставьте почту: пришлю напоминание перед стартом и буду писать про хаб и следующие потоки. Мест PRO всего 15, и первыми о движении мест узнают подписчики.</p>
@@ -441,49 +430,6 @@
   });
 })();
 
-(function(){
-  var form = document.getElementById('promo-form');
-  var input = document.getElementById('promo-input');
-  var note = document.getElementById('promo-note');
-  if (!form) return;
-
-  var CODE = 'ЯСВОЙ';
-  var DEADLINE = new Date('2026-07-19T23:59:59+03:00'); // до 19.07.2026 23:59 МСК включительно
-  var DISCOUNT = {
-    baza: { url: 'https://payform.ru/soc1wVK/', price: '4 400 ₽', old: '5 500 ₽' },
-    pro:  { url: 'https://payform.ru/h3c1x5G/', price: '12 900 ₽', old: '14 900 ₽' }
-  };
-
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var code = (input.value || '').trim().toUpperCase();
-    if (!code) {
-      note.textContent = 'Введите промокод.';
-      note.className = 'form-note font-mono text-xs mt-4 text-brand';
-      return;
-    }
-    if (code !== CODE) {
-      note.textContent = 'Такого промокода не знаю. Проверьте написание.';
-      note.className = 'form-note font-mono text-xs mt-4 text-brand';
-      return;
-    }
-    if (new Date() > DEADLINE) {
-      note.textContent = 'Промокод истёк: он действовал до 19 июля включительно.';
-      note.className = 'form-note font-mono text-xs mt-4 text-brand';
-      return;
-    }
-    var payBaza = document.getElementById('pay-baza');
-    var payPro = document.getElementById('pay-pro');
-    payBaza.href = DISCOUNT.baza.url;
-    payPro.href = DISCOUNT.pro.url;
-    var priceBaza = payBaza.closest('.plan').querySelector('.price');
-    var pricePro = payPro.closest('.plan').querySelector('.price');
-    priceBaza.innerHTML = DISCOUNT.baza.price + ' <span style="font-size:18px;color:#71717a;text-decoration:line-through;font-weight:400;">' + DISCOUNT.baza.old + '</span>';
-    pricePro.innerHTML = DISCOUNT.pro.price + ' <span style="font-size:18px;color:#71717a;text-decoration:line-through;font-weight:400;">' + DISCOUNT.pro.old + '</span>';
-    note.textContent = 'Цены для своих активированы, действуют до воскресенья 19 июля';
-    note.className = 'form-note font-mono text-xs mt-4 text-green-500';
-  });
-})();
 </script>
 </body>
 </html>
