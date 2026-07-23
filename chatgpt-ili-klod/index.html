@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT или Клод: как выбрать под свою работу · Ира и ИИ</title>
+<meta name="description" content="Восемь развилок и готовые тестовые задачи, чтобы за 20 минут понять, куда нести свою работу первой: в ChatGPT или в Клод. И почему сильнее всего они вместе.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E50914; --red-dark:#b00710; --red-muted:rgba(229,9,20,0.08);
+  --black:#0F0D0C; --black-2:#1A1716; --off-white:#F5F1EC; --white:#fff;
+  --gray-1:#8A8580; --gray-2:#C5C0BB; --gray-3:#E8E4DF;
+  --head:'Inter',sans-serif; --body:'Outfit',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--black);line-height:1.6;-webkit-font-smoothing:antialiased}
+.lead,.divider h2,.tagline,.cta-block h3,.cta-block p,.varhead h3{text-wrap:balance;hyphens:none}
+h1{hyphens:none}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px}
+.top{position:sticky;top:0;z-index:100;background:var(--black);height:60px;display:flex;align-items:center}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.brand{display:flex;align-items:center;gap:10px;color:var(--white);text-decoration:none;font-family:var(--head);font-weight:800;letter-spacing:.5px}
+.top .cta{font-family:var(--mono);font-size:12px;color:var(--off-white);border:1px solid rgba(255,255,255,.25);border-radius:100px;padding:6px 14px;text-decoration:none}
+.hero{padding:76px 0 48px;border-bottom:1px solid var(--gray-3)}
+.kicker{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+h1{font-family:var(--head);font-weight:900;font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-1px;margin-bottom:22px}
+h1 .r{color:var(--red)}
+.lead{font-size:clamp(17px,2.4vw,21px);color:var(--black-2);max-width:680px;margin-bottom:28px}
+.meta{display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px;color:var(--gray-1)}
+.meta b{color:var(--black)}
+.divider{padding:60px 0 26px}
+.divider .num{font-family:var(--head);font-weight:900;font-size:clamp(52px,10vw,92px);color:var(--red);line-height:.9}
+.divider h2{font-family:var(--head);font-weight:800;font-size:clamp(26px,4.5vw,40px);letter-spacing:-.5px;margin:4px 0 8px}
+.divider .sub{font-family:var(--mono);font-size:13px;color:var(--red);letter-spacing:2px;text-transform:uppercase}
+.divider .rule{height:2px;background:var(--gray-3);margin-top:22px}
+.prose p{font-size:16.5px;margin:0 0 16px}
+.prose strong{font-weight:700}
+.tagline{font-family:var(--head);font-weight:800;font-size:clamp(19px,3vw,26px);line-height:1.25;margin:8px 0 18px}
+.varhead{margin:34px 0 10px;display:flex;align-items:baseline;gap:14px}
+.varhead .n{font-family:var(--mono);font-weight:600;color:var(--red);font-size:14px}
+.varhead h3{font-family:var(--head);font-weight:800;font-size:clamp(19px,3vw,24px)}
+.varsub{font-size:15px;color:var(--gray-1);margin:-2px 0 6px 0}
+.prompt{background:var(--black);border-radius:18px;padding:24px 24px 20px;margin:14px 0 8px;position:relative}
+.prompt .lbl{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.prompt pre{font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--off-white);white-space:pre-wrap}
+.prompt .field{color:#F5C518}
+.prompt .copy{position:absolute;top:20px;right:20px;font-family:var(--mono);font-size:12px;background:var(--white);color:var(--black);border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600}
+.prompt .copy:active{transform:scale(.96)}
+.tags{display:grid;gap:14px;margin:20px 0}
+.tag{display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--gray-3);border-radius:14px;padding:14px 18px}
+.tag .pill{background:var(--red);color:var(--white);font-family:var(--mono);font-weight:600;font-size:12.5px;letter-spacing:1px;border-radius:8px;padding:8px 14px;white-space:nowrap;text-transform:uppercase}
+.tag .txt{font-size:15.5px}
+.frame{background:var(--white);border:2px solid var(--red);border-radius:18px;padding:26px 28px;margin:26px 0}
+.frame .k{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.frame p{font-size:16.5px;margin-bottom:10px}
+.slam{background:var(--red);color:var(--white);text-align:center;padding:74px 24px;margin:52px 0}
+.slam .k{font-family:var(--mono);font-size:14px;letter-spacing:3px;text-transform:uppercase;opacity:.85;margin-bottom:10px}
+.slam .w{font-family:var(--head);font-weight:900;font-size:clamp(36px,9vw,92px);line-height:.98;letter-spacing:-2px}
+.cta-block{background:var(--black);color:var(--off-white);border-radius:22px;padding:44px 34px;text-align:center;margin:32px 0}
+.cta-block h3{font-family:var(--head);font-weight:800;font-size:clamp(22px,3.4vw,30px);color:var(--white);margin-bottom:12px}
+.cta-block p{max-width:560px;margin:0 auto 22px;font-size:16px;color:var(--gray-2)}
+.cta-block a.btn{display:inline-block;background:var(--red);color:var(--white);text-decoration:none;font-family:var(--head);font-weight:700;border-radius:100px;padding:15px 34px;margin:0 6px 10px}
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:26px 0 10px}
+.door{background:var(--white);border:1px solid var(--gray-3);border-radius:18px;padding:28px 26px;display:flex;flex-direction:column}
+.door .dk{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.door h3{font-family:var(--head);font-weight:800;font-size:22px;margin-bottom:10px}
+.door p{font-size:15.5px;color:var(--black-2);margin-bottom:18px;flex:1}
+.door a{display:inline-block;background:var(--black);color:var(--white);text-decoration:none;font-family:var(--head);font-weight:700;font-size:14px;letter-spacing:1px;border-radius:100px;padding:13px 26px;text-align:center}
+.door a:hover{background:var(--red)}
+footer{border-top:1px solid var(--gray-3);padding:34px 0 60px;text-align:center;font-family:var(--mono);font-size:13px;color:var(--gray-1)}
+footer a{color:var(--red);text-decoration:none}
+@media(max-width:720px){.doors{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <a class="brand" href="https://iraai.ru">IRA&AI</a>
+  <span><a class="cta" href="/gaidy/" style="margin-right:16px;">Все гайды</a><a class="cta" href="https://telegram.me/ira_and_ai">@ira_and_ai →</a></span>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">// ИИ для взрослых</div>
+  <h1>ChatGPT или Клод:<span style="display:block"><span class="r">как выбрать</span> под свою работу</span></h1>
+  <p class="lead">Не существует нейросети, которая «лучше вообще». Есть ваша задача, ваш рабочий день и цена ошибки. Поэтому ниже не рейтинг моделей, а восемь развилок. На каждой можно за минуту понять, куда нести задачу первой.</p>
+  <div class="meta">
+    <span>Читать: <b>12 минут</b></span>
+    <span>Применить: <b>сегодня же</b></span>
+    <span>Нужно: <b>доступ к обоим + одна ваша задача</b></span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <div class="frame" style="margin-top:36px">
+    <div class="k">// главная рамка гайда</div>
+    <p><strong>У каждого из них свои особенности и нюансы, и сильнее всего они вместе.</strong> Это не бой «кто победит», а сборка связки: кто первым берёт задачу, кто углубляет, кто проверяет. Освоить стоит оба, и ниже понятно, с какой стороны заходить в каждый.</p>
+  </div>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">01</div>
+  <h2>Если задача короткая и визуальная</h2>
+  <div class="sub">// быстрые ответы и картинки</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+  <p>Идите в ChatGPT, когда нужен быстрый ответ, несколько вариантов, генерация или правка изображения. Это удобная широкая дверь: текст, картинка, поиск, таблица, короткий анализ.</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// тестовая задача для ChatGPT</div>
+<pre>Сделай три визуальные концепции для <span class="field">[задача]</span>. Для каждой дай идею, композицию, главный объект и точный промпт для генерации. Не рисуй, пока я не выберу концепцию.</pre>
+  </div>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">02</div>
+  <h2>Если работа длинная и текстовая</h2>
+  <div class="sub">// документы, логика, дистанция</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+  <p>Идите в Клод, когда важны большой документ, длинная логическая цепочка, редактура и сохранение голоса. Дайте ему исходники, критерий результата и право спорить с вами.</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// тестовая задача для Клода</div>
+<pre>Прочитай материалы целиком. Сначала собери карту аргументов, противоречий и пробелов. Потом предложи структуру результата. Не пиши финальный текст, пока я не утвержу структуру.</pre>
+  </div>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">03</div>
+  <h2>Если нужен агент, а не собеседник</h2>
+  <div class="sub">// когда ИИ работает с файлами за вас</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+  <p>ChatGPT Work и Claude Cowork находятся в одном классе: получают задачу, работают с файлами и возвращают результат. Но повадки и сильные стороны у них разные, и это не мелочи: у каждого свои сцены, где он заметно сильнее. Не выбирайте один навсегда. Возьмите реальную задачу и проверьте оба: так вы поймёте, какой инструмент первым брать для каждого типа работы и когда передавать результат второму.</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// тестовая задача для обоих</div>
+<pre>Разбери папку <span class="field">[путь]</span>. Ничего не удаляй и не переименовывай. Сначала покажи план: какие типы файлов нашёл, что считаешь дублями и какой результат создашь. Начинай изменения только после моего подтверждения.</pre>
+  </div>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">04</div>
+  <h2>Если важен ваш голос</h2>
+  <div class="sub">// тексты, которые звучат как вы</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+  <p>Для длинных авторских текстов первая дверь обычно Клод. Но голос появляется не из названия модели. Дайте три своих текста, список запретов и попросите сначала описать закономерности, а не сразу писать пост.</p>
+  <div class="prompt">
+    <button class="copy" onclick="cp(this)">копировать</button>
+    <div class="lbl">// тестовая задача про голос</div>
+<pre>Изучи три моих текста. Выпиши 10 устойчивых признаков голоса и 10 вещей, которых я не делаю. Для каждого вывода процитируй короткий пример. Только после этого предложи черновик.</pre>
+  </div>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">05</div>
+  <h2>Если вы упираетесь в лимиты</h2>
+  <div class="sub">// тарифы по-честному</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+  <p>Не сравнивайте тарифы по красивой таблице. В течение недели отмечайте три вещи: какая задача съела лимит, сколько раз пришлось переносить работу и сколько стоил этот простой. Победитель тот, кто дешевле вашей нервной системе.</p>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">06</div>
+  <h2>Честный тест на 20 минут</h2>
+  <div class="sub">// вместо чужих таблиц</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="tags">
+    <div class="tag"><span class="pill">Шаг 1</span><span class="txt">Возьмите одну задачу, которую реально сделаете сегодня.</span></div>
+    <div class="tag"><span class="pill">Шаг 2</span><span class="txt">Дайте обоим одинаковые исходники, цель и критерии.</span></div>
+    <div class="tag"><span class="pill">Шаг 3</span><span class="txt">Не просите одинаковый путь. Сравнивайте результат.</span></div>
+    <div class="tag"><span class="pill">Шаг 4</span><span class="txt">Отметьте: сколько уточнений понадобилось, где пришлось исправлять, чему вы доверяете.</span></div>
+    <div class="tag"><span class="pill">Шаг 5</span><span class="txt">Назначьте первого исполнителя для этого типа задач и решите, что выгодно передавать второму. Смысл теста не выкинуть один инструмент, а собрать сильную связку.</span></div>
+  </div>
+</div></section>
+
+<section class="divider"><div class="wrap">
+  <div class="num">07</div>
+  <h2>Почему стоит освоить оба</h2>
+  <div class="sub">// связка сильнее победителя</div>
+  <div class="rule"></div>
+</div></section>
+
+<section><div class="wrap prose">
+  <p>Один инструмент не отменяет другой. ChatGPT удобен как широкая входная дверь для быстрых, визуальных и разнородных задач. Клод силён, когда работа становится длинной, текстовой и требует удерживать логику и голос. Настоящий выигрыш появляется не в споре за одного победителя, а в маршруте: кто начинает задачу, кто углубляет и кто проверяет результат.</p>
+  <div class="frame">
+    <div class="k">// рабочая связка</div>
+    <p>Сначала попросите ChatGPT дать несколько направлений и визуальных вариантов. Выбранное направление передайте Клоду вместе с исходниками и попросите собрать глубокую структуру, аргументацию или длинный текст. Финальный результат снова проверьте вторым инструментом по конкретному чек-листу.</p>
+  </div>
+</div></section>
+
+<div class="slam">
+  <div class="k">// запомнить одно</div>
+  <div class="w">НЕ ВЕРЬТЕ ТАБЛИЦАМ.<br>ПРОГОНИТЕ СВОЮ ЗАДАЧУ.</div>
+</div>
+
+<section><div class="wrap">
+  <div class="cta-block">
+    <h3>Бесплатный урок ClaudeHub</h3>
+    <p>Хотите посмотреть не рекламу, а уровень уроков? Вот бесплатный урок из ClaudeHub: разбор реальной рабочей задачи, отчёт на 45 страниц превращается в живой дашборд.</p>
+    <a class="btn" href="https://screen.studio/share/LlNUDvsw" target="_blank" rel="noopener">СМОТРЕТЬ БЕСПЛАТНЫЙ УРОК</a>
+  </div>
+
+  <div class="doors">
+    <div class="door">
+      <div class="dk">// дверь первая</div>
+      <h3>ClaudeHub в записи</h3>
+      <p>18 коротких уроков. Для тех, кому нужны документы, тексты, скиллы и длинная работа в Клоде. Доступ сразу после оплаты, портал открыт до 31 августа.</p>
+      <a href="https://iraai.ru/claude-hub/">УЗНАТЬ ПОДРОБНЕЕ</a>
+    </div>
+    <div class="door">
+      <div class="dk">// дверь вторая</div>
+      <h3>GPT-хаб, старт 1 августа</h3>
+      <p>Три недели практики в ChatGPT: от обычного чата до агентов на своих рабочих задачах.</p>
+      <a href="https://iraai.ru/gpt-hub/">УЗНАТЬ ПОДРОБНЕЕ</a>
+    </div>
+  </div>
+</div></section>
+
+<!-- ТРУБА ПОДПИСКИ (единый блок машины роста рассылки) -->
+<div style="max-width:680px;margin:44px auto 8px;padding:0 20px;box-sizing:border-box">
+  <div style="background:#ffffff;border:1px solid #e6e0d6;border-radius:14px;padding:24px 26px;box-shadow:0 2px 10px rgba(0,0,0,.05)">
+    <div style="font:600 18px/1.3 -apple-system,Segoe UI,sans-serif;color:#1c1a17;margin-bottom:6px">Раз в неделю разбираю такое в рассылке: один приём целиком, по-человечески.</div>
+    <div style="font:400 15px/1.45 -apple-system,Segoe UI,sans-serif;color:#6b655c;margin-bottom:16px">Почта: и вы в списке.</div>
+    <form onsubmit="return __sub(this,'guide-vybor')" style="display:flex;gap:10px;flex-wrap:wrap">
+      <input type="email" name="email" placeholder="Ваш email" required style="flex:1;min-width:200px;padding:13px 16px;border:1px solid #d8d2c8;border-radius:10px;font-family:inherit;font-size:15px;box-sizing:border-box">
+      <button type="submit" disabled style="padding:13px 26px;background:#E50914;color:#fff;border:none;border-radius:10px;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;white-space:nowrap">Подписаться</button>
+    </form>
+    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:11px;font:400 12.5px/1.4 -apple-system,sans-serif;color:#6b655c">
+      <input type="checkbox" onchange="this.closest('label').previousElementSibling.querySelector('button').disabled=!this.checked" style="margin-top:2px">
+      <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и обработку персональных данных по <a href="/privacy.html" target="_blank" style="color:#E50914">Политике конфиденциальности</a>.</span>
+    </label>
+    <div class="__subnote" style="font-size:13px;color:#6b655c;margin-top:10px"></div>
+  </div>
+</div>
+<script>
+if(typeof window.__sub!=='function'){window.__sub=function(f,tag){var i=f.email,e=(i.value||'').trim(),b=f.querySelector('button'),n=f.parentNode.querySelector('.__subnote');if(!e)return false;b.disabled=true;b.textContent='...';fetch('https://iraai-subscribe.vercel.app/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,tags:[tag]})}).then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})}).then(function(x){if(x.ok&&x.d&&x.d.ok){b.textContent='Готово';i.value='';n.innerHTML='Готово, вы в списке. Пока ждёте выпуск, забирайте <a href="/rassylka/" style="color:#E50914;font-weight:700">архив прошлых</a>.';n.style.color='#1a7a3a'}else{b.disabled=false;b.textContent='Подписаться';n.textContent=(x.d&&x.d.error)||'Попробуйте ещё раз.';n.style.color='#b03a2e'}}).catch(function(){b.disabled=false;b.textContent='Подписаться';n.textContent='Сеть недоступна.';n.style.color='#b03a2e'});return false}}
+</script>
+
+<footer><div class="wrap">
+  <a href="https://iraai.ru/">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/">Все гайды</a> &nbsp;·&nbsp; <a href="/rassylka/">Рассылка</a> &nbsp;·&nbsp; телега <a href="https://telegram.me/ira_and_ai">@ira_and_ai</a> &nbsp;·&nbsp; инста <a href="https://instagram.com/ira.and.ai">@ira.and.ai</a><br><br>
+  Факты про инструменты проверены 21.07.2026. Тарифы и названия меняются: перед оплатой смотрите живые страницы сервисов.
+</div></footer>
+
+<script>
+function cp(btn){
+  var pre=btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(function(){
+    var old=btn.textContent; btn.textContent='скопировано ✓';
+    setTimeout(function(){btn.textContent=old;},1600);
+  });
+}
+</script>
+</body>
+</html>
