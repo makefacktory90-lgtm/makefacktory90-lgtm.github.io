@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLAUDE ХАБ — ira&ai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "ClaudeHub (CLAUDE ХАБ)",
+  "description": "Курс про Claude на русском для взрослых новичков и экспертов: как выстроить работу с Claude под свои реальные задачи. В записи, мгновенный доступ после оплаты, доступ до 31 августа 2026.",
+  "provider": {"@type": "Person", "name": "Ира Буян", "url": "https://iraai.ru"},
+  "inLanguage": "ru",
+  "url": "https://iraai.ru/claude-hub/",
+  "offers": [
+    {"@type": "Offer", "name": "Запись", "price": "6500", "priceCurrency": "RUB", "url": "https://iraai.ru/claude-hub/", "availabilityEnds": "2026-08-31"}
+  ],
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "courseWorkload": "PT4H"
+  }
+}
+</script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#D97757',
+            bgMain: '#050505',
+            bgCard: '#111111',
+            textCream: '#F5F1EB'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bg-grid {
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(217, 119, 87, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(217, 119, 87, 0.015) 1px, transparent 1px);
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050505; }
+    ::-webkit-scrollbar-thumb { background: #1F1F1F; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D97757; }
+    .star-clip {
+      clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38%);
+    }
+    .glow-brand { box-shadow: 0 0 40px rgba(217, 119, 87, 0.12); }
+    @keyframes radar-pulse {
+      0% { transform: scale(0.9); opacity: 0.5; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+    .pulse-ring {
+      animation: radar-pulse 2s cubic-bezier(0.215, 0.610, 0.355, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-bgMain text-textCream font-sans selection:bg-brand selection:text-bgMain antialiased overflow-x-hidden bg-grid">
+
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex justify-between items-center gap-3 relative z-50 font-mono text-xs">
+    <a href="https://telegram.me/ira_and_ai" target="_blank" class="text-brand font-bold tracking-wider opacity-90 hover:opacity-100 transition-opacity">ira&ai</a>
+    <div class="hidden md:flex gap-8 text-zinc-500">
+      <a href="#about" class="hover:text-textCream transition-colors">о хабе</a>
+      <a href="#roadmap" class="hover:text-textCream transition-colors">что внутри</a>
+      <a href="#tariffs" class="hover:text-textCream transition-colors">тарифы</a>
+      <a href="#faq" class="hover:text-textCream transition-colors">faq</a>
+    </div>
+    <a href="#tariffs" class="hidden sm:inline-flex shrink-0 border border-zinc-800 text-zinc-400 rounded-full px-4 md:px-5 py-2 tracking-wide hover:border-brand hover:text-brand transition-all">
+      забрать доступ
+    </a>
+  </nav>
+
+  <section class="relative min-h-[calc(100vh-64px)] md:min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 pt-4 md:pt-4 pb-10 md:pb-16 overflow-hidden">
+    <div class="mb-3 font-mono text-brand text-xs border border-brand/45 rounded px-4 py-2">click me_</div>
+
+    <div id="avatar-container" class="relative w-56 h-56 md:w-[430px] md:h-[430px] mb-6 md:mb-8 cursor-pointer select-none transition-transform duration-200 ease-out" style="transform-style: preserve-3d;">
+      <svg id="mascot-star" viewBox="0 0 100 100" class="w-full h-full fill-brand drop-shadow-[0_0_30px_rgba(217,119,87,0.2)] transition-all duration-300">
+        <path d="M50 0 L58 35 L93 20 L70 48 L93 77 L58 63 L50 100 L42 63 L7 77 L30 48 L7 20 L42 35 Z"/>
+      </svg>
+
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none" style="transform: translateZ(28px);">
+        <svg class="w-24 h-24 md:w-40 md:h-40 fill-bgMain -translate-y-1 drop-shadow-md" viewBox="0 0 100 100">
+          <path d="M10 40 h80 v10 h-10 v-5 h-20 v5 h-10 v-5 h-20 v5 h-10 v-5 h-10 Z M20 45 h10 v5 h-10 Z M60 45 h10 v5 h-10 Z M15 35 h10 v5 h-10 Z M75 35 h10 v5 h-10 Z"/>
+          <rect x="25" y="42" width="4" height="4" fill="white" />
+          <rect x="65" y="42" width="4" height="4" fill="white" />
+        </svg>
+      </div>
+
+      <div class="absolute inset-0 flex justify-between items-center px-1 pointer-events-none" style="transform: translateZ(14px);">
+        <svg class="w-8 h-8 md:w-14 md:h-14 fill-textCream -translate-x-2 md:-translate-x-5 translate-y-7 md:translate-y-14" viewBox="0 0 8 8"><path d="M3 2h2v1H3zm2 1h2v1H5zm-4 1h6v1H1zm1 1h4v1H2z"/></svg>
+        <svg class="w-8 h-8 md:w-14 md:h-14 fill-textCream translate-x-2 md:translate-x-5 translate-y-7 md:translate-y-14 scale-x-[-1]" viewBox="0 0 8 8"><path d="M3 2h2v1H3zm2 1h2v1H5zm-4 1h6v1H1zm1 1h4v1H2z"/></svg>
+      </div>
+    </div>
+
+    <div class="font-mono text-brand text-xs sm:text-sm md:text-base mb-4 tracking-wider text-center break-words">
+      &gt; claude --open-hub_
+    </div>
+
+    <h1 class="font-sans text-5xl sm:text-7xl md:text-[116px] font-black tracking-[-0.06em] text-white uppercase leading-[0.92] text-center mb-6 select-none flex flex-col sm:flex-row justify-center gap-x-6 md:gap-x-8 gap-y-1 max-w-full">
+      <span>CLAUDE</span><span>ХАБ</span>
+    </h1>
+
+    <p class="font-mono text-sm sm:text-base md:text-xl xl:text-2xl text-zinc-400 text-center max-w-3xl mb-6 tracking-tight px-2 sm:px-4 leading-relaxed">
+      <span class="block sm:inline">Проект в записи.</span>
+      <span class="inline-block bg-brand text-bgMain px-2 py-0.5 font-bold mx-0.5 my-1">Claude Hub прошёл с 1 по 21 июня 2026 года.</span>
+      <span class="block sm:inline">Внутри 18 уроков, промпты и скиллы.</span>
+    </p>
+
+    <div class="max-w-[92vw] sm:max-w-full font-mono text-xs md:text-sm text-zinc-300 font-semibold bg-zinc-950/80 border border-zinc-900/60 px-4 sm:px-5 py-2.5 rounded-[20px] sm:rounded-full mb-10 tracking-wide text-center leading-relaxed">
+      <span class="block sm:inline">&gt; моментальный доступ</span>
+      <span class="hidden sm:inline"> · </span>
+      <span class="block sm:inline">18 уроков</span>
+      <span class="hidden sm:inline"> · </span>
+      <span class="block sm:inline text-brand font-medium">ira&ai _</span>
+    </div>
+
+    <div id="terminal-code" class="sr-only"></div>
+
+    <a href="#about" class="bg-brand text-bgMain font-mono font-bold text-xs tracking-widest uppercase px-8 sm:px-12 py-4 rounded-xl hover:bg-opacity-95 transition-all shadow-lg shadow-brand/10">
+      ЧТО ВНУТРИ
+    </a>
+  </section>
+
+  <section id="about" class="max-w-3xl mx-auto px-6 py-24 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; cat intro.md</div>
+    <h2 class="font-sans text-3xl font-bold mb-6 text-white tracking-tight">Привет, это Ира&ai.</h2>
+    <div class="space-y-6 text-zinc-400 text-base md:text-lg font-normal leading-relaxed">
+      <p>Claude Hub прошёл с 1 по 21 июня 2026 года. Сейчас вы можете забрать проект в записи и пользоваться материалами до 31 августа.</p>
+      <p>Внутри — 18 уроков на портале, промпты, скиллы и весь собранный контент. Доступ к материалам моментальный: заходите и сразу начинаете смотреть в своём темпе.</p>
+      <p>Сейчас доступен только базовый вариант: весь контент проекта в записи, без отдельного тарифа с поддержкой.</p>
+      <p class="font-mono text-xs text-zinc-500 border border-zinc-900 bg-zinc-950/40 p-5 rounded-xl mt-8 leading-loose">
+        Если что-то не написала — спросите <a href="https://telegram.me/ira_alfred_bot" target="_blank" class="text-brand underline hover:text-opacity-80 transition-opacity">@ira_alfred_bot</a>, отвечу.
+      </p>
+    </div>
+  </section>
+
+  <section id="roadmap" class="max-w-3xl mx-auto px-6 py-12 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; ./get-roadmap.sh</div>
+    <h2 class="font-sans text-3xl font-black mb-6 text-white uppercase tracking-tight">Что Внутри Проекта</h2>
+    <p class="text-zinc-400 text-base md:text-lg mb-8 font-normal leading-relaxed">
+      Сразу по делу: 18 уроков, промпты, скиллы и готовый контент на портале, который можно проходить в удобном темпе.
+    </p>
+
+    <div class="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 md:p-8">
+      <div class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest mb-4">// что лежит внутри:</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 font-mono text-xs text-zinc-400">
+        <div onclick="runFeature('chat')" class="flex items-center gap-2.5 cursor-pointer hover:text-brand transition-colors p-1.5 rounded hover:bg-zinc-900/40"><span class="text-zinc-700">—</span> Chat — как настроить под себя</div>
+        <div onclick="runFeature('projects')" class="flex items-center gap-2.5 cursor-pointer hover:text-brand transition-colors p-1.5 rounded hover:bg-zinc-900/40"><span class="text-zinc-700">—</span> Projects — что это и зачем</div>
+        <div onclick="runFeature('cowork')" class="flex items-center gap-2.5 cursor-pointer hover:text-brand transition-colors p-1.5 rounded hover:bg-zinc-900/40"><span class="text-zinc-700">—</span> Cowork — параллельные сессии</div>
+        <div onclick="runFeature('code')" class="flex items-center gap-2.5 cursor-pointer hover:text-brand transition-colors p-1.5 rounded hover:bg-zinc-900/40"><span class="text-zinc-700">—</span> Claude Code — терминальный ИИ</div>
+        <div onclick="runFeature('design')" class="flex items-center gap-2.5 cursor-pointer hover:text-brand transition-colors p-1.5 rounded hover:bg-zinc-900/40"><span class="text-zinc-700">—</span> Claude Design</div>
+        <div onclick="runFeature('connectors')" class="flex items-center gap-2.5 cursor-pointer hover:text-brand transition-colors p-1.5 rounded hover:bg-zinc-900/40"><span class="text-zinc-700">—</span> Коннекторы и MCP</div>
+        <div onclick="runFeature('vibe')" class="flex items-center gap-2.5 cursor-pointer text-brand p-1.5 rounded hover:bg-zinc-900/30"><span class="animate-pulse">●</span> чуть-чуть вайбкодинга</div>
+      </div>
+    </div>
+    <p class="text-zinc-500 font-mono text-xs mt-6">
+      18 уроков, промпты, скиллы и готовый контент на портале без ожидания нового запуска.
+    </p>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; audience.filter</div>
+    <h2 class="font-sans text-3xl font-black uppercase tracking-tight mb-10 text-white">Кому подойдёт</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-bgCard/10 border border-zinc-900 rounded-2xl p-6 md:p-8">
+        <div class="font-mono text-brand text-xs uppercase tracking-widest mb-6">// подойдёт</div>
+        <ul class="space-y-4 text-zinc-300 text-sm md:text-base leading-relaxed">
+          <li class="flex gap-3"><span class="text-brand">✓</span><span>Хотите забрать проект в записи и пройти его в своём темпе.</span></li>
+          <li class="flex gap-3"><span class="text-brand">✓</span><span>Нужен быстрый доступ к 18 урокам, промптам и скиллам без ожидания нового потока.</span></li>
+          <li class="flex gap-3"><span class="text-brand">✓</span><span>Работаете за компьютером и хотите внедрять AI в реальные задачи.</span></li>
+          <li class="flex gap-3"><span class="text-brand">✓</span><span>Хотите просто забрать весь контент проекта в записи без лишних надстроек.</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-bgCard/10 border border-zinc-900 rounded-2xl p-6 md:p-8">
+        <div class="font-mono text-zinc-500 text-xs uppercase tracking-widest mb-6">// не подойдёт</div>
+        <ul class="space-y-4 text-zinc-400 text-sm md:text-base leading-relaxed">
+          <li class="flex gap-3"><span class="text-zinc-600">×</span><span>Ждёте живой поток с новыми ежедневными уроками — проект уже в записи.</span></li>
+          <li class="flex gap-3"><span class="text-zinc-600">×</span><span>Хотите, чтобы за вас всё настроили под ключ без вашего участия.</span></li>
+          <li class="flex gap-3"><span class="text-zinc-600">×</span><span>Не готовы самостоятельно смотреть материалы и применять их в работе.</span></li>
+          <li class="flex gap-3"><span class="text-zinc-600">×</span><span>Нужен бессрочный доступ — здесь доступ открыт до 31 августа.</span></li>
+          <li class="flex gap-3"><span class="text-zinc-600">×</span><span>Ищете совсем базовое знакомство без практики и внедрения.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="tariffs" class="max-w-6xl mx-auto px-6 py-24 border-t border-zinc-900/40">
+    <h2 class="font-sans text-3xl font-black uppercase tracking-tight text-center mb-16 text-white">
+      Доступ К Проекту
+    </h2>
+
+    <div class="grid grid-cols-1 max-w-2xl mx-auto">
+      <div class="bg-bgCard/20 border border-zinc-900 rounded-[28px] p-8 flex flex-col justify-between items-center relative transition-all">
+        <div class="w-full flex flex-col items-center">
+          <div class="w-12 h-12 bg-brand star-clip mb-6"></div>
+          <h3 class="font-sans text-2xl font-black text-white uppercase tracking-wide">CLAUDE ХАБ</h3>
+          <p class="font-mono text-xs text-zinc-600 mt-1 mb-8">// контент в записи</p>
+
+          <ul class="space-y-4 text-zinc-400 font-mono text-xs text-left w-full border-t border-zinc-900/60 pt-6">
+            <li class="flex items-start gap-3">
+              <span class="text-zinc-700 font-bold">_</span>
+              <span>18 уроков на портале: весь контент проекта в записи</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-zinc-700 font-bold">_</span>
+              <span>Промпты, скиллы и материалы по урокам</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-zinc-700 font-bold">_</span>
+              <span>Доступ к проекту до 31 августа</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="w-full mt-12 pt-6 border-t border-zinc-900/40">
+          <div class="font-mono text-4xl font-black text-white tracking-tight text-center mb-6">6 500 ₽</div>
+          <div class="w-full mb-4 invisible" aria-hidden="true">
+            <div class="h-[42px] rounded-lg border border-zinc-900"></div>
+          </div>
+          <a href="https://payform.ru/6kbONIC/" target="_blank" class="block w-full text-center font-mono text-xs font-bold text-zinc-300 border border-zinc-800 rounded-xl py-4 hover:border-zinc-500 hover:text-white transition-all uppercase tracking-widest">
+            Купить Claude Хаб
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="max-w-3xl mx-auto px-6 py-20 border-t border-zinc-900/40">
+    <div class="font-mono text-zinc-600 text-xs mb-4">&gt; help --faq</div>
+    <h2 class="font-sans text-3xl font-black uppercase tracking-tight mb-8 text-white">Частые вопросы</h2>
+    <div class="space-y-3">
+      <div class="border border-zinc-900 bg-bgCard/10 rounded-xl overflow-hidden">
+        <button class="w-full text-left px-5 py-4 font-mono text-xs flex justify-between items-center gap-4 text-zinc-300 hover:text-brand transition-colors" onclick="toggleFAQ(this)">
+          <span>А если я совсем новичок?</span>
+          <span class="text-zinc-600 shrink-0">+</span>
+        </button>
+        <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 text-zinc-400 text-sm font-normal leading-relaxed">
+          <div class="pb-5">
+            Если хотите пройти проект в записи спокойно и с пользой — справитесь. Главное, чтобы у вас был интерес не просто посмотреть, а внедрить.
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-zinc-900 bg-bgCard/10 rounded-xl overflow-hidden">
+        <button class="w-full text-left px-5 py-4 font-mono text-xs flex justify-between items-center gap-4 text-zinc-300 hover:text-brand transition-colors" onclick="toggleFAQ(this)">
+          <span>Нужен ли платный Claude?</span>
+          <span class="text-zinc-600 shrink-0">+</span>
+        </button>
+        <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 text-zinc-400 text-sm font-normal leading-relaxed">
+          <div class="pb-5">Желательно, если хотите не просто смотреть, а повторять материалы на практике.</div>
+        </div>
+      </div>
+
+      <div class="border border-zinc-900 bg-bgCard/10 rounded-xl overflow-hidden">
+        <button class="w-full text-left px-5 py-4 font-mono text-xs flex justify-between items-center gap-4 text-zinc-300 hover:text-brand transition-colors" onclick="toggleFAQ(this)">
+          <span>Что если я не успею за группой?</span>
+          <span class="text-zinc-600 shrink-0">+</span>
+        </button>
+        <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 text-zinc-400 text-sm font-normal leading-relaxed">
+          <div class="pb-5">
+            Это как раз сценарий под запись: доступ открывается сразу, и вы идёте в удобном темпе. Проект работает до 31 августа.
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-zinc-900 bg-bgCard/10 rounded-xl overflow-hidden">
+        <button class="w-full text-left px-5 py-4 font-mono text-xs flex justify-between items-center gap-4 text-zinc-300 hover:text-brand transition-colors" onclick="toggleFAQ(this)">
+          <span>Что это сейчас: живой поток или запись?</span>
+          <span class="text-zinc-600 shrink-0">+</span>
+        </button>
+        <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 text-zinc-400 text-sm font-normal leading-relaxed">
+          <div class="pb-5">
+            Сейчас это запись проекта, который прошёл с 1 по 21 июня 2026 года. Вы получаете доступ к уже готовому контенту и можете пользоваться им до 31 августа.
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-zinc-900 bg-bgCard/10 rounded-xl overflow-hidden">
+        <button class="w-full text-left px-5 py-4 font-mono text-xs flex justify-between items-center gap-4 text-zinc-300 hover:text-brand transition-colors" onclick="toggleFAQ(this)">
+          <span>Как я получу доступ после оплаты?</span>
+          <span class="text-zinc-600 shrink-0">+</span>
+        </button>
+        <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 text-zinc-400 text-sm font-normal leading-relaxed">
+          <div class="pb-5">
+            После оплаты вы получаете доступ к проекту. Если письмо не пришло за 5 минут — пишите <a href="https://telegram.me/ira_alfred_bot" target="_blank" class="text-brand underline hover:text-opacity-80 transition-opacity">@ira_alfred_bot</a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-zinc-900 bg-bgCard/10 rounded-xl overflow-hidden">
+        <button class="w-full text-left px-5 py-4 font-mono text-xs flex justify-between items-center gap-4 text-zinc-300 hover:text-brand transition-colors" onclick="toggleFAQ(this)">
+          <span>Что-то ещё важно уточнить?</span>
+          <span class="text-zinc-600 shrink-0">+</span>
+        </button>
+        <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 text-zinc-400 text-sm font-normal leading-relaxed">
+          <div class="pb-5">
+            Пишите <a href="https://telegram.me/ira_alfred_bot" target="_blank" class="text-brand underline hover:text-opacity-80 transition-opacity">@ira_alfred_bot</a>, отвечу.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-zinc-900/60 py-10 px-6 text-center font-mono text-[11px] text-zinc-600">
+    <p>Вопросы? Пишите: <a href="https://telegram.me/ira_alfred_bot" target="_blank" class="text-brand hover:underline">@ira_alfred_bot</a></p>
+  </footer>
+
+  <script>
+    const container = document.getElementById('avatar-container');
+    const mascotStar = document.getElementById('mascot-star');
+
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - (rect.left + rect.width / 2);
+        const y = e.clientY - (rect.top + rect.height / 2);
+        const rotateX = (-y / rect.height) * 25;
+        const rotateY = (x / rect.width) * 25;
+        container.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      document.addEventListener('mouseleave', () => {
+        container.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+    }
+
+    container.addEventListener('click', () => {
+      mascotStar.style.transform = 'scale(1.05) rotate(360deg)';
+      setTimeout(() => { mascotStar.style.transform = 'scale(1) rotate(0deg)'; }, 1000);
+    });
+
+    const defaultCodeLines = [
+      "const claude = await Anthropic.init();",
+      "await claude.project.open('claude-hub-recording', {",
+      "  format: 'recording',",
+      "  accessUntil: '2026-08-31',",
+      "  content: ['18 lessons', 'prompts', 'skills']",
+      "});",
+      "// Status: Instant access."
+    ];
+
+    const featureCommands = {
+      chat: ["claude.chat.configure({ tone: 'ira-ai' });", "// Chat настроен под ваши задачи."],
+      projects: ["claude.projects.create('hub-workspace');", "// Projects: контекст собран, база подключена."],
+      cowork: ["claude.cowork.spawn(['writer', 'editor']);", "// Cowork: несколько Claude работают параллельно."],
+      code: ["claude.code.open('/terminal');", "// Claude Code: идём в терминал."],
+      design: ["claude.design.generate('landing-system');", "// Claude Design: собираем визуальную логику."],
+      connectors: ["claude.connectors.link(['Drive', 'MCP']);", "// Коннекторы и MCP подключены."],
+      vibe: ["claude.vibeCoding.start({ mode: 'hands-on' });", "// Вайбкодинг: аккуратно, руками, без магии."]
+    };
+
+    let activeCodeLines = defaultCodeLines;
+    let lineIdx = 0;
+    let charIdx = 0;
+    let typingTimer = null;
+    const termElement = document.getElementById('terminal-code');
+
+    function typeCode() {
+      if (lineIdx < activeCodeLines.length) {
+        if (charIdx < activeCodeLines[lineIdx].length) {
+          if (charIdx === 0 && lineIdx > 0) termElement.innerHTML += '<br>';
+          termElement.innerHTML += activeCodeLines[lineIdx].charAt(charIdx);
+          charIdx++;
+          typingTimer = setTimeout(typeCode, 25);
+        } else {
+          lineIdx++;
+          charIdx = 0;
+          typingTimer = setTimeout(typeCode, 400);
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => setTimeout(typeCode, 800));
+
+    function runFeature(feature) {
+      if (!featureCommands[feature]) return;
+      clearTimeout(typingTimer);
+      activeCodeLines = featureCommands[feature];
+      lineIdx = 0;
+      charIdx = 0;
+      termElement.innerHTML = '';
+      typeCode();
+      document.getElementById('terminal-code').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function toggleFAQ(btn) {
+      const content = btn.nextElementSibling;
+      const sign = btn.querySelector('span:last-child');
+      if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+        content.style.maxHeight = '0px';
+        sign.innerText = '+';
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        sign.innerText = '×';
+      }
+    }
+  </script>
+</body>
+</html>
