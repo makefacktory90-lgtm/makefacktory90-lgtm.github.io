@@ -1,3 +1,10 @@
 node_modules/
 .DS_Store
 **/.DS_Store
+.env
+.env.*
+!.env.example
+*.local
+*.secret
+*.secrets
+*.bak

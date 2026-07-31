@@ -97,6 +97,11 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     color: #fff; font-family: 'Roboto Mono', monospace; font-size: 11px;
     border-radius: 4px; margin-bottom: 10px;
 }
+.settings-panel textarea {
+    width: 100%; min-height: 150px; padding: 10px; background: #111; border: 1px solid #333;
+    color: #fff; font-family: 'Roboto Mono', monospace; font-size: 11px;
+    border-radius: 4px; margin-bottom: 10px; resize: vertical;
+}
 .settings-panel input[type="color"] { width: 100%; height: 32px; padding: 2px; cursor: pointer; background: #111; border: 1px solid #333; border-radius: 4px; margin-bottom: 10px; }
 .settings-panel input[type="range"] { width: 100%; margin-bottom: 10px; }
 .color-row { display: flex; gap: 8px; margin-bottom: 10px; }
@@ -524,6 +529,14 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     </div>
     <div class="spacer"></div>
     <div class="topbar-section">
+        <span class="topbar-label">Formula</span>
+        <button onclick="applyPreset('provocation')" id="btn-preset-provocation">PROVOCATION</button>
+        <button onclick="applyPreset('protocol')" id="btn-preset-protocol">PROTOCOL</button>
+        <button onclick="applyPreset('lazy')" id="btn-preset-lazy">LAZY PATH</button>
+        <button onclick="applyPreset('realwork')" id="btn-preset-realwork">REAL WORK</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="topbar-section">
         <span class="topbar-label">Frame</span>
         <button onclick="toggleWrap()" id="btn-wrap" class="active">PHONE</button>
     </div>
@@ -620,6 +633,30 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     <h3>Масштаб</h3>
     <input type="range" id="scale-slider" min="20" max="100" value="42" oninput="applyScale()">
     <div class="hint">100% = полный размер для скриншота</div>
+
+    <h3>10 Minute Mode</h3>
+    <div class="color-row">
+        <button class="s-btn s-btn-dark" onclick="loadQuickStoryTemplate('protocol')">ШАБЛОН PROTOCOL</button>
+        <button class="s-btn s-btn-dark" onclick="loadQuickStoryTemplate('provocation')">ШАБЛОН PROVOCATION</button>
+        <button class="s-btn s-btn-dark" onclick="loadQuickStoryTemplate('lazy')">ШАБЛОН LAZY PATH</button>
+        <button class="s-btn s-btn-dark" onclick="loadQuickStoryTemplate('realwork')">ШАБЛОН REAL WORK</button>
+    </div>
+    <label>Вставь сырой текст</label>
+    <textarea id="quick-story" placeholder="Один абзац = один смысловой блок.
+
+Пример:
+ЗАГОЛОВОК КАРУСЕЛИ
+Одно предложение под заголовком
+
+Что случилось
+Коротко объясни проблему
+
+Сильная цитата
+Автор
+
+..."></textarea>
+    <button class="s-btn s-btn-red" onclick="applyQuickStory()">РАЗЛОЖИТЬ ПО СЛАЙДАМ</button>
+    <div class="hint">Протокол на утро: 1) выбери формулу, 2) загрузи шаблон, 3) замени подсказки своим текстом, 4) нажми кнопку выше, 5) скачай PNG.</div>
 </div>
 
 <!-- SLIDES -->
@@ -689,10 +726,10 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(4, this.value)"></div>
     <div class="section-tag" contenteditable="true">// 03 ЧТО ДЕЛАТЬ</div>
     <h2 contenteditable="true">КОНКРЕТНЫЕ ШАГИ</h2>
-    <div class="list-item"><span class="list-num">01</span><span class="list-text" contenteditable="true"><strong>Первый шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">02</span><span class="list-text" contenteditable="true"><strong>Второй шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">03</span><span class="list-text" contenteditable="true"><strong>Третий шаг.</strong> Что именно сделать.</span></div>
-    <div class="list-item"><span class="list-num">04</span><span class="list-text" contenteditable="true"><strong>Четвёртый шаг.</strong> Что именно сделать.</span></div>
+    <div class="list-item" data-slot="1"><span class="list-num">01</span><span class="list-text" data-slot="1" contenteditable="true"><strong>Первый шаг.</strong> Что именно сделать.</span></div>
+    <div class="list-item" data-slot="2"><span class="list-num">02</span><span class="list-text" data-slot="2" contenteditable="true"><strong>Второй шаг.</strong> Что именно сделать.</span></div>
+    <div class="list-item" data-slot="3"><span class="list-num">03</span><span class="list-text" data-slot="3" contenteditable="true"><strong>Третий шаг.</strong> Что именно сделать.</span></div>
+    <div class="list-item" data-slot="4"><span class="list-num">04</span><span class="list-text" data-slot="4" contenteditable="true"><strong>Четвёртый шаг.</strong> Что именно сделать.</span></div>
     <div class="slide-number">5/11</div>
 </div></div>
 
@@ -724,17 +761,17 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     <div class="slide-photo-btn" onclick="document.getElementById('photo-6').click()">📷<input type="file" id="photo-6" accept="image/*" onchange="handleSlidePhoto(6, this.files[0])"></div>
     <div class="slide-photo-remove" onclick="removeSlidePhoto(6)">✕</div>
     <div class="slide-photo-dim"><label>DIM</label><input type="range" min="0" max="100" value="70" oninput="updateSlideDim(6, this.value)"></div>
-    <div class="grid-card">
-        <div class="card-num">01</div>
-        <h3 contenteditable="true">Первая</h3>
-        <p contenteditable="true">Описание первого пункта</p>
-    </div>
-    <div class="grid-card">
+        <div class="grid-card" data-slot="1">
+            <div class="card-num">01</div>
+            <h3 contenteditable="true">Первая</h3>
+            <p contenteditable="true">Описание первого пункта</p>
+        </div>
+    <div class="grid-card" data-slot="2">
         <div class="card-num">02</div>
         <h3 contenteditable="true">Вторая</h3>
         <p contenteditable="true">Описание второго пункта</p>
     </div>
-    <div class="grid-card">
+    <div class="grid-card" data-slot="3">
         <div class="card-num">03</div>
         <h3 contenteditable="true">Третья</h3>
         <p contenteditable="true">Описание третьего пункта</p>
@@ -754,11 +791,11 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
         <h2 contenteditable="true" style="font-size: 52px; margin-bottom: 24px;">Большая карточка</h2>
         <p contenteditable="true" style="font-size: 26px; line-height: 1.6; opacity: 0.8;">Основной контент занимает всю левую часть. Две маленькие карточки справа.</p>
     </div>
-    <div class="grid-card-small">
+    <div class="grid-card-small" data-slot="1">
         <h3 contenteditable="true" style="font-size: 28px; margin-bottom: 12px;">Малая 1</h3>
         <p contenteditable="true" style="font-size: 20px; opacity: 0.7;">Дополнительный факт</p>
     </div>
-    <div class="grid-card-small">
+    <div class="grid-card-small" data-slot="2">
         <h3 contenteditable="true" style="font-size: 28px; margin-bottom: 12px;">Малая 2</h3>
         <p contenteditable="true" style="font-size: 20px; opacity: 0.7;">Ещё один факт</p>
     </div>
@@ -791,14 +828,14 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
     <div class="section-tag" contenteditable="true">// СРАВНЕНИЕ</div>
     <h2 contenteditable="true" style="font-size: 48px;">Таблица сравнения</h2>
     <div class="table-grid">
-        <div class="table-header" contenteditable="true">Было</div>
-        <div class="table-header" contenteditable="true">Стало</div>
-        <div class="table-cell" contenteditable="true">Старый подход</div>
-        <div class="table-cell highlight-cell" contenteditable="true">Новый подход</div>
-        <div class="table-cell" contenteditable="true">Минус первый</div>
-        <div class="table-cell highlight-cell" contenteditable="true">Плюс первый</div>
-        <div class="table-cell" contenteditable="true">Минус второй</div>
-        <div class="table-cell highlight-cell" contenteditable="true">Плюс второй</div>
+        <div class="table-header" data-slot="1" contenteditable="true">Было</div>
+        <div class="table-header" data-slot="2" contenteditable="true">Стало</div>
+        <div class="table-cell" data-slot="1" contenteditable="true">Старый подход</div>
+        <div class="table-cell highlight-cell" data-slot="2" contenteditable="true">Новый подход</div>
+        <div class="table-cell" data-slot="3" contenteditable="true">Минус первый</div>
+        <div class="table-cell highlight-cell" data-slot="4" contenteditable="true">Плюс первый</div>
+        <div class="table-cell" data-slot="5" contenteditable="true">Минус второй</div>
+        <div class="table-cell highlight-cell" data-slot="6" contenteditable="true">Плюс второй</div>
     </div>
     <div class="slide-number">10/11</div>
 </div></div>
@@ -821,9 +858,13 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 
 <div class="bottombar">
     <button class="btn-secondary" onclick="saveHTML()">СОХРАНИТЬ HTML</button>
+    <button class="btn-secondary" onclick="exportJSON()">EXPORT JSON</button>
+    <button class="btn-secondary" onclick="document.getElementById('json-import').click()">IMPORT JSON</button>
     <button class="btn-primary" onclick="downloadAllSlides()" id="btn-dl-all">СКАЧАТЬ ВСЕ PNG</button>
     <button class="btn-secondary" onclick="fullscreen()">НА ВЕСЬ ЭКРАН</button>
 </div>
+
+<input type="file" id="json-import" accept="application/json" style="display:none">
 
 </div><!-- app -->
 
@@ -831,6 +872,8 @@ body { background: #f0f0f0; color: #333; font-family: 'Inter', sans-serif; }
 <script>
 // === PASSWORD ===
 const PASS_HASH = 'e34f6dec12c4f4599eba078f31ae8139420d21b1bd2d7ced7d22b09c2074fb48';
+const STORAGE_KEY = 'ira_carousel_constructor_state_v1';
+let saveTimer = null;
 
 async function sha256(str) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
@@ -862,12 +905,411 @@ document.getElementById('app').classList.add('visible');
 
 // === STYLES ===
 let currentStyle = 'nike';
+let currentPreset = null;
 const styleDefaults = {
     nike: { accent: '#E63946', bg: '#000000', text: '#ffffff' },
     dirty: { accent: '#00ff88', bg: '#0d0d0d', text: '#e0e0e0' },
     netflix: { accent: '#E50914', bg: '#141414', text: '#ffffff' },
     light: { accent: '#E63946', bg: '#FAFAFA', text: '#1a1a1a' },
     magazine: { accent: '#C4392D', bg: '#F5F0E8', text: '#2B2B2B' }
+};
+const presetConfigs = {
+    provocation: {
+        style: 'netflix',
+        slides: {
+            0: {
+                '.tag': 'ИНСАЙДЕРСКАЯ ПРОВОКАЦИЯ',
+                'h1': 'ЭТОТ ТРЕНД<br><span class="accent">УЖЕ ЗДЕСЬ</span>',
+                '.sub': 'Карусель бьет в страх пропустить перемены и заставляет дочитать до конца.',
+                '.author': '@IRA.AND.AI'
+            },
+            1: {
+                '.section-tag': '// 01 ЧТО СЛУЧИЛОСЬ',
+                'h2': 'ПРАВИЛА УЖЕ СМЕНИЛИСЬ',
+                'p:nth-of-type(1)': 'Люди продолжают делать контент по старой схеме, а внимание уже ушло в другой формат и другую подачу.',
+                'p:nth-of-type(2)': 'Если это не увидеть сейчас, через месяц будешь догонять рынок с кислым лицом.'
+            },
+            2: {
+                'blockquote': 'Самые опасные изменения выглядят не как революция, а как новая норма, которую вы пропустили.',
+                '.quote-author': 'Наблюдение недели'
+            },
+            3: {
+                '.section-tag': '// 02 ГДЕ БОЛИТ',
+                'h2': 'ПОЧЕМУ ЭТО БЬЕТ',
+                'p:nth-of-type(1)': 'Обычный контент тонет не потому, что он плохой, а потому что в нем нет ставки, ритма и ощущения срочности.',
+                'p:nth-of-type(2)': 'Когда у аудитории нет повода листать дальше, она уходит на второй секунде.'
+            },
+            4: {
+                '.section-tag': '// 03 СИГНАЛЫ',
+                'h2': 'ЧТО ВИДНО СРАЗУ',
+                '.list-text[data-slot="1"]': '<strong>Хук без ставки.</strong> Начинается как лекция, а не как новость из будущего.',
+                '.list-text[data-slot="2"]': '<strong>Один ритм.</strong> Все слайды одинаковые, глаз устает уже на втором.',
+                '.list-text[data-slot="3"]': '<strong>Нет микрошоков.</strong> Нечему удерживать внимание до финала.',
+                '.list-text[data-slot="4"]': '<strong>CTA в лоб.</strong> Продажа раньше доверия.'
+            },
+            10: {
+                '.cta-keyword': 'НАПИШИ<br><span class="accent">ТРЕНД</span>',
+                '.cta-desc': 'Пришлю схему, по которой карусель работает как новость из будущего, а не как скучная памятка.',
+                '.cta-how': 'В КОММЕНТЫ ИЛИ В ДИРЕКТ',
+                '.cta-handle': '@IRA.AND.AI'
+            }
+        }
+    },
+    protocol: {
+        style: 'nike',
+        slides: {
+            0: {
+                '.tag': 'ТЕХНО-ПРОТОКОЛ',
+                'h1': 'КАК СОБРАТЬ<br><span class="accent">КАРУСЕЛЬ</span>',
+                '.sub': 'Пошаговая система: от идеи до слайдов, которые сохраняют и пересылают.',
+                '.author': '@IRA.AND.AI'
+            },
+            1: {
+                '.section-tag': '// 01 ЦЕЛЬ',
+                'h2': 'СНАЧАЛА ОПРЕДЕЛИ ЗАДАЧУ',
+                'p:nth-of-type(1)': 'Не начинай с дизайна. Начинай с того, что карусель должна сделать: охват, сохранения, кодовое слово или продажу.',
+                'p:nth-of-type(2)': 'Одна карусель = одна главная функция.'
+            },
+            2: {
+                'blockquote': 'Хорошая карусель не выглядит как вдохновение. Она выглядит как инженерия внимания.',
+                '.quote-author': 'рабочее правило'
+            },
+            3: {
+                '.section-tag': '// 02 СТРУКТУРА',
+                'h2': 'ДАЙ ТУННЕЛЬ ВНИМАНИЯ',
+                'p:nth-of-type(1)': 'Хук, проблема, масштаб, инсайт, схема, оффер. Если структура не держит, визуал уже не спасет.',
+                'p:nth-of-type(2)': 'Листание должно ощущаться как управляемый спуск, а не как набор карточек.'
+            },
+            4: {
+                '.section-tag': '// 03 ПРОТОКОЛ',
+                'h2': 'ЧЕТЫРЕ ШАГА',
+                '.list-text[data-slot="1"]': '<strong>Формула.</strong> Выбери тип карусели до написания текста.',
+                '.list-text[data-slot="2"]': '<strong>Ритм.</strong> Чередуй планы и функции слайдов.',
+                '.list-text[data-slot="3"]': '<strong>Сжатие.</strong> Один слайд = одна мысль, без каши.',
+                '.list-text[data-slot="4"]': '<strong>CTA.</strong> Продавай следующий шаг, а не все сразу.'
+            },
+            10: {
+                '.cta-keyword': 'НАПИШИ<br><span class="accent">ПРОТОКОЛ</span>',
+                '.cta-desc': 'Пришлю каркас, по которому можно собирать карусели быстрее и без плясок над пустым экраном.',
+                '.cta-how': 'В КОММЕНТЫ ИЛИ В ДИРЕКТ',
+                '.cta-handle': '@IRA.AND.AI'
+            }
+        }
+    },
+    lazy: {
+        style: 'magazine',
+        slides: {
+            0: {
+                '.tag': 'ЛЕНИВЫЙ ПУТЬ',
+                'h1': 'САМЫЙ ЛЕНИВЫЙ<br><span class="accent">СПОСОБ</span>',
+                '.sub': 'Как делать карусели без истерики, лишних движений и вечного “я еще не готова”.',
+                '.author': '@IRA.AND.AI'
+            },
+            1: {
+                '.section-tag': '// 01 МИФ',
+                'h2': 'ТЫ НЕ ОБЯЗАНА СТРАДАТЬ',
+                'p:nth-of-type(1)': 'Большинство убивается не на смысле, а на форме. Поэтому карусель не выходит неделями.',
+                'p:nth-of-type(2)': 'Ленивый путь не про халтуру. Он про систему, где сложные решения принимаются один раз.'
+            },
+            2: {
+                'blockquote': 'Если контент требует героизма каждый раз, это не стратегия. Это плохо настроенный процесс.',
+                '.quote-author': 'доктор сказал'
+            },
+            3: {
+                '.section-tag': '// 02 ПРИНЦИП',
+                'h2': 'СОБЕРИ ОСНОВУ ОДИН РАЗ',
+                'p:nth-of-type(1)': 'Формулы, стили, шаблоны, CTA, рабочие слова и визуалы должны жить в библиотеке, а не в твоей усталой голове.',
+                'p:nth-of-type(2)': 'Тогда каждый новый пост становится сборкой, а не экзистенциальной драмой.'
+            },
+            4: {
+                '.section-tag': '// 03 ЧТО ХРАНИТЬ',
+                'h2': 'МИНИМАЛЬНЫЙ НАБОР',
+                '.list-text[data-slot="1"]': '<strong>3 формулы.</strong> Чтобы не думать заново о структуре.',
+                '.list-text[data-slot="2"]': '<strong>2-3 стиля.</strong> Чтобы визуал не расползался.',
+                '.list-text[data-slot="3"]': '<strong>Примеры-хиты.</strong> Чтобы видеть, во что целимся.',
+                '.list-text[data-slot="4"]': '<strong>Готовые CTA.</strong> Чтобы финал не был убитым.'
+            },
+            10: {
+                '.cta-keyword': 'НАПИШИ<br><span class="accent">ЛЕНИВО</span>',
+                '.cta-desc': 'Пришлю схему, как собрать свою карусельную машину и не начинать контент с нуля каждый день.',
+                '.cta-how': 'В КОММЕНТЫ ИЛИ В ДИРЕКТ',
+                '.cta-handle': '@IRA.AND.AI'
+            }
+        }
+    },
+    realwork: {
+        style: 'light',
+        slides: {
+            0: {
+                '.tag': 'AI ДЛЯ РАБОТЫ',
+                'h1': '7 ЗАДАЧ,<br>КОТОРЫЕ AI УЖЕ<br><span class="accent">МОЖЕТ ЗАБРАТЬ</span>',
+                '.sub': 'Не чтобы робот тебя заменил. Чтобы ты перестала быть бесплатным стажёром у собственной рутины.',
+                '.author': '@IRA.AND.AI'
+            },
+            1: {
+                '.section-tag': '// 01 ГДЕ ТЫ ТЕРЯЕШЬ ЧАСЫ',
+                'h2': 'AI НУЖЕН НЕ ДЛЯ МАГИИ',
+                'p:nth-of-type(1)': 'Большинство использует AI как игрушку и получает пластиковую ерунду. Нормальная роль AI скучнее и полезнее: собрать, разложить, ускорить, снять рутину.',
+                'p:nth-of-type(2)': 'Пусть машина таскает кирпичи, пока ты думаешь, выбираешь и делаешь работу, за которую вообще-то платят.'
+            },
+            2: {
+                'blockquote': 'Не надо отдавать AI свою голову. Отдай ему то, на чём твоя голова умирает зря.',
+                '.quote-author': 'рабочее правило'
+            },
+            3: {
+                '.section-tag': '// 02 ЧТО МОЖНО ОТДАТЬ',
+                'h2': 'СЕМЬ НОРМАЛЬНЫХ ЗАДАЧ',
+                'p:nth-of-type(1)': 'Ресёрч, идеи, структура, первая версия текста, презентационный каркас, repurposing, первичный feedback. Вот где начинается реальная экономия часов.',
+                'p:nth-of-type(2)': 'Не “сделай всё за меня”, а “забери тупую часть, чтобы я не жила в ручном конвейере”.'
+            },
+            4: {
+                '.section-tag': '// 03 КАРТА',
+                'h2': 'ГДЕ AI УЖЕ ПОЛЕЗЕН',
+                '.list-text[data-slot="1"]': '<strong>Ресёрч.</strong> Собрать рынок, примеры, аргументы и не умирать в двадцати вкладках.',
+                '.list-text[data-slot="2"]': '<strong>Идеи.</strong> Накидать углы, гипотезы и первые формулировки, а не смотреть в потолок.',
+                '.list-text[data-slot="3"]': '<strong>Структура.</strong> Разложить мысль по блокам, слайдам, сценам и логике.',
+                '.list-text[data-slot="4"]': '<strong>Repurposing.</strong> Выжать из одной идеи, эфира или созвона ещё пять единиц.'
+            },
+            5: {
+                '.grid-col:first-child .section-tag': '// БЫЛО / СТАЛО',
+                '.grid-col:first-child h2': 'РУЧНОЙ РЕЖИМ',
+                '.grid-col:first-child p': 'Ты сама всё ищешь, сама раскладываешь, сама собираешь черновик, а к финалу уже слегка хочешь уволиться даже из собственной головы.',
+                '.grid-col:last-child .grid-card h3': 'РЕЖИМ С AI',
+                '.grid-col:last-child .grid-card p': 'Машина приносит сырьё, варианты и каркас. Ты не заменена. Ты просто наконец перестаёшь работать как отдел из одного измученного человека.'
+            },
+            6: {
+                '.grid-card[data-slot="1"] .card-num': '05',
+                '.grid-card[data-slot="1"] h3': 'Маркетинг',
+                '.grid-card[data-slot="1"] p': 'Ресёрч, офферы, контентные углы, упаковка и первая логика кампании, пока ты не тратишь на это полдня.',
+                '.grid-card[data-slot="2"] .card-num': '06',
+                '.grid-card[data-slot="2"] h3': 'Креатив',
+                '.grid-card[data-slot="2"] p': 'Презентации, концепции, treatment, структура идеи и конденсация материала без ручного месива.',
+                '.grid-card[data-slot="3"] .card-num': '07',
+                '.grid-card[data-slot="3"] h3': 'Команда',
+                '.grid-card[data-slot="3"] p': 'Брифы, feedback-loop и вся скучная рутина, которую обычно зачем-то делают живые дорогие люди.'
+            },
+            7: {
+                '.grid-card-big .section-tag': '// НЕ ОТДАВАЙ ЭТО',
+                '.grid-card-big h2': 'ЧТО ОСТАЁТСЯ ТЕБЕ',
+                '.grid-card-big p': 'Стратегия, вкус, финальное решение и человеческий нюх на уместность. AI тут пока не главный, слава богу, а то мы бы уже жили в мире одинаковых слайдов и одинаковых мыслей.',
+                '.grid-card-small[data-slot="1"] h3': 'Вкус',
+                '.grid-card-small[data-slot="1"] p': 'Он даёт варианты. Не путать это с правом командовать.',
+                '.grid-card-small[data-slot="2"] h3': 'Решение',
+                '.grid-card-small[data-slot="2"] p': 'AI ускоряет мышление. Ответственность и финальный выбор пока всё ещё на тебе.'
+            },
+            8: {
+                '.grid-text-zone .section-tag': '// КОМУ ЭТО НУЖНО',
+                '.grid-text-zone h2': 'НЕ ТОЛЬКО КОНТЕНТЩИКАМ',
+                '.grid-text-zone p': 'Маркетологам, креаторам, экспертам, режиссёрам, студиям и всем, кто устал тратить мозги на ручную возню там, где уже можно собрать систему. Особенно тем, у кого работа дорогая, а задачи почему-то всё ещё разносятся вручную, как в 2017.',
+                '.grid-photo-zone': 'ПОДХОДИТ ДЛЯ:<br><br>МАРКЕТОЛОГОВ<br>КРЕАТОРОВ<br>ЭКСПЕРТОВ<br>РЕЖИССЁРОВ<br>СТУДИЙ'
+            },
+            9: {
+                '.section-tag': '// СРАВНЕНИЕ',
+                'h2': 'ГДЕ УХОДЯТ ЧАСЫ',
+                '.table-header[data-slot="1"]': 'БЕЗ AI',
+                '.table-header[data-slot="2"]': 'С AI',
+                '.table-cell[data-slot="1"]': '2 часа на ресёрч',
+                '.table-cell[data-slot="2"]': '20 минут на сбор и фильтр',
+                '.table-cell[data-slot="3"]': 'Пустой документ и тоска',
+                '.table-cell[data-slot="4"]': 'Каркас, от которого уже можно думать',
+                '.table-cell[data-slot="5"]': '1 идея = 1 выход и усталость',
+                '.table-cell[data-slot="6"]': '1 идея = 5 форматов без ручного ада'
+            },
+            10: {
+                '.cta-keyword': 'СМОТРИ<br><span class="accent">TG</span>',
+                '.cta-desc': 'Если уже умеешь в Claude Code, Codex или просто хочешь рабочие репо и находки без инфо-шума, на этой неделе кидаю их в Telegram.',
+                '.cta-how': 'ССЫЛКА В ПРОФИЛЕ',
+                '.cta-handle': '@IRA.AND.AI'
+            }
+        }
+    }
+};
+const quickStoryTemplates = {
+    protocol: `КАК СОБРАТЬ КАРУСЕЛЬ ЗА 10 МИНУТ
+Одно предложение: зачем человеку листать дальше и что он унесет
+
+ГДЕ ЛЮДИ ТОРМОЗЯТ
+2 строки про проблему, хаос или типичную ошибку
+Еще 1 строка, если нужно добить контекст
+
+ХОРОШАЯ КАРУСЕЛЬ НЕ ПРО ВДОХНОВЕНИЕ, А ПРО ИНЖЕНЕРИЮ ВНИМАНИЯ
+рабочее правило / источник / автор
+
+ПОЧЕМУ ЭТО ВАЖНО
+1 строка с главным выводом
+1 строка с переводом на нормальный человеческий язык
+
+4 ШАГА
+Шаг 1 | что сделать сначала
+Шаг 2 | что сделать потом
+Шаг 3 | где не облажаться
+Шаг 4 | чем закончить
+
+КОНТЕКСТ
+Коротко: что происходит на рынке / в твоей нише
+Сигнал | что это значит на практике
+
+РИТМ
+Хук | с чего начать
+Структура | как вести взгляд
+CTA | чем завершить
+
+ГЛАВНАЯ МЫСЛЬ
+1 строка с основным инсайтом
+Слабое место | что обычно ломает результат
+Рычаг | что реально помогает
+
+КЕЙС ИЛИ ПРИМЕР
+2-3 строки про реальный пример, микро-демо или наблюдение
+
+БЫЛО И СТАЛО
+Случайный пост | Система под задачу
+Красиво, но пусто | Ясно и сохраняемо
+Каждый раз с нуля | Сборка по шаблону
+
+ПРОТОКОЛ
+Пришлю каркас, по которому ты соберешь свою карусель без истерики и пустого экрана
+В КОММЕНТЫ ИЛИ В ДИРЕКТ
+@IRA.AND.AI`,
+    provocation: `ТРЕНД, КОТОРЫЙ УЖЕ ЗДЕСЬ
+Одно предложение: что меняется и почему это опасно игнорировать
+
+ЧТО СЛУЧИЛОСЬ
+2 строки: какой сдвиг уже произошел
+Еще 1 строка: почему большинство это пока не заметило
+
+САМЫЕ ОПАСНЫЕ ИЗМЕНЕНИЯ ВЫГЛЯДЯТ КАК НОВАЯ НОРМА
+наблюдение недели / источник / автор
+
+ПОЧЕМУ ЭТО БЬЕТ
+1 строка: где аудитория уже живет по новым правилам
+1 строка: почему старый подход больше не тянет
+
+4 СИГНАЛА
+Сигнал 1 | что уже видно
+Сигнал 2 | как это проявляется
+Сигнал 3 | где рынок тупит
+Сигнал 4 | что делать умным людям
+
+КОНТЕКСТ
+Что именно сдвинулось
+Последствие | к чему это ведет
+
+3 ПОСЛЕДСТВИЯ
+Охват | падает без нового формата
+Доверие | растет у тех, кто адаптировался
+Деньги | уходят тем, кто быстрее собирает систему
+
+ГЛАВНЫЙ ВЫВОД
+1 строка: суть перемены
+Ошибка | как делают по-старому
+Шанс | как зайти по-новому
+
+ПРИМЕР
+2-3 строки: кейс, микро-доказательство или личное наблюдение
+
+СТАРАЯ ИГРА И НОВАЯ ИГРА
+Долго и вручную | Быстро и по системе
+Идеальный визуал | Рабочая машина контента
+Страх начать | Тест и рост на практике
+
+ТРЕНД
+Пришлю схему, как упаковать этот сдвиг в карусель, пока остальные еще спят
+В КОММЕНТЫ ИЛИ В ДИРЕКТ
+@IRA.AND.AI`,
+    lazy: `САМЫЙ ЛЕНИВЫЙ СПОСОБ ДЕЛАТЬ КОНТЕНТ
+Одно предложение: почему это не халтура, а нормальный взрослый процесс
+
+ГДЕ МЫ САМИ СЕБЯ ЛОМАЕМ
+2 строки про перфекционизм, перегруз решений или канву до ночи
+Еще 1 строка: где сливается энергия
+
+ЕСЛИ КОНТЕНТ ТРЕБУЕТ ГЕРОИЗМА КАЖДЫЙ РАЗ, ЭТО ПЛОХО НАСТРОЕННЫЙ ПРОЦЕСС
+доктор сказал
+
+КАК РАБОТАЕТ ЛЕНИВЫЙ ПУТЬ
+1 строка: что надо решить один раз
+1 строка: что потом просто собирается по частям
+
+ЧТО ХРАНИТЬ В СИСТЕМЕ
+Формулы | чтобы не думать о структуре
+Стили | чтобы визуал не расползался
+Хиты | чтобы помнить, во что целимся
+CTA | чтобы финал не был убитым
+
+БИБЛИОТЕКА
+Что лежит внутри
+Результат | почему это ускоряет выпуск
+
+3 ЭКОНОМИИ
+Время | не начинаешь с нуля
+Нервы | меньше решений на пустом месте
+Качество | меньше случайной каши
+
+ГЛАВНОЕ ПРАВИЛО
+1 строка: сначала система
+Ошибка | не делать все вручную каждый раз
+Рычаг | собрать себе машину один раз
+
+ПРИМЕР
+2-3 строки: как было раньше и что стало после системы
+
+БЫЛО И СТАЛО
+Каждый пост как новый проект | Контент как сборка
+Паника у пустого экрана | Понятный следующий шаг
+Случайный визуал | Повторяемый стиль
+
+ЛЕНИВО
+Пришлю схему, как собрать свою карусельную машину и перестать страдать над каждым постом
+В КОММЕНТЫ ИЛИ В ДИРЕКТ
+@IRA.AND.AI`,
+    realwork: `7 ЗАДАЧ, КОТОРЫЕ AI УЖЕ МОЖЕТ ЗАБРАТЬ У ТЕБЯ
+Не чтобы робот тебя заменил. Чтобы ты перестала быть бесплатным стажёром у собственной рутины.
+
+AI НУЖЕН НЕ ДЛЯ МАГИИ
+Большинство использует AI как игрушку и получает пластиковую ерунду.
+Нормальная роль AI: собрать, разложить, ускорить, снять рутину.
+
+НЕ НАДО ОТДАВАТЬ AI СВОЮ ГОЛОВУ
+Отдай ему то, на чём твоя голова умирает зря.
+рабочее правило
+
+СЕМЬ НОРМАЛЬНЫХ ЗАДАЧ
+Ресёрч, идеи, структура, черновики, презентации, repurposing, feedback.
+Не “сделай всё за меня”, а “забери тупую часть”.
+
+ГДЕ AI УЖЕ ПОЛЕЗЕН
+Ресёрч | собрать рынок, примеры, аргументы
+Идеи | накидать углы и первые формулировки
+Структура | разложить мысль по блокам и слайдам
+Repurposing | выжать из одной идеи ещё пять единиц
+
+РУЧНОЙ РЕЖИМ
+Ты сама всё ищешь, сама собираешь и к финалу уже ненавидишь идею.
+РЕЖИМ С AI | Машина приносит сырьё и каркас. Ты оставляешь себе вкус и решение.
+
+Маркетинг | ресёрч, офферы, контентные углы
+Креатив | презентации, концепции, структура идеи
+Команда | брифы, feedback-loop, скучная рутина
+
+ЧТО ОСТАЁТСЯ ТЕБЕ
+Стратегия, вкус, финальное решение и человеческий нюх.
+Вкус | варианты даёт AI, выбираешь всё ещё ты
+Решение | AI ускоряет мышление, не заменяет ответственность
+
+НЕ ТОЛЬКО КОНТЕНТЩИКАМ
+Маркетологи, креаторы, эксперты, режиссёры, студии.
+Все, кто устал тратить мозги на ручной конвейер там, где уже можно собрать систему.
+
+ГДЕ УХОДЯТ ЧАСЫ
+2 часа на ресёрч | 20 минут на сбор и фильтр
+Пустой документ и тоска | каркас, от которого уже можно думать
+1 идея = 1 выход | 1 идея = 5 форматов без ручного ада
+
+СМОТРИ TG
+Если уже умеешь в Claude Code, Codex или хочешь рабочие репо и находки — на этой неделе кидаю их в Telegram.
+ССЫЛКА В ПРОФИЛЕ
+@IRA.AND.AI`
 };
 
 function setStyle(style) {
@@ -878,6 +1320,34 @@ function setStyle(style) {
     document.querySelectorAll('.topbar button[id^="btn-n"], .topbar button[id^="btn-d"], .topbar button[id^="btn-l"], .topbar button[id^="btn-m"]').forEach(b => b.classList.remove('active'));
     document.getElementById('btn-' + style).classList.add('active');
     resetColors();
+    queueSaveState();
+}
+
+function setPresetButtonState(name) {
+    document.querySelectorAll('[id^="btn-preset-"]').forEach(b => b.classList.remove('active'));
+    const target = document.getElementById('btn-preset-' + name);
+    if (target) target.classList.add('active');
+}
+
+function applyContentMap(slideIndex, contentMap) {
+    const slide = document.querySelectorAll('.slide')[slideIndex];
+    if (!slide) return;
+    Object.entries(contentMap).forEach(([selector, value]) => {
+        const node = slide.querySelector(selector);
+        if (node) node.innerHTML = value;
+    });
+}
+
+function applyPreset(name) {
+    const preset = presetConfigs[name];
+    if (!preset) return;
+    currentPreset = name;
+    if (preset.style) setStyle(preset.style);
+    Object.entries(preset.slides).forEach(([index, contentMap]) => {
+        applyContentMap(Number(index), contentMap);
+    });
+    setPresetButtonState(name);
+    queueSaveState();
 }
 
 function toggleWrap() {
@@ -885,6 +1355,7 @@ function toggleWrap() {
     const btn = document.getElementById('btn-wrap');
     wrap.classList.toggle('frame-on');
     btn.classList.toggle('active');
+    queueSaveState();
 }
 
 function toggleSettings() {
@@ -898,6 +1369,7 @@ function applyFont() {
     const b = document.getElementById('font-body').value;
     document.querySelectorAll('.slide h1, .slide h2, .slide .cta-keyword').forEach(el => el.style.fontFamily = h || '');
     document.querySelectorAll('.slide p, .slide .list-text, .slide .cta-desc, .slide .sub, .slide blockquote').forEach(el => el.style.fontFamily = b || '');
+    queueSaveState();
 }
 
 // === FONT SIZES ===
@@ -925,6 +1397,7 @@ function applyFontSizes() {
     document.querySelectorAll('.slide .cta-keyword').forEach(el => el.style.fontSize = vals.cta + 'px');
     document.querySelectorAll('.slide .cta-desc, .slide .cta-how, .slide .cta-handle').forEach(el => el.style.fontSize = vals.ctadesc + 'px');
     document.querySelectorAll('.slide-brand').forEach(el => el.style.fontSize = vals.brand + 'px');
+    queueSaveState();
 }
 
 function resetFontSizes() {
@@ -934,6 +1407,7 @@ function resetFontSizes() {
         document.getElementById('val-' + k).textContent = defaults[k];
     });
     document.querySelectorAll('.slide h1,.slide h2,.slide p,.slide .sub,.slide .dim,.slide blockquote,.slide .list-text,.slide .list-num,.slide .section-tag,.slide .tag,.slide .quote-author,.slide .cta-keyword,.slide .cta-desc,.slide .cta-how,.slide .cta-handle,.slide-brand').forEach(el => el.style.fontSize = '');
+    queueSaveState();
 }
 
 // === COLORS ===
@@ -943,6 +1417,7 @@ function applyColors() {
     const text = document.getElementById('color-text').value;
     document.getElementById('slides-wrap').style.setProperty('--accent', accent);
     document.querySelectorAll('.slide').forEach(el => { el.style.background = bg; el.style.color = text; });
+    queueSaveState();
 }
 
 function resetColors() {
@@ -955,6 +1430,7 @@ function resetColors() {
     document.querySelectorAll('.slide h1,.slide h2,.slide .cta-keyword,.slide p,.slide .list-text,.slide .cta-desc,.slide .sub,.slide blockquote').forEach(el => el.style.fontFamily = '');
     document.getElementById('font-heading').value = '';
     document.getElementById('font-body').value = '';
+    queueSaveState();
 }
 
 // === BACKGROUND IMAGE ===
@@ -1014,6 +1490,169 @@ function applyScale() {
     const v = document.getElementById('scale-slider').value / 100;
     document.querySelector('.slides-wrap').style.setProperty('--scale', v);
     document.querySelectorAll('.phone-wrap').forEach(el => el.style.marginBottom = `calc(-1350px * (1 - ${v}))`);
+    queueSaveState();
+}
+
+function toHtml(text) {
+    return String(text || '').trim().replace(/\n/g, '<br>');
+}
+
+function splitBlocks(text) {
+    return String(text || '')
+        .split(/\n\s*\n/)
+        .map((block) => block.trim())
+        .filter(Boolean);
+}
+
+function splitLines(block) {
+    return String(block || '')
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean);
+}
+
+function setNodeHtml(slideIndex, selector, value) {
+    const slide = document.querySelectorAll('.slide')[slideIndex];
+    if (!slide) return;
+    const node = slide.querySelector(selector);
+    if (!node) return;
+    node.innerHTML = toHtml(value);
+}
+
+function parseCardLine(line) {
+    const raw = String(line || '').trim();
+    if (!raw) return { title: '', body: '' };
+    const match = raw.split(/\s*[|:-]\s*/);
+    if (match.length >= 2) {
+        return {
+            title: match[0].trim(),
+            body: match.slice(1).join(' — ').trim()
+        };
+    }
+    return { title: raw, body: '' };
+}
+
+function applyQuickStory() {
+    const blocks = splitBlocks(document.getElementById('quick-story').value);
+    if (!blocks.length) {
+        alert('Вставь текст для раскладки.');
+        return;
+    }
+
+    // Slide 1: Cover
+    if (blocks[0]) {
+        const lines = splitLines(blocks[0]);
+        const title = lines[0] || 'ЗАГОЛОВОК';
+        const rest = lines.slice(1).join('\n');
+        setNodeHtml(0, 'h1', title);
+        if (rest) setNodeHtml(0, '.sub', rest);
+    }
+
+    // Slide 2: Content
+    if (blocks[1]) {
+        const lines = splitLines(blocks[1]);
+        setNodeHtml(1, 'h2', lines[0] || 'О ЧЕМ РЕЧЬ');
+        setNodeHtml(1, 'p:nth-of-type(1)', lines[1] || lines.slice(1).join('\n'));
+        if (lines[2]) setNodeHtml(1, 'p:nth-of-type(2)', lines.slice(2).join('\n'));
+    }
+
+    // Slide 3: Quote
+    if (blocks[2]) {
+        const lines = splitLines(blocks[2]);
+        setNodeHtml(2, 'blockquote', lines[0] || blocks[2]);
+        if (lines[1]) setNodeHtml(2, '.quote-author', lines.slice(1).join(' '));
+    }
+
+    // Slide 4: Content
+    if (blocks[3]) {
+        const lines = splitLines(blocks[3]);
+        setNodeHtml(3, 'h2', lines[0] || 'КЛЮЧЕВОЙ ФАКТ');
+        setNodeHtml(3, 'p:nth-of-type(1)', lines[1] || lines.slice(1).join('\n'));
+        if (lines[2]) setNodeHtml(3, 'p:nth-of-type(2)', lines.slice(2).join('\n'));
+    }
+
+    // Slide 5: List
+    if (blocks[4]) {
+        const lines = splitLines(blocks[4]);
+        setNodeHtml(4, 'h2', lines[0] || 'КОНКРЕТНЫЕ ШАГИ');
+        const items = lines.slice(1);
+        for (let i = 0; i < 4; i++) {
+            if (items[i]) {
+                setNodeHtml(4, `.list-text[data-slot="${i + 1}"]`, items[i]);
+            }
+        }
+    }
+
+    // Slide 6: Grid 2col
+    if (blocks[5]) {
+        const lines = splitLines(blocks[5]);
+        setNodeHtml(5, '.grid-col:first-child h2', lines[0] || 'ДВЕ КОЛОНКИ');
+        if (lines[1]) setNodeHtml(5, '.grid-col:first-child p', lines[1]);
+        const card = parseCardLine(lines[2] || '');
+        if (card.title) setNodeHtml(5, '.grid-col:last-child .grid-card h3', card.title);
+        if (card.body) setNodeHtml(5, '.grid-col:last-child .grid-card p', card.body);
+    }
+
+    // Slide 7: Grid 3col
+    if (blocks[6]) {
+        const lines = splitLines(blocks[6]);
+        for (let i = 0; i < 3; i++) {
+            const card = parseCardLine(lines[i] || '');
+            if (card.title) setNodeHtml(6, `.grid-card[data-slot="${i + 1}"] h3`, card.title);
+            if (card.body) setNodeHtml(6, `.grid-card[data-slot="${i + 1}"] p`, card.body);
+        }
+    }
+
+    // Slide 8: Mixed
+    if (blocks[7]) {
+        const lines = splitLines(blocks[7]);
+        setNodeHtml(7, '.grid-card-big h2', lines[0] || 'ГЛАВНАЯ МЫСЛЬ');
+        if (lines[1]) setNodeHtml(7, '.grid-card-big p', lines[1]);
+        const small1 = parseCardLine(lines[2] || '');
+        const small2 = parseCardLine(lines[3] || '');
+        if (small1.title) setNodeHtml(7, '.grid-card-small[data-slot="1"] h3', small1.title);
+        if (small1.body) setNodeHtml(7, '.grid-card-small[data-slot="1"] p', small1.body);
+        if (small2.title) setNodeHtml(7, '.grid-card-small[data-slot="2"] h3', small2.title);
+        if (small2.body) setNodeHtml(7, '.grid-card-small[data-slot="2"] p', small2.body);
+    }
+
+    // Slide 9: Photo
+    if (blocks[8]) {
+        const lines = splitLines(blocks[8]);
+        setNodeHtml(8, '.grid-text-zone h2', lines[0] || 'ФОТО + ТЕКСТ');
+        if (lines[1]) setNodeHtml(8, '.grid-text-zone p', lines.slice(1).join('\n'));
+    }
+
+    // Slide 10: Table
+    if (blocks[9]) {
+        const lines = splitLines(blocks[9]);
+        setNodeHtml(9, 'h2', lines[0] || 'ТАБЛИЦА СРАВНЕНИЯ');
+        const rows = lines.slice(1, 5).map(parseCardLine);
+        rows.forEach((row, index) => {
+            const rowStart = index * 2 + 1;
+            if (row.title) setNodeHtml(9, `.table-cell[data-slot="${rowStart}"]`, row.title);
+            if (row.body) setNodeHtml(9, `.table-cell[data-slot="${rowStart + 1}"]`, row.body);
+        });
+    }
+
+    // Slide 11: CTA
+    if (blocks[10] || blocks[blocks.length - 1]) {
+        const lines = splitLines(blocks[10] || blocks[blocks.length - 1]);
+        if (lines[0]) setNodeHtml(10, '.cta-keyword', lines[0]);
+        if (lines[1]) setNodeHtml(10, '.cta-desc', lines[1]);
+        if (lines[2]) setNodeHtml(10, '.cta-how', lines[2]);
+        if (lines[3]) setNodeHtml(10, '.cta-handle', lines[3]);
+    }
+
+    queueSaveState();
+}
+
+function loadQuickStoryTemplate(name) {
+    if (presetConfigs[name]) applyPreset(name);
+    const template = quickStoryTemplates[name];
+    if (!template) return;
+    document.getElementById('quick-story').value = template;
+    queueSaveState();
 }
 
 // === ACTIONS ===
@@ -1023,6 +1662,21 @@ function saveHTML() {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = document.title.replace(/ — .*/, '') + '.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+function exportJSON() {
+    const payload = {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        title: document.title,
+        state: getState(),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'carousel-state.json';
     a.click();
     URL.revokeObjectURL(a.href);
 }
@@ -1117,8 +1771,116 @@ function updateSlideDim(index, value) {
     applySlidePhoto(index);
 }
 
+function getEditableContent() {
+    return Array.from(document.querySelectorAll('[contenteditable="true"]')).map((el) => el.innerHTML);
+}
+
+function restoreEditableContent(items) {
+    if (!Array.isArray(items)) return;
+    const nodes = Array.from(document.querySelectorAll('[contenteditable="true"]'));
+    items.forEach((html, index) => {
+        if (nodes[index] && typeof html === 'string') {
+            nodes[index].innerHTML = html;
+        }
+    });
+}
+
+function getState() {
+    return {
+        style: currentStyle,
+        preset: currentPreset,
+        quickStory: document.getElementById('quick-story').value,
+        frameOn: document.getElementById('slides-wrap').classList.contains('frame-on'),
+        scale: document.getElementById('scale-slider').value,
+        fontHeading: document.getElementById('font-heading').value,
+        fontBody: document.getElementById('font-body').value,
+        colors: {
+            accent: document.getElementById('color-accent').value,
+            bg: document.getElementById('color-bg').value,
+            text: document.getElementById('color-text').value,
+        },
+        fontSizes: {
+            h1: document.getElementById('size-h1').value,
+            h2: document.getElementById('size-h2').value,
+            p: document.getElementById('size-p').value,
+            quote: document.getElementById('size-quote').value,
+            list: document.getElementById('size-list').value,
+            listnum: document.getElementById('size-listnum').value,
+            tag: document.getElementById('size-tag').value,
+            cta: document.getElementById('size-cta').value,
+            ctadesc: document.getElementById('size-ctadesc').value,
+            brand: document.getElementById('size-brand').value,
+        },
+        editableContent: getEditableContent(),
+    };
+}
+
+function applyStateObject(state) {
+    if (!state) return;
+    if (state.style) setStyle(state.style);
+    if (state.preset) {
+        currentPreset = state.preset;
+        setPresetButtonState(state.preset);
+    }
+    if (state.quickStory !== undefined) {
+        document.getElementById('quick-story').value = state.quickStory;
+    }
+    if (typeof state.frameOn === 'boolean') {
+        const wrap = document.getElementById('slides-wrap');
+        const shouldBeOn = state.frameOn;
+        const isOn = wrap.classList.contains('frame-on');
+        if (shouldBeOn !== isOn) toggleWrap();
+    }
+    if (state.scale) {
+        document.getElementById('scale-slider').value = state.scale;
+        applyScale();
+    }
+    if (state.fontHeading !== undefined) document.getElementById('font-heading').value = state.fontHeading;
+    if (state.fontBody !== undefined) document.getElementById('font-body').value = state.fontBody;
+    applyFont();
+    if (state.colors) {
+        document.getElementById('color-accent').value = state.colors.accent || styleDefaults[currentStyle].accent;
+        document.getElementById('color-bg').value = state.colors.bg || styleDefaults[currentStyle].bg;
+        document.getElementById('color-text').value = state.colors.text || styleDefaults[currentStyle].text;
+        applyColors();
+    }
+    if (state.fontSizes) {
+        Object.entries(state.fontSizes).forEach(([key, value]) => {
+            const input = document.getElementById('size-' + key);
+            if (input && value !== undefined) input.value = value;
+        });
+        applyFontSizes();
+    }
+    restoreEditableContent(state.editableContent);
+}
+
+function saveState() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(getState()));
+    } catch (error) {
+        console.warn('Failed to save carousel constructor state', error);
+    }
+}
+
+function queueSaveState() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveState, 120);
+}
+
+function restoreState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const state = JSON.parse(raw);
+        applyStateObject(state);
+    } catch (error) {
+        console.warn('Failed to restore carousel constructor state', error);
+    }
+}
+
 // === INIT ===
 setStyle('nike');
+restoreState();
 
 // Add per-slide PNG download buttons
 document.querySelectorAll('.slide-label').forEach((label, i) => {
@@ -1127,6 +1889,25 @@ document.querySelectorAll('.slide-label').forEach((label, i) => {
     btn.textContent = 'PNG';
     btn.onclick = (e) => { e.stopPropagation(); downloadSlide(i); };
     label.appendChild(btn);
+});
+
+document.querySelectorAll('[contenteditable="true"]').forEach((node) => {
+    node.addEventListener('input', queueSaveState);
+});
+
+document.getElementById('json-import').addEventListener('change', async (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    try {
+        const text = await file.text();
+        const payload = JSON.parse(text);
+        applyStateObject(payload.state || payload);
+        queueSaveState();
+    } catch (error) {
+        alert('Не удалось импортировать JSON: ' + error.message);
+    } finally {
+        event.target.value = '';
+    }
 });
 </script>
 </body>

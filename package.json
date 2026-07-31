@@ -7,7 +7,12 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "worker:login": "npx wrangler login",
+    "worker:secret": "npx wrangler secret put UNISENDER_API_KEY",
+    "worker:deploy": "npx wrangler deploy",
+    "worker:deploy:env": "bash scripts/deploy-worker.sh",
+    "worker:tail": "npx wrangler tail iraai-subscribe",
+    "test": "node --check scripts/subscribe.js && node --input-type=module --check < subscribe-worker.js"
   },
   "repository": {
     "type": "git",
