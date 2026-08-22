@@ -536,123 +536,6 @@
             margin-bottom: 12px;
         }
 
-        /* ===================== SALES OFFER ===================== */
-        .sales-offer {
-            padding: 52px 24px;
-            background: var(--white);
-        }
-
-        .sales-offer-card {
-            max-width: 1080px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-            gap: 32px;
-            align-items: center;
-            padding: 36px;
-            border: 2px solid var(--accent);
-            border-radius: 18px;
-            background: linear-gradient(135deg, #FFFFFF 0%, #FFF5F2 100%);
-            box-shadow: 0 18px 50px rgba(196, 101, 78, 0.12);
-        }
-
-        .sales-offer-kicker {
-            display: inline-flex;
-            margin-bottom: 14px;
-            padding: 6px 10px;
-            border-radius: 6px;
-            background: var(--deep);
-            color: var(--white);
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .sales-offer h2 {
-            margin-bottom: 12px;
-            font-size: clamp(28px, 4vw, 42px);
-            font-weight: 900;
-            line-height: 1.08;
-            letter-spacing: -0.02em;
-        }
-
-        .sales-offer p {
-            max-width: 620px;
-            color: var(--text-secondary);
-            font-size: 17px;
-            line-height: 1.65;
-        }
-
-        .sales-offer-list {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-            margin-top: 22px;
-            list-style: none;
-        }
-
-        .sales-offer-list li {
-            padding: 11px 12px;
-            border: 1px solid rgba(196, 101, 78, 0.18);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.72);
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .sales-offer-buy {
-            padding: 24px;
-            border-radius: 16px;
-            background: var(--white);
-            border: 1px solid rgba(196, 101, 78, 0.24);
-        }
-
-        .sales-offer-price {
-            margin-bottom: 6px;
-            color: var(--accent);
-            font-size: 34px;
-            font-weight: 900;
-            letter-spacing: -0.02em;
-        }
-
-        .sales-offer-note {
-            margin-bottom: 18px;
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .sales-offer-buy .btn {
-            width: 100%;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .sales-offer-small {
-            display: block;
-            margin-top: 12px;
-            color: var(--text-dim);
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        .sales-offer-alt {
-            margin-top: 16px;
-            padding-top: 14px;
-            border-top: 1px solid var(--light-gray);
-            color: var(--text-secondary);
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        .sales-offer-alt a {
-            color: var(--accent);
-            font-weight: 800;
-            text-decoration: none;
-        }
-
         /* ===================== PRODUCTS ===================== */
         .products-grid {
             display: grid;
@@ -705,11 +588,11 @@
         }
 
         .products-grid--free {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         }
 
         .products-grid--paid {
-            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             align-items: stretch;
         }
 
@@ -794,17 +677,6 @@
 
         .product-meta .product-tag {
             margin-bottom: 0;
-        }
-
-        .product-tag.new {
-            background: #1a1a1a;
-            color: #00ff41;
-            animation: newPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes newPulse {
-            0%, 100% { box-shadow: 0 0 0 rgba(0,255,65,0); }
-            50% { box-shadow: 0 0 8px rgba(0,255,65,0.3); }
         }
 
         .product-card h3 {
@@ -1300,24 +1172,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .sales-offer {
-                padding: 28px 16px;
-            }
-
-            .sales-offer-card {
-                grid-template-columns: 1fr;
-                padding: 24px 20px;
-                gap: 22px;
-            }
-
-            .sales-offer-list {
-                grid-template-columns: 1fr;
-            }
-
-            .sales-offer-price {
-                font-size: 30px;
-            }
-
             .about-photo {
                 max-width: 200px;
                 aspect-ratio: 1;
@@ -1439,7 +1293,7 @@
             <a href="#rehub" class="btn btn-primary">Подписаться на рассылку</a>
             <a href="#products" class="btn btn-secondary">Два хаба в записи</a>
         </div>
-        <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Рассылка AI реХАБ раз в неделю, бесплатно. ClaudeHub и GPT-хаб в записи: по 6 500 &#8381;, доступ до 1 октября.</p>
+        <p style="margin-top:20px;font-size:14px;color:var(--text-dim);">Рассылка AI реХАБ раз в неделю, бесплатно. ClaudeHub и GPT-хаб в записи, по 6 500 &#8381;.</p>
     </div>
 </section>
 
@@ -1460,7 +1314,7 @@
             <div style="background:var(--white);border:1px solid var(--light-gray);border-radius:18px;padding:24px;display:flex;flex-direction:column;">
                 <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);margin-bottom:12px;">02 · В записи</div>
                 <div style="font-size:19px;font-weight:800;margin-bottom:8px;">Два хаба</div>
-                <p style="font-size:14px;color:var(--text-secondary);flex:1;margin-bottom:16px;">ClaudeHub и GPT-хаб: уроки, промпты, скиллы. По 6 500 &#8381;, доступ до 1 октября, смотрите в своём темпе.</p>
+                <p style="font-size:14px;color:var(--text-secondary);flex:1;margin-bottom:16px;">ClaudeHub и GPT-хаб: уроки, промпты, скиллы. По 6 500 &#8381;, смотрите в своём темпе.</p>
                 <a href="#products" style="color:var(--accent);font-weight:600;font-size:15px;text-decoration:none;">Смотреть хабы &rarr;</a>
             </div>
 
@@ -1475,26 +1329,84 @@
     </div>
 </section>
 
-<!-- ==================== SALES OFFER ==================== -->
-<section class="sales-offer">
-    <div class="sales-offer-card">
-        <div>
-            <span class="sales-offer-kicker">Два хаба в записи</span>
-            <h2>ClaudeHub и GPT-хаб</h2>
-            <p>Два собранных хаба, чтобы включить нейросети в работу по-взрослому: не разовый трюк, а система, которая остаётся с вами. Живые потоки прошли, уроки лежат на портале. Открыли, прошли в своём темпе, забрали в работу.</p>
-            <ul class="sales-offer-list">
-                <li>ClaudeHub: 18 уроков, промпты и скиллы</li>
-                <li>GPT-хаб: 12 уроков, ChatGPT как рабочий агент</li>
-                <li>Моментальный доступ после оплаты</li>
-                <li>Оба доступны до 1 октября</li>
-            </ul>
+<!-- ==================== REHUB ==================== -->
+<section id="rehub">
+    <span id="rehab" class="legacy-anchor" aria-hidden="true"></span>
+    <div class="section-inner">
+        <div class="rehab-grid">
+            <div>
+                <div class="section-label">Рассылка</div>
+                <h2 class="section-title">AI <span style="color:var(--accent)">реХАБ</span></h2>
+                <p class="section-desc">В ХАБах работаем. В AI реХАБе восстанавливаемся. В своём темпе, без давления. Фишки, которые можно применить прямо сейчас.</p>
+
+                <ul class="rehab-features">
+                    <li>
+                        <div class="rehab-icon">&#x1F4A1;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Лайфхаки</h4>
+                            <p>То, что вы не знали, но уже завтра будете использовать</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rehab-icon">&#x1F916;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Промпты и скиллы</h4>
+                            <p>Готовые решения. Скопировал, вставил, работает</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rehab-icon">&#x1F527;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Инструменты</h4>
+                            <p>Новые нейросети и сервисы, которые стоит попробовать</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rehab-icon">&#x1F4F0;</div>
+                        <div class="rehab-feature-text">
+                            <h4>Новости AI</h4>
+                            <p>Только важное. Без хайпа и паники</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="rehab-cta-box immune">
+                <h3>Попробуйте AI <span style="color:var(--accent)">реХАБ</span></h3>
+                <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. В своём темпе.</p>
+                <form class="email-form" action="#" name="subscribtion_form" onsubmit="return handleSubscribe(this)">
+                    <input type="email" name="email" placeholder="Ваш email" required>
+                    <input type="hidden" name="charset" value="UTF-8">
+                    <input type="hidden" name="default_list_id" value="1">
+                    <input type="hidden" name="overwrite" value="2">
+                    <input type="hidden" name="is_v5" value="1">
+                    <button type="submit" disabled>Подписаться</button>
+                    <div class="consent-row">
+                        <label class="consent-label">
+                            <input type="checkbox" onchange="toggleSubmit(this)">
+                            <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
+                        </label>
+                    </div>
+                </form>
+                <p class="email-note">Присоединяйтесь к AI реХАБу.</p>
+                <a href="/rassylka/" style="display:inline-block;margin-top:14px;padding:12px 22px;background:transparent;color:var(--text-secondary);border:1px solid var(--light-gray);border-radius:12px;font-weight:600;font-size:14px;text-decoration:none;">Сначала почитать прошлые выпуски &rarr;</a>
+            </div>
         </div>
-        <div class="sales-offer-buy">
-            <div class="sales-offer-note">Каждый хаб 6 500 &#8381;. Оплатили, зашли, начали смотреть. Доступ до 1 октября.</div>
-            <a href="https://iraai.ru/claude-hub/" class="btn btn-primary">Забрать ClaudeHub</a>
-            <a href="https://iraai.ru/gpt-hub/" class="btn btn-secondary" style="margin-top:10px;">Забрать GPT-хаб</a>
-            <span class="sales-offer-small">Это не про «освоить кнопки», а про то, как встроить нейросети в свою реальную работу.</span>
+
+        <div style="margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--light-gray); font-size: 13px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase;">Примеры выпусков</div>
+        <div class="rehab-examples-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;">
+            <a href="https://iraai.ru/masterclass-hassid/" style="padding: 20px; background: var(--warm-gray); border-radius: 12px; border: 1px solid var(--light-gray); text-decoration: none; color: inherit; transition: all 0.2s;">
+                <div style="font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Выпуск 03</div>
+                <div style="font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px;">Claude не один инструмент. Их шесть.</div>
+                <div style="font-size: 13px; color: var(--text-secondary);">Ruben Hassid &middot; Полный разбор с промтами</div>
+            </a>
+            <a href="https://iraai.ru/masterclass-shumer/" style="padding: 20px; background: #0A0A0A; border-radius: 12px; border: 1px solid #E63946; text-decoration: none; color: inherit; transition: all 0.2s;">
+                <div style="font-size: 11px; font-weight: 600; color: #E63946; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Выпуск 02</div>
+                <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 4px;">Грядёт нечто большое</div>
+                <div style="font-size: 13px; color: #999;">Matt Shumer &middot; 50 млн просмотров</div>
+            </a>
         </div>
+        <style>@keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.3} }</style>
     </div>
 </section>
 
@@ -1614,7 +1526,7 @@
         <div style="text-align: center; margin-bottom: 40px;">
             <div class="section-label">Купить в записи</div>
             <h2 class="section-title" style="font-size: 32px;">Два хаба, которые можно открыть сегодня</h2>
-            <p class="section-desc">Оба хаба в записи, по 6 500 &#8381;, доступ до 1 октября. Бесплатное оставила ниже: оно отлично разогревает мозг, но покупка живёт вот тут.</p>
+            <p class="section-desc">Оба хаба в записи, по 6 500 &#8381;. Бесплатное оставила ниже: оно отлично разогревает мозг, но покупка живёт вот тут.</p>
         </div>
 
         <div class="product-lanes">
@@ -1633,12 +1545,12 @@
                             <span class="product-tag paid">В записи</span>
                         </div>
                         <h3>ClaudeHub</h3>
-                        <p>Мой самый сильный проект. Собранный хаб, чтобы включить AI в работу по-взрослому: не разовый трюк, а система, которая остаётся с вами.</p>
+                        <p>Восемнадцать уроков про то, как включить Клода в работу по-взрослому: не разовый трюк, а система, которая остаётся с вами. Живой поток прошёл в июне.</p>
                         <ul class="product-card-list">
                             <li>18 уроков на портале</li>
                             <li>Промпты и скиллы</li>
                             <li>Моментальный доступ</li>
-                            <li>Доступ до 1 октября</li>
+                            <li>Уроки открыты до 1 октября, промпты и скиллы остаются у вас</li>
                         </ul>
                         <div class="product-price">6 500 &#8381;</div>
                         <span class="product-cta">Открыть ClaudeHub →</span>
@@ -1649,12 +1561,12 @@
                             <span class="product-tag paid">В записи</span>
                         </div>
                         <h3>GPT-хаб</h3>
-                        <p>Двенадцать уроков по десять минут, после которых ChatGPT перестаёт быть чатиком и начинает работать как сотрудник. Живой поток прошёл 1-21 августа.</p>
+                        <p>Двенадцать уроков по десять минут про то, как ChatGPT перестаёт быть чатиком и начинает работать как сотрудник. Живой поток прошёл в августе.</p>
                         <ul class="product-card-list">
                             <li>12 уроков на портале</li>
                             <li>Промпты и разборы рабочих задач</li>
                             <li>Гайд по доступу из РФ</li>
-                            <li>Доступ до 1 октября</li>
+                            <li>Уроки открыты до 1 октября, промпты остаются у вас</li>
                         </ul>
                         <div class="product-price">6 500 &#8381;</div>
                         <span class="product-cta">Открыть GPT-хаб →</span>
@@ -1713,99 +1625,8 @@
     </div>
 </section>
 
-<!-- ==================== BRIDGE: Products -> ReHub ==================== -->
-<section style="padding: 48px 24px; text-align: center; background: var(--off-white);">
-    <div style="max-width: 520px; margin: 0 auto;">
-        <p style="font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px;">Хотите больше?</p>
-        <p style="font-size: 16px; color: var(--text-secondary); line-height: 1.6;">AI реХАБ: рассылка раз в неделю. Свежие промпты, лайфхаки и инструменты. Забирайте и применяйте сразу.</p>
-        <a href="#rehub" style="display: inline-block; margin-top: 16px; font-size: 15px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px;">Подписаться бесплатно &darr;</a>
-    </div>
-</section>
-
-<!-- ==================== REHUB ==================== -->
-<section id="rehub">
-    <span id="rehab" class="legacy-anchor" aria-hidden="true"></span>
-    <div class="section-inner">
-        <div class="rehab-grid">
-            <div>
-                <div class="section-label">Рассылка</div>
-                <h2 class="section-title">AI <span style="color:var(--accent)">реХАБ</span></h2>
-                <p class="section-desc">В ХАБах работаем. В AI реХАБе восстанавливаемся. В своём темпе, без давления. Фишки, которые можно применить прямо сейчас.</p>
-
-                <ul class="rehab-features">
-                    <li>
-                        <div class="rehab-icon">&#x1F4A1;</div>
-                        <div class="rehab-feature-text">
-                            <h4>Лайфхаки</h4>
-                            <p>То, что вы не знали, но уже завтра будете использовать</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="rehab-icon">&#x1F916;</div>
-                        <div class="rehab-feature-text">
-                            <h4>Промпты и скиллы</h4>
-                            <p>Готовые решения. Скопировал, вставил, работает</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="rehab-icon">&#x1F527;</div>
-                        <div class="rehab-feature-text">
-                            <h4>Инструменты</h4>
-                            <p>Новые нейросети и сервисы, которые стоит попробовать</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="rehab-icon">&#x1F4F0;</div>
-                        <div class="rehab-feature-text">
-                            <h4>Новости AI</h4>
-                            <p>Только важное. Без хайпа и паники</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="rehab-cta-box immune">
-                <h3>Попробуйте AI <span style="color:var(--accent)">реХАБ</span></h3>
-                <p>Один email в неделю. Коктейль из новостей, лайфхаков, промптов и инструментов. В своём темпе.</p>
-                <a href="/rassylka/" style="display:inline-block;margin:2px 0 20px;padding:14px 26px;background:var(--accent);color:var(--white);border-radius:12px;font-weight:600;font-size:15px;text-decoration:none;">Почитать прошлые выпуски &rarr;</a>
-                <p style="margin:0 0 12px;color:var(--mid-gray);font-size:14px;">Понравилось? Подпишитесь, чтобы не пропускать новые.</p>
-                <form class="email-form" action="#" name="subscribtion_form" onsubmit="return handleSubscribe(this)">
-                    <input type="email" name="email" placeholder="Ваш email" required>
-                    <input type="hidden" name="charset" value="UTF-8">
-                    <input type="hidden" name="default_list_id" value="1">
-                    <input type="hidden" name="overwrite" value="2">
-                    <input type="hidden" name="is_v5" value="1">
-                    <button type="submit" disabled>Подписаться</button>
-                    <div class="consent-row">
-                        <label class="consent-label">
-                            <input type="checkbox" onchange="toggleSubmit(this)">
-                            <span>Я даю согласие на получение рекламно&#8209;информационной рассылки и на обработку моих персональных данных в соответствии с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a>.</span>
-                        </label>
-                    </div>
-                </form>
-                <p class="email-note">Присоединяйтесь к AI реХАБу.</p>
-            </div>
-        </div>
-
-        <div style="margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--light-gray); font-size: 13px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase;">Примеры выпусков</div>
-        <div class="rehab-examples-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;">
-            <a href="https://iraai.ru/masterclass-hassid/" style="padding: 20px; background: var(--warm-gray); border-radius: 12px; border: 1px solid var(--light-gray); text-decoration: none; color: inherit; transition: all 0.2s;">
-                <div style="font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Выпуск 03</div>
-                <div style="font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px;">Claude не один инструмент. Их шесть.</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Ruben Hassid &middot; Полный разбор с промтами</div>
-            </a>
-            <a href="https://iraai.ru/masterclass-shumer/" style="padding: 20px; background: #0A0A0A; border-radius: 12px; border: 1px solid #E63946; text-decoration: none; color: inherit; transition: all 0.2s;">
-                <div style="font-size: 11px; font-weight: 600; color: #E63946; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Выпуск 02</div>
-                <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 4px;">Грядёт нечто большое</div>
-                <div style="font-size: 13px; color: #999;">Matt Shumer &middot; 50 млн просмотров</div>
-            </a>
-        </div>
-        <style>@keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.3} }</style>
-    </div>
-</section>
-
-<!-- ==================== SERVICES TEASER ==================== -->
-<section id="mentorstvo" style="background: var(--warm-bg, #F5F3F0); padding: 80px 24px;">
+<!-- ==================== МЕНТОРСТВО ==================== -->
+<section id="mentorstvo" style="background: var(--warm-gray); padding: 80px 24px;">
     <div class="section-inner" style="max-width: 1080px; margin: 0 auto;">
         <div style="text-align: center; margin-bottom: 48px;">
             <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent, #E50914); margin-bottom: 12px;">Один на один</div>
@@ -1819,6 +1640,7 @@
                 <div style="font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #1A1A1A;">Менторство</div>
                 <p style="font-size: 15px; color: #5C5856; line-height: 1.65; margin-bottom: 14px;">Работа один на один. Обычно это три встречи в течение месяца: разбираем вашу задачу, собираем решение и проверяем, что оно живёт без меня.</p>
                 <p style="font-size: 14px; color: #7A7573; line-height: 1.6;">Подходит, когда своя работа уже есть, а нейросети в неё встают криво или не встают вообще.</p>
+                <p style="font-size: 14px; color: #5C5856; line-height: 1.65; margin-top: 12px;">Начинается с разговора: опишите задачу, созвонимся и обсудим, чем я тут полезна.</p>
             </div>
 
             <div style="background: white; border: 1px solid #E8E5E0; border-radius: 16px; padding: 32px 28px;">
@@ -1826,6 +1648,13 @@
                 <div style="font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #1A1A1A;">Индивидуальная консультация</div>
                 <p style="font-size: 15px; color: #5C5856; line-height: 1.65; margin-bottom: 14px;">Разовая встреча по конкретному вопросу. Приходите с задачей, уходите с решением и понятными следующими шагами.</p>
                 <p style="font-size: 14px; color: #7A7573; line-height: 1.6;">Подходит, когда нужен один ответ, а не программа.</p>
+            </div>
+
+            <div style="background: white; border: 1px solid #E8E5E0; border-radius: 16px; padding: 32px 28px;">
+                <div style="font-size: 28px; margin-bottom: 12px;">&#9654;</div>
+                <div style="font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #1A1A1A;">Компаниям</div>
+                <p style="font-size: 15px; color: #5C5856; line-height: 1.65; margin-bottom: 14px;">Обучение команды и разбор рабочих процессов отдела. Формат от одного дня до программы, собирается под задачу.</p>
+                <p style="font-size: 14px; color: #7A7573; line-height: 1.6;">Подходит, когда нейросети нужны не одному человеку, а отделу.</p>
             </div>
         </div>
 
@@ -1851,11 +1680,11 @@
 
                 <div class="about-stats">
                     <div class="about-stat">
-                        <strong>19K+</strong>
+                        <strong>26 000</strong>
                         <span>Instagram</span>
                     </div>
                     <div class="about-stat">
-                        <strong>5 500+</strong>
+                        <strong>8 000</strong>
                         <span>Telegram</span>
                     </div>
                     <div class="about-stat">
@@ -1867,6 +1696,9 @@
                 <div class="social-links">
                     <a href="https://telegram.me/ira_and_ai" class="social-link" target="_blank">
                         TG @ira_and_ai
+                    </a>
+                    <a href="https://instagram.com/ira.and.ai" class="social-link" target="_blank" rel="noreferrer">
+                        IG @ira.and.ai
                     </a>
                 </div>
 
@@ -2033,21 +1865,6 @@ function animateGlow() {
 }
 animateGlow();
 
-// Color pop on proximity
-const popElements = document.querySelectorAll('.product-card, .rehab-features li');
-document.addEventListener('mousemove', (e) => {
-    popElements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dist = Math.sqrt((e.clientX - cx) ** 2 + (e.clientY - cy) ** 2);
-        if (dist < 200) {
-            el.classList.add('color-pop');
-        } else {
-            el.classList.remove('color-pop');
-        }
-    });
-});
 </script>
 
 <!-- ==================== VOXEL WALKER ==================== -->
@@ -2216,25 +2033,7 @@ const MEME_WORDS = [
     'ФИНАЛЬНЫЕ ПРАВКИ', 'СОВСЕМ ФИНАЛЬНЫЕ',
     'ТОЧНО ПОСЛЕДНИЕ', 'P.S. ЕЩЁ ОДНА',
     'ФИНАЛОЧКА', 'ПРАВКИ К ПРАВКАМ',
-    'Я ПРОСТО ПОДУМАЛА...', 'А ДАВАЙ ВСЁ ПЕРЕДЕЛАЕМ',
-
-    // === Токсичный шеф ===
-    'ДА КОМУ ТЫ НУЖЕН?', 'ХОТЕЛ ДАТЬ ОБРАТНУЮ СВЯЗЬ',
-    'ШЕФ В АУТЕ', 'ВЫЙДИ В СУББОТУ',
-    'НУ ПОРАБОТАЕШЬ НОЧЬЮ, ДЕЛОВ-ТО',
-    'ТЫ ЖЕ ПРОФЕССИОНАЛ', 'НАДО ВЧЕРА',
-    'Я ДУМАЛ ТЫ СПРАВИШЬСЯ', 'А ЧТО СЛОЖНОГО?',
-    'ЭТО ЖЕ ЭЛЕМЕНТАРНО', 'ПРОСТО СДЕЛАЙ',
-    'У ТЕБЯ ЖЕ НЕТ ДЕТЕЙ', 'ТЫ ЖЕ МОЛОДАЯ',
-    'ЗАДЕРЖИСЬ СЕГОДНЯ', 'А ЗАВТРА ПОРАНЬШЕ',
-
-    // === Пассивная агрессия ===
-    'КАК СКАЖЕШЬ', 'ОК, ХОРОШО', 'НУ ЛАДНО',
-    'Я НЕ ОБИДЕЛАСЬ', 'ДЕЛАЙ КАК ЗНАЕШЬ',
-    'НУ ТЫ ЖЕ УМНАЯ', 'ДА НЕТ, ВСЁ НОРМАЛЬНО',
-    'НЕ ХОЧУ ТЕБЯ ГРУЗИТЬ, НО...',
-    'БЕЗ ОБИД', 'ПРОСТО МЫСЛИ ВСЛУХ',
-    'Я ТУТ ПОДУМАЛ ЗА ТЕБЯ',
+    'А ДАВАЙ ВСЁ ПЕРЕДЕЛАЕМ',
 
     // === Совещания из ада ===
     'ZOOM В 9:00', 'СОЗВОН ЧЕРЕЗ 5', 'ЗВОНОК БЕЗ ПОВЕСТКИ',
@@ -2244,11 +2043,9 @@ const MEME_WORDS = [
     'ТЫ НА МЬЮТЕ', 'МЕНЯ СЛЫШНО?',
     'ДАВАЙТЕ ВЕРНЁМСЯ К ЭТОМУ', 'ЗАПАРКУЕМ ВОПРОС',
 
-    // === Начальница ===
+    // === Задачи сверху ===
     'ПИСЬМО СВЕРХУ', 'ТАМ КЛИЕНТ ЖДЁТ',
-    'А ТЫ УЖЕ СДЕЛАЛА?', 'А СТАТУС?', 'НУ ЧТО ТАМ?',
-    'Я ТЕБЯ НЕ ТОРОПЛЮ, НО...', 'ПРОСТО НАПОМИНАЮ',
-    'КОГДА БУДЕТ?', 'А МОЖНО ПОБЫСТРЕЕ?',
+    'А СТАТУС?', 'НУ ЧТО ТАМ?', 'КОГДА БУДЕТ?',
     'ЭТО НА ВЧЕРА', 'ПЕРЕЗВОНЮ',
     'ПЕРЕДЕЛАЙ', 'ЭТО НЕ ТО', 'ХОЧУ ДРУГОЕ',
     'НЕ ЗНАЮ КАКОЕ, НО ДРУГОЕ',
@@ -2265,15 +2062,12 @@ const MEME_WORDS = [
     'КТО ВЗЯЛ МОЮ КРУЖКУ?', 'ПРИНТЕР НЕ РАБОТАЕТ',
     'ПРОЧИТАЙ РЕГЛАМЕНТ', 'СМ. ПРИЛОЖЕНИЕ',
     'ВО ВЛОЖЕНИИ', 'СМ. ВЫШЕ', 'СМ. НИЖЕ',
-    'А ЭТО МОЯ ЗОНА ОТВЕТСТВЕННОСТИ?',
 
-    // === Страхи ===
-    'ТЕБЯ ЗАМЕНИТ НЕЙРОСЕТЬ', 'ИИ РАБОТАЕТ БЫСТРЕЕ',
-    'А ТЫ ТОЧНО НУЖНА?', 'ОПТИМИЗАЦИЯ ШТАТА',
-    'РЕСТРУКТУРИЗАЦИЯ', 'НОВАЯ СТРАТЕГИЯ',
+    // === Корпоративный жаргон ===
+    'ОПТИМИЗАЦИЯ', 'РЕСТРУКТУРИЗАЦИЯ', 'НОВАЯ СТРАТЕГИЯ',
     'ПИВОТ', 'СИНЕРГИЯ', 'АДЖАЙЛ',
     'ДАВАЙТЕ БУДЕМ ГИБКИМИ', 'ТИМБИЛДИНГ В ПЯТНИЦУ',
-    'ОБЯЗАТЕЛЬНЫЙ ТИМБИЛДИНГ', 'КОРПОРАТИВ ЗА СВОЙ СЧЁТ',
+    'ОБЯЗАТЕЛЬНЫЙ ТИМБИЛДИНГ',
 
     // === Дизайн-ад ===
     'КАКОЙ ЕЩЁ БРИФ?', 'ДАВАЙТЕ ПОИГРАЕМ СО ШРИФТАМИ',
@@ -2283,44 +2077,14 @@ const MEME_WORDS = [
     'ЛОГОТИП ПОБОЛЬШЕ', 'ШРИФТ ПОКРАСИВЕЕ',
     'А МОЖНО ПОЯРЧЕ?', 'А МОЖНО ПОСКРОМНЕЕ?',
     'СДЕЛАЙ ДВА ВАРИАНТА', 'НЕТ, ТРИ', 'НЕТ, ПЯТЬ',
-    'ПОКАЖИ ВСЕ', 'МНЕ НЕ НРАВИТСЯ НИ ОДИН',
-    'ВЕРНИ ПЕРВЫЙ', 'НЕТ, ВТОРОЙ', 'НЕТ, КАК БЫЛО',
+    'ПОКАЖИ ВСЕ', 'ВЕРНИ ПЕРВЫЙ', 'НЕТ, ВТОРОЙ', 'НЕТ, КАК БЫЛО',
 
     // === Корпоративный абсурд ===
     'МЫ ТУТ СЕМЬЯ', 'НОСИТЕ БЕЙДЖИК', 'КТО ПОСЛЕДНИЙ УХОДИТ',
     'ПЕЧЕНЬКИ В ПЕРЕГОВОРКЕ', 'КУЛЕР СЛОМАЛСЯ',
     'ПАРКОВКА ТОЛЬКО ДЛЯ РУКОВОДСТВА', 'ДРЕСС-КОД',
-    'ПЯТНИЦА НЕ ПОВОД', 'ОТПУСК НЕ ПЕРЕНОСИТСЯ',
-    'БОЛЬНИЧНЫЙ? СЕРЬЁЗНО?', 'УДАЛЁНКА ОТМЕНЯЕТСЯ',
-    'ВОЗВРАЩАЕМСЯ В ОФИС', 'НОВЫЙ РЕГЛАМЕНТ',
-    'ОБЯЗАТЕЛЬНЫЙ ОПРОС', 'АНОНИМНЫЙ (НО МЫ ВИДИМ)',
-
-    // === Клиент-монстр ===
-    'КЛИЕНТ ВСЕГДА ПРАВ', 'ОН ПРОСТО ТРЕБОВАТЕЛЬНЫЙ',
-    'ОНИ ХОРОШО ПЛАТЯТ', 'ПОТЕРПИ', 'ЭТО ВАЖНЫЙ КЛИЕНТ',
-    'ПОДСТРОЙСЯ', 'УЛЫБАЙСЯ', 'БУДЬ ПРОАКТИВНЕЕ',
-    'ОН НЕ ГРУБИТ, ОН ПРЯМОЛИНЕЙНЫЙ',
-    'ЭТО НЕ ПЕРЕРАБОТКА, ЭТО ВОВЛЕЧЁННОСТЬ',
-
-    // === Пассивная агрессия 2.0 ===
-    'ХОРОШ ВЫПЕНДРИВАТЬСЯ', 'ЕСЛИ ПРОИГРАЕМ ТЕНДЕР ИЗ-ЗА ТЕБЯ',
-    'ТЫ ЖЕ ПОНИМАЕШЬ, ДА?', 'Я НЕ ЗЛЮСЬ, Я РАЗОЧАРОВАНА',
-    'ИНТЕРЕСНОЕ РЕШЕНИЕ...', 'НУ ТЫ МОЛОДЕЦ КОНЕЧНО',
-    'Я БЫ НА ТВОЁМ МЕСТЕ ПОДУМАЛА', 'ЗАБАВНО',
-    'А ТЫ У КОГО СПРОСИЛА?', 'ЭТО БЫЛА ТВОЯ ИДЕЯ, НЕ МОЯ',
-    'НУ СМОТРИ, ТЕБЕ ПОТОМ ОБЪЯСНЯТЬ',
-    'Я ЖЕ ГОВОРИЛА', 'А Я ПРЕДУПРЕЖДАЛА',
-    'ТЫ УВЕРЕНА? ТОЧНО?', 'НУ ХОРОШО, ПОСМОТРИМ',
-    'НАДЕЮСЬ ТЫ ЗНАЕШЬ ЧТО ДЕЛАЕШЬ',
-    'ТВОЯ ОТВЕТСТВЕННОСТЬ', 'Я ПРОСТО СПРОСИЛА',
-    'БЕЗ ОБИД, НО...', 'НЕ ХОЧУ ЛЕЗТЬ, НО...',
-    'ТЕБЕ ВИДНЕЕ КОНЕЧНО', 'КАК ХОЧЕШЬ',
-    'НУ И КТО ЭТО БУДЕТ ПЕРЕДЕЛЫВАТЬ?',
-    'МНЕ КАЗАЛОСЬ ЭТО ОЧЕВИДНО',
-    'А ОСТАЛЬНЫЕ КАК-ТО СПРАВЛЯЮТСЯ',
-    'МОЖЕТ ТЕБЕ ОТДОХНУТЬ?', 'ТЫ КАКАЯ-ТО УСТАВШАЯ',
-    'Я НЕ КРИТИКУЮ, Я ПОМОГАЮ', 'ЭТО ДЛЯ ТВОЕГО ЖЕ БЛАГА',
-    'МЫ ВСЕ ТАК НАЧИНАЛИ', 'ПРИВЫКНЕШЬ'
+    'НОВЫЙ РЕГЛАМЕНТ', 'ОБЯЗАТЕЛЬНЫЙ ОПРОС',
+    'АНОНИМНЫЙ (НО МЫ ВИДИМ)', 'ВОЗВРАЩАЕМСЯ В ОФИС'
 ];
 
 let lastWordTime = 0;
@@ -2370,7 +2134,7 @@ function animate() {
     // Grow over time: the longer you stay, the bigger it gets
     const baseScale = 0.7;
     const growRate = 0.003; // grows slowly
-    const maxScale = 2.0;
+    const maxScale = 1.0;
     const currentScale = Math.min(baseScale + time * growRate, maxScale);
     const flipX = direction === 1 ? 1 : -1;
     character.scale.set(flipX * currentScale, currentScale, currentScale);
@@ -2388,16 +2152,6 @@ function animate() {
 
     // Warm light follows character
     warmLight.position.x = walkX;
-
-    // Grow canvas height as character grows
-    const canvasH = Math.max(100, currentScale * 120);
-    if (Math.abs(canvas.height - canvasH) > 5) {
-        renderer.setSize(window.innerWidth, canvasH);
-        canvas.style.height = canvasH + 'px';
-        camera.top = canvasH / 2;
-        camera.bottom = -canvasH / 2;
-        camera.updateProjectionMatrix();
-    }
 
     // Spawn trail words behind the character
     if (time - lastWordTime > wordInterval) {
