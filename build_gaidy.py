@@ -1,181 +1,41 @@
 # -*- coding: utf-8 -*-
-"""Сборка дома гайдов на сайте: /gaidy/ (оглавление) + /kodovoe-slovo/ (первый гайд).
-Опус, 08.07.2026. Стиль сайта iraai.ru (Inter/Outfit, красный #E50914).
-Текст гайда НЕ меняется, только мета-подпись (устаревшее «лежит в телеге» → «открыт для всех»).
-Запуск: python3 build_gaidy.py --force
+"""Генератор каталога /gaidy/. Меняет только gaidy/index.html."""
+from pathlib import Path
+from html import escape
 
-ВНИМАНИЕ (14.07.2026, Опус). Живые /gaidy/ и /kodovoe-slovo/ ушли вперёд генератора:
-их правили руками (карточка dostup-chatgpt, партнёрская ссылка ChatPlace, юридические
-подписи, реальные скриншоты, блок подписки). Слепой запуск ЗАТИРАЕТ эти правки и
-возвращает плейсхолдеры вроде [СКРИН: ...]: так 14.07 сломались обе живые страницы.
-Поэтому сборка требует явного --force. Прежде чем его ставить: перенеси свежие правки
-со страниц в источник GUIDE_SRC и в шаблоны ниже, иначе снова откатишь сайт.
-"""
-import re, pathlib, html, sys
+ROOT = Path(__file__).resolve().parent
+OUT = ROOT / "gaidy" / "index.html"
 
-ROOT = pathlib.Path(__file__).resolve().parent
-GUIDE_SRC = pathlib.Path.home() / "Desktop/ФАБЛ/ДЕНЬ-9/CHATPLACE-СВЯЗКА/03-гайд-кодовое-слово-без-конструктора.html"
-
-if "--force" not in sys.argv:
-    sys.exit(
-        "СБОРКА НЕ ЗАПУЩЕНА: живые /gaidy/ и /kodovoe-slovo/ новее генератора, "
-        "запуск затрёт ручные правки (скриншоты, ссылка ChatPlace, блок подписки).\n"
-        "Сначала перенеси правки со страниц в источник и шаблоны, потом: python3 build_gaidy.py --force"
-    )
-
-# --- каталог гайдов (из ПЛАН-ГАЙДОВ.md). live=True только у готовых ---
 GUIDES = [
-    {"slug": "kodovoe-slovo", "live": True,
-     "title": "Кодовое слово в директе без конструктора",
-     "teaser": "Человек пишет вам слово в директ, робот сразу отдаёт ссылку или файл. Настраивается разговором с Клодом, без блоков и стрелочек."},
-    {"slug": "kto-vryot", "live": True, "self_designed": True,
-     "title": "Кто вам врёт: проверка любой «сенсации» за 10 минут",
-     "teaser": "Пять промптов, чтобы закинуть статью, исследование или вирусную новость в ИИ и увидеть, что доказано, а что притянуто."},
-    {"slug": "chetyre-yaschika", "live": False,
-     "title": "Куда девать всё, что вы насохраняли: четыре ящика вместо ста вкладок",
-     "teaser": "Структура из четырёх ящиков и правило «кинула и отпустила»."},
-    {"slug": "prompt-razborschik", "live": False,
-     "title": "Промпт-разборщик: разберите свой хаос заметок за один вечер",
-     "teaser": "Новичковая версия разборщика, копипаст в чат. Победа в тот же вечер."},
-    {"slug": "ii-dlya-vzroslyh", "live": False,
-     "title": "ИИ для взрослых: с чего начать, если вы дай бог открыли чат",
-     "teaser": "Карта, что бывает и что из этого нужно вам. Столп категории."},
-    {"slug": "kartochka-konteksta", "live": False,
-     "title": "Карточка личного контекста: почему нейросеть отвечает вам как всем",
-     "teaser": "Шаблон, который один раз заполняешь и кормишь им все задачи."},
-    {"slug": "erunda-ili-net", "live": False,
-     "title": "Ерунда или нет: 7 проверок, чтобы нейросеть не подставила вас перед клиентом",
-     "teaser": "Чек-лист, чтобы не понести чушь в свой канал или клиенту."},
-    {"slug": "pyat-zadach", "live": False,
-     "title": "Пять задач, которые взрослый человек отдаёт нейросети за неделю",
-     "teaser": "Облегчённые скелеты: письмо, разбор документа, структура выступления."},
-    {"slug": "kak-vybrat-neyroset", "live": False,
-     "title": "Как выбрать свою нейросеть и не платить за три",
-     "teaser": "Сравнение по-человечески, чтобы не платить за три подписки сразу."},
+    ("Домашка без списывания", "Как учиться с ИИ и реально понимать, а не просто сдавать.", "ДОМАШКА", "https://t.me/ira_and_ai/964", "karta.png"),
+    ("Переезд GPTs", "Пошаговый гайд, как перенести свои GPTs, промпты и настройки без потерь.", "ПЕРЕЕЗД", "https://t.me/ira_and_ai/966", "bilet.png"),
+    ("Промпт от самозванца", "Готовый промпт, чтобы справиться с синдромом самозванца и вернуть уверенность.", "ЛУНА", "https://t.me/ira_and_ai/968", "kasseta.png"),
+    ("Жёсткий ревьюер резюме", "Промпт, который жёстко разберёт ваше резюме и подскажет, как его усилить.", "РЕЗЮМЕ", "https://t.me/ira_and_ai/940", "beydzh.png"),
+    ("Разгрузка недели", "Шаблон и промпты, чтобы автоматизировать рутину и освободить время для себя.", "РАЗГРУЗ", "https://t.me/ira_and_ai/959", "mikrofon.png"),
+    ("SEO-чеклист для эксперта", "Пошаговый список, чтобы ваши тексты находили в поиске и приводили людей.", "СКОРО", None, "stul.png"),
+    ("ChatGPT или Клод: как выбрать под свою работу", "Восемь развилок и тестовые задачи, чтобы понять, куда нести работу первой.", "ОТКРЫТ", "/chatgpt-ili-klod/", "bilet.png"),
+    ("Фишки ChatGPT, про которые вы не знали", "Память, проекты, задания по расписанию и голос: что включить за два шага.", "ОТКРЫТ", "/fishki-chatgpt/", "kasseta.png"),
+    ("Рабочий ChatGPT из России: три уровня подключения", "От попробовать бесплатно до полного доступа с Work. Что реально нужно.", "ОТКРЫТ", "/dostup-chatgpt/", "karta.png"),
+    ("Кодовое слово в директе без конструктора", "Человек пишет слово в директ, робот сразу отдаёт ссылку или файл.", "ОТКРЫТ", "/kodovoe-slovo/", "beydzh.png"),
+    ("Кто вам врёт: проверка любой сенсации за 10 минут", "Пять промптов, чтобы увидеть, что доказано, а что притянуто.", "ОТКРЫТ", "/kto-vryot/", "mikrofon.png"),
+    ("Куда девать всё, что вы насохраняли", "Четыре ящика вместо ста вкладок и правило «кинула и отпустила».", "СКОРО", None, "stul.png"),
+    ("Промпт-разборщик: разберите свой хаос заметок за один вечер", "Новичковая версия разборщика, копипаст в чат. Победа в тот же вечер.", "СКОРО", None, "karta.png"),
+    ("ИИ для взрослых: с чего начать, если вы дай бог открыли чат", "Карта, что бывает и что из этого нужно вам. Столп категории.", "СКОРО", None, "bilet.png"),
+    ("Карточка личного контекста: почему нейросеть отвечает вам как всем", "Шаблон, который один раз заполняешь и кормишь им все задачи.", "СКОРО", None, "beydzh.png"),
+    ("Ерунда или нет: 7 проверок, чтобы нейросеть не подставила вас перед клиентом", "Чек-лист, чтобы не понести чушь в свой канал или клиенту.", "СКОРО", None, "mikrofon.png"),
+    ("Пять задач, которые взрослый человек отдаёт нейросети за неделю", "Облегчённые скелеты: письмо, разбор документа, структура выступления.", "СКОРО", None, "stul.png"),
+    ("Как выбрать свою нейросеть и не платить за три", "Сравнение по-человечески, чтобы не платить за три подписки сразу.", "СКОРО", None, "kasseta.png"),
 ]
 
-CSS = """
-:root{--ink:#0d0d0d;--red:#E50914;--paper:#fff;--grey:#f2f0ec;--dim:#777;--line:#e5e2dc}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Outfit',sans-serif;color:var(--ink);background:var(--paper);line-height:1.62}
-.wrap{max-width:720px;margin:0 auto;padding:0 24px}
-.topbar{border-bottom:2px solid var(--ink)}
-.topbar .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 24px}
-.topbar a{color:var(--ink);text-decoration:none;font-family:'Inter';font-weight:800;font-size:15px}
-.topbar .back{font-weight:600;color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:.12em}
-main{padding:44px 0 20px}
-h1{font-family:'Inter';font-weight:800;font-size:clamp(30px,6vw,46px);line-height:1.08;text-wrap:balance;margin-bottom:6px}
-h1 br{display:inline}
-.kicker{font-family:'Inter';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:16px}
-.stamp{color:var(--dim);font-size:14px;margin-bottom:28px}
-main h2{font-family:'Inter';font-weight:700;font-size:clamp(20px,3.4vw,26px);margin:34px 0 10px;line-height:1.2}
-main p{font-size:17px;margin-bottom:14px;text-wrap:pretty}
-main ul,main ol{margin:0 0 16px 22px}
-main li{margin-bottom:7px;font-size:17px}
-main img{max-width:100%;height:auto;border:2px solid var(--ink);margin:14px 0;display:block}
-main b,main strong{font-weight:700}
-main a{color:var(--red)}
-code{background:var(--grey);padding:1px 6px;font-size:.92em}
-.bridge{background:var(--ink);color:#fff;padding:30px 26px;margin:44px 0 0}
-.bridge p{color:#fff;font-size:17px;margin:0 0 10px}
-.bridge a{color:#fff;font-weight:700}
-.bridge .row{display:flex;flex-direction:column;gap:14px;margin-top:6px}
-.bridge .line b{color:var(--red);background:#fff;padding:0 4px}
-footer{padding:30px 0 60px}
-footer p{color:var(--dim);font-size:13px}
-/* оглавление */
-.lead{font-size:19px;margin:8px 0 30px;text-wrap:pretty}
-.card{display:block;border:2px solid var(--ink);padding:22px 24px;margin-bottom:14px;text-decoration:none;color:var(--ink);transition:background .15s,color .15s}
-.card:hover{background:var(--ink);color:#fff}
-.card.soon{border-color:var(--line);color:var(--dim);pointer-events:none}
-.card .ct{font-family:'Inter';font-weight:700;font-size:19px;line-height:1.22;margin-bottom:6px}
-.card .cd{font-size:15px}
-.card .tag{font-family:'Inter';font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--red);display:block;margin-bottom:8px}
-.card.soon .tag{color:var(--dim)}
-"""
+def card(title, text, tag, href, image):
+    action = f'<a class="take" href="{href}">забрать в телеге →</a>' if href else '<span class="take muted">скоро в телеге →</span>'
+    return f'''<div class="paper-card"><div class="paper-copy"><h2>{escape(title)}</h2><p>{escape(text)}</p><span class="tag">{escape(tag)}</span></div><img src="assets/{image}" alt="" loading="lazy"><div class="card-foot">{action}<small>или напишите слово в директ инсты</small></div></div>'''
 
-TOPBAR = ('<div class="topbar"><div class="wrap">'
-          '<a href="https://iraai.ru/">IRA<span style="color:var(--red)">&AI</span></a>'
-          '<a class="back" href="/gaidy/">Все гайды</a></div></div>')
-
-BRIDGE = ('<div class="bridge"><div class="row">'
-          '<p class="line">Живое и по делу каждый день в телеге: <a href="https://telegram.me/ira_and_ai">telegram.me/ira_and_ai</a></p>'
-          '<p class="line">Система целиком, а не один навык: программа «Понедельник» '
-          '<a href="https://iraai.ru/ponedelnik/">iraai.ru/ponedelnik</a></p>'
-          '</div></div>')
-
-def page(title, desc, body, extra_head=""):
-    return f"""<!doctype html><html lang="ru"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)}</title>
-<meta name="description" content="{html.escape(desc)}">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>{CSS}</style>{extra_head}
-</head><body>
-{TOPBAR}
-{body}
-<footer><div class="wrap">
-<p style="margin-bottom:10px;"><a href="https://iraai.ru/" style="color:var(--ink);text-decoration:none;font-weight:700;">На главную</a> &nbsp;·&nbsp; <a href="/gaidy/" style="color:var(--ink);text-decoration:none;">Все гайды</a> &nbsp;·&nbsp; <a href="/rassylka/" style="color:var(--ink);text-decoration:none;">Рассылка</a> &nbsp;·&nbsp; <a href="https://telegram.me/ira_and_ai" style="color:var(--ink);text-decoration:none;">Телега</a></p>
-<p>iraai.ru · Ира Буян · «ИИ для взрослых» · открыто всем, без подписок</p></div></footer>
-</body></html>"""
-
-def extract_guide_body(src):
-    txt = src.read_text(encoding="utf-8")
-    # содержимое внутри внешнего контейнерного div
-    m = re.search(r'<div[^>]*max-width:680px[^>]*>(.*)</div>\s*$', txt, re.S)
-    inner = m.group(1) if m else txt
-    # выкинуть h1 и подпись-строку (сверстаем свои), вернуть остальное тело
-    # убрать первый h1
-    inner = re.sub(r'<h1[^>]*>.*?</h1>', '', inner, count=1, flags=re.S)
-    # убрать устаревшую мета-строку про «лежит в телеге»
-    inner = re.sub(r'<p[^>]*>\s*Гайд Иры Буян.*?</p>', '', inner, count=1, flags=re.S)
-    return inner.strip()
-
-# --- страница гайда: kodovoe-slovo ---
-body_inner = extract_guide_body(GUIDE_SRC)
-guide_body = f"""<main><div class="wrap">
-<div class="kicker">Гайд · ИИ для взрослых</div>
-<h1>Кодовое слово в директе<br>без конструктора</h1>
-<p class="stamp">Гайд Иры Буян · «ИИ для взрослых» · июль 2026. Открыт для всех, без подписок и условий.</p>
-{body_inner}
-{BRIDGE}
-</div></main>"""
-
-guide_html = page(
-    "Как настроить кодовое слово в директе без конструктора",
-    "Пошаговый гайд Иры Буян: как настроить кодовое слово в директе Instagram через Клода, без конструктора с блоками. Живое демо, три правила, разбор ошибок.",
-    guide_body)
-(ROOT / "kodovoe-slovo").mkdir(exist_ok=True)
-(ROOT / "kodovoe-slovo" / "index.html").write_text(guide_html, encoding="utf-8")
-
-# --- оглавление /gaidy/ ---
-cards = ""
-for g in GUIDES:
-    if g["live"]:
-        cards += (f'<a class="card" href="/{g["slug"]}/">'
-                  f'<span class="tag">Открыт</span>'
-                  f'<div class="ct">{html.escape(g["title"])}</div>'
-                  f'<div class="cd">{html.escape(g["teaser"])}</div></a>')
-    else:
-        cards += (f'<div class="card soon">'
-                  f'<span class="tag">Скоро</span>'
-                  f'<div class="ct">{html.escape(g["title"])}</div>'
-                  f'<div class="cd">{html.escape(g["teaser"])}</div></div>')
-
-gaidy_body = f"""<main><div class="wrap">
-<div class="kicker">Библиотека · ИИ для взрослых</div>
-<h1>Гайды</h1>
-<p class="lead">Рабочие куски системы, каждый доводит вас до одной победы. Пишу голосом, без воды и без подписок. Новые появляются раз в неделю-полторы.</p>
-{cards}
-{BRIDGE}
-</div></main>"""
-
-gaidy_html = page(
-    "Гайды по ИИ для взрослых · Ира Буян",
-    "Библиотека практических гайдов Иры Буян по нейросетям для нетехнических экспертов. Каждый гайд доводит до одной рабочей победы. Без воды и подписок.",
-    gaidy_body)
-(ROOT / "gaidy").mkdir(exist_ok=True)
-(ROOT / "gaidy" / "index.html").write_text(gaidy_html, encoding="utf-8")
-
-print("собрано: /kodovoe-slovo/index.html + /gaidy/index.html")
+cards = ''.join(card(*g) for g in GUIDES)
+html = f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Гайды · Ира&amp;AI</title><meta name="description" content="Бесплатные рабочие гайды Иры Буян по ИИ: забирайте в Telegram и применяйте сразу."><link rel="canonical" href="https://iraai.ru/gaidy/"><meta property="og:title" content="Гайды · Ира&amp;AI"><meta property="og:description" content="Бесплатные рабочие гайды Иры Буян по ИИ."><meta property="og:type" content="website"><meta property="og:url" content="https://iraai.ru/gaidy/"><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><style>
+:root{{--ink:#151515;--red:#df1f2d;--cream:#f4f0e8;--paper:#fffaf2;--grid:rgba(60,48,35,.11)}}*{{box-sizing:border-box}}html{{background:var(--cream)}}body{{margin:0;color:var(--ink);font-family:Inter,Arial,sans-serif;background-color:var(--cream);background-image:radial-gradient(var(--grid) 1px,transparent 1px),linear-gradient(130deg,transparent 0 49.9%,rgba(70,55,40,.06) 50%,transparent 50.1%);background-size:24px 24px,100% 100%;line-height:1.35}}a{{color:inherit}}.site{{max-width:1420px;margin:0 auto;padding:20px 42px 44px;position:relative}}nav{{display:flex;justify-content:flex-end;gap:34px;font-family:'DM Serif Display',serif;font-size:20px;margin:0 8px 20px}}nav a{{text-decoration:none;padding-bottom:7px}}nav a.active{{border-bottom:4px solid var(--red)}}.hero{{display:grid;grid-template-columns:1fr 310px;gap:42px;align-items:center;max-width:1060px;margin:10px auto 28px}}.hero h1{{font-family:Inter,sans-serif;font-weight:900;letter-spacing:-.06em;font-size:clamp(76px,10vw,150px);line-height:.82;margin:0;text-transform:uppercase;text-shadow:1px 1px 0 #000}}.underline{{height:10px;background:var(--red);width:72%;margin:15px 0 16px;transform:rotate(-1deg)}}.hero p{{font-family:'DM Serif Display',serif;font-size:27px;line-height:1.1;margin:0;max-width:650px}}.mascot-wrap{{position:relative;text-align:center}}.mascot{{width:260px;max-width:100%;height:auto;filter:drop-shadow(4px 7px 0 rgba(0,0,0,.1))}}.speech{{position:absolute;right:-24px;top:0;border:3px solid var(--ink);border-radius:50%;padding:17px 20px;font-weight:900;font-size:22px;background:var(--cream);transform:rotate(7deg)}}.aside-note{{position:absolute;right:34px;top:330px;font-family:'DM Serif Display',serif;font-style:italic;font-size:20px;transform:rotate(-8deg);max-width:180px}}.aside-note:before{{content:'↘';display:block;font-size:38px;color:var(--red);font-style:normal}}.grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 26px;max-width:1120px;margin:0 auto}}.paper-card{{position:relative;min-height:245px;background:var(--paper);border:1px solid rgba(28,22,17,.55);box-shadow:5px 7px 0 rgba(50,37,25,.12),0 8px 16px rgba(50,37,25,.1);padding:24px 22px 52px;transform:rotate(var(--r,0deg));isolation:isolate}}.paper-card:nth-child(3n+1){{--r:-1.2deg}}.paper-card:nth-child(3n+2){{--r:.7deg}}.paper-card:nth-child(3n){{--r:-.4deg}}.paper-card:before{{content:'';position:absolute;top:-9px;right:18px;width:90px;height:24px;background:rgba(203,178,139,.56);transform:rotate(3deg);z-index:-1}}.paper-copy{{position:relative;z-index:2;width:66%}}.paper-card h2{{font-family:'DM Serif Display',serif;font-size:31px;line-height:.96;font-weight:400;margin:0 0 12px}}.paper-card p{{font-size:15px;line-height:1.3;margin:0 0 18px}}.tag{{display:inline-block;background:var(--red);color:#fff;font-size:13px;font-weight:800;letter-spacing:.07em;padding:7px 15px;transform:rotate(-2deg)}}.paper-card img{{position:absolute;right:6px;bottom:30px;width:42%;max-height:170px;object-fit:contain;mix-blend-mode:multiply;z-index:1}}.card-foot{{position:absolute;left:18px;right:18px;bottom:-19px;display:flex;flex-direction:column;align-items:center;gap:4px;z-index:3}}.take{{background:var(--ink);color:#fff;text-decoration:none;padding:10px 18px;border-radius:5px;box-shadow:2px 3px 0 rgba(0,0,0,.3);font-size:14px;font-weight:600;white-space:nowrap}}.take.muted{{opacity:.72}}.card-foot small{{font-size:10px;color:#5e584f;background:var(--cream);padding:2px 5px}}.footer{{display:flex;justify-content:space-between;align-items:end;margin:70px auto 0;max-width:1120px;font-family:'DM Serif Display',serif;font-size:24px}}.footer-note{{font-style:italic;font-size:20px;max-width:250px;text-align:right;transform:rotate(-5deg)}}.footer-note b{{color:var(--red)}}
+@media(max-width:800px){{.site{{padding:14px 18px 34px}}nav{{justify-content:center;gap:16px;font-size:17px;margin-bottom:22px}}.hero{{display:block;margin:12px auto 42px;text-align:center}}.hero h1{{font-size:clamp(64px,20vw,100px)}}.underline{{margin:12px auto;width:78%}}.hero p{{font-size:22px}}.mascot-wrap{{margin:25px auto 0;width:220px}}.mascot{{width:190px}}.speech{{right:-18px;top:-8px;font-size:18px;padding:12px 15px}}.aside-note{{display:none}}.grid{{grid-template-columns:1fr;gap:42px;max-width:420px}}.paper-card{{min-height:235px;padding:22px 20px 50px}}.paper-card h2{{font-size:29px}}.paper-card img{{width:40%;max-height:160px}}.footer{{margin-top:58px;display:block;text-align:center;font-size:22px}}.footer-note{{margin:16px auto 0;text-align:center}}}}
+</style></head><body><div class="site"><nav><a href="/">Главная</a><a href="/produkty/">Продукты</a><a class="active" href="/gaidy/">Гайды</a><a href="https://t.me/ira_and_ai">Telegram</a></nav><section class="hero"><div><h1>ГАЙДЫ</h1><div class="underline"></div><p>Бесплатные штуки, которые я проверила на себе.<br>Берите и пользуйтесь.</p></div><div class="mascot-wrap"><img class="mascot" src="assets/mascot-transparent.png" alt="Маскот Ира&amp;AI на стопке бумаг"><span class="speech">БЕРИ!</span></div></section><div class="aside-note">всё бесплатно,<br>но в телеге <b>♥</b></div><section class="grid">{cards}</section><footer class="footer"><span>Ира&amp;AI</span><span class="footer-note">маленькие инструменты<br>большие изменения <b>♥</b></span></footer></div></body></html>'''
+OUT.parent.mkdir(exist_ok=True)
+OUT.write_text(html, encoding='utf-8')
+print(f'собрано: {OUT} ({OUT.stat().st_size} bytes)')
