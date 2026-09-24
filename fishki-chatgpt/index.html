@@ -245,5 +245,5 @@ li{padding:.3rem 0;color:#bbb}
 <script>
 if(typeof window.__sub!=='function'){window.__sub=function(f,tag){var i=f.email,e=(i.value||'').trim(),b=f.querySelector('button'),n=f.parentNode.querySelector('.__subnote');if(!e)return false;b.disabled=true;b.textContent='...';fetch('https://iraai-subscribe.vercel.app/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,tags:[tag]})}).then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})}).then(function(x){if(x.ok&&x.d&&x.d.ok){b.textContent='Готово';i.value='';n.innerHTML='Готово, вы в списке. Пока ждёте выпуск, забирайте <a href="/rassylka/" style="color:#E50914;font-weight:700">архив прошлых</a>.';n.style.color='#1a7a3a'}else{b.disabled=false;b.textContent='Подписаться';n.textContent=(x.d&&x.d.error)||'Попробуйте ещё раз.';n.style.color='#b03a2e'}}).catch(function(){b.disabled=false;b.textContent='Подписаться';n.textContent='Сеть недоступна.';n.style.color='#b03a2e'});return false}}
 </script>
-</body>
+<p class="telegram-line" style="margin:42px auto;max-width:720px;font-weight:700"><a href="https://t.me/ira_and_ai">Больше таких находок в телеге →</a></p></body>
 </html>
