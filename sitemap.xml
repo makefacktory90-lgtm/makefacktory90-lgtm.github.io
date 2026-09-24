@@ -10,16 +10,8 @@
         <lastmod>2026-07-05</lastmod>
         <priority>0.9</priority>
     </url>
-    <url>
-        <loc>https://iraai.ru/services/</loc>
-        <lastmod>2026-04-23</lastmod>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://iraai.ru/workshop-presentations/</loc>
-        <lastmod>2026-05-05</lastmod>
-        <priority>0.9</priority>
-    </url>
+    
+    
     <url>
         <loc>https://iraai.ru/prompt-audit/</loc>
         <lastmod>2026-05-05</lastmod>
@@ -70,11 +62,7 @@
         <lastmod>2026-05-05</lastmod>
         <priority>0.6</priority>
     </url>
-    <url>
-        <loc>https://iraai.ru/bfu-demo/</loc>
-        <lastmod>2026-05-05</lastmod>
-        <priority>0.6</priority>
-    </url>
+    
     <url>
         <loc>https://iraai.ru/spf-simulator/</loc>
         <lastmod>2026-05-05</lastmod>
