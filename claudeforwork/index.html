@@ -46,8 +46,9 @@
     <section class="purchase wrap" id="price">
       <div class="price">4 900 ₽</div><p class="sales-note">Цена первого выпуска. Со второго выпуска 6 500 ₽.</p><div class="price-underline"></div>
       <p class="payback">Если после каждого созвона вы час пишете отчёт и письмо, восемь созвонов в месяц это рабочий день. Агент возвращает его в первый же месяц.</p>
-      <button class="buy" id="buy" type="button" disabled>СКОРО</button>
-      <p class="sales-note">Старт скоро. Дату объявлю в <a href="https://t.me/ira_and_ai">телеграме</a></p>
+      <p class="sales-note"><b>Скоро.</b> Продажи пока закрыты.</p>
+      <a class="buy open" id="buy" href="https://t.me/ira_alfred_bot" style="display:flex;align-items:center;justify-content:center;text-decoration:none;margin:0 auto">НАПОМНИТЬ О СТАРТЕ →</a>
+      <p class="sales-note">Напишите Альфреду, и он пришлёт сообщение в день старта</p>
     </section>
     <section class="section wrap" id="program">
       <div class="section-head"><div><div class="kicker">01 / Программа</div><h2>Три шота.<br>Три дела с вашей недели.</h2></div><div class="hand">в цене все три, начните<br>с любого</div></div>
@@ -136,7 +137,7 @@
   <footer class="footer wrap"><div><div class="footer-brand">Ира<span style="color:var(--red)">&amp;</span>AI</div><div class="footer-links"><a href="https://t.me/ira_and_ai" target="_blank" rel="noreferrer" aria-label="Telegram" title="Telegram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:middle"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></a></div><small class="independent">Продукт не связан с Anthropic</small><small>© Ира&amp;AI</small></div><div class="footer-note">Машина делает работу.<br>На выходе звучите вы.</div></footer>
   <script>
     const SALES_OPEN = false;
-    const PAY_URL = 'https://payform.ru/kkcN4PC/';
+    const PAY_URL = '';
     const buy = document.querySelector('#buy');
     if (SALES_OPEN) { buy.disabled = false; buy.classList.add('open'); buy.addEventListener('click', () => { window.location.href = PAY_URL; }); }
   </script>
