@@ -18,6 +18,7 @@
 - [SEO-чеклист эксперта по правилам Google](https://iraai.ru/seo-cheklist/)
 - [Домашка без списывания: ИИ и дети](https://iraai.ru/domashka/)
 - [ChatGPT или Клод](https://iraai.ru/chatgpt-ili-klod/) · [Фишки ChatGPT](https://iraai.ru/fishki-chatgpt/) · [Рабочий ChatGPT из России](https://iraai.ru/dostup-chatgpt/) · [Кодовое слово в директе](https://iraai.ru/kodovoe-slovo/) · [Кто вам врёт](https://iraai.ru/kto-vryot/)
+- [Дважды: что делать, когда выходит новая большая нейросеть](https://iraai.ru/gaidy/dvazhdy/)
 
 ## Категория и метод
 - «ИИ для взрослых»: ИИ для нетехнических взрослых экспертов, применительно к их реальной работе.
